@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Katie">
+        <meta name="keywords" content="Katie">
+        <meta name="author" content="pixelstrap">
+        <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+        <title>Katie - Online Fashion Store </title>
+        <!-- Favicon icon-->
+        <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+        <!-- Google Font Outfit-->
+        <link rel="preconnect" href="https://fonts.googleapis.com/">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
+        <!-- Font Awesome-->
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/fontawesome.css">
+        <!-- Iconsax icon-->
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/iconsax.css">
+        <!-- Bootstrap css-->
+        <link rel="stylesheet" type="text/css" id="rtl-link" href="../assets/css/vendors/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/vendors/toastify.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+ <style>
+          
+        /* #resend-link {
+              font-size: 14px;
+              text-decoration: none;
+              color: #007bff;
+              cursor: pointer;
+          }
+          
+         */
+  .timer {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+  }
+
+  .timer-container {
+    margin-top: 10px;
+    text-align: center;
+  }
+ 
+
+
+      </style>
+      </head>
+<body>
+     <section class="section-b-space pt-0">
+      <div class="heading-banner">
+        <div class="custom-container container">
+          <div class="row align-items-center">
+            <div class="col-sm-6">
+              <h4>Forgot Password</h4>
+            </div>
+            <div class="col-sm-6">
+              <ul class="breadcrumb float-end">
+                <li class="breadcrumb-item"> <a href="/">Home</a></li>
+                <li class="breadcrumb-item active"> <a href="#">Forgot Password</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-b-space pt-0 login-bg-img">
+      <div class="custom-container container login-page">
+        <div class="row align-items-center">
+          <div class="col-xxl-7 col-6 d-none d-lg-block">
+            <div class="login-img"> 
+              <img class="img-fluid" src="https://themes.pixelstrap.net/katie/assets/images/login/1.svg" alt="">
+            </div>
+          </div>
+          <div class="col-xxl-4 col-lg-6 mx-auto">
+            <div class="log-in-box">
+              <div class="log-in-title">
+                <h4>Please enter the OTP to verify your account</h4>
+              </div>
+              <div class="login-box">
+                <form id="otp-form" method="post" action="/verify-otp" onsubmit="return validateOTPForm()">
+                  <div class="col-12">
+                    <div class="otp-input">
+                      <div class="d-flex justify-content-center gap-2">
+                        <input class="form-control text-center" id="otp" type="number" name="otp" placeholder="Enter 6-digit OTP" required maxlength="6" pattern="\d*" >
+            
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="timer-container d-flex justify-content-center align-items-center gap-2">
+                      <div class="timer rounded-circle d-flex justify-content-center align-items-center" id="timer">00:60</div>
+                      <a  id="resend-link"  class=" text-muted" onclick="resendOTP()">Resend It</a>
+                    </div>
+                  </div>
+                  
+                  <div class="col-12">
+                    <button class="btn login btn_black sm" type="submit">Submit</button>
+                  </div>
+                </form>
+              </div>
+              <div class="sign-up-box">
+                <a class="text-decoration-underline" href="/login">Back To Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
+"></script>
+    <script>
+      // Timer functionality 
+      let timerElement = document.getElementById("timer");
+let resendLink = document.getElementById("resend-link");
+let timerSeconds = 6;
+
+function startTimer() {
+    resendLink.style.pointerEvents = "none";
+    resendLink.style.color = "#ccc";
+
+    let timer = setInterval(() => {
+        timerSeconds--;
+        timerElement.innerText = `00:${timerSeconds < 10 ? "0" + timerSeconds : timerSeconds}`;
+
+        if (timerSeconds === 0) {
+            clearInterval(timer);
+            resendLink.style.pointerEvents = "auto";
+            resendLink.style.color = ""; // Reset to default color
+        }
+    }, 1000);
+}
+
+function resendOTP() {
+  console.log('im here')
+    $.ajax({
+        type: "POST",
+        url: "/resend-otp",
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "OTP Sent Successfully",
+                    text: "A new OTP has been sent to your registered email.",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                timerSeconds = 6;
+                timerElement.textContent = "00:60";
+                startTimer();
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to resend OTP. Please try again later.",
+            });
+            return false
+        }
+    });
+}
+
+// resendLink.addEventListener("click", resendOTP);
+window.onload = startTimer;
+
+ 
+function validateOTPForm() {
+            const otpInput = document.getElementById("otp").value;
+            $.ajax({
+                type: "POST",
+                url: "/verify-otp",
+                data: { otp: otpInput },
+                success: function(response) {
+                  console.log("AJAX Success Response:", response); // Debugging log
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "OTP Verified Successfully",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then(() => {
+                            window.location.href = response.redirectUrl;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Invalid OTP",
+                        text: "Please try again",
+                    });
+                }
+            });
+            return false;
+        }
+//start timer on page load
+
+   window.onload = startTimer;
+
+
+ 
+</script>
+
+<!-- Bootstrap js-->
+    <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- iconsax js -->
+    <script src="../assets/js/iconsax.js"> </script>
+    <!-- cursor js-->
+    <script src="../assets/js/stats.min.js"> </script>
+    <script src="../assets/js/cursor.js"> </script>
+    <script src="../assets/js/otp.js"></script>
+    <!-- touchspin-->
+    <script src="../assets/js/touchspin.js"></script>
+    <!-- cookie js-->
+    <script src="../assets/js/cookie.js"></script>
+    <!-- tost js -->
+    <script src="../assets/js/toastify.js"></script>
+    <script src="../assets/js/theme-setting.js"></script>
+    <!-- Theme js-->
+    <script src="../assets/js/script.js"></script>
+  </body>
+
+ </html>

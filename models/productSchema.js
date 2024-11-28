@@ -1,0 +1,56 @@
+const mongoose =require('mongoose')
+
+const {schema}= mongoose;
+
+
+const productSchema= new schema({
+    productName:{
+        type:String,
+        required:true
+    },
+     description:{
+        type:String,
+        required:true
+    },
+    brand:{
+        type:String,
+        required:true
+    },
+      category:{
+        type:schema.Types.ObjectId,
+        ref:"caregory",
+        required:true,
+    },
+    regularPrice:{
+        type:Number,
+        required:true
+    },
+    salePrice:{
+        type:Number,
+        required:true
+    },productOffer:{
+        type:Number,
+        default:0
+    },
+    quantity:{
+        type:Number,
+        default:true
+    },
+    productImage:{
+        type:[String],
+        required:true
+    },
+    isBlocked:{
+        type:Boolean,
+        default:false
+    },
+    status:{
+        type :String,
+        enum:['Available','out of stock','Discountinud'],
+        required:true,
+        default:'Available'
+    }
+},{timeStamps:true})
+
+const product= mongoose.model('product',productSchema)
+module.exports=product;
