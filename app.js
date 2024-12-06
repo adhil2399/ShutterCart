@@ -21,7 +21,7 @@ app.use(express.json())
 app.use(session({
    secret: process.env.SESSION_SECRET,
    resave: false,
-   saveUninitialized: false,
+   saveUninitialized: true,
    cookie: { 
      secure: false,   
      httpOnly: true 
@@ -43,6 +43,7 @@ app.set('view engine','ejs')
 app.set('views',[path.join( __dirname,'views/admin'),
                  path.join(__dirname,'views/user')])
 app.use(express.static('public'))
+
 
  app.use(userRouter)
  app.use('/admin',adminRouter)

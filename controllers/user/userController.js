@@ -1,8 +1,9 @@
-const User = require("../models/userSchema");
+const User = require("../../models/userSchema");
 const bcrypt = require("bcrypt");
 const env = require("dotenv").config();
-const { securePassword, sendVerificationEmail } = require("../config/utils");
-
+const { securePassword, sendVerificationEmail } = require("../../config/utils");
+const Category = require("../../models/categorySchema");
+const Product =require('../../models/productSchema')
 //page Not Found
 
 const pageNotFound = async (req, res) => {
@@ -16,10 +17,9 @@ const pageNotFound = async (req, res) => {
 
 const lodeHomepage = async (req, res) => {
   try {
-    const user = req.session.user;
+    const user = req.session.user
     // console.log(user);
-
-    let userData = null
+     let userData = null
     if (user) {
        userData = await User.findById(user);
     }
@@ -198,6 +198,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const finduser = await User.findOne({ isAdmin: 0, email: email });
+    
 
     if (!finduser) {
       return res.render("login", { message: "user not found" });

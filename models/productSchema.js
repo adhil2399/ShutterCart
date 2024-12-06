@@ -1,9 +1,9 @@
 const mongoose =require('mongoose')
 
-const {schema}= mongoose;
+const {Schema}= mongoose;
 
 
-const productSchema= new schema({
+const productSchema= new Schema({
     productName:{
         type:String,
         required:true
@@ -17,21 +17,21 @@ const productSchema= new schema({
         required:true
     },
       category:{
-        type:schema.Types.ObjectId,
-        ref:"caregory",
+        type:Schema.Types.ObjectId,
+        ref:"Category",
         required:true,
     },
     regularPrice:{
         type:Number,
         required:true
-    },
-    salePrice:{
-        type:Number,
-        required:true
-    },productOffer:{
-        type:Number,
-        default:0
-    },
+     },
+    // salePrice:{
+    //     type:Number,
+    //     required:true
+    // },productOffer:{
+    //     type:Number,
+    //     default:0
+    // },
     quantity:{
         type:Number,
         default:true

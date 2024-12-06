@@ -1,0 +1,251 @@
+<%- include("../partials/admin/header") %>
+<style>
+  .pagination-container {
+    text-align: center;
+  }
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a,
+  .pagination .current-page {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+  }
+
+  .pagination a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .error-message {
+    color: red;
+  }
+</style>
+
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Brands</h2>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <!-- Add Brand Form -->
+        <div class="col-md-3">
+          <form method="post" action="/admin/addBrand" enctype="multipart/form-data" id="brandForm">
+            <div class="mb-4">
+              <label for="product_name" class="form-label">Brand Name</label>
+              <input
+                type="text"
+                name="name"
+                id="brandName"
+                placeholder="Type here"
+                class="form-control"
+              />
+              <span id="nameError" class="error-message"></span>
+            </div>
+            <label for="product_name" class="form-label">Brand Image</label>
+            <div class="input-upload">
+              <input class="form-control border" name="image" id="brandImage" type="file" />
+              <span id="imageError" class="error-message"></span>
+            </div>
+            <div class="d-grid">
+              <button class="btn btn-primary mt-20" type="submit">
+                Add Brand
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Brand List -->
+        <div class="col-md-7 ml-105">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Brand</th>
+                  <th>Logo</th>
+                  <th>Status</th>
+                  <th>Block/Unblock/Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% data.reverse().forEach(function(brand, index) { %>
+                  <tr>
+                    <td class="text-start"><%= brand.brandName %></td>
+                    <td class="text-start">
+                      <div
+                        class="d-flex align-items-center justify-content-center"
+                        style="
+                          width: 40px;
+                          height: 40px;
+                          border-radius: 50%;
+                          overflow: hidden;
+                        "
+                      >
+                        <img
+                          src="/uploads/re-image/<%= brand.brandImage[0] %>"
+                          alt="<%= brand.brandName %>"
+                          class="img-fluid rounded-circle"
+                          style="width: 100%; height: auto"
+                        />
+                      </div>
+                    </td>
+                    <td class="text-start">
+                      <span class="badge rounded-pill <%= brand.isBlocked ? 'alert-danger' : 'alert-success' %>" 
+                        style="width: 60px">
+                        <%= brand.isBlocked ? 'Blocked' : 'Active' %>
+                      </span>                
+                    </td>
+                    <td class="text-start">
+                      <% if (!brand.isBlocked) { %>
+                      <button class="btn btn-danger" style="width: 90px">
+                        <a href="/admin/BlockBrand?id=<%= brand._id %>" class="text-white">Block</a>
+                      </button>
+                      <% } else { %>
+                      <button class="btn btn-success" style="width: 90px">
+                        <a href="/admin/unBlockBrand?id=<%= brand._id %>" class="text-white">Unblock</a>
+                      </button>
+                      <% } %>
+                      <button
+                        class="btn btn-danger"
+                        style="width: 90px"
+                        onclick="return confirmDelete(event, '/admin/deleteBrand?id=<%= brand._id %>', '<%= brand.brandName %>')"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagination-container"></div>
+</section>
+<%- include("../partials/admin/footer") %>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Form Validation
+  document.getElementById('brandForm').addEventListener('submit', function (e) {
+    const brandName = document.getElementById('brandName').value.trim();
+    const brandImage = document.getElementById('brandImage').value;
+    let isValid = true;
+
+    if (!brandName) {
+      document.getElementById('nameError').textContent = 'Brand Name is required.';
+      isValid = false;
+    } else {
+      document.getElementById('nameError').textContent = '';
+    }
+
+    if (!brandImage) {
+      document.getElementById('imageError').textContent = 'Brand Image is required.';
+      isValid = false;
+    } else {
+      document.getElementById('imageError').textContent = '';
+    }
+
+    if (!isValid) {
+      e.preventDefault();
+    }
+  });
+
+  // SweetAlert for Delete Confirmation
+  function confirmDelete(event, url, brandName) {
+    event.preventDefault();
+    Swal.fire({
+      title: `<span style="color: #ffffff;">Are you sure?</span>`, // White title for dark mode
+      html: `Do you want to delete the brand <strong>${brandName}</strong>?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33", // Red confirm button
+      cancelButtonColor: "#3085d6", // Blue cancel button
+      confirmButtonText: " delete",
+      cancelButtonText: "Cancel",
+      background: '#2D2D2D', // Dark background for the alert
+      color: '#ffffff', // White text color
+      customClass: {
+        title: 'custom-title',
+        popup: 'custom-popup',
+        confirmButton: 'custom-confirm-button',
+        cancelButton: 'custom-cancel-button',
+      },
+      buttonsStyling: false, // To allow custom button styles
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = url;
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Custom Styling for Dark Mode Alert */
+  .swal2-title.custom-title {
+    color: #ffffff !important; /* White title color */
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .swal2-popup.custom-popup {
+    background-color: #2D2D2D !important; /* Dark background for alert */
+    border-radius: 8px;
+    padding: 20px 30px;
+    color: #ffffff; /* White text for the body */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swal2-confirm.custom-confirm-button {
+    background-color: #d33 !important; /* Red confirm button */
+    border-color: #d33;
+    color: #fff !important;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 120px; /* Fixed width for consistency */
+    margin-right: 10px; /* Spacing between the buttons */
+  }
+
+  .swal2-cancel.custom-cancel-button {
+    background-color: #3085d6 !important; /* Blue cancel button */
+    border-color: #3085d6;
+    color: #fff !important;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    width: 120px; /* Fixed width for consistency */
+  }
+
+  /* Styling for the buttons to match dark mode */
+  .swal2-button {
+    font-weight: bold;
+  }
+
+  /* Flexbox for the button alignment */
+  .swal2-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Adjust spacing between buttons */
+  .swal2-actions button {
+    margin: 0 5px;
+  }
+</style>

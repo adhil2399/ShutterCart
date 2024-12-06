@@ -21,13 +21,12 @@ const userSchema= new Schema({
     googleId:{
         type:String,
         unique:true,
-        sparse : true,
     },
     password:{
         type:String,
         required:false
     },
-    idBlocked:{
+    isBlocked:{
         type:Boolean,
         default: false
     },

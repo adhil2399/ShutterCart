@@ -1,12 +1,12 @@
 const mongoose= require('mongoose')
 const {Schema}= mongoose;
-const categorySchema = new mongoosh.Schema({
+const categorySchema = new Schema({
     name:{
         type:String,
         required:true,
         unique:true
     },
-    discription:{
+    description:{
         type:String,
         required:true
     },

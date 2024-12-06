@@ -1,8 +1,8 @@
-const User = require("../models/userSchema");
+const User = require("../../models/userSchema");
 const bcrypt = require('bcrypt');
 const mongoose= require('mongoose')
 
-const {adminAuth,userAuth}= require('../middlewares/auth')
+const {adminAuth,userAuth}= require('../../middlewares/auth')
 
 // render admin error page
 
@@ -23,17 +23,21 @@ const loadlogin =async (req,res)=>{
 
 const login = async (req,res)=>{
     const {email,password}= req.body
+    console.log(email,password)
     try {
         const admin= await User.findOne({email,isAdmin:true})
-        console.log("kugcg",admin)
+        console.log(" admin founded",admin)
         if(admin){
-            const passwordMatch= bcrypt.compare(admin.password,password)
+            const passwordMatch= await bcrypt.compare(password,admin.password)
             if(passwordMatch){
+                console.log('password matched')
                 req.session.admin= true
                 return res.redirect('/admin')
-            }else{
-                // return res.render('admin-login',{message:'Wrong password'})
             }
+                return res.render('admin-login',{message:'Wrong password'})
+            
+        }else{
+            return res.render('admin-login',{message:'Admin not found'})
         }
     } catch (error) {
         console.log('login error',error);
@@ -50,8 +54,10 @@ const loadDashboard =async (req,res)=>{
         } catch (error) {
             res.redirect('/pageerror')
         }
-    }res.redirect('/admin/login')
+    }else{res.redirect('/admin/login')
+    }
 }
+
 
 
 //admin logout
@@ -71,6 +77,8 @@ const logout= async (req,res)=>{
         res.redirect('/pageerror')
     }
 }
+
+
 module.exports = {
     loadlogin,
     login,
