@@ -3,7 +3,7 @@ const User = require('../models/userSchema')
 const userAuth = async (req,res,next)=>{
     try {
         if(!req.session.user){
-            return res.redirect("/user/login");
+            return res.redirect("/login");
         }else{
             next();
         }

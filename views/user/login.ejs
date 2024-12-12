@@ -25,7 +25,10 @@
 <body>
   
 
-
+  <div class="tap-top">
+    <div><i class="fa-solid fa-angle-up"></i></div>
+  </div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
+  
     <section class="section-b-space pt-0"> 
       <div class="heading-banner">
         <div class="custom-container container">
@@ -56,7 +59,7 @@
                 <p>Login Your Account</p>
               </div>
               <div class="login-box"> 
-                <form class="row g-3" id="form" method="post" action="/login">
+                <form class="row g-3" id="form" method="post" action="/login" onsubmit="login(event)">
                   <div class="col-12">
                     <% if (locals.message && message.length > 0) { %>
                       <div class="text-center alert alert-danger">
@@ -66,14 +69,14 @@
                     <div class="form-floating">
                       <input class="form-control" id="email" type="text" name="email" placeholder="name@example.com">
                       <label for="email">Enter Your Email</label>
-                      <small class="error-message text-danger"> </small>
+                      <small class="error-message text-danger" id="email_error"> </small>
                     </div>   
                   </div>
                   <div class="col-12">
                     <div class="form-floating">
                       <input class="form-control" id="password" name="password" type="password" placeholder="Password">
                       <label for="password">Enter Your Password</label>
-                      <small class="error-message text-danger"> </small>
+                      <small class=" text-danger" id="password_error"> </small>
                     </div>
                   </div>
                   <div class="col-12">
@@ -81,7 +84,7 @@
                       <div>
                         <input class="custom-checkbox me-2" id="category1" type="checkbox" name="text">
                         <label for="category1">Remember me</label>
-                      </div><a href="forget-password.html">Forgot Password?</a>
+                      </div><a href="/forgot-password">Forgot Password?</a>
                     </div>
                   </div>
                   <div class="col-12"> 
@@ -94,7 +97,7 @@
               </div>
               <div class="log-in-button"> 
                 <ul> 
-                  <li> <a href="https://www.google.com/" target="_blank"> <i class="fa-brands fa-google me-2"> </i>Google</a></li>
+                  <li> <a href=" /auth/google"> <i class="fa-brands fa-google me-2"> </i>Google</a></li>
                   <li> <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f me-2"></i>Facebook </a></li>
                 </ul>
               </div>
@@ -110,74 +113,49 @@
   </body>
   </html>
 
-
   <script>
-  const form = document.getElementById('form');
-  const email = document.getElementById('email');
-  const password = document.getElementById('password');
+  
+   
+   let email=document.getElementById('email')
 
-  // Show error message
-  function showError(input, message) {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('.error-message');
-    formControl.classList.add('error');
-    formControl.classList.remove('success');
-    small.innerText = message;
-  }
+   let password=document.getElementById('password')
 
-  // Show success outline
-  function showSuccess(input) {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('.error-message');
-    formControl.classList.remove('error');
-    formControl.classList.add('success');
-    small.innerText = '';
-  }
-
-  // Validate email format
-  function checkEmail(input) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (re.test(input.value.trim())) {
-      showSuccess(input);
-      return true;
-    } else {
-      showError(input, 'Email is not valid');
-      return false;
-    }
-  }
-
-  // Check required fields
-  function checkRequired(inputs) {
-    let isValid = true;
-    inputs.forEach(input => {
-      if (input.value.trim() === '') {
-        showError(input, `${getFieldName(input)} is required`);
-        isValid = false;
-      } else {
-        showSuccess(input);
-      }
-    });
-    return isValid;
-  }
-
-  // Get formatted field name
-  function getFieldName(input) {
-    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
-  }
-
-  // Form submit event
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const isFormValid =
-      checkRequired([email, password]) &&
-      checkEmail(email);
-
-    if (isFormValid) {
-      console.log('Form submitted successfully!');
-      // Handle form submission (e.g., send data to the server)
-    } else {
-      console.log('Form validation failed.');
-    }
-  }); 
-</script>
+   let email_error=document.getElementById("email_error")
+   let pattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+   let password_error=document.getElementById("password_error")
+   
+   function login(event){
+    
+     if(email.value==''||email.value==null){
+       email_error.innerHTML='email is required'
+        event.preventDefault();
+       
+     }else if(!(pattern.test(email.value))){
+       email_error.innerHTML='enter a valid email'
+       event.preventDefault();
+       
+     }else{
+       email_error.innerHTML=''
+     }
+     if(password.value==''||password.value==null){
+       password_error.innerHTML='password is required';
+       event.preventDefault();
+       
+     }else if(password.value.length<6){
+       password_error.innerHTML='Password must be at least 6 characters long.'
+        event.preventDefault();
+       
+     }else{
+       password_error.innerHTML=''
+     }
+     if(password.value==''||password.value==null){
+       password_error.innerHTML='password is required';
+       event.preventDefault();
+       
+     }
+     
+   } 
+ 
+  </script>
+    
+   

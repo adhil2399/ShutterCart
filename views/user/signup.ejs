@@ -1,279 +1,325 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>sign-up</title>
-  <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-  <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-   <!-- Favicon icon-->
-  <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
-  <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-  <!-- Google Font Outfit-->
-  <link rel="preconnect" href="https://fonts.googleapis.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
-  <!-- Font Awesome-->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/fontawesome.css">
-  <!-- Iconsax icon-->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/iconsax.css">
-  <!-- Bootstrap css-->
-  <link rel="stylesheet" type="text/css" id="rtl-link" href="../assets/css/vendors/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/toastify.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
- </head>
- <body>
-  <section class="section-b-space pt-0">
-    <div class="heading-banner">
-      <div class="custom-container container">
-        <div class="row align-items-center">
-          <div class="col-sm-6">
-            <h4>Sign Up</h4>
-          </div>
-          <div class="col-sm-6">
-            <ul class="breadcrumb float-end">
-              <li class="breadcrumb-item"> <a href="/">Home</a></li>
-              <li class="breadcrumb-item active"> <a href="#">Sign Up</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section-b-space pt-0 login-bg-img">
-    <div class="custom-container container login-page">
-      <div class="row align-items-center">
-        <div class="col-xxl-7 col-6 d-none d-lg-block">
-          <div class="login-img">
-            <img class="img-fluid" src="https://themes.pixelstrap.net/katie/assets/images/login/1.svg" alt="">
-          </div>
-        </div>
-        <div class="col-xxl-4 col-lg-6 mx-auto">
-          <div class="log-in-box">
-            <div class="log-in-title">
-              <h4>Welcome To ShutterCart</h4>
-              <p>Create New Account</p>
-            </div>
-            <div class="login-box">
-              <form class="row g-3" id="form" method="post" action="/signup">
-                <% if(locals.message&& message.length>0){ %>
-                  <div class="text-center alert alert-danger">
-                    <%= message %>
-                    </div>
-               <% } %>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="username" name="name" type="text" placeholder="Full Name">
-                    <label for="username">Enter Your Name</label>
-                    <small class="error-message text-danger"> </small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="email" type="text" name="email" placeholder="name@example.com">
-                    <label for="email">Enter Your Email</label>
-                    <small class="error-message text-danger"> </small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="phone" type="number" name="phone" placeholder="Phone">
-                    <label for="email">Enter Phone number</label>
-                    <small class="error-message text-danger"> </small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="password" name="password" type="password" placeholder="Password">
-                    <label for="password">Enter Your Password</label>
-                    <small class="error-message text-danger"> </small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input class="form-control" id="cpassword" name="cpassword" type="password" placeholder="Password">
-                    <label for="cpassword">Confirm Password</label>
-                    <small class="error-message text-danger"> </small>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="forgot-box">
-                    <div>
-                      <input class="custom-checkbox me-2" id="category1" type="checkbox" name="terms">
-                      <label for="category1">I agree with <span>Terms</span> and <span>Privacy</span></label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <button class="btn login btn_black sm" type="submit">Sign Up</button>
-                </div>
-              </form>
-            </div>
-            <div class="other-log-in">
-              <h6>OR</h6>
-            </div>
-            <div class="log-in-button">
-              <ul>
-                <li>
-                  <a href="/auth/google"> <i class="fa-brands fa-google me-2"> </i>Google</a>
-                </li>
-                <li>
-                  <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f me-2"></i>Facebook</a>
-                </li>
-              </ul>
-            </div>
-            <div class="sign-up-box">
-              <p>Already have an account?</p><a href="/login">Log In</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="theme-btns">
-      <button class="btntheme" id="dark-btn"><i class="fa-regular fa-moon"></i>
-        <div class="text">Dark</div>
-      </button>
-      <!-- <button class="btntheme rtlBtnEl" id="rtl-btn"><i class="fa-solid fa-repeat"></i>
-        <div class="rtl">Rtl</div>
-      </button> -->
-    </div>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <!-- Bootstrap js-->
-    <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- iconsax js -->
-    <script src="../assets/js/iconsax.js"> </script>
-    <!-- cursor js-->
-    <script src="../assets/js/stats.min.js"> </script>
-    <script src="../assets/js/cursor.js"> </script>
-    <!-- touchspin-->
-    <script src="../assets/js/touchspin.js"></script>
-    <!-- cookie js-->
-    <script src="../assets/js/cookie.js"></script>
-    <!-- tost js -->
-    <script src="../assets/js/toastify.js"></script>
-    <script src="../assets/js/theme-setting.js"></script>
-    <!-- Theme js-->
-    <script src="../assets/js/script.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>sign-up</title>
+ <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+ <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+  <!-- Favicon icon-->
+ <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+ <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
+ <!-- Google Font Outfit-->
+ <link rel="preconnect" href="https://fonts.googleapis.com/">
+ <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+ <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
+ <!-- Font Awesome-->
+ <link rel="stylesheet" type="text/css" href="../assets/css/vendors/fontawesome.css">
+ <!-- Iconsax icon-->
+ <link rel="stylesheet" type="text/css" href="../assets/css/vendors/iconsax.css">
+ <!-- Bootstrap css-->
+ <link rel="stylesheet" type="text/css" id="rtl-link" href="../assets/css/vendors/bootstrap.css">
+ <link rel="stylesheet" type="text/css" href="../assets/css/vendors/toastify.css">
+ <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+ <div class="tap-top">
+      <div><i class="fa-solid fa-angle-up"></i></div>
+    </div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
+    
+<body>
+  <style>
+    .is-invalid {
+  border-color: red;
+}
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+}
+  </style>
+
+<div class="tap-top">
+  <div><i class="fa-solid fa-angle-up"></i></div>
+</div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
+
+ <section class="section-b-space pt-0">
+   <div class="heading-banner">
+     <div class="custom-container container">
+       <div class="row align-items-center">
+         <div class="col-sm-6">
+           <h4>Sign Up</h4>
+         </div>
+         <div class="col-sm-6">
+           <ul class="breadcrumb float-end">
+             <li class="breadcrumb-item"> <a href="/">Home</a></li>
+             <li class="breadcrumb-item active"> <a href="#">Sign Up</a></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <section class="section-b-space pt-0 login-bg-img">
+   <div class="custom-container container login-page">
+     <div class="row align-items-center">
+       <div class="col-xxl-7 col-6 d-none d-lg-block">
+         <div class="login-img">
+           <img class="img-fluid" src="https://themes.pixelstrap.net/katie/assets/images/login/1.svg" alt="">
+         </div>
+       </div>
+       <div class="col-xxl-4 col-lg-6 mx-auto">
+         <div class="log-in-box">
+           <div class="log-in-title">
+             <h4>Welcome To ShutterCart</h4>
+             <p>Create New Account</p>
+           </div>
+           <div class="login-box">
+             <form class="row g-3" id="form" method="post" action="/signup">
+               <% if(locals.message&& message.length>0){ %>
+                 <div class="text-center alert alert-danger">
+                   <%= message %>
+                   </div>
+              <% } %>
+               <div class="col-12">
+                 <div class="form-floating">
+                   <input class="form-control" id="username" name="name" type="text" placeholder="Full Name">
+                   <label for="username">Enter Your Name</label>
+                   <small class="error-message text-danger"> </small>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <div class="form-floating">
+                   <input class="form-control" id="email" type="text" name="email" placeholder="name@example.com">
+                   <label for="email">Enter Your Email</label>
+                   <small class="error-message text-danger"> </small>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <div class="form-floating">
+                   <input class="form-control" id="phone" type="number" name="phone" placeholder="Phone">
+                   <label for="email">Enter Phone number</label>
+                   <small class="error-message text-danger"> </small>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <div class="form-floating">
+                   <input class="form-control" id="password" name="password" type="password" placeholder="Password">
+                   <label for="password">Enter Your Password</label>
+                   <small class="error-message text-danger"> </small>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <div class="form-floating">
+                   <input class="form-control" id="cpassword" name="cpassword" type="password" placeholder="Password">
+                   <label for="cpassword">Confirm Password</label>
+                   <small class="error-message text-danger"> </small>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <div class="forgot-box">
+                   <div>
+                     <input class="custom-checkbox me-2" id="category1" type="checkbox" name="terms">
+                     <label for="category1">I agree with <span>Terms</span> and <span>Privacy</span></label>
+                   </div>
+                 </div>
+               </div>
+               <div class="col-12">
+                 <button class="btn login btn_black sm" type="submit">Sign Up</button>
+               </div>
+             </form>
+           </div>
+           <div class="other-log-in">
+             <h6>OR</h6>
+           </div>
+           <div class="log-in-button">
+             <ul>
+               <li>
+                 <a href="/auth/google"> <i class="fa-brands fa-google me-2"> </i>Google</a>
+               </li>
+               <li>
+                 <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f me-2"></i>Facebook</a>
+               </li>
+             </ul>
+           </div>
+           <div class="sign-up-box">
+             <p>Already have an account?</p><a href="/login">Log In</a>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <div class="theme-btns">
+     <button class="btntheme" id="dark-btn"><i class="fa-regular fa-moon"></i>
+       <div class="text">Dark</div>
+     </button>
+     <!-- <button class="btntheme rtlBtnEl" id="rtl-btn"><i class="fa-solid fa-repeat"></i>
+       <div class="rtl">Rtl</div>
+     </button> -->
+   </div>
+   <script src="https://accounts.google.com/gsi/client" async defer></script>
+   <!-- Bootstrap js-->
+   <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+   <!-- iconsax js -->
+   <script src="../assets/js/iconsax.js"> </script>
+   <!-- cursor js-->
+   <script src="../assets/js/stats.min.js"> </script>
+   <script src="../assets/js/cursor.js"> </script>
+   <!-- touchspin-->
+   <script src="../assets/js/touchspin.js"></script>
+   <!-- cookie js-->
+   <script src="../assets/js/cookie.js"></script>
+   <!-- tost js -->
+   <script src="../assets/js/toastify.js"></script>
+   <script src="../assets/js/theme-setting.js"></script>
+   <!-- Theme js-->
+   <script src="../assets/js/script.js"></script>
+ 
+</body>
+</html>
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('form');
+    const nameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('cpassword');
   
- </body>
- </html>
+    // Utility function to show error message
+    function showError(input, message) {
+        // Find or create error message element
+        let errorElement = input.parentElement.querySelector('.error-message');
+        if (!errorElement) {
+            errorElement = document.createElement('small');
+            errorElement.classList.add('error-message', 'text-danger');
+            input.parentElement.appendChild(errorElement);
+        }
+        errorElement.textContent = message;
+        input.classList.add('is-invalid');
+    }
 
+    // Utility function to clear error message
+    function clearError(input) {
+        const errorElement = input.parentElement.querySelector('.error-message');
+        if (errorElement) {
+            errorElement.textContent = '';
+        }
+        input.classList.remove('is-invalid');
+    }
 
-<script>
-  const form = document.getElementById('form');
-const username = document.getElementById('username');
-const email = document.getElementById('email');
-const phone = document.getElementById('phone');
-const password = document.getElementById('password');
-const cpassword = document.getElementById('cpassword');
+    // Validate name
+    function validateName() {
+        const name = nameInput.value.trim();
+        if (name === '') {
+            showError(nameInput, 'Name is required');
+            return false;
+        }
+        if (name.length < 2) {
+            showError(nameInput, 'Name must be at least 2 characters long');
+            return false;
+        }
+        clearError(nameInput);
+        return true;
+    }
 
-// Show error message
-function showError(input, message) {
-  const formControl = input.parentElement;
-  const small = formControl.querySelector('.error-message');
-  formControl.classList.add('error');
-  formControl.classList.remove('success');
-  small.innerText = message;
-}
+    // Validate email
+    function validateEmail() {
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === '') {
+            showError(emailInput, 'Email is required');
+            return false;
+        }
+        if (!emailRegex.test(email)) {
+            showError(emailInput, 'Please enter a valid email address');
+            return false;
+        }
+        clearError(emailInput);
+        return true;
+    }
 
-// Show success outline
-function showSuccess(input) {
-  const formControl = input.parentElement;
-  const small = formControl.querySelector('.error-message');
-  formControl.classList.remove('error');
-  formControl.classList.add('success');
-  small.innerText = '';
-}
+    // Validate phone number
+    function validatePhone() {
+        const phone = phoneInput.value.trim();
+        const phoneRegex = /^[0-9]{10}$/; // Assumes 10-digit phone number
+        if (phone === '') {
+            showError(phoneInput, 'Phone number is required');
+            return false;
+        }
+        if (!phoneRegex.test(phone)) {
+            showError(phoneInput, 'Please enter a valid 10-digit phone number');
+            return false;
+        }
+        clearError(phoneInput);
+        return true;
+    }
 
-// Validate email format
-function checkEmail(input) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (re.test(input.value.trim())) {
-    showSuccess(input);
-    return true;
-  } else {
-    showError(input, 'Email is not valid');
-    return false;
-  }
-}
+    // Validate password
+    function validatePassword() {
+        const password = passwordInput.value;
+        const passwordRegex = /^(?=.*[A-Za-z])/;
+        if (password === '') {
+            showError(passwordInput, 'Password is required');
+            return false;
+        }
+        if (password.length < 6) {
+            showError(passwordInput, 'Password must be at least 6 characters long');
+            return false;
+        }
+        if (!passwordRegex.test(password)) {
+            showError(passwordInput, 'Password must include letters, numbers, and special characters');
+            return false;
+        }
+        clearError(passwordInput);
+        return true;
+    }
 
-// Validate phone format
-function checkPhone(input) {
-  const re = /^[0-9]{10}$/; // Example: Validates 10-digit numbers only
-  if (re.test(input.value.trim())) {
-    showSuccess(input);
-    return true;
-  } else {
-    showError(input, 'Phone number must be 10 digits');
-    return false;
-  }
-}
+    // Validate confirm password
+    function validateConfirmPassword() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        if (confirmPassword === '') {
+            showError(confirmPasswordInput, 'Please confirm your password');
+            return false;
+        }
+        if (password !== confirmPassword) {
+            showError(confirmPasswordInput, 'Passwords do not match');
+            return false;
+        }
+        clearError(confirmPasswordInput);
+        return true;
+    }
 
-// Check required fields
-function checkRequired(inputs) {
-    let isValid = true;
-    inputs.forEach(input => {
-        if (input.required && input.value.trim() === '') {
-            showError(input, `${getFieldName(input)} is required`);
-            isValid = false;
-        } else {
-            showSuccess(input);
+  
+
+    // Real-time validation event listeners
+    nameInput.addEventListener('blur', validateName);
+    emailInput.addEventListener('blur', validateEmail);
+    phoneInput.addEventListener('blur', validatePhone);
+    passwordInput.addEventListener('blur', validatePassword);
+    confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
+ 
+    // Form submission handler
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Reset previous errors
+        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+        // Validate all fields
+        const isNameValid = validateName();
+        const isEmailValid = validateEmail();
+        const isPhoneValid = validatePhone();
+        const isPasswordValid = validatePassword();
+        const isConfirmPasswordValid = validateConfirmPassword();
+ 
+
+        // Submit form only if all validations pass
+        if (isNameValid && isEmailValid && isPhoneValid && 
+            isPasswordValid && isConfirmPasswordValid) {
+            form.submit();
         }
     });
-    return isValid;
-}
-
-
-// Check input length
-function checkLength(input, min, max) {
-  if (input.value.length < min) {
-    showError(input, `${getFieldName(input)} must be at least ${min} characters`);
-    return false;
-  } else if (input.value.length > max) {
-    showError(input, `${getFieldName(input)} must be less than ${max} characters`);
-    return false;
-  } else {
-    showSuccess(input);
-    return true;
-  }
-}
-
-// Check if passwords match
-function checkPasswordsMatch(password, cpassword) {
-  if (password.value !== cpassword.value) {
-    showError(cpassword, 'Passwords do not match');
-    return false;
-  } else {
-    showSuccess(cpassword);
-    return true;
-  }
-}
-
-// Get formatted field name
-function getFieldName(input) {
-  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
-}
-
-// Form submit event
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const isFormValid =
-        checkRequired([username, email, phone, password, cpassword]) &&
-        checkLength(username, 3, 15) &&
-        checkLength(password, 6, 25) &&
-        checkEmail(email) &&
-        checkPhone(phone) &&
-        checkPasswordsMatch(password, cpassword);
-
-    if (isFormValid) {
-        console.log('Form submitted successfully!');
-        form.submit(); // Allow form submission
-    } else {
-        console.log('Form validation failed.');
-    }
 });
-
-
-</script>
+ </script>

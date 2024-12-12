@@ -15,6 +15,11 @@ const securePassword = async(password)=>{
     }
 }
 
+
+ function generateOtp() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
 //Email sender
 
 const transporter = nodemailer.createTransport({
@@ -46,7 +51,15 @@ async function sendVerificationEmail(email,otp) {
 }
 
 
+function isOtpExpired(otpGeneratedTime) {
+    const OTP_VALIDITY_DURATION = 5 * 60 * 1000; // 5 minutes
+    return Date.now() - otpGeneratedTime > OTP_VALIDITY_DURATION;
+  }
+
+
 module.exports={
     securePassword,
-    sendVerificationEmail
+    sendVerificationEmail,
+    generateOtp,
+    isOtpExpired
 }

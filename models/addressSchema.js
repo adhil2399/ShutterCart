@@ -1,11 +1,11 @@
 const mongoose =require('mongoose')
 
-const {schema}= mongoose;
+const {Schema}= mongoose;
 
 
-const addressSchema= new schema({
+const addressSchema= new Schema({
     userId:{
-        type : schema.Types.ObjectId,
+        type : Schema.Types.ObjectId,
         ref:"User",
         required:true
     },

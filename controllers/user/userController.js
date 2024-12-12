@@ -1,9 +1,11 @@
 const User = require("../../models/userSchema");
 const bcrypt = require("bcrypt");
 const env = require("dotenv").config();
-const { securePassword, sendVerificationEmail } = require("../../config/utils");
+const { securePassword,isOtpExpired,generateOtp, sendVerificationEmail } = require("../../config/utils");
 const Category = require("../../models/categorySchema");
-const Product =require('../../models/productSchema')
+const Product =require('../../models/productSchema');
+const category = require("../../models/categorySchema");
+const { addProducts } = require("../admin/productController");
 //page Not Found
 
 const pageNotFound = async (req, res) => {
@@ -18,14 +20,30 @@ const pageNotFound = async (req, res) => {
 const lodeHomepage = async (req, res) => {
   try {
     const user = req.session.user
+    const categories = await Category.find({isListed:true})
+     let productData =await Product.find({
+      isBlocked:false,
+      category:{$in:categories.map(category=>category._id)},
+      quantity:{$gt:0}
+    })
+
+    productData.sort((a,b)=>new Date(b.createdOn)-new Date(a.createdOn))
+    productData= productData.slice(0,6)
+
+
     // console.log(user);
      let userData = null
     if (user) {
        userData = await User.findById(user);
+       
+       return res.render("home", { user: userData,products:productData });
+      }else{
+        console.log(productData)
+        return  res.render("home", {products:productData });
+
     }
     // console.log(userData);
     
-    res.render("home", { user: userData });
   } catch (error) {
     console.log("homepage not found", error);
     res.status(500).send("server side error");
@@ -45,9 +63,7 @@ const loadsignup = async (req, res) => {
 
 //otp generate
 
-function generateOtp() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
+ 
 
 // signup, check the user is already exists and verify the Otp
 
@@ -122,12 +138,9 @@ const resendOtp = async (req, res) => {
   }
 };
 
-// OTP expire
+ 
 
-function isOtpExpired(otpGeneratedTime) {
-  const OTP_VALIDITY_DURATION = 5 * 60 * 1000; // 5 minutes
-  return Date.now() - otpGeneratedTime > OTP_VALIDITY_DURATION;
-}
+ 
 
 // OTP verification
 
@@ -197,8 +210,9 @@ const loadlogin = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const finduser = await User.findOne({ isAdmin: 0, email: email });
+    const finduser = await User.findOne({ isAdmin: false, email: email });
     
+    console.log(finduser)
 
     if (!finduser) {
       return res.render("login", { message: "user not found" });
@@ -237,7 +251,6 @@ try {
 }
 
 
-
 module.exports = {
   lodeHomepage,
   pageNotFound,
@@ -248,4 +261,5 @@ module.exports = {
   verifyOtp,
   resendOtp,
   logout,
+  
 };

@@ -45,13 +45,13 @@ router.get('/deleteBrand',adminAuth,brandcontroller.deleteBrand)
 
 // product management
 router.get('/addProducts',adminAuth,productController.getProductAddPage)
-router.post('/addProducts',adminAuth,uploads.array("images",4),productController.addProducts)
+router.post('/addProducts',adminAuth,uploads.array("images",10),productController.addProducts)
 router.get('/products',adminAuth,productController.getAllProducts)
 router.get('/blockProduct',adminAuth,productController.blockProduct)
 router.get('/unblockProduct',adminAuth,productController.unblockProduct)
 router.get('/editProducts',adminAuth,productController.getEditProducts)
-router.post('/editProducts',adminAuth,uploads.array("images",4),productController.editProducts)
-router.post('deleteImage',adminAuth,productController.deleteSingleImage)
+router.post('/editProducts/:id',adminAuth,uploads.array("images",10),productController.editProducts)
+router.post('/deleteImage',adminAuth,productController.deleteSingleImage)
 
 
 module.exports=router; 

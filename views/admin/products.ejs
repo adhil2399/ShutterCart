@@ -115,9 +115,12 @@
     <header class="card-header text-center mb-4">
         <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
             <!-- Search Form -->
-            <div class="col-lg-4 col-md-6 me-auto">
-                <input type="text" placeholder="Search..." class="form-control">
-            </div>
+              <form class="d-flex" action="/admin/products" method="GET">
+                <input  name="search" class="form-control me-2" type="search" placeholder="Search" 
+                value="<%= search || '' %>" style="max-width: 300px;" aria-label="Search">
+                <button class="btn btn-brand rounded " type="submit">Search</button>
+              </form>
+              
             <!-- Add Product Button -->
             <button class="btn btn-md rounded font-sm hover-up">
                 <a href="/admin/addProducts" >Add Product</a>
@@ -129,10 +132,11 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
+                    <th scope="col">Image</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Regular Price</th>
-                    <th scope="col">Offer Price</th>
+                    <th scope="col">Sale Price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Action</th>
                     <th scope="col">Edit</th>
@@ -140,60 +144,61 @@
             </thead>
             <tbody>
                 <% data.forEach(element => { %>
-                    <tr>
-                        <!-- Product Name -->
-                        <td>
-                            <%= element.productName %>
-                        </td>
-    
-                        <!-- Category -->
-                        <td>
-                            <%= element.category ? element.category.name : 'N/A' %>
-                        </td>
-    
-                        <!-- Sale Price -->
-                        <td>
-                            <%= element.regularPrice %>
-                        </td>
-    
-                        <!-- Offer Price -->
-                        <td>
-                            <%= element.offerPrice %>
-                        </td>
-    
-                        <!-- Quantity -->
-                        <td>
-                            <%= element.quantity %>
-                        </td>
-    
-                        <!-- Action Buttons -->
-                        <td>
-                            <% if (!element.isBlocked) { %>
-                                <a href="/admin/blockProduct?id=<%= element._id %>" 
-                                   class="btn btn-sm btn-brand rounded font-sm mt-15"
-                                   style="width: 80px; text-decoration: none; color: white;">
-                                    Block
-                                </a>
-                            <% } else { %>
-                                <a href="/admin/unblockProduct?id=<%= element._id %>" 
-                                   class="btn btn-sm btn-danger rounded font-sm mt-15">
-                                    Unblock
-                                </a>
-                            <% } %>
-                        </td>
-    
-                        <!-- Edit Button -->
-                        <td>
-                            <button class="btn btn-sm btn-brand rounded font-sm mt-15" >
-                                <a href="/admin/editProducts?id=<%= element._id %>">
-                                    Edit
-                                </a>
-                            </button>
-                        </td>
-                    </tr>
+                <tr>
+                    <!-- Product Image -->
+                    <td style="text-align: center;">
+                        <% if (element.productImage && element.productImage.length > 0) { %>
+                        <img src="<%= element.productImage[0] %>" 
+                             alt="Product Image" 
+                             style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;" />
+                        <% } %>
+                    </td>
+        
+                    <!-- Product Name -->
+                    <td><%= element.productName %></td>
+        
+                    <!-- Category -->
+                    <td><%= element.category ? element.category.name : 'N/A' %></td>
+        
+                    <!-- Regular Price -->
+                    <td><%= element.regularPrice %></td>
+        
+                    <!-- Offer Price -->
+                    <td><%= element.salePrice %></td>
+        
+                    <!-- Quantity -->
+                    <td><%= element.quantity %></td>
+        
+                    <!-- Action Buttons -->
+                    <td>
+                        <% if (!element.isBlocked) { %>
+                        <a href="/admin/blockProduct?id=<%= element._id %>" 
+                           class="btn btn-sm btn-brand rounded font-sm mt-15" 
+                           style="width: 80px; text-decoration: none; color: white;">
+                            UnList
+                        </a>
+                        <% } else { %>
+                        <a href="/admin/unblockProduct?id=<%= element._id %>" 
+                           class="btn btn-sm btn-warning rounded font-sm mt-15" 
+                           style="width: 80px; text-decoration: none; color: white;">
+                            List
+                        </a>
+                        <% } %>
+                    </td>
+        
+                    <!-- Edit Button -->
+                    <td>
+                        <a href="/admin/editProducts?id=<%= element._id %>" 
+                           class="btn btn-sm btn-brand rounded font-sm mt-15" 
+                           style="width: 80px; text-decoration: none; color: white;">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
                 <% }) %>
             </tbody>
         </table>
+        
     
         <!-- Pagination -->
         
