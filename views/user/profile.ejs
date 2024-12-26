@@ -1,855 +1,1140 @@
 <%- include('../partials/user/header') %>
+<style>
 
- </head>
-    <section class="section-b-space pt-0"> 
-      <div class="heading-banner">
-        <div class="custom-container container">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4>Dashboard</h4>
-            </div>
-            <div class="col-sm-6">
-              <ul class="breadcrumb float-end">
-                <li class="breadcrumb-item"> <a href="index.html">Home </a></li>
-                <li class="breadcrumb-item active"> <a href="#">Dashboard</a></li>
-              </ul>
-            </div>
+  .modal-content {
+    border-radius: 10px;
+    border: solid black 3PX;
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-title {
+    position: relative;
+    margin-bottom: 15px;
+  }
+
+  .loader-line {
+    width: 40px;
+    height: 3px;
+    background: #ff5c3e;
+    margin-bottom: 8px;
+  }
+
+  .form-control {
+    border-radius: 8px;
+    padding: 10px 10px;
+    border: 1px solid #e2e2e2;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #ff5c3e;
+    box-shadow: 0 0 0 0.2rem rgba(255, 92, 62, .25);
+  }
+
+  .custom-radio {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ff5c3e;
+    margin-right: 8px;
+  }
+
+  .custom-radio:checked {
+    background-color: #ff5c3e;
+    border-color: #ff5c3e;
+  }
+
+  .btn_outline {
+    border: 1px solid #e2e2e2;
+    color: #333;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn_outline:hover {
+    background: #f8f8f8;
+  }
+
+  .add-address {
+    background: #ff5c3e;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .add-address:hover {
+    background: #ff4424;
+    color: white;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .modal-dialog {
+    max-width: 600px;
+  }
+
+  .btn-close {
+    opacity: 1;
+    background: none;
+    position: relative;
+  }
+
+  .btn-close::before,
+  .btn-close::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 16px;
+    background: #333;
+    top: 50%;
+    left: 50%;
+  }
+
+  .btn-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .btn-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+
+
+     /* user profile */
+
+        .profile-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-control {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #000;
+            box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-save {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            background-color: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn-cancel {
+            background-color: transparent;
+            color: #000;
+            border: 1px solid #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: #f8f9fa;
+         }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #000;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .form-label {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .invalid-feedback {
+            color: #ce3434;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+  
+ 
+</style>
+
+  </head>
+  <section class="section-b-space pt-0">
+    <div class="heading-banner">
+      <div class="custom-container container">
+        <div class="row align-items-center">
+          <div class="col-sm-6">
+            <h4>Dashboard</h4>
+          </div>
+          <div class="col-sm-6">
+            <ul class="breadcrumb float-end">
+              <li class="breadcrumb-item"> <a href="/">Home </a></li>
+              <li class="breadcrumb-item active"> <a href="#">Dashboard</a></li>
+            </ul>
           </div>
         </div>
       </div>
-    </section>
-    <section class="section-b-space pt-0"> 
-      <div class="custom-container container user-dashboard-section"> 
-        <div class="row">
-          <div class="col-xl-3 col-lg-4">
-            <div class="left-dashboard-show">
-              <button class="btn btn_black sm rounded bg-primary">Show Menu</button>
-            </div>
-            <div class="dashboard-left-sidebar sticky">
-              <div class="profile-box"> 
-                <div class="profile-bg-img"></div>
-                <div class="dashboard-left-sidebar-close"><i class="fa-solid fa-xmark"></i></div>
-                <div class="profile-contain">
-                  <div class="profile-image"> <img class="img-fluid" src="../assets/images/user/12.jpg" alt=""></div>
-                  <div class="profile-name"> 
-                    <h4><%= user.name %></h4>
-                    <h6><%= user.email %></h6><span data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit Profile</span>
-                  </div>
-                </div>
-              </div>
-              <ul class="nav flex-column nav-pills dashboard-tab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <li>
-                  <button class="nav-link active" id="dashboard-tab" data-bs-toggle="pill" data-bs-target="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true"><i class="iconsax" data-icon="home-1"></i> Dashboard</button>
-                </li>
-                <li>
-                  <button class="nav-link" id="notifications-tab" data-bs-toggle="pill" data-bs-target="#notifications" role="tab" aria-controls="notifications" aria-selected="false"><i class="iconsax" data-icon="lamp-2"></i>Notifications </button>
-                </li>
-                <li>
-                  <button class="nav-link" id="order-tab" data-bs-toggle="pill" data-bs-target="#order" role="tab" aria-controls="order" aria-selected="false"><i class="iconsax" data-icon="receipt-square"></i> Order</button>
-                </li>
-                <li>
-                  <button class="nav-link" id="wishlist-tab" data-bs-toggle="pill" data-bs-target="#wishlist" role="tab" aria-controls="wishlist" aria-selected="false"> <i class="iconsax" data-icon="heart"></i>Wishlist </button>
-                </li>
-                <li>
-                  <button class="nav-link" id="saved-card-tab" data-bs-toggle="pill" data-bs-target="#saved-card" role="tab" aria-controls="saved-card" aria-selected="false"> <i class="iconsax" data-icon="bank-card"></i>Saved Card</button>
-                </li>
-                <li>
-                  <button class="nav-link" id="address-tab" data-bs-toggle="pill" data-bs-target="#address" role="tab" aria-controls="address" aria-selected="false"><i class="iconsax" data-icon="cue-cards"></i>Address</button>
-                </li>
-                <li>
-                  <button class="nav-link" id="privacy-tab" data-bs-toggle="pill" data-bs-target="#privacy" role="tab" aria-controls="privacy" aria-selected="false"> <i class="iconsax" data-icon="security-user"></i>Privacy</button>
-                </li>
-              </ul>
-              <div class="logout-button"> <a class="btn btn_black sm" data-bs-toggle="modal" data-bs-target="#Confirmation-modal" title="Quick View" tabindex="0"><i class="iconsax me-1" data-icon="logout-1"></i> Logout </a></div>
-            </div>
+    </div>
+  </section>
+  <section class="section-b-space pt-0">
+    <div class="custom-container container user-dashboard-section">
+      <div class="row">
+        <div class="col-xl-3 col-lg-4">
+          <div class="left-dashboard-show">
+            <button class="btn btn_black sm rounded bg-primary">Show Menu</button>
           </div>
-          <div class="col-xl-9 col-lg-8">
-            <div class="tab-content" id="v-pills-tabContent">
-              <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-                <div class="dashboard-right-box">
-                  <div class="my-dashboard-tab">
-                    <div class="dashboard-items"> </div>
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>My Dashboard</h4>
-                    </div>
-                    <div class="dashboard-user-name"> 
-                      <h6>Hello,  <b><%= user.name %></b></h6>
-                      <p>My dashboard provides a comprehensive overview of key metrics and data relevant to your operations. It offers real-time insights into performance, including sales figures, website traffic, customer engagement, and more. With customizable widgets and intuitive visualizations, it facilitates quick decision-making and allows you to track progress towards your goals effectively.</p>
-                    </div>
-                    <div class="total-box"> 
-                      <div class="row gy-4"> 
-                        <div class="col-xl-4"> 
-                          <div class="totle-contain">
-                            <div class="wallet-point"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/wallet.svg" alt=""><img class="img-1" src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/wallet.svg" alt=""></div>
-                            <div class="totle-detail"> 
-                              <h6>Balance</h6>
-                              <h4>$ 84.40 </h4>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xl-4"> 
-                          <div class="totle-contain">
-                            <div class="wallet-point"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/coin.svg" alt=""><img class="img-1" src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/coin.svg" alt=""></div>
-                            <div class="totle-detail"> 
-                              <h6>Total Points</h6>
-                              <h4>500</h4>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xl-4"> 
-                          <div class="totle-contain">
-                            <div class="wallet-point"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/order.svg" alt=""><img class="img-1" src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/order.svg" alt=""></div>
-                            <div class="totle-detail"> 
-                              <h6>Total Orders</h6>
-                              <h4>12</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="profile-about"> 
-                      <div class="row"> 
-                        <div class="col-xl-7"> 
-                          <div class="sidebar-title">
-                            <div class="loader-line"></div>
-                            <h5>Profile Information</h5>
-                          </div>
-                          <ul class="profile-information"> 
-                            <li> 
-                              <h6>Name :</h6>
-                              <p><%= user.name %></p>
-                            </li>
-                            <li> 
-                              <h6>Phone:</h6>
-                              
-                              <p><%= user.phone==null?'N/A':user.phone %></p>
-                            </li>
-                            <li> 
-                              <h6>Address:</h6>
-                              <p>26, Starts Hollow Colony Denver, Colorado, United States 80014</p>
-                            </li>
-                          </ul>
-                          <div class="sidebar-title">
-                            <div class="loader-line"></div>
-                            <h5>Login Details</h5>
-                          </div>
-                          <ul class="profile-information mb-0"> 
-                            <li> 
-                              <h6>Email :</h6>
-                              <p> <%= user.email %> </p>
+          <div class="dashboard-left-sidebar sticky">
+            <div class="profile-box">
+              <div class="profile-bg-img"></div>
+              <div class="dashboard-left-sidebar-close"><i class="fa-solid fa-xmark"></i></div>
+              <div class="profile-contain">
+                <div class="profile-image"> <img class="img-fluid" src="../assets/images/user/12.jpg" alt=""></div>
+                <div class="profile-name">
+                  <h4>
+                    <%= user.name %>
+                  </h4>
+                  <h6>
+                    <%= user.email %>
+                  </h6>
+                  <!-- <span data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit
+                    Profile</span> -->
+                </div>
+              </div>
+            </div>
+            <ul class="nav flex-column nav-pills dashboard-tab" id="v-pills-tab" role="tablist"
+              aria-orientation="vertical">
+              <li>
+                <button class="nav-link active" id="dashboard-tab" data-bs-toggle="pill" data-bs-target="#dashboard"
+                  role="tab" aria-controls="dashboard" aria-selected="true"><i class="iconsax" data-icon="home-1"></i>
+                   User Profile</button>
+              </li>
+          
+              <li>
+                <button class="nav-link" id="address-tab" data-bs-toggle="pill" data-bs-target="#address" role="tab"
+                  aria-controls="address" aria-selected="false"><i class="iconsax"
+                    data-icon="cue-cards"></i>Address</button>
+              </li>
+              
+              <li>
+                <!-- <button class="nav-link" id="notifications-tab" data-bs-toggle="pill" data-bs-target="#notifications" role="tab" aria-controls="notifications" aria-selected="false"><i class="iconsax" data-icon="lamp-2"></i>Notifications </button> -->
+              </li>
+              <li>
+                <button class="nav-link" id="order-tab" data-bs-toggle="pill" data-bs-target="#order" role="tab"
+                  aria-controls="order" aria-selected="false"><i class="iconsax" data-icon="receipt-square"></i>
+                  Order</button>
+              </li>
+             
 
-                            </li>
-                            <li> 
-                              <h6>Password :</h6>
-                              <p>●●●●●●<a style="color: #FE5E35;" href="/change-password">Edit</a></p>
+              <li>
+                <button class="nav-link" id="wishlist-tab" data-bs-toggle="pill" data-bs-target="#wishlist" role="tab"
+                  aria-controls="wishlist" aria-selected="false"> <i class="iconsax" data-icon="heart"></i>Wishlist
+                </button>
+              </li>
+             
 
-                            </li>
-                          </ul>
-                          
-                          
+              <li>
+                <!-- <button class="nav-link" id="saved-card-tab" data-bs-toggle="pill" data-bs-target="#saved-card" role="tab" aria-controls="saved-card" aria-selected="false"> <i class="iconsax" data-icon="bank-card"></i>Saved Card</button> -->
+              </li>
+              <li>
+                <!-- <button class="nav-link" id="privacy-tab" data-bs-toggle="pill" data-bs-target="#privacy" role="tab" aria-controls="privacy" aria-selected="false"> <i class="iconsax" data-icon="security-user"></i>Privacy</button> -->
+              </li>
+            </ul>
+            <div class="logout-button"> <a class="btn btn_black sm" data-bs-toggle="modal"
+                data-bs-target="#Confirmation-modal" title="Quick View" tabindex="0"><i class="iconsax me-1"
+                  data-icon="logout-1"></i> Logout </a></div>
+          </div>
+        </div>
+        <div class="col-xl-9 col-lg-8">
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+              <div class="container">
+                <div class="profile-card">
+                    <h3 class="mb-4">Edit Your Profile</h3>
+                    
+                    <form id="profileForm"  class="needs-validation" novalidate>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" value="<%= user.name %>" required
+                                       pattern="[A-Za-z ]{2,50}"
+                                       title="Name should only contain letters and spaces">
+                                <div class="invalid-feedback">
+                                    Please enter a valid name (2-50 characters, letters only)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" name="phone" id="phone" value="<%= user.phone %>"required
+                                       pattern="[0-9]{10}"
+                                       title="Please enter a valid 10-digit phone number">
+                                <div class="invalid-feedback">
+                                    Please enter a valid 10-digit phone number
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xl-5">
-                          <div class="profile-image d-none d-xl-block"> <img class="img-fluid" src="../assets/images/other-img/dashboard.png" alt=""></div>
+                      
+        
+                        <div class="section-title">Password Changes</div>
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" name="currentPassword" id="currentPassword"  required
+                                   minlength="6">
+                            <div class="invalid-feedback">
+                                Please enter your current password (minimum 6 characters)
+                            </div>
+                        </div>
+        
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" name="newPassword" id="newPassword"  required
+                             pattern=".{6,}"
+                             title="Password must be at least 6 characters long and contain at least one letter and one number">
+                            <div class="invalid-feedback">
+                                Password must be at least 6 characters long  
+                            </div>
+                        </div>
+        
+                        <div class="mb-4">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required >
+                            <div class="invalid-feedback">
+                                Passwords do not match
+                            </div>
+                        </div>
+        
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-cancel">Cancel</button>
+                            <button type="submit" class="btn btn-save">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+            <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+            <script>
+               document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('profileForm');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const currentPassword = document.getElementById('currentPassword')
+
+
+    currentPassword.addEventListener('input',function () {
+      if(this.value.trim===''){
+        this.setCustomValidity('current password is empty')
+      }else{
+        this.setCustomValidity('')
+      }
+    })
+    // Custom password match validation
+    confirmPassword.addEventListener('input', function () {
+        if (this.value.trim() !== newPassword.value.trim()) {
+            this.setCustomValidity('Passwords do not match');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+         const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+         if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add('was-validated');
+        } else {
+            try {
+                 const response = await fetch('/edit-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+        Toastify({
+            text: '<i class="fas fa-check-circle"></i> ' + (result.message || "Your profile has been updated successfully."),
+            duration: 3000,
+            gravity: "top", 
+            position: 'center',
+            backgroundColor: "#4CAF50", // Green color for success
+            className: "info",
+            escapeMarkup: false, // Allow HTML content
+        }).showToast();
+
+        form.reset();
+        form.classList.remove('was-validated');
+    } else {
+        Toastify({
+            text: '<i class="fas fa-exclamation-circle"></i> ' + (result.message || "An error occurred while updating your profile."),
+            duration: 3000,
+            gravity: "top",
+            position: 'center', 
+            backgroundColor: "#FF4424",  // Red color for error
+            className: "error",
+            style: {
+                color: "#FFFFFF", // White text color
+                fontWeight: "bold", // Bold text
+            },
+            offset: {
+                x: 10, // 10px from the left/right
+                y: 45  // 20px from the top/bottom
+            },
+            escapeMarkup: false, // Allow HTML content
+        }).showToast();
+    }
+} catch (error) {
+    console.log(error);
+
+    Toastify({
+        text: '<i class="fas fa-exclamation-circle"></i> Network error occurred, please try again later.',
+        duration: 3000,
+        gravity: "top",
+        position: 'center',
+        backgroundColor: "#FF4424", // Red color for error
+        className: "error",
+        style: {
+            color: "#FFFFFF", // White text color
+            fontWeight: "bold", // Bold text
+        },
+        offset: {
+            x: 10, // 10px from the left/right
+            y: 20  // 20px from the top/bottom
+        },
+        escapeMarkup: false, // Allow HTML content
+    }).showToast();
+            }
+        }
+    });
+
+    // Reset validation and form on cancel
+    document.getElementById('cancelBtn').addEventListener('click', function () {
+        form.reset();
+        form.classList.remove('was-validated');
+    });
+});
+
+            </script>
+
+            </div>
+            
+            <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
+              <div class="dashboard-right-box">
+                <div class="wishlist-box ratio1_3">
+                  <div class="sidebar-title">
+                    <div class="loader-line"></div>
+                    <h4>Wishlist</h4>
+                  </div>
+                  <div class="row-cols-md-3 row-cols-2 grid-section view-option row gy-4 g-xl-4">
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="#"> <img class="bg-img"
+                                src="../assets/images/product/product-3/1.jpg" alt="product"></a><a class="pro-sec"
+                              href="#"> <img class="bg-img" src="../assets/images/product/product-3/20.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                          <div class="countdown">
+                            <ul class="clockdiv1">
+                              <li>
+                                <div class="timer">
+                                  <div class="days"></div>
+                                </div><span class="title">Days</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="hours"></div>
+                                </div><span class="title">Hours</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="minutes"></div>
+                                </div><span class="title">Min</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="seconds"></div>
+                                </div><span class="title">Sec</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
+                            <li><i class="fa-regular fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="#">
+                            <h6>Greciilooks Women's Stylish Top</h6>
+                          </a>
+                          <p>$100.00
+                            <del>$140.00</del><span>-20%</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/2.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/19.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-regular fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Wide Linen-Blend Trousers</h6>
+                          </a>
+                          <p>$100.00
+                            <del>$18.00 </del>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/3.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/18.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Long Sleeve Rounded T-Shirt</h6>
+                          </a>
+                          <p>$120.30
+                            <del>$140.00</del><span>-20%</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/4.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/17.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                          <div class="countdown">
+                            <ul class="clockdiv2">
+                              <li>
+                                <div class="timer">
+                                  <div class="days"></div>
+                                </div><span class="title">Days</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="hours"></div>
+                                </div><span class="title">Hours</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="minutes"></div>
+                                </div><span class="title">Min</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="seconds"></div>
+                                </div><span class="title">Sec</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Blue lined White T-Shirt</h6>
+                          </a>
+                          <p>$190.00
+                            <del>$210.00</del>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/9.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/16.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                          <div class="countdown">
+                            <ul class="clockdiv3">
+                              <li>
+                                <div class="timer">
+                                  <div class="days"></div>
+                                </div><span class="title">Days</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="hours"></div>
+                                </div><span class="title">Hours</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="minutes"></div>
+                                </div><span class="title">Min</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="seconds"></div>
+                                </div><span class="title">Sec</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
+                            <li><i class="fa-regular fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Greciilooks Women's Stylish Top</h6>
+                          </a>
+                          <p>$100.00
+                            <del>$140.00</del><span>-20%</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/10.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/15.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-regular fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Wide Linen-Blend Trousers</h6>
+                          </a>
+                          <p>$100.00
+                            <del>$18.00 </del>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/11.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/14.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Long Sleeve Rounded T-Shirt</h6>
+                          </a>
+                          <p>$120.30
+                            <del>$140.00</del><span>-20% </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="product-box-3 product-wishlist">
+                        <div class="img-wrapper">
+                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
+                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
+                                data-icon="trash" aria-hidden="true"></i></a></div>
+                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
+                                src="../assets/images/product/product-3/12.jpg" alt="product"></a><a class="pro-sec"
+                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/13.jpg"
+                                alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
+                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
+                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
+                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
+                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
+                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
+                          <div class="countdown">
+                            <ul class="clockdiv4">
+                              <li>
+                                <div class="timer">
+                                  <div class="days"></div>
+                                </div><span class="title">Days</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="hours"></div>
+                                </div><span class="title">Hours</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="minutes"></div>
+                                </div><span class="title">Min</span>
+                              </li>
+                              <li class="dot"> <span>:</span></li>
+                              <li>
+                                <div class="timer">
+                                  <div class="seconds"></div>
+                                </div><span class="title">Sec</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="product-detail">
+                          <ul class="rating">
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star"></i></li>
+                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
+                            <li>4.3</li>
+                          </ul><a href="product.html">
+                            <h6>Blue lined White T-Shirt</h6>
+                          </a>
+                          <p>$190.00
+                            <del>$210.00</del>
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab"> 
-                <div class="dashboard-right-box">
-                  <div class="notification-tab">
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>Notifications</h4>
-                    </div>
-                    <ul class="notification-body">
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/1.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Mint - is your budget ready for spring spending?<span>2:14PM</span></h6>
-                          <p>A quick weekend trip, a staycation in your own town, or a weeklong vacay with the family—it’s your choice if it’s in the budget. No matter what you plan on doing during spring break, budget ahead for it.</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/2.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Flipkart - Confirmed order<span>2:14PM</span></h6>
-                          <p>Thanks for signing up for CodePen! We're happy you're here. Let's get your email address verified:</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/3.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Figma - Move work forward<span>2:14PM</span></h6>
-                          <p>Hello, Everyone understands why a new language would be advantageous: one could refuse to pay for high-priced translators.</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/4.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Trip Reminder.<span>2:14PM</span></h6>
-                          <p>I'm sorry, but I have to disagree with Mr. Zingier. We are all aware that the title is the most crucial component of any article. Your reader won't even make it to the first sentence without an engaging title.           </p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/5.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Flipkart - Confirmed order<span>2:14PM</span></h6>
-                          <p>Thanks for signing up for CodePen! We're happy you're here. Let's get your email address verified:</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/6.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Flipkart - Confirmed order<span>2:14PM</span></h6>
-                          <p>Thanks for signing up for CodePen! We're happy you're here. Let's get your email address verified:</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/7.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Figma - Move work forward<span>2:14PM</span></h6>
-                          <p>Hello, Everyone understands why a new language would be advantageous: one could refuse to pay for high-priced translators.</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/8.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Trip Reminder.<span>2:14PM</span></h6>
-                          <p>I'm sorry, but I have to disagree with Mr. Zingier. We are all aware that the title is the most crucial component of any article. Your reader won't even make it to the first sentence without an engaging title.</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/9.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Flipkart - Confirmed order<span>2:14PM</span></h6>
-                          <p>Thanks for signing up for CodePen! We're happy you're here. Let's get your email address verified:</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/10.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Flipkart - Confirmed order<span>2:14PM</span></h6>
-                          <p>Thanks for signing up for CodePen! We're happy you're here. Let's get your email address verified:</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/11.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Figma - Move work forward<span>2:14PM</span></h6>
-                          <p>Hello, Everyone understands why a new language would be advantageous: one could refuse to pay for high-priced translators.</p>
-                        </div>
-                      </li>
-                      <li> 
-                        <div class="user-img"> <img src="../assets/images/notification/12.jpg" alt=""></div>
-                        <div class="user-contant"> 
-                          <h6>Trip Reminder.<span>2:14PM</span></h6>
-                          <p>I'm sorry, but I have to disagree with Mr. Zingier. We are all aware that the title is the most crucial component of any article. Your reader won't even make it to the first sentence without an engaging title.          </p>
-                        </div>
-                      </li>
-                    </ul>
+            </div>
+            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+              <div class="dashboard-right-box">
+                <div class="order">
+                  <div class="sidebar-title">
+                    <h4>My Orders History</h4>
                   </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
-                <div class="dashboard-right-box">
-                  <div class="wishlist-box ratio1_3"> 
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>Wishlist</h4>
-                    </div>
-                    <div class="row-cols-md-3 row-cols-2 grid-section view-option row gy-4 g-xl-4">
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="#"> <img class="bg-img" src="../assets/images/product/product-3/1.jpg" alt="product"></a><a class="pro-sec" href="#"> <img class="bg-img" src="../assets/images/product/product-3/20.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                            <div class="countdown">
-                              <ul class="clockdiv1">
-                                <li> 
-                                  <div class="timer">
-                                    <div class="days"></div>
-                                  </div><span class="title">Days</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="hours"></div>
-                                  </div><span class="title">Hours</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="minutes"></div>
-                                  </div><span class="title">Min</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="seconds"></div>
-                                  </div><span class="title">Sec</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                              <li><i class="fa-regular fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="#"> 
-                              <h6>Greciilooks Women's Stylish Top</h6></a>
-                            <p>$100.00  
-                              <del>$140.00</del><span>-20%</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/2.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/19.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-regular fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Wide Linen-Blend Trousers</h6></a>
-                            <p>$100.00  
-                              <del>$18.00 </del>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/3.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/18.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Long Sleeve Rounded T-Shirt</h6></a>
-                            <p>$120.30  
-                              <del>$140.00</del><span>-20%</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/4.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/17.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                            <div class="countdown">
-                              <ul class="clockdiv2">
-                                <li> 
-                                  <div class="timer">
-                                    <div class="days"></div>
-                                  </div><span class="title">Days</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="hours"></div>
-                                  </div><span class="title">Hours</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="minutes"></div>
-                                  </div><span class="title">Min</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="seconds"></div>
-                                  </div><span class="title">Sec</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Blue lined White T-Shirt</h6></a>
-                            <p>$190.00  
-                              <del>$210.00</del>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/9.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/16.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                            <div class="countdown">
-                              <ul class="clockdiv3">
-                                <li> 
-                                  <div class="timer">
-                                    <div class="days"></div>
-                                  </div><span class="title">Days</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="hours"></div>
-                                  </div><span class="title">Hours</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="minutes"></div>
-                                  </div><span class="title">Min</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="seconds"></div>
-                                  </div><span class="title">Sec</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                              <li><i class="fa-regular fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Greciilooks Women's Stylish Top</h6></a>
-                            <p>$100.00  
-                              <del>$140.00</del><span>-20%</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/10.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/15.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-regular fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Wide Linen-Blend Trousers</h6></a>
-                            <p>$100.00  
-                              <del>$18.00 </del>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/11.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/14.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Long Sleeve Rounded T-Shirt</h6></a>
-                            <p>$120.30  
-                              <del>$140.00</del><span>-20% </span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"> 
-                        <div class="product-box-3 product-wishlist">
-                          <div class="img-wrapper">
-                            <div class="label-block"><a class="label-2 wishlist-icon delete-button" href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax" data-icon="trash" aria-hidden="true"></i></a></div>
-                            <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/12.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/13.jpg" alt="product"></a></div>
-                            <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                            <div class="countdown">
-                              <ul class="clockdiv4">
-                                <li> 
-                                  <div class="timer">
-                                    <div class="days"></div>
-                                  </div><span class="title">Days</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="hours"></div>
-                                  </div><span class="title">Hours</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="minutes"></div>
-                                  </div><span class="title">Min</span>
-                                </li>
-                                <li class="dot"> <span>:</span></li>
-                                <li> 
-                                  <div class="timer">
-                                    <div class="seconds"></div>
-                                  </div><span class="title">Sec</span>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="product-detail">
-                            <ul class="rating">      
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star"></i></li>
-                              <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                              <li>4.3</li>
-                            </ul><a href="product.html"> 
-                              <h6>Blue lined White T-Shirt</h6></a>
-                            <p>$190.00  
-                              <del>$210.00</del>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
-                <div class="dashboard-right-box">
-                  <div class="order">
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>My Orders History</h4>
-                    </div>
-                    <div class="row gy-4"> 
+            
+                  <div class="row gy-4">
+                     <% orders.forEach(item => { %>
                       <div class="col-12">
                         <div class="order-box">
-                          <div class="order-container"> 
-                            <div class="order-icon"><i class="iconsax" data-icon="box"></i>
-                              <div class="couplet"><i class="fa-solid fa-check"></i></div>
-                            </div>
-                            <div class="order-detail"> 
-                              <h5>Delivered</h5>
-                              <p>on Fri, 1 Mar</p>
-                            </div>
-                          </div>
-                          <div class="product-order-detail"> 
-                            <div class="product-box"> <a href="product.html"> <img src="../assets/images/notification/1.jpg" alt=""></a>
-                              <div class="order-wrap">
-                                <h5>Rustic Minidress with Halterneck</h5>
-                                <p>Versatile sporty slogans short sleeve quirky laid back orange lux hoodies vests pins badges.</p>
-                                <ul> 
-                                  <li> 
-                                    <p>Prize : </p><span>$20.00</span>
-                                  </li>
-                                  <li> 
-                                    <p>Size : </p><span>M</span>
-                                  </li>
-                                  <li> 
-                                    <p>Order Id :</p><span>ghat56han50</span>
-                                  </li>
-                                </ul>
+                          <div class="order-container">
+                            <div class="order-icon">
+                              <i class="iconsax" data-icon="box"></i>
+                              <div class="couplet">
+                                <% if (item.status === 'Delivered') { %>
+                                  <i class="fa-solid fa-check"></i>
+                                <% } else { %>
+                                  <i class="fa-solid fa-clock"></i>
+                                <% } %>
                               </div>
                             </div>
+                            <div class="order-detail">
+                              <h5><%= item.status %></h5>
+                              <p>on <%= new Date(item.updatedAt).toDateString() %></p>
+                            </div>
+                          </div>
+                          <div class="product-order-detail">
+                            <% item.orderedItems.forEach(pro => { %>
+                              <div class="product-box">
+                                <a href="/productDetails?id=<%= pro.product._id %>">
+                                  <img src="<%= pro.product.productImage[0] || '../assets/images/placeholder.jpg' %>" alt="">
+                                </a>
+                                <div class="order-wrap">
+                                  <h5><%= pro.product.name %></h5>
+                                  <p><%= pro.product.description || 'No description available.' %></p>
+                                  <ul>
+                                    <li>
+                                      <p>Price:</p><span>₹<%= pro.product.salePrice %></span>
+                                    </li>
+                                    <li>
+                                      <p>Quantity:</p><span><%= pro.quantity %></span>
+                                    </li>
+                                    <li>
+                                      <p>Order Id:</p><span><%= item.orderId %></span>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            <% }) %>
                           </div>
                           <div class="return-box">
                             <div class="review-box">
-                              <ul class="rating"> 
-                                <li> <i class="fa-solid fa-star"> </i><i class="fa-solid fa-star"> </i><i class="fa-solid fa-star"> </i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></li>
-                              </ul><span data-bs-toggle="modal" data-bs-target="#Reviews-modal" title="Quick View" tabindex="0">Write Review</span>
-                            </div>
-                            <h6> <span> </span>* Exchange/Return window closed on 20 mar</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="order-box">
-                          <div class="order-container"> 
-                            <div class="order-icon"><i class="iconsax" data-icon="undo"></i>
-                              <div class="couplet"><i class="fa-solid fa-check"></i></div>
-                            </div>
-                            <div class="order-detail"> 
-                              <h5>Refund Credited</h5>
-                              <p>
-                                 Your Refund Of <b>  $389.00 </b>For then return  has been processed Successfully on 4th Apr.<a href="#"> View Refund details</a></p>
-                            </div>
-                          </div>
-                          <div class="product-order-detail"> 
-                            <div class="product-box"> <a href="product.html"> <img src="../assets/images/notification/9.jpg" alt=""></a>
-                              <div class="order-wrap">
-                                <h5>Rustic Minidress with Halterneck</h5>
-                                <p>Versatile sporty slogans short sleeve quirky laid back orange lux hoodies vests pins badges.</p>
-                                <ul> 
-                                  <li> 
-                                    <p>Prize : </p><span>$20.00</span>
-                                  </li>
-                                  <li> 
-                                    <p>Size : </p><span>M</span>
-                                  </li>
-                                  <li> 
-                                    <p>Order Id :</p><span>ghat56han50</span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="return-box">
-                            <div class="review-box">
-                              <ul class="rating"> 
-                                <li> <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></li>
-                              </ul>
+                              <div class="rating ms-3">★★★★☆</div>
+
+                              <span data-bs-toggle="modal" data-bs-target="#Reviews-modal" title="Quick View" tabindex="0">Write Review</span>
                             </div>
                             <h6>
-                               * Exchange/Return window closed on 20 mar</h6>
+                              <span> </span>* Exchange/Return window closed on <%= new Date( item.updatedAt).toLocaleDateString() %>
+                            </h6>
                           </div>
                         </div>
                       </div>
-                      <div class="col-12">
-                        <div class="order-box">
-                          <div class="order-container"> 
-                            <div class="order-icon"><i class="iconsax" data-icon="box"></i>
-                              <div class="couplet"><i class="fa-solid fa-check"></i></div>
-                            </div>
-                            <div class="order-detail"> 
-                              <h5>Delivered</h5>
-                              <p>on Fri, 1 Mar</p>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            <!-- Address manager -->
+
+            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+              <div class="dashboard-right-box">
+                <div class="address-tab">
+                  <div class="sidebar-title">
+                    <div class="loader-line"></div>
+                    <h4>My Address Details</h4>
+                  </div>
+                  <div class="row gy-3">
+                      <div id="currentAddresses">
+                    <!-- Existing addresses will be here -->
+                  </div>
+                    <% if (userAddress && userAddress.length> 0) { %>
+                      <% userAddress.forEach((addressGroup)=> { %>
+                        <% addressGroup.address.forEach(( address, index)=> { %>
+                          <div id="address-<%= address._id %>" class="col-xxl-4 col-md-6">
+                            <div class="address-option">
+                              <label for="address-billing-<%= index %>">
+                                <span class="delivery-address-box">
+                                  <span class="form-check">
+                                    <input class="custom-radio" id="address-billing-<%= index %>" type="radio"
+                                      name="radio">
+                                  </span>
+                                  <span class="address-detail">
+                                    <span class="address">
+                                      <span class="address-title">
+                                        <%= address.addressType %>
+                                      </span>
+                                    </span>
+                                    <span class="address">
+                                      <span class="address-home">
+                                        <span class="address-tag">Address:</span>
+                                        <%= address.landMark %>, <%=  address.state %>
+                                      </span>
+                                    </span>
+                                    <span class="address">
+                                      <span class="address-home">
+                                        <span class="address-tag">Pin Code:</span>
+                                        <%= address.pinCode %>
+                                      </span>
+                                    </span>
+                                    <span class="address">
+                                      <span class="address-home">
+                                        <span class="address-tag">Phone:</span>
+                                        <%= address.phone %>
+                                      </span>
+                                    </span>
+                                  </span>
+                                </span>
+                                <span class="buttons">
+                                  <a class="btn btn_black sm" href="/editAddress?id=<%= address._id %>" title="Edit">Edit</a>
+                                  <button class="btn btn_outline sm" href="" onclick="deleteAddress('<%= address._id %>')" title="Delete">Delete</button>
+                                </span>
+                              </label>
                             </div>
                           </div>
-                          <div class="product-order-detail"> 
-                            <div class="product-box"> <a href="product.html"> <img src="../assets/images/notification/2.jpg" alt=""></a>
-                              <div class="order-wrap">
-                                <h5>Rustic Minidress with Halterneck</h5>
-                                <p>Versatile sporty slogans short sleeve quirky laid back orange lux hoodies vests pins badges.</p>
-                                <ul> 
-                                  <li> 
-                                    <p>Prize : </p><span>$20.00</span>
-                                  </li>
-                                  <li> 
-                                    <p>Size : </p><span>M</span>
-                                  </li>
-                                  <li> 
-                                    <p>Order Id :</p><span>ghat56han50</span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="return-box">
-                            <div class="review-box">
-                              <ul class="rating"> 
-                                <li> <i class="fa-solid fa-star"> </i><i class="fa-solid fa-star"> </i><i class="fa-solid fa-star"> </i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></li>
-                              </ul><span data-bs-toggle="modal" data-bs-target="#Reviews-modal" title="Quick View" tabindex="0">Write Review</span>
-                            </div>
-                            <h6>
-                               * Exchange/Return window closed on 20 mar</h6>
-                          </div>
-                        </div>
+                          <% }); %>
+                            <% }); %>
+                              <% } else { %>
+                                <p>No addresses found.</p>
+                                <% } %>
                       </div>
-                      <div class="col-12">
-                        <div class="order-box">
-                          <div class="order-container"> 
-                            <div class="order-icon"><i class="iconsax" data-icon="box-add"></i>
-                              <div class="couplet"><i class="fa-solid fa-xmark"></i></div>
-                            </div>
-                            <div class="order-detail"> 
-                              <h5>Cancelled</h5>
-                              <p>on Fri, 1 Mar</p>
-                              <h6> <b>Refund lanitiated : </b>$774.00 on Thu, 24 Feb 2024. <a href="#"> View Refunddetails</a></h6>
-                            </div>
-                          </div>
-                          <div class="product-order-detail"> 
-                            <div class="product-box"> <a href="product.html"> <img src="../assets/images/notification/6.jpg" alt=""></a>
-                              <div class="order-wrap">
-                                <h5>Rustic Minidress with Halterneck</h5>
-                                <p>Versatile sporty slogans short sleeve quirky laid back orange lux hoodies vests pins badges.</p>
-                                <ul> 
-                                  <li> 
-                                    <p>Prize : </p><span>$20.00</span>
-                                  </li>
-                                  <li> 
-                                    <p>Size : </p><span>M</span>
-                                  </li>
-                                  <li> 
-                                    <p>Order Id :</p><span>ghat56han50</span>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="return-box">
-                            <div class="review-box">
-                              <ul class="rating"> 
-                                <li> <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></li>
-                              </ul>
-                            </div>
-                            <h6>
-                               * Exchange/Return window closed on 20 mar</h6>
-                          </div>
+
+                  <a class="btn add-address" data-bs-toggle="modal" data-bs-target="#add-address" title="Quick View"
+                    href="" tabindex="0" id="addNewAddress">+ Add Address</a>
+                </div>
+                <!-- Add Address Modal -->
+                <div class="modal fade" id="add-address" tabindex="-1" aria-labelledby="addAddressLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header border-0">
+                        <div class="sidebar-title">
+                          <div class="loader-line"></div>
+                          <h4>Add New Address</h4>
                         </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="addressForm"    class="address-form">
+                          <!-- Address Type Selection -->
+                          <div class="mb-4">
+                            <div class="form-check form-check-inline">
+                              <input class="custom-radio" type="radio" name="addressType" id="homeAddress" value="home"
+                                checked required>
+                              <label class="form-check-label" for="homeAddress">Home</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="custom-radio" type="radio" name="addressType" id="officeAddress"
+                                value="office" required>
+                              <label class="form-check-label" for="officeAddress">Office</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="custom-radio" type="radio" name="addressType" id="otherAddress"
+                                value="others" required>
+                              <label class="form-check-label" for="otherAddress">Others</label>
+                            </div>
+                          </div>
+
+                          <!-- Name Field -->
+                          <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="name" minlength="3" maxlength="50">
+                          </div>
+
+                          <!-- City and State -->
+                          <div class="row mb-3">
+                            <div class="col-md-6">
+                              <label class="form-label">City</label>
+                              <input type="text" class="form-control" name="city" minlength="2" required>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label">State</label>
+                              <input type="text" class="form-control" name="state" minlength="2" required>
+                            </div>
+                          </div>
+
+                          <!-- Landmark -->
+                          <div class="mb-3">
+                            <label class="form-label">Landmark</label>
+                            <input type="text" class="form-control" name="landMark" minlength="3" required>
+                          </div>
+
+                          <!-- Pin Code -->
+                          <div class="mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" class="form-control" name="pinCode" pattern="[0-9]{6}" maxlength="6" required>
+                          </div>
+
+                          <!-- Phone Numbers -->
+                          <div class="row mb-3">
+                            <div class="col-md-6">
+                              <label class="form-label">Phone Number</label>
+                              <input type="tel" class="form-control" name="phone" pattern="[0-9]{10}" maxlength="10" required>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label">Alt Phone (Optional)</label>
+                              <input type="tel" class="form-control" name="altPhone" pattern="[0-9]{10}" maxlength="10">
+                            </div>
+                          </div>
+
+                          <!-- Submit Buttons -->
+                          <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn_outline" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn add-address">Save Address</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- JavaScript Validation -->
+                <script>
+                  document.getElementById("addressForm").addEventListener('DOMContentLoaded',"submit", function (e) {
+                    e.preventDefault(); // Prevent form submission for validation
+
+                    const form = e.target;
+                    let isValid = true;
+
+                    // Clear previous errors
+                    form.querySelectorAll(".form-control").forEach((field) => {
+                      field.style.borderColor = "";
+                    });
+                    form.querySelectorAll(".error-message").forEach((msg) => msg.remove());
+
+                    // Helper function to show validation errors
+                    function showValidationError(field, message) {
+                      field.style.borderColor = "#dc3545";
+                      const errorMessage = document.createElement("small");
+                      errorMessage.className = "error-message text-danger";
+                      errorMessage.textContent = message;
+                      field.closest("div").appendChild(errorMessage);
+                      isValid = false;
+                    }
+
+                    // Validate Name
+                    const nameField = form.name;
+                    if (nameField.value.length < 3 || nameField.value.length > 50) {
+                      showValidationError(nameField, "Name must be between 3 and 50 characters.");
+                    }
+
+                    // Validate City
+                    const cityField = form.city;
+                    if (cityField.value.length < 2) {
+                      showValidationError(cityField, "City must be at least 2 characters.");
+                    }
+
+                    // Validate State
+                    const stateField = form.state;
+                    if (stateField.value.length < 2) {
+                      showValidationError(stateField, "State must be at least 2 characters.");
+                    }
+
+                    // Validate Landmark
+                    const landMarkField = form.landMark;
+                    if (landMarkField.value.length < 3) {
+                      showValidationError(landMarkField, "Landmark must be at least 3 characters.");
+                    }
+
+                    // Validate PIN Code
+                    const pinCodeField = form.pinCode;
+                    if (!/^\d{6}$/.test(pinCodeField.value)) {
+                      showValidationError(pinCodeField, "PIN Code must be exactly 6 digits.");
+                    }
+
+                    // Validate Phone Number
+                    const phoneField = form.phone;
+                    if (!/^\d{10}$/.test(phoneField.value)) {
+                      showValidationError(phoneField, "Phone number must be exactly 10 digits.");
+                    }
+
+
+                    // Submit the form if all fields are valid
+                    if (isValid) {
+                      form.submit();
+                    }
+                  });
+
+                </script>
+
               </div>
-              <div class="tab-pane fade" id="saved-card" role="tabpanel" aria-labelledby="saved-card-tab">
-                <div class="dashboard-right-box">
-                  <div class="saved-card"> 
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>My Card Details</h4>
-                    </div>
-                    <div class="payment-section">
-                      <div class="row gy-3">
-                        <div class="col-xxl-4 col-md-6">
-                          <div class="payment-card">
-                            <div class="bank-info"><img class="bank" src="../assets/images/bank-card/bank1.png" alt="bank1">
-                              <div class="card-type"><img class="bank-card" src="../assets/images/bank-card/1.png" alt="card"></div>
-                            </div>
-                            <div class="card-details"><span>Card Number</span>
-                              <h5>6458 50XX XXXX 0851</h5>
-                            </div>
-                            <div class="card-details-wrap">
-                              <div class="card-details"><span>Name On Card</span>
-                                <h5>Josephin water</h5>
-                              </div>
-                              <div class="text-center card-details"><span>Validity</span>
-                                <h5>XX/XX</h5>
-                              </div>
-                              <div class="btn-box"><span data-bs-toggle="modal" data-bs-target="#edit-bank-card" title="Quick View" tabindex="0"><i class="iconsax" data-icon="edit-1"></i></span><span data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0"><i class="iconsax" data-icon="trash"></i></span></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xxl-4 col-md-6">
-                          <div class="payment-card">
-                            <div class="bank-info"><img class="bank" src="../assets/images/bank-card/bank2.png" alt="bank1">
-                              <div class="card-type"><img class="bank-card" src="../assets/images/bank-card/2.png" alt="card"></div>
-                            </div>
-                            <div class="card-details"><span>Card Number</span>
-                              <h5>6458 50XX XXXX 0851</h5>
-                            </div>
-                            <div class="card-details-wrap">
-                              <div class="card-details"><span>Name On Card</span>
-                                <h5>Josephin water</h5>
-                              </div>
-                              <div class="text-center card-details"><span>Validity</span>
-                                <h5>XX/XX</h5>
-                              </div>
-                              <div class="btn-box"><span data-bs-toggle="modal" data-bs-target="#edit-bank-card" title="Quick View" tabindex="0"><i class="iconsax" data-icon="edit-1"></i></span><span data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0"><i class="iconsax" data-icon="trash"></i></span></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xxl-4 col-md-6">
-                          <div class="payment-card">
-                            <div class="bank-info"><img class="bank" src="../assets/images/bank-card/bank3.png" alt="bank1">
-                              <div class="card-type"><img class="bank-card" src="../assets/images/bank-card/3.png" alt="card"></div>
-                            </div>
-                            <div class="card-details"><span>Card Number</span>
-                              <h5>6458 50XX XXXX 0851</h5>
-                            </div>
-                            <div class="card-details-wrap">
-                              <div class="card-details"><span>Name On Card</span>
-                                <h5>Josephin water</h5>
-                              </div>
-                              <div class="text-center card-details"><span>Validity</span>
-                                <h5>XX/XX</h5>
-                              </div>
-                              <div class="btn-box"><span data-bs-toggle="modal" data-bs-target="#edit-bank-card" title="Quick View" tabindex="0"><i class="iconsax" data-icon="edit-1"></i></span><span data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0"><i class="iconsax" data-icon="trash"></i></span></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xxl-4 col-md-6"> 
-                          <div class="payment-card">
-                            <div class="add-card">
-                              <h6 data-bs-toggle="modal" data-bs-target="#add-bank-card" title="Quick View" tabindex="0">+ Add Card</h6>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab"> 
-                <div class="dashboard-right-box">
-                  <div class="address-tab">
-                    <div class="sidebar-title">
-                      <div class="loader-line"></div>
-                      <h4>My Address Details</h4>
-                    </div>
-                    <div class="row gy-3">
-                      <div class="col-xxl-4 col-md-6">
-                        <div class="address-option">
-                          <label for="address-billing-0"> <span class="delivery-address-box"> <span class="form-check"> 
-                                <input class="custom-radio" id="address-billing-0" type="radio" checked="checked" name="radio"></span><span class="address-detail"><span class="address"> <span class="address-title">New Home </span></span><span class="address"> <span class="address-home"> <span class="address-tag"> Address:</span>26, Starts Hollow Colony, Denver, Colorado, United States</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Pin Code:</span>80014</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Phone :</span>+1 5551855359</span></span></span></span><span class="buttons"> <a class="btn btn_black sm" href="#" data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit </a><a class="btn btn_outline sm" href="#" data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0">Delete </a></span></label>
-                        </div>
-                      </div>
-                      <div class="col-xxl-4 col-md-6">
-                        <div class="address-option">
-                          <label for="address-billing-3"> <span class="delivery-address-box"> <span class="form-check"> 
-                                <input class="custom-radio" id="address-billing-3" type="radio" name="radio"></span><span class="address-detail"><span class="address"> <span class="address-title">IT Office</span></span><span class="address"> <span class="address-home"> <span class="address-tag"> Address:</span>55B, Claire Cav Street, San Jose, California, United States</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Pin Code:</span>94088</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Phone :</span>+1 5551855359</span></span></span></span><span class="buttons"> <a class="btn btn_black sm" href="#" data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit </a><a class="btn btn_outline sm" href="#" data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0">Delete</a></span></label>
-                        </div>
-                      </div>
-                      <div class="col-xxl-4 col-md-6">
-                        <div class="address-option">
-                          <label for="address-billing-2"> <span class="delivery-address-box"> <span class="form-check"> 
-                                <input class="custom-radio" id="address-billing-2" type="radio" name="radio"></span><span class="address-detail"><span class="address"> <span class="address-title">IT Office</span></span><span class="address"> <span class="address-home"> <span class="address-tag"> Address:</span>55B, Claire Cav Street, San Jose, California, United States</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Pin Code:</span>94088</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Phone :</span>+1 5551855359</span></span></span></span><span class="buttons"> <a class="btn btn_black sm" href="#" data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit </a><a class="btn btn_outline sm" href="#" data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0">Delete</a></span></label>
-                        </div>
-                      </div>
-                      <div class="col-xxl-4 col-md-6">
-                        <div class="address-option">
-                          <label for="address-billing-2"> <span class="delivery-address-box"> <span class="form-check"> 
-                                <input class="custom-radio" id="address-billing-2" type="radio" name="radio"></span><span class="address-detail"><span class="address"> <span class="address-title">IT Office</span></span><span class="address"> <span class="address-home"> <span class="address-tag"> Address:</span>55B, Claire Cav Street, San Jose, California, United States</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Pin Code:</span>94088</span></span><span class="address"> <span class="address-home"> <span class="address-tag">Phone :</span>+1 5551855359</span></span></span></span><span class="buttons"> <a class="btn btn_black sm" href="#" data-bs-toggle="modal" data-bs-target="#edit-box" title="Quick View" tabindex="0">Edit </a><a class="btn btn_outline sm" href="#" data-bs-toggle="modal" data-bs-target="#bank-card-modal" title="Quick View" tabindex="0">Delete</a></span></label>
-                        </div>
-                      </div>
-                    </div>
-                    <a class="btn add-address" data-bs-toggle="modal" data-bs-target="#add-address" title="Quick View" href="/addAddress" tabindex="0">+ Add Address</a>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab"> 
+            </div>
+            <!-- <div class="tab-pane fade" id="privacy" role="tabpanel" aria-labelledby="privacy-tab"> 
                 <div class="dashboard-right-box">
                   <div class="privacy-tab">
                     <div class="sidebar-title">
@@ -941,11 +1226,174 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> -->
           </div>
         </div>
       </div>
-    </section>
-    
-    <%- include('../partials/user/footer') %>
+    </div>
+  </section>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const addressForm = document.getElementById('addressForm');
+    if (addressForm) {
+        addressForm.addEventListener('submit', async (event) => {
+            console.log("Form submission intercepted");
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/profile/add-address', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    if (result.success) {
+                        console.log("Address added successfully");
+                        addNewAddress(result.address);
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Address Added Successfully!",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('add-address'));
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        // Ensure backdrop is removed
+                        document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                    } else {
+                        throw new Error(result.message || "Failed to add address.");
+                    }
+                } else {
+                    throw new Error("Server responded with an error.");
+                }
+            } catch (error) {
+                console.error("Error details:", error);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Could not add the address. Please try again.",
+                });
+            }
+        });
+    }
+
+    document.addEventListener('click', (event) => {
+        if (event.target.matches('.btn-outline')) {
+            console.log('Delete button clicked');
+            deleteAddress(event.target.dataset.id);
+        } else if (event.target.matches('.btn-black')) {
+            console.log('Edit button clicked');
+            editAddress(event.target.dataset.id);
+        }
+    });
+
+    function addNewAddress(address) {
+        const addressContainer = document.getElementById("currentAddresses");
+        if (!addressContainer) {
+            console.error("Address container not found");
+            return;
+        }
+
+        const index = document.querySelectorAll(".address-option").length;
+
+        const addressHTML = `
+            <div id="address-${ address._id }" class="col-xxl-4 col-md-6">
+                <div class="address-option">
+                    <label for="address-billing-${index}">
+                        <span class="delivery-address-box">
+                            <span class="form-check">
+                                <input class="custom-radio" id="address-billing-${index}" type="radio" name="radio">
+                            </span>
+                            <span class="address-detail">
+                                <span class="address">
+                                    <span class="address-title">${address.addressType}</span>
+                                </span>
+                                <span class="address">
+                                    <span class="address-home">
+                                        <span class="address-tag">Address:</span> ${address.landMark}, ${address.state}
+                                    </span>
+                                </span>
+                                <span class="address">
+                                    <span class="address-home">
+                                        <span class="address-tag">Pin Code:</span> ${address.pinCode}
+                                    </span>
+                                </span>
+                                <span class="address">
+                                    <span class="address-home">
+                                        <span class="address-tag">Phone:</span> ${address.phone}
+                                    </span>
+                                </span>
+                            </span>
+                        </span>
+                        <span class="buttons">
+                                  <a class="btn btn_black sm" href="/editAddress?id=${address._id }" title="Edit">Edit</a>
+                                  <button class="btn btn_outline sm" href="" onclick="deleteAddress('${ address._id }')" title="Delete">Delete</button>
+                                </span>
+                    </label>
+                </div>
+            </div>
+        `;
+
+        addressContainer.innerHTML += addressHTML;
+    }
+});
+
+
+</script>
+
+<script>
+async function deleteAddress(id) {
+    try {
+         const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you really want to delete this address? This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        });
+
+         if (result.isConfirmed) {
+            const response = await fetch(`/delete-address/${id}`, {
+                method: 'DELETE',
+            });
+
+             if (!response.ok) {
+                throw new Error('Failed to delete the address.');
+            }
+
+             const addressElement = document.getElementById(`address-${id}`);
+            if (addressElement) {
+                addressElement.style.display = 'none';
+            }
+
+             Swal.fire('Deleted!', 'Address has been deleted.', 'success');
+        }
+    } catch (error) {
+        Swal.fire('Error!', error.message || 'Something went wrong.', 'error');
+    }
+}
+
+</script>
+  <!-- Add SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ 
+
+  <%- include('../partials/user/footer') %>

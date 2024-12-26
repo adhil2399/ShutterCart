@@ -4,6 +4,10 @@ const userController= require('../controllers/user/userController')
 const passport = require('passport')
 const productController= require('../controllers/user/productController')
 const profileController = require('../controllers/user/profileController')
+const StoreController = require('../controllers/user/storeController')
+const CartController = require('../controllers/user/cartController')
+const checkoutController= require('../controllers/user/checkOutController')
+const orderController = require('../controllers/user/orderController')
 const {userAuth,adminAuth}=require('../middlewares/auth')
 router.get('/',userController.lodeHomepage) //render homepage
 router.get('/pageNotFound',userController.pageNotFound)//render pageNotFound
@@ -44,6 +48,34 @@ router.get('/change-password',userAuth,profileController.changePassword)
 
 // address managememt
 
-router.get('/addAdress',userAuth,profileController.addAddress)
+router. post('/profile/add-address',userAuth,profileController.postaddAddress)
+router.get('/editAddress',userAuth,profileController.editAddress)
+router.post('/editAddress',userAuth,profileController.posteditAddress)
+router.delete('/delete-address/:id',userAuth,profileController.deleteAddress) 
+router.post('/edit-profile',userAuth,profileController.editProfile)
 
- module.exports = router
+
+// shop page & filter
+
+router.get('/shop',StoreController.getShopPage)
+ router.get('/products',StoreController.sortProducts)
+ router.get('/cart',userAuth,CartController.getCart)
+ router.post('/cart/add',CartController.addToCart)
+ router.delete('/cart/remove',userAuth,CartController.removeFromCart)
+ 
+ 
+ //checkOut 
+ router.get('/checkout', userAuth,checkoutController.renderCheckoutPage);
+//  router.get("/order-confirmation",userAuth,checkoutController.orderConfirm);
+
+ 
+// Place new order
+router.post('/order/place', userAuth, orderController.placeOrder);
+
+  
+// Get specific order details
+// router.get('/orders/:orderId',userAuth, orderController.getOrderDetails);
+router.get('/order/success',userAuth,orderController.getOrderDetails)
+
+
+module.exports = router

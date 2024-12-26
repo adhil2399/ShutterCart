@@ -163,6 +163,7 @@
                                     <div id="regularPrice-error" class="error-message"></div>
                                 </div>
                             </div>
+                            
                             <div class="col-lg-4">
                                 <div class="mb-4">
                                     <label class="form-label">Sale price</label>
@@ -349,33 +350,37 @@
             }
         });
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (validateForm()) {
-                // Convert cropped images to Blob and append to FormData
-                const formData = new FormData(form);
-                croppedImages.forEach((imageSrc, index) => {
-                    fetch(imageSrc)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            formData.append('images', blob, `image${index + 1}.png`);
-                            if (index === croppedImages.length - 1) {
-                                // Submit the form with FormData
-                                fetch(form.action, {
-                                    method: 'POST',
-                                    body: formData
-                                }).then(response => {
-                                    if (response.ok) {
-                                        window.location.href = '/admin/products';
-                                    } else {
-                                        alert('Error submitting form. Please try again.');
-                                    }
-                                });
-                            }
-                        });
-                });
-            }
+        form.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+console.log('form submition trigerd')
+if (validateForm()) {
+        console.log("Validation successful");
+        const formData = new FormData(form);
+        const uploadPromises = croppedImages.map((imageSrc, index) =>
+            fetch(imageSrc)
+                .then(res => res.blob())
+                .then(blob => {
+                    formData.append('images',` blob, image${index + 1}.png`);
+                })
+        );
+
+        Promise.all(uploadPromises).then(() => {
+            // Submit the form after all images are appended
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/admin/products';
+                } else {
+                    alert('Error submitting form. Please try again.');
+                }
+            });
         });
+    }
+});
+
+
 
         function validateForm() {
             let isValid = true;

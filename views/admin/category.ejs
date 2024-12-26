@@ -85,7 +85,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-3">
-            <form method="post" action="/admin/addcategory"  onsubmit="handleFormSubmit(event)">
+            <form  onsubmit="handleFormSubmit(event)">
               <div class="mb-4">
                 <label for="product_name" class="form-label">Name</label>
                 <input type="text" name="name" placeholder="Type here" class="form-control" id="product_name"  />
@@ -167,12 +167,8 @@
         </div>
       </div>
     </div>
-    <div class="pagination-container">
-      <a href="#">&laquo; Previous</a>
-      <span class="current-page"></span>
-      <a href="#"></a>
-      <a href="#">Next &raquo;</a>
-    </div>
+
+      
   </section>
  
   <%- include('../partials/admin/footer') %>

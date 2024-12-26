@@ -147,10 +147,9 @@ function startTimer() {
         }
     }, 1000);
 }
-
+ 
 function resendOTP() {
-  console.log('im here')
-    $.ajax({
+     $.ajax({
         type: "POST",
         url: "/resend-otp",
         success: function(response) {

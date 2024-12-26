@@ -1,0 +1,108 @@
+ <%- include('../partials/admin/header') %>
+                <div>
+                    <h2 class="content-title card-title">Order List </h2>
+                    <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+                </div>
+                 
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Status</option>
+                                <option>Active</option>
+                                <option>Disabled</option>
+                                <option>Show all</option>
+                            </select>
+                        </div>
+                       
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-end"> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orders.forEach((order, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td> <!-- Row number -->
+                                    <td><b><%= order.userId.name %></b></td> <!-- User Name -->
+                                    <td><%= order.userId.email %></td> <!-- User Email -->
+                                    <td>₹<%= (order.finalAmount / 100).toFixed(2) %></td> <!-- Total Amount (Assuming in paise) -->
+                                    <td>
+                                        <span 
+                                            class="badge rounded-pill 
+                                            <%= order.status === 'Pending' ? 'alert-warning' : 'alert-success' %>">
+                                            <%= order.status %>
+                                        </span>
+                                    </td> <!-- Order Status -->
+                                    <td><%= new Date(order.createdAt).toLocaleDateString() %></td> <!-- Order Date -->
+                                    <td class="text-end">
+                                        <a href="/orders/<%= order.orderId %>" class="btn btn-md rounded font-sm">Detail</a>
+                                        <div class="dropdown">
+                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> 
+                                                <i class="material-icons md-more_horiz"></i> 
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="/orders/<%= order.orderId %>">View detail</a>
+                                                <a class="dropdown-item" href="/orders/edit/<%= order._id %>">Edit info</a>
+                                                <a class="dropdown-item text-danger" href="/orders/delete/<%= order._id %>">Delete</a>
+                                            </div>
+                                        </div> <!-- dropdown //end -->
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        
+                    </div> <!-- table-responsive //end -->
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+            <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">
+                                    <i class="material-icons md-chevron_left"></i>
+                                </a>
+                            </li>
+                        <% } %>
+            
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <% if (i === currentPage || (i <= 2 || i > totalPages - 2 || Math.abs(i - currentPage) <= 1)) { %>
+                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                                </li>
+                            <% } else if (i === 3 || i === totalPages - 2) { %>
+                                <li class="page-item"><a class="page-link dot">...</a></li>
+                            <% } %>
+                        <% } %>
+            
+                        <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                                    <i class="material-icons md-chevron_right"></i>
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+            
+        </section> <!-- content-main end// -->
+       <%- include('../partials/admin/footer') %>

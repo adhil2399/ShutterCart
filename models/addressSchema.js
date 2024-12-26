@@ -40,7 +40,6 @@ const addressSchema= new Schema({
         },
         altPhone:{
             type:Number,
-            required:true
         }
     }]
 })

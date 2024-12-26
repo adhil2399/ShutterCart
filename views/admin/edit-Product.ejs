@@ -235,7 +235,7 @@
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
         const cropperContainer = document.getElementById('cropperContainer');
         const cropperImage = document.getElementById('cropperImage');
-        const cropButton = document.getElementById('crop Button');
+        const cropButton = document.getElementById('cropButton');
         const cancelCropButton = document.getElementById('cancelCropButton');
         let cropper;
         let currentFileIndex;
@@ -319,84 +319,103 @@
             });
         }
 
-        cropButton.addEventListener('click', () => {
-            const croppedImageData = cropper.getCroppedCanvas().toDataURL();
-            croppedImages[currentFileIndex] = croppedImageData;
-            updateImagePreviews();
-            closeCropper();
+         
+        
+cropButton.addEventListener('click', () => {
+    const croppedImageData = cropper.getCroppedCanvas().toDataURL();
+
+    // If replacing an existing image, update its index
+    if (currentFileIndex !== null) {
+        croppedImages[currentFileIndex] = croppedImageData;
+    } else {
+        // Otherwise, add as a new image
+        croppedImages.push(croppedImageData);
+    }
+
+    updateImagePreviews();
+    closeCropper();
+});
+
+cancelCropButton.addEventListener('click', closeCropper);
+
+function closeCropper() {
+    cropperContainer.style.display = 'none';
+    cropper.destroy();
+    cropper = null;
+    currentFileIndex = null; // Reset the index
+}
+
+function updateImagePreviews() {
+    imagePreviewContainer.innerHTML = '';
+    croppedImages.forEach((imageSrc, index) => {
+        const previewElement = document.createElement('div');
+        previewElement.className = 'image-preview';
+        previewElement.innerHTML = `
+            <img src="${imageSrc}" alt="Product image ${index + 1}">
+            <button type="button" class="remove-image" data-index="${index}">&times;</button>
+        `;
+        imagePreviewContainer.appendChild(previewElement);
+
+        // Add event listener for remove button
+        previewElement.querySelector('.remove-image').addEventListener('click', () => {
+            removeImage(index);
         });
+    });
+}
 
-        cancelCropButton.addEventListener('click', closeCropper);
-
-        function closeCropper() {
-            cropperContainer.style.display = 'none';
-            cropper.destroy();
-            cropper = null;
-        }
-
-        function updateImagePreviews() {
-            imagePreviewContainer.innerHTML = '';
-            [...product.productImage, ...croppedImages].forEach((imageSrc, index) => {
-                const previewElement = document.createElement('div');
-                previewElement.className = 'image-preview';
-                previewElement.innerHTML = `
-                    <img src="${imageSrc}" alt="Product image ${index + 1}">
-                    <button type="button" class="remove-image" data-index="${index}">&times;</button>
-                `;
-                imagePreviewContainer.appendChild(previewElement);
-            });
-        }
-
-        imagePreviewContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-image')) {
-                const index = parseInt(e.target.dataset.index);
-                if (index < product.productImage.length) {
-                    // Remove image from server
-                    fetch('/admin/deleteSingleImage', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            imageNameToServer: product.productImage[index],
-                            productIdToServer: product._id
-                        })
+function removeImage(index) {
+    croppedImages.splice(index, 1); // Remove the image from the array
+    updateImagePreviews(); // Re-render the previews
+}
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+        const formData = new FormData(form);
+        const uploadPromises = croppedImages.map((imageSrc, index) =>
+            fetch(imageSrc)
+                .then(res => res.blob())
+                .then(blob => {
+                    formData.append('images', blob, `image${index + 1}.png`);
+                })
+        );
+        // Make sure to await the image uploads before submitting the form data
+        Promise.all(uploadPromises).then(() => {
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    // SweetAlert success popup
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Product Updated!',
+                        text: 'Your product has been successfully updated.',
+                        confirmButtonText: 'Okay'
+                    }).then(() => {
+                        window.location.href = '/admin/products'; // Redirect after successful submission
                     });
-                    product.productImage.splice(index, 1);
                 } else {
-                    croppedImages.splice(index - product.productImage.length, 1);
+                    // SweetAlert error popup
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error updating product. Please try again.',
+                        confirmButtonText: 'Try Again'
+                    });
                 }
-                updateImagePreviews();
-            }
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (validateForm()) {
-                // Convert cropped images to Blob and append to FormData
-                const formData = new FormData(form);
-                croppedImages.forEach((imageSrc, index) => {
-                    fetch(imageSrc)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            formData.append('images', blob, `image${index + 1}.png`);
-                            if (index === croppedImages.length - 1) {
-                                // Submit the form with FormData
-                                fetch(form.action, {
-                                    method: 'POST',
-                                    body: formData
-                                }).then(response => {
-                                    if (response.ok) {
-                                        window.location.href = '/admin/products';
-                                    } else {
-                                        alert('Error submitting form. Please try again.');
-                                    }
-                                });
-                            }
-                        });
+            }).catch(error => {
+                console.error('Error submitting form:', error);
+                // SweetAlert error popup for fetch errors
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error submitting form. Please try again.',
+                    confirmButtonText: 'Okay'
                 });
-            }
+            });
         });
+    }
+});
 
         function validateForm() {
             let isValid = true;

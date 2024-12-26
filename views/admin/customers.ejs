@@ -64,7 +64,7 @@
                                 <%= item.isBlocked ? 'Blocked' : 'Active' %>
                               </span>
                             </td>
-                            <td>08.07.2022</td>
+                            <td><%= new Date(item.createdOn).toLocaleDateString() %></td>
                             <td class="text-end">
                               <% if (!item.isBlocked) { %>
                                 <a 

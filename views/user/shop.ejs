@@ -1,0 +1,251 @@
+ 
+     <%- include('../partials/user/header') %>
+     
+
+ 
+    <section class="section-b-space pt-0"> 
+      <div class="heading-banner">
+        <div class="custom-container container">
+          <div class="row align-items-center">
+            <div class="col-sm-6">
+              <h4>Shop</h4>
+            </div>
+            <div class="col-sm-6">
+              <ul class="breadcrumb float-end">
+                <li class="breadcrumb-item"> <a class="text-decoration-none text-black " href="/">Home </a></li>
+                <li class="breadcrumb-item active"> <a  class="text-decoration-none text-black " href="#">shop </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-b-space pt-0"> 
+      <div class="custom-container container">
+        <div class="row"> 
+          <div class="col-12">
+            <div class="top-filter-menu">
+               
+                  <form id="sort-form" action="">
+                <div class="category-dropdown">
+                  <label for="cars">Sort By :</label>
+                  <select class="form-select" name="sort" id="sort" onchange=" return onSortChange()">
+                    <option value="default">Default</option>
+                    <option value="az">name: A-Z</option>
+                    <option value="za">Name: Z-A</option>
+                    <option value="priceHigh">Price : High - low </option>
+                    <option value="priceLow">Price: low - High</option>
+                  </select>
+                </div>
+              </form>
+              </div>
+              
+            </div>
+            <div class="product-tab-content ratio1_3" >
+              <div class="row-cols-lg-4 row-cols-md-3 row-cols-2 grid-section view-option row g-3 g-xl-4"id="product-list">
+              
+                
+                  <% products.forEach(( element)=>{ %>
+                    <div > 
+                      <div class="product-box-3 shadow-lg  bg-body rounded" >
+                        <div class="img-wrapper shadow-lg  bg-body rounded-top">
+                          <div class="label-block" ><a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
+                          <div class="product-image"><a class="pro-first"href="/productDetails?id=<%= element._id %>">  <img class="bg-img" src="<%= element.productImage[0] %>" alt="product"></a><a class="pro-sec" href="/productDetails?id=<%= element._id %>">  <img class="bg-img" src="<%= element.productImage[1] %>" alt="product"></a></div>
+                          <div class="cart-info-icon"> <a href="" onclick="addToCart('<%=element._id %>')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
+                        </div>
+                        <div class="product-detail">
+                          <a class="text-decoration-none" href="/productDetails?id=<%= element._id %>"> 
+                            <h6 class=" ms-3"><%= element.productName %></h6></a>
+                            <div class="rating ms-3">★★★★☆</div>
+                          <p class="list-per"> <%= element.description %></p>
+
+                          <% if( element.quantity<1){ %>
+                              <span ><p class="text-danger">stock Out</p></span>
+                            <% }else{ %>
+                          <p class="ms-3 mb-3" >$<%= element.salePrice %>  
+                            <del>$<%= element.regularPrice %></del><span>-20%</span>
+                          </p>
+                          <% } %>
+                          <div class="listing-button"> <a class="btn" href="cart.html">Quick Shop </a></div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }) %>
+
+               
+              </div>
+            </div>
+
+            <div class="pagination-wrap">
+              <ul class="pagination">
+                  <!-- Previous Page Link -->
+                  <% if (pagination.prevPage) { %>
+                  <li>
+                      <a class="prev text-decoration-none" href="?page=<%= pagination.prevPage %>">
+                          <i class="iconsax" data-icon="chevron-left"></i>
+                      </a>
+                  </li>
+                  <% } %>
+          
+                  <!-- Page Numbers -->
+                  <% pagination.pages.forEach(page => { %>
+                  <li>
+                      <a href="?page=<%= page.number %>" class=" text-decoration-none text-black <%= page.isActive ? 'active' : '' %>">
+                          <%= page.number %>
+                      </a>
+                  </li>
+                  <% }) %>
+          
+                  <!-- Next Page Link -->
+                  <% if (pagination.nextPage) { %>
+                  <li>
+                      <a class="next" href="?page=<%= pagination.nextPage %>">
+                          <i class="iconsax" data-icon="chevron-right"></i>
+                      </a>
+                  </li>
+                  <% } %>
+              </ul>
+          </div>
+          
+      
+           </div>
+        </div>
+      </div>
+    </section>
+   
+    <%- include('../partials/user/footer') %>
+
+    <script>
+      function onSortChange() {
+          const sortValue = document.getElementById('sort').value;
+           console.log(sortValue)
+               const url = new URL(window.location.href);
+    url.searchParams.set('sort', sortValue);
+    window.history.pushState({}, '', url);
+          fetch(`/products?sort=${sortValue}`)
+              .then(response => response.json())
+              .then(products => {
+                  const productList = document.getElementById('product-list');
+      
+
+                  console.log('3werstttttttttttt',productList)
+                  if (!productList) {
+                      alert('Error: Element with ID "product-list" not found.');
+                      return;
+                  }
+      
+                  // Clear current products
+                  productList.innerHTML = '';
+      
+                  // Re-render products
+                  products.forEach( element => { 
+                      const productHTML = `
+                          <div>
+      <div class="product-box-3 shadow-lg bg-body rounded">
+        <div class="img-wrapper shadow-lg bg-body rounded-top">
+          <div class="label-block">
+            <a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0">
+              <i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i>
+            </a>
+          </div>
+          <div class="product-image">
+            <a class="pro-first" href="/productDetails?id=${element._id}">
+              <img class="bg-img" src="${element.productImage[0]}" alt="product">
+            </a>
+            <a class="pro-sec" href="/productDetails?id=${element._id}">
+              <img class="bg-img" src="${element.productImage[1]}" alt="product">
+            </a>
+          </div>
+          <div class="cart-info-icon">
+            <a href="" onclick="addToCart('${element._id}')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
+              <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to cart"> </i>
+            </a>
+            <a href="compare.html" tabindex="0">
+              <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
+            </a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
+              <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
+            </a>
+          </div>
+        </div>
+        <div class="product-detail">
+          <a class="text-decoration-none" href="/productDetails?id=${element._id}">
+            <h6 class="ms-3">${element.productName}</h6>
+          </a>
+          <div class="rating ms-3">★★★★☆</div>
+          <p class="list-per">${element.description}</p>
+          <p class="ms-3 mb-3">
+            $${element.salePrice}
+            <del>$${element.regularPrice}</del><span>-20%</span>
+          </p>
+          <div class="listing-button">
+            <a class="btn" href="cart.html">Quick Shop</a>
+          </div>
+        </div>
+      </div>
+    </div>
+                      `;
+                      productList.insertAdjacentHTML('beforeend', productHTML);
+                  });
+              })
+              .catch(error => console.error('Error fetching products:', error));
+      }
+    
+      </script>
+      
+      <script>
+        
+  async function addToCart(productId) {
+    const quantity= 1
+    try {
+       const response = await fetch('/cart/add',{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },body:JSON.stringify({productId,quantity})
+
+      })
+      const data = await response.json()
+      if(response.ok){
+       Toastify({
+                text: "Product added to cart successfully!",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                backgroundColor: "#28a745", // Success color (green)
+                stopOnFocus: true, // Prevents dismissing on hover
+            }).showToast();
+        } else {
+            Toastify({
+                text: data.message || "Error adding to cart",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545", // Error color (red)
+                stopOnFocus: true,
+                 style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+            }).showToast();
+        }
+    } catch (error) {
+        console.error("Error:", error.message);
+        Toastify({
+            text:  "Something went wrong. Please try again.",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#dc3545",
+            stopOnFocus: true,
+            style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+        }).showToast();
+    }
+}
+      </script>

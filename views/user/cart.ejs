@@ -1,0 +1,290 @@
+ 
+ <%- include('../partials/user/header') %>
+
+    <section class="section-b-space pt-0"> 
+      <div class="heading-banner">
+        <div class="custom-container container">
+          <div class="row align-items-center">
+            <div class="col-sm-6">
+              <h4>Cart</h4>
+            </div>
+            <div class="col-sm-6">
+              <ul class="breadcrumb float-end">
+                <li class="breadcrumb-item"> <a class="text-decoration-none text-black" href="/">Home </a></li>
+                <li class="breadcrumb-item active"> <a class="text-decoration-none text-black" href="#">Cart</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-b-space pt-0">
+      <div class="custom-container container"> 
+        <div class="row g-4">
+          
+          <div class="col-xxl-9 col-xl-8">
+            <div class="cart-table">
+              <div class="table-title"> 
+                <h5>Cart<span id="cartTitle">(3)</span></h5>
+                <button id="clearAllButton">Clear All</button>
+              </div>
+              <div class="table-responsive theme-scrollbar"> 
+                <table class="table" id="cart-table">
+                  <thead>
+                    <tr> 
+                      <th>Product </th>
+                      <th>Price </th>
+                      <th>Quantity</th>
+                      <th>Total</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody"> 
+                    <% if(cartItems && cartItems.length >0 ){ %>
+                    <% cartItems.forEach((item)=>{ %>
+                      <tr id="row<%= item.productId._id %>" data-price="<%= item.productId.salePrice %>">
+                        <td> 
+                        <div class="cart-box"> <a href="/productDetails?id=<%= item.productId._id %>"> <img src="<%= item.productId.productImage[0] %>" alt=""></a>
+                          <div> <a class="text-decoration-none text-black" href="/productDetails?id=<%= item.productId._id %>">
+                              <h5 > <%= item.productId.productName %></h5></a>
+                            <!-- <p>Sold By: <span>Roger Group </span></p>
+                            <p>Size: <span>Small</span></p> -->
+                          </div>
+                        </div>
+                      </td>
+                      <td id="salePrice<%=item.productId._id %>"><%= item.productId.salePrice %></td>
+                      <td>
+                        <div class="quantity">
+                          <button class="minus" onclick="checkQuantity( '<%=item.productId._id %>' ,-1)" type="button">-</button>
+                          <input type="number" value="<%= item.quantity %>" min="1" max="6" id="quantity<%=item.productId._id %>" readonly>
+                          <button class="plus" onclick="checkQuantity( '<%=item.productId._id %>',1 )" type="button">+</button>
+                        </div>
+                      </td>
+                      <td id="totalprice"><%=item.productId.salePrice*item.quantity %></td>
+                      <td><a class="deleteButton" onclick="dltCartItem('<%=item.productId._id %>')" href="javascript:void(0)"><i class="iconsax" data-icon="trash"></i></a></td>
+                    </tr>
+                    <% }) %>
+                       <% }else{ %>
+                        <tr>
+                          <td colspan="5" class="text-center">
+                            <div>
+                              <div  id="data-show"><img src="../assets/images/cart/1.gif" alt="">
+                                <h4>Your shopping cart is empty!</h4>
+                              <p>Looks like you haven't added anything to your cart yet.</p>
+                              <a href="/shop" class="btn btn_black">Continue Shopping</a>
+                            </div>
+                            
+                          </td>
+                        </tr>
+                        
+                      <% } %>
+                        
+                  </tbody>
+                </table>
+                  
+              </div>
+           
+            </div>
+          </div>
+          <div class="col-xxl-3 col-xl-4">
+            <div class="cart-items">      
+              <div class="cart-progress">
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 43%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><span> <i class="iconsax" data-icon="truck-fast"></i></span></div>
+                </div>
+               </div>
+              <div class="cart-body"> 
+                <h6>Price Details (<%= countItems %> Items) </h6>
+                <ul> 
+                  <li> 
+                    <p>Subtotal </p><span class="text-black" class="subtotal"> <%= subtotal %></span>
+                  </li>
+                  <li> 
+                    <p>Discount </p><span class="theme-color">0 </span>
+                  </li>
+                  <li> 
+                    <!-- <p>Coupon Discount </p><span class="Coupon">Apply Coupon </span> -->
+                  </li>
+                  <li> 
+                    <p>Shipping </p><span class="text-green">Free</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="cart-bottom"> 
+                <!-- <p><i class="iconsax me-1" data-icon="tag-2"></i>SPECIAL OFFER (-$1.49) </p> -->
+                <h6 class="pb-4">Total Amount <span class="text-black" class="subtotal"> <%= subtotal %></span></h6>
+                <!-- <span>Taxes and shipping calculated at checkout</span> -->
+              </div>
+              <a class="btn btn_black w-100 rounded sm" href="/checkout">Check Out</a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section> 
+
+
+
+    <script>
+
+      async function checkQuantity(productId,num) {
+        try {
+          
+           console.log('sdfghbjnm,')
+          const response = await fetch('/cart/add',{
+            method:'POST',
+            headers:{
+              'Content-Type': 'application/json'
+            },body:JSON.stringify({productId,quantity:num}),
+              })
+    
+          const data = await response.json()
+          console.log(data.message)
+          if(!response.ok){
+             Toastify({
+                    text: data.message || "Error adding to cart",
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#dc3545", // Error color (red)
+                    stopOnFocus: true,
+                    style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+                }).showToast();
+            }else{
+
+       let quantity= document.getElementById(`quantity${productId}`).value ;
+       const totalprice = document.querySelector(`#row${productId} #totalprice`) 
+       const salePrice = document.getElementById('salePrice'+productId).innerHTML
+
+       const subtotal= document.querySelector('.subtotal')
+              console.log(data)
+       if(data.subtotal&& data.subtotal > 0 ){
+        subtotal.innerHTML= data.subtotal
+       }
+
+             
+      totalprice.innerText = +quantity * +salePrice
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            Toastify({
+                text: "Something went wrong. Please try again.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545",
+                stopOnFocus: true,
+                style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+            }).showToast();
+        }
+    }
+    </script>
+
+
+<script>
+  async function dltCartItem(productId) {
+    try {
+
+      const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to remove this item from the cart?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            confirmButtonText: 'Yes, remove it!',
+            cancelButtonText: 'Cancel'
+        });
+
+        // If the user confirms, proceed with deletion
+        if (result.isConfirmed) {
+       const response = await fetch(`/cart/remove`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+         const productRow = document.querySelector(`#row${productId}`);
+        if (productRow) {
+          productRow.remove();
+        }
+
+         Toastify({
+          text: data.message || "Item removed from the cart successfully",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#28a745",  
+          stopOnFocus: true,
+          style: {
+            color: "#ffffff",  
+            fontSize: "16px"  
+          }
+        }).showToast();
+
+         const tbody= document.getElementById('tbody')
+         console.log(data);
+         
+         if(data.cart.items.length <1){
+          tbody.innerHTML=`<tr>
+                          <td colspan="5" class="text-center">
+                            <div>
+                              <div  id="data-show"><img src="../assets/images/cart/1.gif" alt="">
+                                <h4>Your shopping cart is empty!</h4>
+                              <p>Looks like you haven't added anything to your cart yet.</p>
+                              <a href="/shop" class="btn btn_black">Continue Shopping</a>
+                            </div>
+                            
+                          </td>
+                        </tr>
+                            `
+         }}
+       } else {
+         Toastify({
+          text: data.message || "Failed to remove the item from the cart",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#dc3545",  
+          stopOnFocus: true,
+          style: {
+            color: "#ffffff",  
+            fontSize: "16px" 
+          }
+        }).showToast();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+       Toastify({
+        text: "Something went wrong. Please try again.",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#dc3545",
+        stopOnFocus: true,
+        style: {
+          color: "#ffffff",  
+          fontSize: "16px"   
+        }
+      }).showToast();
+    }
+  }
+  
+</script>
+    <%- include('../partials/user/footer') %>

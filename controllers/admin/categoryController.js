@@ -6,7 +6,7 @@ const Product = require('../../models/productSchema');
 const categoryinfo = async(req,res)=>{
     try {
         const page= parseInt(req.query.page) || 1 
-        const limit = 4;
+        const limit = 10;
         const skip = (page-1)*limit;
 
         const categoryData = await category.find({})
@@ -39,7 +39,7 @@ const addcategory = async (req,res)=>{
         const existingcategory = await category.findOne({name})
         
         if(existingcategory){
-            return res.status(400).json({error:'category already exists'})
+            return res.status(400).json({message:'Category already exists'})
         }
         
         const newcategory = new category({
@@ -51,7 +51,7 @@ const addcategory = async (req,res)=>{
         return res.json({message:'category added successfully'})
 
     } catch (error) {
-        return res.status(500).json({error:'Internal server Error'})
+        return res.status(500).json({message:'Internal server Error'})
     }
 }
 
@@ -88,10 +88,11 @@ const addcategoryOffer= async (req,res)=>{
             await product.save()
         }
 
-        res.json({status:true})
+        res.json({status:true ,message:'offer added successfully'})
 
     } catch (error) {
         res.status(500).json({status:false,message:'Internal server Error'})
+        console.error(error)
     }
 }
 
@@ -121,6 +122,8 @@ const removecategoryOffer = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({status:false,message:'Internal server Error'})
+        console.log(error)
+        
     }
 }
 
@@ -129,11 +132,10 @@ const getListcategory = async (req,res)=>{
     try {
         let id = req.query.id;
         await category.updateOne({_id:id},{$set:{isListed:false}})
-        console.log(id);
-        
+         
         res.redirect('/admin/category')
     } catch (error) {
-        res.redirect('/pageerror')
+        res.redirect('/admin/pageerror')
     }
 }
 
@@ -145,7 +147,7 @@ const getUnListcategory = async (req,res)=>{
         await category.updateOne({_id:id},{$set:{isListed: true}})
         res.redirect('/admin/category')
     } catch (error) {
-        res.redirect('/pageerror')
+        res.redirect('/admin/pageerror')
 }
 }
 
@@ -154,11 +156,14 @@ const geteditcategory = async (req,res)=>{
         
         const id= req.query.id
         console.log(id)
+        if(!id){
+            res.status(401).json({ status:false,message:'dont get the category id '})
+        }
         const Category = await category.findById(id)
         res.render('edit-category',{category:Category})
 
     } catch (error) {
-       res.redirect('/pageerror')
+       res.redirect('/admin/pageerror')
        console.log('edit-category error',error)
     }
 }
@@ -182,10 +187,10 @@ const editcategory =async (req,res)=>{
         if(updatecategory){
             return res.redirect('/admin/category')
         }
-        return res.status(404).json({error:'category not found'})
+        return res.status(404).json({ status:false,message:'category not found'})
     } catch (error) {
         console.error('Error in editcategory:', error);
-        return  res.status(500).json({error:'Internal server error'})
+        return  res.redirect('/admin/pageerror')
     }
 }
 

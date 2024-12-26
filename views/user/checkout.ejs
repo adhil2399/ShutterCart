@@ -1,0 +1,431 @@
+<%- include('../partials/user/header') %>
+    <section class="section-b-space pt-0">
+        <div class="heading-banner">
+            <div class="custom-container container">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4>Check Out</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="breadcrumb float-end">
+                            <li class="breadcrumb-item"> <a class="text-decoration-none text-black" href="/">Home </a>
+                            </li>
+                            <li class="breadcrumb-item"> <a class="text-decoration-none text-black" href="/cart"> Cart
+                                </a></li>
+                            <li class="breadcrumb-item active"> <a class="text-decoration-none text-black"
+                                    href="#">Check Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-b-space pt-0">
+        <div class="custom-container container">
+            <div class="row">
+                <div class="col-xxl-9 col-lg-8">
+                    <div class="left-sidebar-checkout sticky">
+                        <div class="address-option">
+                            <div class="address-title">
+                                <h4>Shipping Address </h4><a class="text-decoration-none" href="#"
+                                    data-bs-toggle="modal" data-bs-target="#address-modal" title="add product"
+                                    tabindex="0">+ Add New Address</a>
+                            </div>
+                            <div class="row" id="currentAddresses">
+                            
+                                <% if (userAddress && userAddress.length> 0) { %>
+                                    <% userAddress.forEach((addressGroup)=> { %>
+                                      <% addressGroup.address.forEach(( address, index)=> { %>
+                                <div class="col-xxl-4">
+                                    <label for="address-billing-0"> <span class="delivery-address-box"> <span
+                                                class="form-check">
+                                                <input class="custom-radio" id="address-billing-0" type="radio" value="<%= address._id %>"
+                                                    checked="checked" name="address"></span><span
+                                                    
+                                                class="address-detail"><span class="address"> 
+                                                    <span class="buttons d-flex justify-content-end align-items-start">
+                                                        <a class="btn btn-outline-danger sm " href="/editAddress?id=<%= address._id %>" title="Edit">Edit</a>
+                                                     </span><span
+                                                        class="address-title"><%= address.addressType %> </span></span><span
+                                                    class="address"> <span class="address-home"> <span
+                                                            class="address-tag"> Address:</span> <%= address.landMark %>,<%= address.city %></span></span><span
+                                                    class="address"> <span class="address-home"> <span
+                                                            class="address-tag">Pin Code:</span><%= address.pinCode %></span></span><span
+                                                    class="address"> <span class="address-home"> <span
+                                                            class="address-tag">Phone :</span>+91 <%= address.phone %></span></span></span>
+                                                        </span>
+                                                           
+                                                    </label>
+                                                        </div>
+                                <% }); %>
+                                <% }); %>
+                                  <% } else { %>
+                                    <p>No addresses found.</p>
+                                    <% } %>
+                            </div>
+                        </div>
+                        
+
+                        <div class="payment-options">
+                            <h4 class="mb-3">Payment Method</h4>
+                            <div class="row gy-3">
+                                <div class="col-sm-6">
+                                    <div class="payment-box">
+                                        <input class="custom-radio me-2" id="cod" value="COD" type="radio"  name="paymentMethod">
+                                        <label for="COD">Cod</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="payment-box">
+                                        <input class="custom-radio me-2" id="paypal" value="PayPal"  type="radio" name="paymentMethod">
+                                        <label for="PayPal">Paypal</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="payment-box">
+                                        <input class="custom-radio me-2" id="razor-pay" value="ONLINE" type="radio" name="paymentMethod">
+                                        <label for="RazorPay">Razor Pay</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-4">
+                    <div class="right-sidebar-checkout">
+                        <h4>Checkout</h4>
+                        <div class="cart-listing">
+
+                            <div class="summary-total">
+                                <ul>
+                                    <li>
+                                        <p>Subtotal</p><span>
+                                            <%= subtotal %>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <p>Shipping</p><span>FREE</span>
+                                    </li>
+                                    <li>
+                                        <p>Discount</p><span>
+                                            <%= discount %>
+                                        </span>
+                                    </li>
+
+                                    <!-- <li> 
+                      <p>Wallet Balance</p><span>$ -84.40</span>
+                    </li> -->
+                                </ul>
+                                <!-- <div class="coupon-code"> 
+                    <input type="text" placeholder="Enter Coupon Code">
+                    <button class="btn">Apply</button>
+                  </div> -->
+                            </div>
+                            <div class="total">
+                                <h6>Total : </h6>
+                                <h6><%= subtotal %></h6>
+                            </div>
+                            <button id="placeOrderForm" class="btn btn_black sm w-100 rounded" >Place Order </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Add Address Modal -->
+<div class="modal theme-modal fade address-modal" id="address-modal" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Add Address</h4>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addressForm" class="address-form needs-validation" novalidate>
+                <div class="modal-body pt-0">
+                    <div class="address-box">
+                        <div class="row">
+                            <!-- Address Type Selection -->
+                            <div class="mb-4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input custom-radio" type="radio" name="addressType" id="homeAddress" value="home" checked required>
+                                    <label class="form-check-label" for="homeAddress">Home</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input custom-radio" type="radio" name="addressType" id="officeAddress" value="office" required>
+                                    <label class="form-check-label" for="officeAddress">Office</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input custom-radio" type="radio" name="addressType" id="otherAddress" value="others" required>
+                                    <label class="form-check-label" for="otherAddress">Others</label>
+                                </div>
+                                <div class="invalid-feedback">Please select an address type.</div>
+                            </div>
+                            <!-- Name -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">Name</label>
+                                    <input class="form-control" id="name" name="name" type="text" placeholder="Enter Name" required minlength="2" maxlength="50" pattern="[A-Za-z ]+">
+                                    <div class="invalid-feedback">Enter a valid name (2-50 letters only).</div>
+                                </div>
+                            </div>
+                            <!-- State -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="state">State</label>
+                                    <select class="form-select" id="state" name="state" required>
+                                        <option value="">Select State</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select a state.</div>
+                                </div>
+                            </div>
+                            <!-- City -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="city">City</label>
+                                    <input class="form-control" id="city" name="city" type="text" placeholder="Enter City" required minlength="2" maxlength="50" pattern="[A-Za-z ]+">
+                                    <div class="invalid-feedback">Enter a valid city name (2-50 letters only).</div>
+                                </div>
+                            </div>
+                            <!-- Landmark -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="landmark">Landmark</label>
+                                    <input class="form-control" id="landMark" name="landMark" type="text" placeholder="Enter Landmark" required minlength="2" maxlength="100" pattern="[A-Za-z0-9 ,.-]+">
+                                    <div class="invalid-feedback">Enter a valid landmark (2-100 characters, alphanumeric and punctuation allowed).</div>
+                                </div>
+                            </div>
+                            <!-- Pincode -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="pincode">Pincode</label>
+                                    <input class="form-control" id="pincode" name="pinCode" type="text" placeholder="Enter Pincode" required pattern="[0-9]{6}" maxlength="6">
+                                    <div class="invalid-feedback">Enter a valid 6-digit pincode.</div>
+                                </div>
+                            </div>
+                            <!-- Phone -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number</label>
+                                    <input class="form-control" id="phone" name="phone" type="tel" placeholder="Enter Phone Number" required pattern="[0-9]{10}" maxlength="10">
+                                    <div class="invalid-feedback">Enter a valid 10-digit phone number.</div>
+                                </div>
+                            </div>
+                            <!-- Alternate Phone -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="altPhone">Alt Phone (optional)</label>
+                                    <input class="form-control" id="altPhone" name="altPhone" type="tel" placeholder="Enter Phone Number" pattern="[0-9]{10}" maxlength="10">
+                                    <div class="invalid-feedback">Enter a valid 10-digit phone number.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+            
+                 
+        </div>
+    </div>
+</div>
+
+     <script>
+        // Bootstrap Validation Script
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const addressForm = document.getElementById('addressForm');
+    if (addressForm) {
+        addressForm.addEventListener('submit', async (event) => {
+            console.log("Form submission intercepted");
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/profile/add-address', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    if (result.success) {
+                        console.log("Address added successfully");
+                        addNewAddress(result.address);
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Address Added Successfully!",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('address-modal'));
+                    if (modal) {
+                  modal.hide();
+                 // Remove the modal backdrop
+                   const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                 backdrop.remove();
+                 }
+                 document.body.classList.remove('modal-open'); // Ensure no leftover modal styles
+                 }
+
+
+                    } else {
+                        throw new Error(result.message || "Failed to add address.");
+                    }
+                } else {
+                    throw new Error("Server responded with an error.");
+                }
+            } catch (error) {
+                console.error("Error details:", error);
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Could not add the address. Please try again.",
+                });
+            }
+        });
+    } else {
+        console.error("Address form not found");
+    }
+
+    function addNewAddress(address) {
+        const addressContainer = document.getElementById("currentAddresses");
+        if (!addressContainer) {
+            console.error("Address container not found");
+            return;
+        }
+
+        const index = document.querySelectorAll(".address-option").length;
+
+        const addressHTML = `<div class="col-xxl-4">
+    <label for="address-billing-0">
+        <span class="delivery-address-box">
+            <span class="form-check">
+                <input class="custom-radio" id="address-billing-0" type="radio" checked="checked" name="address">
+            </span>
+            <span class="address-detail">
+                <span class="address">
+                    <span class="buttons d-flex justify-content-end align-items-start">
+                        <a class="btn btn-outline-danger sm" href="/editAddress?id=${address._id}" title="Edit">Edit</a>
+                    </span>
+                    <span class="address-title">${address.addressType}</span>
+                </span>
+                <span class="address">
+                    <span class="address-home">
+                        <span class="address-tag">Address:</span> ${address.landMark}, ${address.city}
+                    </span>
+                </span>
+                <span class="address">
+                    <span class="address-home">
+                        <span class="address-tag">Pin Code:</span> ${address.pinCode}
+                    </span>
+                </span>
+                <span class="address">
+                    <span class="address-home">
+                        <span class="address-tag">Phone:</span> +91 ${address.phone}
+                    </span>
+                </span>
+            </span>
+        </span>
+    </label>
+</div>
+ `;
+
+  addressContainer.innerHTML += addressHTML;
+    }
+})
+</script>
+
+
+<script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+    const orderForm = document.getElementById('placeOrderForm');
+     if (orderForm) {
+        orderForm.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const selectedAddressId = document.querySelector('input[name="address"]:checked')?.value;
+            const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+            // Validation: Ensure both address and payment method are selected
+            if (!selectedAddressId) {
+                Toastify({ text: "Please select an address.", backgroundColor: "red" }).showToast();
+                return;
+            }
+            if (!selectedPaymentMethod) {
+                Toastify({ text: "Please select a payment method.", backgroundColor: "red" }).showToast();
+                return;
+            }
+
+            // Prepare order data
+            const orderData = {
+                addressId: selectedAddressId,
+                paymentMethod: selectedPaymentMethod,
+            };
+
+            try {
+                const response = await fetch('/order/place', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    Toastify({ text: "Order placed successfully!", backgroundColor: "green" }).showToast();
+                    // Redirect to order success page or refresh cart
+                    window.location.href = `/order/success?Id=${result.orderId}`;
+                } else {
+                    throw new Error(result.message || "Failed to place order.");
+                }
+            } catch (error) {
+                console.error("Order Error:", error);
+                Toastify({ text: error.message || "An error occurred while placing the order.", backgroundColor: "red" }).showToast();
+            }
+        });
+    }
+});
+
+</script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- ----------------------------------------------- -->
+
+    <%- include('../partials/user/footer') %>

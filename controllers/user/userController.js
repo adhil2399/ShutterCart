@@ -4,7 +4,7 @@ const env = require("dotenv").config();
 const { securePassword,isOtpExpired,generateOtp, sendVerificationEmail } = require("../../config/utils");
 const Category = require("../../models/categorySchema");
 const Product =require('../../models/productSchema');
-const category = require("../../models/categorySchema");
+const Brand = require("../../models/brandSchema");
 const { addProducts } = require("../admin/productController");
 //page Not Found
 
@@ -24,11 +24,10 @@ const lodeHomepage = async (req, res) => {
      let productData =await Product.find({
       isBlocked:false,
       category:{$in:categories.map(category=>category._id)},
-      quantity:{$gt:0}
-    })
+     })
 
     productData.sort((a,b)=>new Date(b.createdOn)-new Date(a.createdOn))
-    productData= productData.slice(0,6)
+    productData= productData.slice(0,4)
 
 
     // console.log(user);
@@ -54,7 +53,11 @@ const lodeHomepage = async (req, res) => {
 
 const loadsignup = async (req, res) => {
   try {
-    return res.render("signup");
+    const {user}=req.session
+    if(!user){
+         return res.render("signup");
+    }
+    res.redirect('/')
   } catch (error) {
     console.log("signup page not loading", error);
     res.status(500).send("server side error");
@@ -222,6 +225,7 @@ const login = async (req, res) => {
     }
 
     const passwordMatch = await bcrypt.compare(password, finduser.password);
+    
     if (!passwordMatch) {
       return res.render("login", { message: "Incorrect password" });
     }
@@ -239,7 +243,7 @@ const logout = async (req,res)=>{
 try {
     req.session.destroy((err)=>{
         if(err){
-        console.log('session destruction error', err.message)
+        console.log('session destruction error',err)
         return res.redirect('/pageNotFound')
         }
         return res.redirect('/')
@@ -249,7 +253,6 @@ try {
     res.redirect('/pageNotFound')
 }
 }
-
 
 module.exports = {
   lodeHomepage,
@@ -261,5 +264,5 @@ module.exports = {
   verifyOtp,
   resendOtp,
   logout,
-  
+
 };
