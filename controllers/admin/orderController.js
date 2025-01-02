@@ -38,25 +38,28 @@ const getOrderList = async (req, res) => {
 };
 
 const getOrderDetailsPage = async (req, res) => {
-    try {
-        const { orderId } = req.params;
 
-         const order = await Order.findOne({ orderId })
-            .populate('userId')  
-            .populate('orderedItems.product') 
-            .populate('address'); 
+    try {   
+        console.log("hii")
+        const {orderId}= req.query;
+        console.log('dddddddddddddddddddddddd',orderId);
+        const order = await Order.findOne({ orderId })
+        .populate('userId')
+        .populate('orderedItems.product')
+        .populate('address');
+    
 
         if (!order) {
             return res.status(404).send('Order not found');
         }
 
          const subtotal = order.orderedItems.reduce(
-            (sum, item) => sum + item.product.price * item.quantity,
+            (sum, item) => sum + item.product.salePrice * item.quantity,
             0
         );
         const shippingCost = order.shippingCost || 0;  
         const grandTotal = subtotal + shippingCost
-
+            
       
         res.render('orderDetails', {
             order,
@@ -70,8 +73,53 @@ const getOrderDetailsPage = async (req, res) => {
     }
 };
 
+const updateOrderStatus = async (req, res) => {
+    const { orderId, status } = req.body;
+
+    if (!orderId || !status) {
+        return res.status(400).json({ success: false, message: 'Order ID and status are required' });
+    }
+     try {
+        const order = await Order.findOne({orderId});
+         if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        order.status = status;
+        await order.save();
+
+        res.json({ success: true, message: 'Order status updated successfully' });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+
+
+const deleteOrder = async (req, res) => {
+    const { orderId } = req.body;
+
+    if (!orderId) {
+        return res.status(400).json({ success: false, message: 'Order ID is required' });
+    }
+
+    try {
+        const order = await Order.findByIdAndDelete(orderId);
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        res.json({ success: true, message: 'Order deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting order:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
 
 module.exports={
     getOrderList,
     getOrderDetailsPage,
+    updateOrderStatus,
+    deleteOrder
 }

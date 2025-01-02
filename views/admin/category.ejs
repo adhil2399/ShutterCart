@@ -124,15 +124,14 @@
                     <td></td>
                     <td class="text-start"><%= category.name %></td>
                     <td class="text-start"><%= category.description %></td>
-                    <td>
-                    </td>
+                    <td class="text-start"><%= category.categoryOffer %>%</td>
                     <td class="text-start">
                       <% if(category.categoryOffer==0){ %>
                       <button class="btn btn-info" style="width: 100px">
                         <a href="#" class="text-white" onclick="addOffer('<%= category._id %>')">Add Offer</a>
                       </button>
                       <% }else{ %>
-                      <button class="btn btn-info"style="width: 100px">
+                      <button class="btn btn-danger"style="width: 100px">
                         <a href="#" class="text-white"onclick="removeOffer('<%= category._id %>')">Remove</a>
                       </button>
                       <% } %>

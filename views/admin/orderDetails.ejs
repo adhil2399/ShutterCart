@@ -4,27 +4,29 @@
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Order detail</h2>
-                    <p>Details for Order ID: 3453012</p>
-                </div>
+                 </div>
             </div>
             <div class="card">
                 <header class="card-header">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                            <span>
-                                <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
+                            <span id="orderDate">
+                                <i class="material-icons md-calendar_today"></i> <b><%= order.createdAt %></b>
                             </span> <br>
-                            <small class="text-muted">Order ID: 3453012</small>
+                            <small class="text-muted">Order ID: <%= order.orderId %></small>
                         </div>
-                        <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                        <div class="col-lg-6 col-md-6 ms-auto text-md-end" data-order-id="<%= order.orderId %>">
+                            <select id="statusSelect" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
                                 <option>Change status</option>
-                                <option>Awaiting payment</option>
-                                <option>Confirmed</option>
-                                <option>Shipped</option>
-                                <option>Delivered</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Cancelled">Cancelled</option>
+                                <option value="Return Request">Return Request</option>
+                                <option value="Returned">Returned</option>
                             </select>
-                            <a class="btn btn-primary" href="#">Save</a>
+                            <a id="saveButton" class="btn btn-primary" href="#">Save</a>
                             <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
                         </div>
                     </div>
@@ -39,9 +41,9 @@
                                 <div class="text">
                                     <h6 class="mb-1">Customer</h6>
                                     <p class="mb-1">
-                                        John Alexander <br> alex@example.com <br> +998 99 22123456
+                                        <%= order.userId.name %> <br><%= order.userId.email %><br> <%= order.userId.phone %>
                                     </p>
-                                    <a href="#">View profile</a>
+                                    <!-- <a href="#">View profile</a> -->
                                 </div>
                             </article>
                         </div> <!-- col// -->
@@ -53,29 +55,17 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                        Shipping: Fargo express <br> Pay method: card <br> Status: new
+                                        Shipping: Fargo express <br> Pay method: <%= order.paymentMethod %> <br> Status: <%= order.status %>
                                     </p>
                                     <a href="#">Download info</a>
                                 </div>
                             </article>
                         </div> <!-- col// -->
-                        <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-place"></i>
-                                </span>
-                                <div class="text">
-                                    <h6 class="mb-1">Deliver to</h6>
-                                    <p class="mb-1">
-                                        City: Tashkent, Uzbekistan <br>Block A, House 123, Floor 2 <br> Po Box 10000
-                                    </p>
-                                    <a href="#">View profile</a>
-                                </div>
-                            </article>
-                        </div> <!-- col// -->
+                      
+                             <!-- col// -->
                     </div> <!-- row // -->
                     <div class="row">
-                        <div class="col-lg-7">
+                        <div class="col-lg-12">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -87,72 +77,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <% order.orderedItems.forEach(item => { %>
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside" href="#">
+                                                        <div class="left">
+                                                            <img src="<%= item.product.productImage[0] %>" width="40" height="40" class="img-xs" alt="<%= item.product.name %>">
+                                                        </div>
+                                                        <div class="info"> <%= item.product.name %> </div>
+                                                    </a>
+                                                </td>
+                                                <td> ₹<%= item.product.salePrice %> </td>
+                                                <td> <%= item.quantity %> </td>
+                                                <td class="text-end"> $<%= (item.product.salePrice * item.quantity) %> </td>
+                                            </tr>
+                                            <% }) %>
+                                            
                                         <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/1.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> T-shirt blue, XXL size </div>
-                                                </a>
-                                            </td>
-                                            <td> $44.25 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $99.50 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/2.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Winter jacket for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $7.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $15.00 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/3.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Jeans wear for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $43.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $102.04 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/4.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Product name color and size </div>
-                                                </a>
-                                            </td>
-                                            <td> $99.00 </td>
-                                            <td> 3 </td>
-                                            <td class="text-end"> $297.00 </td>
-                                        </tr>
-                                        <tr>
+                                          
                                             <td colspan="4">
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd>$973.35</dd>
+                                                        <dd> <%= grandTotal %></dd>
                                                     </dl>
                                                     <dl class="dlist">
-                                                        <dt>Shipping cost:</dt>
-                                                        <dd>$10.00</dd>
+                                                        <dt>discount:</dt>
+                                                        <dd>0</dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">$983.00</b> </dd>
+                                                        <dd> <b class="h5">₹<%= grandTotal %> </b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
@@ -166,25 +121,25 @@
                                     </tbody>
                                 </table>
                             </div> <!-- table-responsive// -->
-                            <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a>
+                            <!-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> -->
                         </div> <!-- col// -->
                         <div class="col-lg-1"></div>
                         <div class="col-lg-4">
-                            <div class="box shadow-sm bg-light">
+                            <!-- <div class="box shadow-sm bg-light">
                                 <h6 class="mb-15">Payment info</h6>
                                 <p>
-                                    <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
+                                    <img src="../assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
                                     Business name: Grand Market LLC <br>
                                     Phone: +1 (800) 555-154-52
                                 </p>
-                            </div>
-                            <div class="h-25 pt-4">
+                            </div> -->
+                            <!-- <div class="h-25 pt-4">
                                 <div class="mb-3">
                                     <label>Notes</label>
                                     <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
                                 </div>
                                 <button class="btn btn-primary">Save note</button>
-                            </div>
+                            </div> -->
                         </div> <!-- col// -->
                     </div>
                 </div> <!-- card-body end// -->
@@ -193,3 +148,71 @@
        
 
         <%- include('../partials/admin/footer') %>
+
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const orderDateElement = document.getElementById('orderDate').querySelector('b');
+                const orderDate = new Date(orderDateElement.textContent);
+                const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+                orderDateElement.textContent = orderDate.toLocaleDateString('en-US', options);
+            });
+        </script>
+        
+<script>
+    document.getElementById('saveButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        const status = document.getElementById('statusSelect').value;
+        const orderId = document.querySelector('.col-lg-6.col-md-6.ms-auto.text-md-end').getAttribute('data-order-id');
+        console.log(orderId);
+         if (status !== 'Change status') {
+            fetch('/admin/update-order-status', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ status: status, orderId })
+})
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // SweetAlert for success
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Status updated successfully',
+            });
+        } else {
+            // SweetAlert for failure
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to update status. Please try again.',
+                confirmButtonText: 'Retry'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // SweetAlert for unexpected errors
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An unexpected error occurred. Please check the console for more details.',
+            confirmButtonText: 'OK'
+        });
+    });
+} else {
+    // SweetAlert for invalid status selection
+    Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Selection',
+        text: 'Please select a valid status before saving.',
+        confirmButtonText: 'OK'
+    });
+}
+
+    });
+</script>

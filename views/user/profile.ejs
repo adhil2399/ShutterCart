@@ -180,7 +180,88 @@
             margin-top: 0.25rem;
         }
   
- 
+ /* wallet css */
+    
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .wallet-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .wallet-card h2 {
+            font-size: 18px;
+            margin-top: 0;
+        }
+        .wallet-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .wallet-description {
+            font-size: 14px;
+            color: #666;
+        }
+        .add-money-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .transaction-history {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .transaction-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        .transaction-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .transaction-details {
+            flex-grow: 1;
+        }
+        .transaction-amount {
+            font-weight: bold;
+        }
+        .transaction-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: #e0e0e0;
+        }
+        .status-completed {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: black;
+        }
 </style>
 
   </head>
@@ -193,8 +274,8 @@
           </div>
           <div class="col-sm-6">
             <ul class="breadcrumb float-end">
-              <li class="breadcrumb-item"> <a href="/">Home </a></li>
-              <li class="breadcrumb-item active"> <a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item"> <a class="text-decoration-none text-black" href="/">Home </a></li>
+              <li class="breadcrumb-item active"> <a class="text-decoration-none text-black" href="#">Dashboard</a></li>
             </ul>
           </div>
         </div>
@@ -241,8 +322,11 @@
               </li>
               
               <li>
-                <!-- <button class="nav-link" id="notifications-tab" data-bs-toggle="pill" data-bs-target="#notifications" role="tab" aria-controls="notifications" aria-selected="false"><i class="iconsax" data-icon="lamp-2"></i>Notifications </button> -->
-              </li>
+                <button class="nav-link" id="Wallet-tab" data-bs-toggle="pill" data-bs-target="#wallet" role="tab"
+                    aria-controls="wallet" aria-selected="false">
+                    <i class="iconsax" data-icon="lamp-2"></i>Wallet
+                </button>
+            </li>
               <li>
                 <button class="nav-link" id="order-tab" data-bs-toggle="pill" data-bs-target="#order" role="tab"
                   aria-controls="order" aria-selected="false"><i class="iconsax" data-icon="receipt-square"></i>
@@ -455,391 +539,142 @@
                     <div class="loader-line"></div>
                     <h4>Wishlist</h4>
                   </div>
-                  <div class="row-cols-md-3 row-cols-2 grid-section view-option row gy-4 g-xl-4">
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="#"> <img class="bg-img"
-                                src="../assets/images/product/product-3/1.jpg" alt="product"></a><a class="pro-sec"
-                              href="#"> <img class="bg-img" src="../assets/images/product/product-3/20.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          <div class="countdown">
-                            <ul class="clockdiv1">
-                              <li>
-                                <div class="timer">
-                                  <div class="days"></div>
-                                </div><span class="title">Days</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="hours"></div>
-                                </div><span class="title">Hours</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="minutes"></div>
-                                </div><span class="title">Min</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="seconds"></div>
-                                </div><span class="title">Sec</span>
-                              </li>
-                            </ul>
+                  <div class="row row-cols-md-3 row-cols-2 grid-section view-option row gy-4 g-xl-4">
+                    <% if (wishlist && wishlist.products && wishlist.products.length > 0) { %>
+                      <% wishlist.products.forEach((item) => { %>
+                        <div class="col products" data-product-id="<%= item.productId._id %>">
+                          <div class="product-box-3 product-wishlist" >
+                            <div class="img-wrapper">
+                              <div class="label-block">
+                                <a class="label-2 wishlist-icon delete-button"
+                                  href="javascript:void(0)"
+                                  onclick="removeFromWishlist('<%= item.productId._id %>')"
+                                  title="Remove from Wishlist">
+                                  <i class="iconsax" data-icon="trash" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                              <div class="product-image">
+                                <a class="pro-first" href="/productDetails?id=<%= item.productId._id %>">
+                                  <img class="bg-img" src="<%= item.productId.productImage[0] %>" alt="<%= item.productId.productName %>">
+                                </a>
+                                <a class="pro-sec" href="/productDetails?id=<%= item.productId._id %>">
+                                  <img class="bg-img" src="<%= item.productId.productImage[1] %>" alt="<%= item.productId.productName %>">
+                                </a>
+                              </div>
+                            </div>
+                            <div class="product-detail">
+                              <a href="/product/<%= item.productId._id %>">
+                                <h6><%= item.productId.productName %></h6>
+                              </a>
+                              <p>
+                                $<%= item.productId.salePrice %>
+                                <del>$<%= item.productId.regularPrice %></del>
+                              </p>
+                            </div>
+                            <a class="btn btn-dark" onclick="addToCart('<%=item.productId._id%>')">Add To Cart</a>
                           </div>
                         </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                            <li><i class="fa-regular fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="#">
-                            <h6>Greciilooks Women's Stylish Top</h6>
-                          </a>
-                          <p>$100.00
-                            <del>$140.00</del><span>-20%</span>
-                          </p>
+                      <% }); %>
+                    <% } else { %>
+                      <div class="col-12">
+                        <p class="text-center">Your wishlist is empty.</p>
+                        <a href="/shop" class="btn btn-dark">Go to Shop</a>
+
                         </div>
+                      <% } %>
                       </div>
+                      
                     </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/2.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/19.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-regular fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Wide Linen-Blend Trousers</h6>
-                          </a>
-                          <p>$100.00
-                            <del>$18.00 </del>
-                          </p>
-                        </div>
-                      </div>
                     </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/3.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/18.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Long Sleeve Rounded T-Shirt</h6>
-                          </a>
-                          <p>$120.30
-                            <del>$140.00</del><span>-20%</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/4.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/17.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          <div class="countdown">
-                            <ul class="clockdiv2">
-                              <li>
-                                <div class="timer">
-                                  <div class="days"></div>
-                                </div><span class="title">Days</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="hours"></div>
-                                </div><span class="title">Hours</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="minutes"></div>
-                                </div><span class="title">Min</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="seconds"></div>
-                                </div><span class="title">Sec</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Blue lined White T-Shirt</h6>
-                          </a>
-                          <p>$190.00
-                            <del>$210.00</del>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/9.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/16.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          <div class="countdown">
-                            <ul class="clockdiv3">
-                              <li>
-                                <div class="timer">
-                                  <div class="days"></div>
-                                </div><span class="title">Days</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="hours"></div>
-                                </div><span class="title">Hours</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="minutes"></div>
-                                </div><span class="title">Min</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="seconds"></div>
-                                </div><span class="title">Sec</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                            <li><i class="fa-regular fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Greciilooks Women's Stylish Top</h6>
-                          </a>
-                          <p>$100.00
-                            <del>$140.00</del><span>-20%</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/10.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/15.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-regular fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Wide Linen-Blend Trousers</h6>
-                          </a>
-                          <p>$100.00
-                            <del>$18.00 </del>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/11.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/14.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Long Sleeve Rounded T-Shirt</h6>
-                          </a>
-                          <p>$120.30
-                            <del>$140.00</del><span>-20% </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="product-box-3 product-wishlist">
-                        <div class="img-wrapper">
-                          <div class="label-block"><a class="label-2 wishlist-icon delete-button"
-                              href="javascript:void(0)" title="Add to Wishlist" tabindex="0"><i class="iconsax"
-                                data-icon="trash" aria-hidden="true"></i></a></div>
-                          <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                                src="../assets/images/product/product-3/12.jpg" alt="product"></a><a class="pro-sec"
-                              href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/13.jpg"
-                                alt="product"></a></div>
-                          <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                              title="Add to cart" tabindex="0"><i class="iconsax" data-icon="basket-2"
-                                aria-hidden="true"> </i></a><a href="compare.html" title="Compare" tabindex="0"><i
-                                class="iconsax" data-icon="arrow-up-down" aria-hidden="true"></i></a><a href="#"
-                              data-bs-toggle="modal" data-bs-target="#quick-view" title="Quick View" tabindex="0"><i
-                                class="iconsax" data-icon="eye" aria-hidden="true"></i></a></div>
-                          <div class="countdown">
-                            <ul class="clockdiv4">
-                              <li>
-                                <div class="timer">
-                                  <div class="days"></div>
-                                </div><span class="title">Days</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="hours"></div>
-                                </div><span class="title">Hours</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="minutes"></div>
-                                </div><span class="title">Min</span>
-                              </li>
-                              <li class="dot"> <span>:</span></li>
-                              <li>
-                                <div class="timer">
-                                  <div class="seconds"></div>
-                                </div><span class="title">Sec</span>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="product-detail">
-                          <ul class="rating">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                            <li>4.3</li>
-                          </ul><a href="product.html">
-                            <h6>Blue lined White T-Shirt</h6>
-                          </a>
-                          <p>$190.00
-                            <del>$210.00</del>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
+
+
+            
+<script> 
+async function removeFromWishlist(productId) {
+    try {
+        // Show confirmation dialog using SweetAlert
+        const result = await Swal.fire({
+            title: 'Remove from Wishlist?',
+            text: 'Are you sure you want to remove this item from your wishlist?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, remove it!',
+            cancelButtonText: 'Cancel'
+        });
+
+        // If user confirms the deletion
+        if (result.isConfirmed) {
+            const response = await fetch(`/wishlist/remove/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Show success message
+                Swal.fire({
+                    title: 'Removed!',
+                    text: 'Product has been removed from your wishlist.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+                // Remove the product from the DOM
+                const productElement = document.querySelector(`.products[data-product-id="${productId}"]`);
+                if (productElement) {
+                    // Add a fade-out effect
+                    productElement.style.transition = 'opacity 0.3s ease';
+                    productElement.style.opacity = '0';
+
+                    // After fade-out, remove the element from the DOM
+                    setTimeout(() => {
+                        productElement.remove();
+
+                        // Check if there are any remaining products
+                        const remainingProducts = document.querySelectorAll('.products');
+                        if (remainingProducts.length === 0) {
+                            // Show the "Your wishlist is empty" message and "Go to Shop" button
+                            const wishlistContainer = document.querySelector('.grid-section');
+                            wishlistContainer.innerHTML = `
+                                <div class="col-12">
+                                    <p class="text-center">Your wishlist is empty.</p>
+                                    <a href="/shop" class="btn btn-dark">Go to Shop</a>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }
+            } else {
+                // Show error message
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.error || 'Failed to remove product from wishlist.',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6'
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred. Please try again.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6'
+        });
+    }
+}
+
+  </script>
+
+
             <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
               <div class="dashboard-right-box">
                 <div class="order">
@@ -874,17 +709,19 @@
                                   <img src="<%= pro.product.productImage[0] || '../assets/images/placeholder.jpg' %>" alt="">
                                 </a>
                                 <div class="order-wrap">
-                                  <h5><%= pro.product.name %></h5>
+                                  <h5><%= pro.product.productName %></h5>
                                   <p><%= pro.product.description || 'No description available.' %></p>
                                   <ul>
                                     <li>
-                                      <p>Price:</p><span>₹<%= pro.product.salePrice %></span>
+                                    </span> Price: <span><span>₹<%= pro.product.salePrice %></span>
                                     </li>
+                                    <br>
                                     <li>
-                                      <p>Quantity:</p><span><%= pro.quantity %></span>
+                                      <span>Quantity:</span><span><%= pro.quantity %></span>
                                     </li>
+                                    <br>
                                     <li>
-                                      <p>Order Id:</p><span><%= item.orderId %></span>
+                                      <span>Order Id:</span><span><%= item.orderId %></span>
                                     </li>
                                   </ul>
                                 </div>
@@ -909,7 +746,80 @@
               </div>
             </div>
             
-
+            <!-- wallet  -->
+            <div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="Wallet-tab">
+              <div class="dashboard-right-box">
+                  <div class="wallet-section">
+                      <div class="wallet-grid">
+                          <div class="wallet-card">
+                              <h2>Current Balance</h2>
+                              <div class="wallet-amount">$0</div>
+                              <div class="wallet-description">Available for use</div>
+                          </div>
+                          <div class="wallet-card">
+                              <h2>Pending Amount</h2>
+                              <div class="wallet-amount">$</div>
+                              <div class="wallet-description">In process</div>
+                          </div>
+                          <div class="wallet-card">
+                              <h2>Add Money</h2>
+                              <button class="add-money-btn">Add Funds</button>
+                          </div>
+                      </div>
+          
+                      <div class="transaction-history">
+                          <h2>Transaction History</h2>
+                          <ul class="transaction-list">
+                              <li class="transaction-item">
+                                  <span class="transaction-icon">↓</span>
+                                  <div class="transaction-details">
+                                      <div>Refund from order #12345</div>
+                                      <small>2024-01-30 14:30</small>
+                                  </div>
+                                  <div class="transaction-amount" style="color: green;">+$500.00</div>
+                                  <span class="transaction-status status-completed">Completed</span>
+                              </li>
+                              <li class="transaction-item">
+                                  <span class="transaction-icon">↑</span>
+                                  <div class="transaction-details">
+                                      <div>Purchase - Premium Package</div>
+                                      <small>To: Premium Store • 2024-01-29 09:15</small>
+                                  </div>
+                                  <div class="transaction-amount" style="color: red;">-$89.99</div>
+                                  <span class="transaction-status status-completed">Completed</span>
+                              </li>
+                              <li class="transaction-item">
+                                  <span class="transaction-icon">↓</span>
+                                  <div class="transaction-details">
+                                      <div>Wallet Top-up</div>
+                                      <small>2024-01-28 16:45</small>
+                                  </div>
+                                  <div class="transaction-amount" style="color: green;">+$1,000.00</div>
+                                  <span class="transaction-status status-completed">Completed</span>
+                              </li>
+                              <li class="transaction-item">
+                                  <span class="transaction-icon">↑</span>
+                                  <div class="transaction-details">
+                                      <div>Withdrawal to Bank Account</div>
+                                      <small>2024-01-27 11:20</small>
+                                  </div>
+                                  <div class="transaction-amount" style="color: red;">-$150.00</div>
+                                  <span class="transaction-status status-pending">Pending</span>
+                              </li>
+                              <li class="transaction-item">
+                                  <span class="transaction-icon">↑</span>
+                                  <div class="transaction-details">
+                                      <div>Purchase - Digital Product</div>
+                                      <small>To: Digital Store • 2024-01-26 13:10</small>
+                                  </div>
+                                  <div class="transaction-amount" style="color: red;">-$45.50</div>
+                                  <span class="transaction-status status-completed">Completed</span>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
             <!-- Address manager -->
 
             <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
@@ -1390,7 +1300,65 @@ async function deleteAddress(id) {
     }
 }
 
+
 </script>
+
+<script>
+        
+  async function addToCart(productId) {
+    const quantity= 1
+    try {
+       const response = await fetch('/cart/add',{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },body:JSON.stringify({productId,quantity})
+
+      })
+      const data = await response.json()
+      if(response.ok){
+       Toastify({
+                text: "Product added to cart successfully!",
+                duration: 3000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                backgroundColor: "#28a745", // Success color (green)
+                stopOnFocus: true, // Prevents dismissing on hover
+            }).showToast();
+        } else {
+            Toastify({
+                text: data.message || "Error adding to cart",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545", // Error color (red)
+                stopOnFocus: true,
+                 style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+            }).showToast();
+        }
+    } catch (error) {
+        console.error("Error:", error.message);
+        Toastify({
+            text:  "Something went wrong. Please try again.",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#dc3545",
+            stopOnFocus: true,
+            style: {
+                  color: "#ffffff", // Text color
+                fontSize: "16px", // Optional: Adjust font size
+                },
+        }).showToast();
+    }
+}
+      </script>
   <!-- Add SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

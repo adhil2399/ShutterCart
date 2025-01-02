@@ -9,6 +9,7 @@ const CartController = require('../controllers/user/cartController')
 const checkoutController= require('../controllers/user/checkOutController')
 const orderController = require('../controllers/user/orderController')
 const {userAuth,adminAuth}=require('../middlewares/auth')
+const wishListController= require('../controllers/user/wishListController')
 router.get('/',userController.lodeHomepage) //render homepage
 router.get('/pageNotFound',userController.pageNotFound)//render pageNotFound
 router.get('/signup',userController.loadsignup)
@@ -58,24 +59,24 @@ router.post('/edit-profile',userAuth,profileController.editProfile)
 // shop page & filter
 
 router.get('/shop',StoreController.getShopPage)
- router.get('/products',StoreController.sortProducts)
+router.get('/products',StoreController.sortProducts)
  router.get('/cart',userAuth,CartController.getCart)
  router.post('/cart/add',CartController.addToCart)
  router.delete('/cart/remove',userAuth,CartController.removeFromCart)
- 
+ router.get('/shop/search',StoreController.searchProducts)
  
  //checkOut 
  router.get('/checkout', userAuth,checkoutController.renderCheckoutPage);
-//  router.get("/order-confirmation",userAuth,checkoutController.orderConfirm);
-
+ 
  
 // Place new order
 router.post('/order/place', userAuth, orderController.placeOrder);
 
   
 // Get specific order details
-// router.get('/orders/:orderId',userAuth, orderController.getOrderDetails);
-router.get('/order/success',userAuth,orderController.getOrderDetails)
+ router.get('/order/success',userAuth,orderController.getOrderDetails)
 
 
+ router.post('/wishlist/toggle',wishListController.toggleWishlist)
+router.delete('/wishlist/remove/:productId',userAuth,wishListController.removeFromWishlist)
 module.exports = router

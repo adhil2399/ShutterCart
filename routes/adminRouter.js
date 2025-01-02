@@ -6,6 +6,7 @@ const categoryController = require('../controllers/admin/categoryController')
 const brandcontroller = require('../controllers/admin/brandcontroller')
 const productController = require('../controllers/admin/productController')
 const orderController= require('../controllers/admin/orderController')
+const couponController = require('../controllers/admin/couponController')
 const {adminAuth}= require('../middlewares/auth')
 const multer = require('multer')
 const storage = require("../helpers/multer")
@@ -27,7 +28,6 @@ router.get('/BlockCustomer',adminAuth,customerController.BlockCustomer)
 router.get('/unBlockCustomer',adminAuth,customerController.unBlockCustomer)
 
 //category Management
-
 router.get('/category',adminAuth,categoryController.categoryinfo);
 router.post('/addcategory',adminAuth,categoryController.addcategory);
 router.post('/addcategoryOffer',adminAuth,categoryController.addcategoryOffer);
@@ -53,10 +53,18 @@ router.get('/unblockProduct',adminAuth,productController.unblockProduct)
 router.get('/editProducts',adminAuth,productController.getEditProducts)
 router.post('/editProducts/:id',adminAuth,uploads.array("images",6),productController.editProducts)
 router.post('/deleteImage',adminAuth,productController.deleteSingleImage)
-
+router.post('/addProductOffer',adminAuth,productController.addProductOffer)
+router.post('/removeProductOffer',adminAuth,productController.removeProductOffer)
 
 //order management
 router.get('/orders',adminAuth,orderController.getOrderList)
-router.get('/orders/:orderId',adminAuth,orderController.getOrderDetailsPage);
+router.delete('/orders/delete',adminAuth,orderController.deleteOrder)
+router.get('/orderDetails',adminAuth,orderController.getOrderDetailsPage);  
+router.post('/update-order-status',adminAuth,orderController.updateOrderStatus)
 
-module.exports=router; 
+//coupon management
+router.get('/coupon',adminAuth,couponController.getCouponList)
+router.post('/createCoupon',adminAuth,couponController.createCoupon)
+
+
+module.exports=router;

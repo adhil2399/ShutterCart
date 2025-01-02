@@ -1,4 +1,4 @@
-const category = require('../../models/categorySchema');
+const Category = require('../../models/categorySchema');
 const Product = require('../../models/productSchema');
  
  //category page info 
@@ -9,12 +9,12 @@ const categoryinfo = async(req,res)=>{
         const limit = 10;
         const skip = (page-1)*limit;
 
-        const categoryData = await category.find({})
+        const categoryData = await Category.find({})
         .sort({createdAt:-1})
         .skip(skip)
         .limit(limit)
 
-        const totalcategories = await category.countDocuments();
+        const totalcategories = await Category.countDocuments();
         const totalPage = Math.ceil(totalcategories/limit)
     res.render('category',{
         cat:categoryData,
@@ -36,13 +36,13 @@ const addcategory = async (req,res)=>{
     try {
         const {name,description} = req.body; 
         // console.log(description)
-        const existingcategory = await category.findOne({name})
+        const existingcategory = await Category.findOne({name})
         
         if(existingcategory){
             return res.status(400).json({message:'Category already exists'})
         }
         
-        const newcategory = new category({
+        const newcategory = new Category({
             name,
             description,
         })
@@ -56,50 +56,52 @@ const addcategory = async (req,res)=>{
 }
 
 // add category offers
-
-const addcategoryOffer= async (req,res)=>{
-    try {   
-        const percentage = parseInt(req.body.percentage)
-        const categoryid = req.body.categoryid;
-        console.log('Request body:', req.body);
- 
-        if (!percentage || percentage <= 0) {
-            return res.status(400).json({ status: false, message: 'Invalid percentage value' });
+const addcategoryOffer = async (req, res) => {
+    try {
+      const percentage = parseInt(req.body.percentage);
+      const categoryId = req.body.categoryid;
+  
+      if (!percentage || percentage <= 0) {
+        return res.status(400).json({ status: false, message: "Invalid percentage value" });
+      }
+  
+      const category = await Category.findById(categoryId);
+      if (!category) {
+        return res.status(404).json({ status: false, message: "Category not found" });
+      }
+  
+      const products = await Product.find({ category: category._id });
+      let categoryOfferApplied = false;
+  
+      for (const product of products) {
+        if (product.productOffer > 0 && product.productOffer > percentage) {
+          // Retain the higher product offer
+          product.salePrice = product.regularPrice - Math.floor(product.regularPrice * (product.productOffer / 100));
+        } else {
+          // Apply the category offer
+          product.salePrice = product.regularPrice - Math.floor(product.regularPrice * (percentage / 100));
+          product.productOffer = 0; // Remove product-specific offer
+          categoryOfferApplied = true;
         }
-
-        
-        const category= await category.findById(categoryid)
-        console.log('Category:', category); 
-        if(!category){
-            return res.status(404).json({status:false,message:'category not found'})
-        }
-
-        const products = await Product.find({category:category._id})
-        const hasproductOffer = products.some(product=> product.productOffer > percentage)
-
-        if(hasproductOffer){
-            return res.json({status:false , message:'Products within this category already have product offers'})
-        }
-        await category.updateOne({_id:categoryid},{$set:{categoryOffer:percentage}})
-
-        for(const product of products){
-            product.productOffer= 0;
-            product.salePrice = product.regularPrice;
-            await product.save()
-        }
-
-        res.json({status:true ,message:'offer added successfully'})
-
+        await product.save();
+      }
+  
+      if (categoryOfferApplied) {
+        category.categoryOffer = percentage;
+        await category.save();
+      }
+  
+      res.json({ status: true, message: "Category offer added successfully" });
     } catch (error) {
-        res.status(500).json({status:false,message:'Internal server Error'})
-        console.error(error)
+      console.error("Error in addCategoryOffer:", error);
+      res.status(500).json({ status: false, message: "Internal server error" });
     }
-}
-
+  };
+  
 const removecategoryOffer = async (req,res)=>{
     try {
         const categoryid = req.body.categoryid;
-        const category = await category.findById(categoryid)
+        const category = await Category.findById(categoryid)
 
         if(!category){
             return res.status(404).json({status:false, message:'Category not found'})
@@ -131,7 +133,7 @@ const removecategoryOffer = async (req,res)=>{
 const getListcategory = async (req,res)=>{
     try {
         let id = req.query.id;
-        await category.updateOne({_id:id},{$set:{isListed:false}})
+        await Category.updateOne({_id:id},{$set:{isListed:false}})
          
         res.redirect('/admin/category')
     } catch (error) {
@@ -144,7 +146,7 @@ const getUnListcategory = async (req,res)=>{
     try {
         
         let id = req.query.id;
-        await category.updateOne({_id:id},{$set:{isListed: true}})
+        await Category.updateOne({_id:id},{$set:{isListed: true}})
         res.redirect('/admin/category')
     } catch (error) {
         res.redirect('/admin/pageerror')
@@ -159,8 +161,8 @@ const geteditcategory = async (req,res)=>{
         if(!id){
             res.status(401).json({ status:false,message:'dont get the category id '})
         }
-        const Category = await category.findById(id)
-        res.render('edit-category',{category:Category})
+        const category = await Category.findById(id)
+        res.render('edit-category',{category})
 
     } catch (error) {
        res.redirect('/admin/pageerror')
@@ -173,16 +175,16 @@ const editcategory =async (req,res)=>{
         const id= req.params.id;
         const {categoryName,description}= req.body
 
-      const existingcategory = await category.findOne({ 
-     name: categoryName, 
-     _id: { $ne: id }   
-    
-    }) 
+        const existingcategory = await Category.findOne({ 
+            name: { $regex: new RegExp(`^${categoryName}$`, 'i') }, // Case-insensitive match
+            _id: { $ne: id }   
+        });
+        
     
         if(existingcategory){
-            return res.status(400).json({error:'Category exists , please choose another name'})
+            return res.status(400).json({status:false,message:'Category exists , please choose another name'})
         }
-        const updatecategory = await category.findByIdAndUpdate(id,{$set:{name:categoryName,description:description}},{new:true})
+        const updatecategory = await Category.findByIdAndUpdate(id,{$set:{name:categoryName,description:description}},{new:true})
         
         if(updatecategory){
             return res.redirect('/admin/category')

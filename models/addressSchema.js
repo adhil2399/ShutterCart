@@ -6,7 +6,7 @@ const {Schema}= mongoose;
 const addressSchema= new Schema({
     userId:{
         type : Schema.Types.ObjectId,
-        ref:"User",
+        ref:"address",
         required:true
     },
     address:[{

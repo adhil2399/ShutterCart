@@ -173,7 +173,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-between align-items-start">
                     <h1 class="h2 mb-3"><%= product.productName %></h1>
-                    <div class="heart-icon">❤️</div>
+                    <div onclick="addToWishlist('<%=product._id%>')" class="heart-icon">❤️</div>
                 </div>
                 <div class="d-flex align-items-center mb-3">
                     <div class="rating me-2">
@@ -439,6 +439,53 @@
         }).showToast();
     }
 }
+
+
+    // Add to Wishlist
+        
+    async function addToWishlist(productId) {
+  try {
+    const response = await fetch('/wishlist/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId }),
+    });
+
+    const result = await response.json();
+      if (response.ok) {
+      Toastify({
+        text: 'Product added to wishlist!',
+        duration: 3000,
+        gravity: 'top', // Position
+        position: 'right', // Left or right
+        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)', // Custom background
+        close: true,
+      }).showToast();
+    } else {
+      Toastify({
+        text: result.error || 'Failed to add product to wishlist.',
+        duration: 3000,
+        gravity: 'top',
+        position: 'right',
+        backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)', // Custom background for error
+        close: true,
+      }).showToast();
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Toastify({
+      text: 'An error occurred. Please try again.',
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
+      backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+      close: true,
+    }).showToast();
+  }
+}
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 

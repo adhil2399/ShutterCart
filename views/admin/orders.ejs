@@ -11,14 +11,14 @@
                         <div class="col-lg-4 col-md-6 me-auto">
                             <input type="text" placeholder="Search..." class="form-control">
                         </div>
-                        <div class="col-lg-2 col-6 col-md-3">
+                        <!-- <div class="col-lg-2 col-6 col-md-3">
                             <select class="form-select">
                                 <option>Status</option>
                                 <option>Active</option>
                                 <option>Disabled</option>
                                 <option>Show all</option>
                             </select>
-                        </div>
+                        </div> -->
                        
                     </div>
                 </header> <!-- card-header end// -->
@@ -27,7 +27,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#ID</th>
+                                    <th>No:</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Total</th>
@@ -52,15 +52,15 @@
                                     </td> <!-- Order Status -->
                                     <td><%= new Date(order.createdAt).toLocaleDateString() %></td> <!-- Order Date -->
                                     <td class="text-end">
-                                        <a href="/orders/<%= order.orderId %>" class="btn btn-md rounded font-sm">Detail</a>
+                                        <a href="/admin/orderDetails?orderId=<%= order.orderId %>" class="btn btn-md rounded font-sm">Detail</a>
                                         <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> 
                                                 <i class="material-icons md-more_horiz"></i> 
                                             </a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="/orders/<%= order.orderId %>">View detail</a>
-                                                <a class="dropdown-item" href="/orders/edit/<%= order._id %>">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="/orders/delete/<%= order._id %>">Delete</a>
+                                                <!-- <a class="dropdown-item" href="/admin/orderDetails?orderId=<%= order.orderId %>">View detail</a> -->
+                                                <!-- <a class="dropdown-item" href="/orders/edit/<%= order._id %>">Edit info</a> -->
+                                                <button class="dropdown-item text-danger delete-order-btn" data-order-id="<%= order._id %>">Delete</button>
                                             </div>
                                         </div> <!-- dropdown //end -->
                                     </td>
@@ -106,3 +106,64 @@
             
         </section> <!-- content-main end// -->
        <%- include('../partials/admin/footer') %>
+
+
+       <script>
+        document.querySelectorAll('.delete-order-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const orderId = this.getAttribute('data-order-id');
+    
+                // SweetAlert confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will permanently delete the order!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Send DELETE request to the server
+                        fetch(`/admin/orders/delete`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ orderId})
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Deleted!',
+                                        text: 'The order has been deleted successfully.',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        location.reload(); // Reload the page to reflect changes
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Failed!',
+                                        text: 'Failed to delete the order. Please try again.',
+                                        confirmButtonText: 'Retry'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'An unexpected error occurred.',
+                                    confirmButtonText: 'OK'
+                                });
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+    

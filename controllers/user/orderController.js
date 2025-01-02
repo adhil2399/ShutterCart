@@ -2,7 +2,15 @@ const Order = require('../../models/orderSchema');
 const Cart = require('../../models/cartSchema'); 
 const User = require('../../models/userSchema');
 const Product= require('../../models/productSchema');
- 
+const Razorpay = require('razorpay');
+
+
+ // Initialize Razorpay instance
+const razorpay = new Razorpay({
+    key_id: 'YOUR_RAZORPAY_KEY_ID',
+    key_secret: 'YOUR_RAZORPAY_KEY_SECRET'
+});
+
 const placeOrder = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -55,7 +63,8 @@ const placeOrder = async (req, res) => {
                 currency: "INR",
                 receipt: orderId,
             });
-
+            
+            console.log('onlineeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
             razorpayOrderId = razorpayOrder.id; // Store Razorpay Order ID
         }
 
@@ -111,7 +120,7 @@ const placeOrder = async (req, res) => {
  const getOrderDetails = async (req, res) => {
     try {
         const orderId = req.query.Id;
-        const userId = req.session.user;
+        const user = req.session.user;
 
         if (!userId) {
             return res.status(401).json({ success: false, message: "User not authenticated." });
@@ -120,9 +129,6 @@ const placeOrder = async (req, res) => {
         const order = await Order.findOne({ orderId })
     .populate('address')
  
-
-console.log('Populated Order:', order.addressId);
-
         if (!order) {
             return res.status(404).json({
                 success: false,
@@ -130,7 +136,7 @@ console.log('Populated Order:', order.addressId);
             });
         }
      console.log('orderrrrrrrrr',order)
-        res.render('orderSuccess', { order });
+        res.render('orderSuccess', { order ,user});
     } catch (error) {
         console.error('Get order details error:', error);
         res.status(500).json({

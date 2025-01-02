@@ -5,7 +5,7 @@ const { securePassword, isOtpExpired, generateOtp, sendVerificationEmail } = req
 const Address = require('../../models/addressSchema')
 const bcrypt = require('bcrypt')
 const Order = require('../../models/orderSchema')
-
+const Wishlist = require('../../models/wishlistSchema')
 const getForgotPassword = async (req, res) => {
 
   try {
@@ -132,16 +132,32 @@ const postNewPassword = async (req, res) => {
 const userProfile = async (req, res) => {
   try {
     const userId = req.session.user
+    if (!userId) {
+      return res.redirect('/login');  
+    }
     const userData = await User.findById(userId)
     const addressData = await Address.find({ userId: userId })
-    // console.log("Fetched Address Data:", addresData);
-    const userOrders = await Order.find({ userId })
+     const userOrders = await Order.find({ userId })
     .populate('orderedItems.product')
     .lean();
-
-    console.log('sdddddddddddddddd',userOrders)
-    const AddressData = addressData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    res.render('profile', { user: userData, userAddress: AddressData , orders: userOrders,});
+    const wishlistData = await Wishlist.findOne({ userId })
+    .populate({
+        path: 'products.productId',
+        model: 'product', 
+        populate: {
+            path: 'category', 
+            model: 'Category' 
+        }
+    })
+    .lean(); 
+     const AddressData = addressData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+     const userorders =  userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+     console.log('wishhhhhhhhhhhhhhhhhhh',wishlistData);
+    res.render('profile', { 
+      user: userData,
+      userAddress: AddressData , 
+      orders: userorders,
+      wishlist: wishlistData});
 
 
   } catch (error) {
@@ -162,6 +178,8 @@ const changePassword = async (req, res) => {
     console.log(error)
   }
 }
+
+
 const postaddAddress = async (req, res) => {
   try {
     const userId = req.session.user;

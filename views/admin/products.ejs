@@ -135,8 +135,9 @@
                     <th scope="col">Image</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Regular Price</th>
-                    <th scope="col">Sale Price</th>
+                     <th scope="col">Sale Price</th>
+                    <th scope="col"><b>Offer Price</b></th>
+                    <th scope="col"><b>Offer</b></th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Action</th>
                     <th scope="col">Edit</th>
@@ -160,12 +161,21 @@
                     <!-- Category -->
                     <td><%= element.category ? element.category.name : 'N/A' %></td>
         
-                    <!-- Regular Price -->
-                    <td><%= element.regularPrice %></td>
-        
-                    <!-- Offer Price -->
-                    <td><%= element.salePrice %></td>
-        
+                    <!-- Sale Price -->
+                     <td><%= element.salePrice %></td>
+ 
+                     <td><%= element.productOffer || '0%' %></td>
+                     <td class="text-center">
+                       <% if (element.productOffer===0) { %>
+                         
+                         <button class="btn btn-info btn-sm" onclick="addProductOffer('<%= element._id %>')">Add Offer</button>
+                        
+     
+                         <% } else { %>
+                         <button class="btn btn-danger btn-sm" onclick="removeOffer('<%= element._id %>')">Remove Offer</button>
+                       <% } %>
+                     </td>
+                     
                     <!-- Quantity -->
                     <td><%= element.quantity %></td>
         
@@ -216,7 +226,103 @@
 
     </div>
     
+<script>
+    async function addProductOffer(productId) {
+  // Show the SweetAlert input dialog
+  const { value: amount } = await Swal.fire({
+    title: "Offer in Percentage",
+    input: "number",
+    inputLabel: "Percentage",
+    inputPlaceholder: "%",
+    inputAttributes: {
+      min: 0,
+      max: 100,
+      step: 1,
+    },
+  });
 
+  // Check if user entered a value
+  if (!amount) {
+    Swal.fire("Cancelled", "No percentage entered", "info");
+    return;
+  }
+
+  try {
+    // Send the request using Fetch API
+    const response = await fetch("/admin/addProductOffer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        percentage: amount,
+        productId: productId,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success === true) {
+      // Reload the page and show success alert
+      Swal.fire("Offer Added", "The offer has been added successfully", "success").then(() => {
+        location.reload();
+      });
+    } else {
+      // Handle failure
+      Swal.fire("Error", "Failed to add the offer. Please try again.", "error");
+    }
+  } catch (error) {
+    // Handle network or server errors
+    console.error("Error:", error);
+    Swal.fire("Error", "An unexpected error occurred. Please try again.", "error");
+  }
+}
+
+async function removeOffer(productId) {
+  // Show the SweetAlert confirmation dialog
+  Swal.fire({
+    title: "Remove Offer",
+    text: "Are you sure you want to remove the offer?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3545",
+    confirmButtonText: "Remove",
+    cancelButtonText: "Cancel",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        // Send the request using Fetch API
+        const response = await fetch("/admin/removeProductOffer", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            productId: productId,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success === true) {
+          // Reload the page and show success alert
+          Swal.fire("Offer Removed", "The offer has been removed successfully", "success").then(() => {
+            location.reload();
+          });
+        } else {
+          // Handle failure
+          Swal.fire("Error", "Failed to remove the offer. Please try again.", "error");
+        }
+      } catch (error) {
+        // Handle network or server errors
+        console.error("Error:", error);
+        Swal.fire("Error", "An unexpected error occurred. Please try again.", "error");
+      }
+    }
+  });
+}
+
+</script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <%- include("../partials/admin/footer") %>

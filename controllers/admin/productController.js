@@ -305,7 +305,68 @@ const deleteSingleImage = async (req, res) => {
   }
 };
 
+const addProductOffer = async (req, res) => {
+  try {
+    const { productId, percentage } = req.body;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
+    const category = await Category.findById(product.category);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    const categoryOffer = category.categoryOffer || 0;
+
+    if (categoryOffer > percentage) {
+      // Retain category offer since it's better
+      product.salePrice = product.regularPrice - Math.floor(product.regularPrice * (categoryOffer / 100));
+      product.productOffer = 0; // Remove product offer
+    } else {
+      // Apply product offer
+      product.salePrice = product.regularPrice - Math.floor(product.regularPrice * (percentage / 100));
+      product.productOffer = parseInt(percentage);
+    }
+
+    await product.save();
+    res.json({ success: true, message: "Product offer added successfully" });
+  } catch (error) {
+    console.error("Error in addProductOffer:", error);
+    res.status(500).redirect("/admin/pageerror");
+  }
+};
+
+
+
+const removeProductOffer = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const product = await Product.findById(productId);
+    const category = await Category.findById(product.category);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    const persentage = product.productOffer;
+
+    product.salePrice = product.regularPrice + Math.floor(product.regularPrice * (persentage / 100));
+ 
+    product.productOffer = 0;
+    await product.save();
+ 
+    res.json({success: true, message: "Product offer removed successfully"});
+  }
+  catch (error) {
+    console.error("Error in removeProductOffer:", error.message);
+    res.status(500).redirect("/admin/pageerror");
+  }
+}
 module.exports = {
   getProductAddPage,
   addProducts,
@@ -314,5 +375,7 @@ module.exports = {
   unblockProduct,
   getEditProducts,
   editProducts,
-  deleteSingleImage
+  deleteSingleImage,
+  addProductOffer,
+  removeProductOffer,
 };

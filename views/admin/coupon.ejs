@@ -1,0 +1,279 @@
+<%- include("../../views/partials/admin/header") %>
+<style>
+ .col-md-3 {
+   padding: 20px;
+   border: 1px solid #ddd;
+   border-radius: 10px;
+   margin: 10px;
+ }
+
+
+ .error-message {
+   color: red;
+   margin-top: 5px;
+ }
+
+
+ .form-label {
+   margin-bottom: 8px;
+ }
+
+
+ .form-control {
+   width: 100%;
+   padding: 8px;
+   margin-bottom: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   box-sizing: border-box;
+ }
+
+
+ .d-grid {
+   margin-top: 20px;
+ }
+
+
+ .btn-primary {
+   background-color: #007bff;
+   color: #fff;
+   border: 1px solid #007bff;
+   border-radius: 5px;
+   padding: 10px 20px;
+   cursor: pointer;
+ }
+
+
+ .btn-primary:hover {
+   background-color: #0056b3;
+   border-color: #0056b3;
+ }
+ </style>
+<section class="content-main">
+ <div class="content-header">
+   <div>
+     <h2 class="content-title card-title">Coupons</h2>
+   </div>
+ </div>
+ <div class="card">
+   <div class="card-body">
+     <div class="row">
+       <div class="col-md-3">
+
+        <form id="couponForm" class="needs-validation"   novalidate>
+          <div class="mb-4">
+            <label for="coupon-name" class="form-label">Coupon Name</label>
+            <input
+              type="text"
+              id="coupon-name"
+              name="couponName"
+              placeholder="Type here"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Please enter a coupon name.</div>
+          </div>
+        
+          <div class="mb-4">
+            <label for="startingDate" class="form-label">Start Date</label>
+            <input
+              type="date"
+              name="startDate"
+              class="form-control"
+              id="startingDate"
+              required
+            />
+            <div class="invalid-feedback">Please select a start date.</div>
+          </div>
+        
+          <div class="mb-4">
+            <label for="expiringDate" class="form-label">End Date</label>
+            <input
+              type="date"
+              name="endDate"
+              class="form-control"
+              id="expiringDate"
+              required
+            />
+            <div class="invalid-feedback">Please select an end date.</div>
+          </div>
+        
+          <div class="mb-4">
+            <label for="offer-price" class="form-label">Offer Price</label>
+            <input
+              type="number"
+              name="offerPrice"
+              placeholder="Type here"
+              class="form-control"
+              required
+              pattern="^\d+(\.\d{1,2})?$"
+            />
+            <div class="invalid-feedback">
+              Please enter a valid offer price (e.g., 20 or 20.99).
+            </div>
+          </div>
+        
+          <div class="mb-4">
+            <label for="minimum-price" class="form-label">Minimum Price</label>
+            <input
+              type="number"
+              name="minimumPrice"
+              placeholder="Type here"
+              class="form-control"
+              required
+              pattern="^\d+(\.\d{1,2})?$"
+            />
+            <div class="invalid-feedback">
+              Please enter a valid minimum price (e.g., 50 or 50.99).
+            </div>
+          </div>
+        
+          <div class="d-grid">
+            <button class="btn btn-primary mt-20" type="submit" id="submitBtn">Add Coupon</button>
+          </div>
+        </form>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
+        
+<script>
+  document.getElementById("submitBtn").addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  // Validate form before submission
+  const form = document.getElementById("couponForm");
+  if (!form.checkValidity()) {
+    form.classList.add("was-validated");
+    return;
+  }
+
+  // Gather form data
+  const formData = new FormData(form);
+console.log(formData);
+  try {
+    // Send data using Fetch API
+    const response = await fetch("/admin/createCoupon", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Swal.fire({
+        title: "Success!",
+        text: result.message || "Coupon created successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      form.reset();
+      form.classList.remove("was-validated");
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: result.message || "Failed to create coupon. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      title: "Error!",
+      text: "An unexpected error occurred. Please try again.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    console.error("Error:", error);
+  }
+});
+
+</script>
+       </div>
+       <div class="col-md-7 ml-105">
+         <div class="table-responsive">
+             <table class="table table-hover">
+                 <thead>
+                     <tr>
+                         <th>Name</th>
+                         <th>Created On</th>
+                         <th>Expire On</th>
+                         <th>Offer Price</th>
+                         <th>Minimum Price</th>
+                         <th>Status</th>
+                         <th>Edit/Delete</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+               <% coupons.forEach(coupon=>{%>
+                  <tr>
+                         <td class="text-start"><%=coupon.name%></td>
+                         <td class="text-start">
+                          <%= new Date(coupon.createdOn).toLocaleDateString("en-US") || "Invalid Date" %>
+                        </td>
+                        <td class="text-start">
+                          <%= new Date(coupon.expireOn).toLocaleDateString("en-US") || "Invalid Date" %>
+                        </td>
+                        
+                         <td class="text-start"><%=coupon.offerPrice%></td>
+                         <td class="text-start"><%=coupon.minimumPrice%></td>
+                         <td class="text-start"><%=coupon.isList%></td>
+                         <td class="text-start">
+                             <a href="/admin/editCoupon?id=<%=coupon._id%>" class="btn btn-primary btn-sm" >Edit</a>
+
+                             <a href="javascript:void(0)" 
+                             onclick="confirmDelete('<%=coupon._id%>')"
+                             data-coupon-id="<%=coupon._id%>"
+                             class="btn btn-danger btn-sm" 
+                             style="height: 35px;width: 105px;">Delete</a>
+                         </td>
+                     </tr>
+                     <% }) %>
+                 </tbody>
+             </table>
+         </div>
+     </div>
+     </div>
+   </div>
+ </div>
+</section>
+
+
+<script>
+  // Add Bootstrap validation on form submission
+  (function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+
+    Array.from(forms).forEach((form) => {
+      form.addEventListener(
+        'submit',
+        (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        },
+        false
+      );
+    });
+  })();
+</script>
+
+<script>
+
+function setDefaultStarDate() {
+   const today=new Date();
+   const year=today.getFullYear();
+   let month =(today.getMonth()+1).toString().padStart(2,"0");
+   let day=today.getdate().toString().padStart(2,"0");
+   document.getElementById("startingDate").value=`${year}-${month}-${day}` 
+}
+
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<%- include("../../views/partials/admin/footer") %>
