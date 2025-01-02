@@ -50,8 +50,22 @@ const createCoupon = async (req, res) => {
   }
 };
  
+const deleteCoupon = async (req,res)=>{
+  try {
+   const couponId = req.params.id;
+    const coupon = await Coupon.findByIdAndDelete(couponId);
+    if (!coupon) {
+      return res.status(404).json({ message: "Coupon not found." });
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error. Please try again." });j
+    console.error("Error deleting coupon:", error);
+  }
+}
 
 module.exports = {
     getCouponList,
-    createCoupon
+    createCoupon,
+    deleteCoupon
 };

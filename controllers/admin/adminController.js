@@ -2,8 +2,7 @@ const User = require("../../models/userSchema");
 const bcrypt = require('bcrypt');
 const mongoose= require('mongoose')
 
-const {adminAuth,userAuth}= require('../../middlewares/auth')
-
+ 
 // render admin error page
 
 const pageerror= async (req,res)=>{
@@ -85,4 +84,4 @@ module.exports = {
     loadDashboard,
     pageerror,
     logout,
-}
+ }
