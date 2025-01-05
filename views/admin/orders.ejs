@@ -27,7 +27,7 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>No:</th>
+                                    <!-- <th>No:</th> -->
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Total</th>
@@ -39,7 +39,7 @@
                             <tbody>
                                 <% orders.forEach((order, index) => { %>
                                 <tr>
-                                    <td><%= index + 1 %></td> <!-- Row number -->
+                                    <!-- <td><%= index + 1 %></td> -->
                                     <td><b><%= order.userId.name %></b></td> <!-- User Name -->
                                     <td><%= order.userId.email %></td> <!-- User Email -->
                                     <td>₹<%= (order.finalAmount / 100).toFixed(2) %></td> <!-- Total Amount (Assuming in paise) -->
@@ -71,38 +71,38 @@
                         
                     </div> <!-- table-responsive //end -->
                 </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
-            <div class="pagination-area mt-15 mb-50">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <% if (currentPage > 1) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">
-                                    <i class="material-icons md-chevron_left"></i>
-                                </a>
-                            </li>
-                        <% } %>
-            
-                        <% for (let i = 1; i <= totalPages; i++) { %>
-                            <% if (i === currentPage || (i <= 2 || i > totalPages - 2 || Math.abs(i - currentPage) <= 1)) { %>
-                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">
+                                        <i class="material-icons md-chevron_left"></i>
+                                    </a>
+                                </li>
+                            <% } %>
+    
+                            <% for(let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
                                     <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
                                 </li>
-                            <% } else if (i === 3 || i === totalPages - 2) { %>
-                                <li class="page-item"><a class="page-link dot">...</a></li>
                             <% } %>
-                        <% } %>
+    
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                                        <i class="material-icons md-chevron_right"></i>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </div> <!-- card end// -->
             
-                        <% if (currentPage < totalPages) { %>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
-                                    <i class="material-icons md-chevron_right"></i>
-                                </a>
-                            </li>
-                        <% } %>
-                    </ul>
-                </nav>
-            </div>
+
+                
+        
             
         </section> <!-- content-main end// -->
        <%- include('../partials/admin/footer') %>

@@ -262,6 +262,329 @@
             background-color: #ffc107;
             color: black;
         }
+
+
+        /* order css */
+
+        .modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-container:target {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 24px;
+    background: none;
+    border: none;
+    opacity: 0.8;
+}
+
+.modal-close:hover {
+    color: #fff;
+    opacity: 1;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.order-table th, 
+.order-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+}
+
+.order-table th {
+    background-color: #000;
+    color: #fff;
+    font-weight: 600;
+}
+
+.order-table tbody tr:hover {
+    background-color: #2a2a2a;
+}
+
+.order-table tbody tr td {
+    color: #e0e0e0;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: white;
+    display: inline-block;
+}
+
+.badge-success { background-color: #2ecc71; }
+.badge-danger { background-color: #e74c3c; }
+.badge-primary { background-color: #3498db; }
+.badge-warning { background-color: #f1c40f; }
+
+.btn {
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    margin: 0 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-info {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #f1c40f;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.address-box {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+    color: #e0e0e0;
+}
+
+.payment-box {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 4px;
+    color: #e0e0e0;
+}
+
+.address-box h4,
+.payment-box h4 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.address-box p,
+.payment-box p {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.table-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.main-content {
+    min-height: calc(100vh - 200px); /* Adjust based on your footer height */
+    padding-bottom: 60px; /* Add some space before footer */
+}
+
+.modal-content .order-table {
+    background-color: #2a2a2a;
+    margin-top: 15px;
+}
+
+.modal-content .order-table th {
+    background-color: #000;
+    color: #fff;
+    border-bottom: 1px solid #333;
+}
+
+.modal-content .order-table td {
+    border-bottom: 1px solid #333;
+    color: #e0e0e0;
+}
+
+.modal-content h3 {
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.swal2-popup {
+    background: #1a1a1a !important;
+    color: #fff !important;
+}
+
+.swal2-title, .swal2-html-container {
+    color: #fff !important;
+}
+
+.swal2-confirm {
+    background-color: #e74c3c !important;
+}
+
+.swal2-cancel {
+    background-color: #95a5a6 !important;
+}
+
+.order-details-container {
+  padding: 20px;
+}
+
+.order-summary {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-item .label {
+  font-weight: 500;
+  color: #666;
+}
+
+.price-details {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.price-details h4 {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.price-item.discount {
+  color: #28a745;
+}
+
+.price-item.coupon {
+  color: #007bff;
+}
+
+.price-item.final {
+  font-weight: bold;
+  border-top: 1px dashed #e0e0e0;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.order-items {
+  margin-bottom: 25px;
+}
+
+.order-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.item-image img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.item-details h5 {
+  margin: 0 0 10px 0;
+}
+
+.item-details p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.shipping-address {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.shipping-address h4 {
+  margin-bottom: 15px;
+}
+
+.shipping-address p {
+  margin: 5px 0;
+}
+
+.status-pending {
+  color: #ffc107;
+}
+
+.status-confirmed {
+  color: #17a2b8;
+}
+
+.status-shipped {
+  color: #007bff;
+}
+
+.status-delivered {
+  color: #28a745;
+}
+
+.status-cancelled {
+  color: #dc3545;
+}
 </style>
 
   </head>
@@ -675,151 +998,421 @@ async function removeFromWishlist(productId) {
   </script>
 
 
-            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
-              <div class="dashboard-right-box">
-                <div class="order">
-                  <div class="sidebar-title">
-                    <h4>My Orders History</h4>
-                  </div>
-            
-                  <div class="row gy-4">
-                     <% orders.forEach(item => { %>
-                      <div class="col-12">
-                        <div class="order-box">
-                          <div class="order-container">
-                            <div class="order-icon">
-                              <i class="iconsax" data-icon="box"></i>
-                              <div class="couplet">
-                                <% if (item.status === 'Delivered') { %>
-                                  <i class="fa-solid fa-check"></i>
-                                <% } else { %>
-                                  <i class="fa-solid fa-clock"></i>
-                                <% } %>
-                              </div>
-                            </div>
-                            <div class="order-detail">
-                              <h5><%= item.status %></h5>
-                              <p>on <%= new Date(item.updatedAt).toDateString() %></p>
-                            </div>
-                          </div>
-                          <div class="product-order-detail">
-                            <% item.orderedItems.forEach(pro => { %>
-                              <div class="product-box">
-                                <a href="/productDetails?id=<%= pro.product._id %>">
-                                  <img src="<%= pro.product.productImage[0] || '../assets/images/placeholder.jpg' %>" alt="">
-                                </a>
-                                <div class="order-wrap">
-                                  <h5><%= pro.product.productName %></h5>
-                                  <p><%= pro.product.description || 'No description available.' %></p>
-                                  <ul>
-                                    <li>
-                                    </span> Price: <span><span>₹<%= pro.product.salePrice %></span>
-                                    </li>
-                                    <br>
-                                    <li>
-                                      <span>Quantity:</span><span><%= pro.quantity %></span>
-                                    </li>
-                                    <br>
-                                    <li>
-                                      <span>Order Id:</span><span><%= item.orderId %></span>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            <% }) %>
-                          </div>
-                          <div class="return-box">
-                            <div class="review-box">
-                              <div class="rating ms-3">★★★★☆</div>
+<div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 mt-5">
+        <h2 class="mb-4">Order History</h2>
 
-                              <span data-bs-toggle="modal" data-bs-target="#Reviews-modal" title="Quick View" tabindex="0">Write Review</span>
+        <% if (locals.error) { %>
+          <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <% if (orders && orders.length > 0) { %>
+          <div class="table-container">
+            <table class="order-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% orders.forEach(order => { %>
+                  <tr>
+                    <td><%= order.orderId %></td>
+                    <td><%= new Date(order.updatedAt).toLocaleDateString() %></td>
+                    <td><%= order.orderedItems ? order.orderedItems.length : 0 %> items</td>
+                    <td>₹<%= order.finalAmount ? order.finalAmount.toFixed(2) : '0.00' %></td>
+                    <td>
+                      <span class="badge badge-<%= 
+                        order.status === 'Delivered' ? 'success' : 
+                        order.status === 'Cancelled' ? 'danger' : 
+                        order.status === 'Returned' ? 'warning' : 'primary' 
+                      %>">
+                        <%= order.status %>
+                      </span>
+                      <% if (order.returnStatus) { %>
+                        <br>
+                        <small class="badge badge-<%= 
+                          order.returnStatus === 'approved' ? 'success' : 
+                          order.returnStatus === 'rejected' ? 'danger' : 'warning' 
+                        %>">
+                          Return <%= order.returnStatus.charAt(0).toUpperCase() + order.returnStatus.slice(1) %>
+                        </small>
+                      <% } %>
+                    </td>
+                    <td>
+                      <a href="#modal-<%= order.orderId %>" class="btn btn-info">View Details</a>
+                      <% if (order.status === 'Delivered' && !order.returnStatus) { %>
+                        <button class="btn btn-sm btn-warning return-order" data-order-id="<%= order.orderId %>" data-bs-toggle="modal" data-bs-target="#returnModal<%= order.orderId %>">
+                          <i class="fas fa-undo"></i> Return
+                        </button>
+
+                         <!-- Return Modal -->
+           <div class="modal fade" id="returnModal<%= order.orderId %>" tabindex="-1" aria-labelledby="returnModalLabel<%= order.orderId %>" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="returnModalLabel<%= order.orderId %>">Return Order #<%= order.orderId %></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="returnForm<%= order.orderId %>">
+                            <div class="mb-3">
+                                <label for="returnReason<%= order.orderId %>" class="form-label">Reason for Return</label>
+                                <select class="form-select" id="returnReason<%= order.orderId %>" required>
+                                    <option value="">Select a reason</option>
+                                    <option value="Damaged Product">Damaged Product</option>
+                                    <option value="Wrong Product">Wrong Product</option>
+                                    <option value="Not as Described">Not as Described</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
-                            <h6>
-                              <span> </span>* Exchange/Return window closed on <%= new Date( item.updatedAt).toLocaleDateString() %>
-                            </h6>
-                          </div>
+                            <div class="mb-3">
+                                <label for="returnDetails<%= order.orderId %>" class="form-label">Additional Details</label>
+                                <textarea class="form-control" id="returnDetails<%= order.orderId %>" rows="3" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="returnOrder('<%= order.orderId %>')">Submit Return Request</button>
+                    </div>
+                </div>
+            </div>
+            </div>   
+
+                      <% } else if (['Placed'].includes(order.status)) { %>
+                        <button class="btn btn-danger" onclick="cancelOrder('<%= order.orderId %>')">
+                          Cancel
+                        </button>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+
+          
+          <!-- Order Detail Modals -->
+          <% orders.forEach(order => { %>
+            <div id="modal-<%= order.orderId %>" class="modal-container">
+              <div class="modal-content">
+                <a href="#" class="modal-close">&times;</a>
+                <h3>Order Details of : <%= order.orderId %></h3>
+                <div class="order-details-container">
+                  <div class="order-summary">
+                    <div class="summary-item">
+                      <span class="label">Order Date:</span>
+                      <span class="value"><%= new Date(order.createdAt).toLocaleDateString() %></span>
+                    </div>
+                    <div class="summary-item">
+                      <span class="label">Payment Method:</span>
+                      <span class="value"><%= order.paymentMethod %></span>
+                    </div>
+                    <div class="summary-item">
+                      <span class="label">Payment Status:</span>
+                      <span class="value"><%= order.paymentStatus %></span>
+                    </div>
+                    <div class="summary-item">
+                      <span class="label">Order Status:</span>
+                      <span class="value status-<%= order.orderStatus %>"><%= order.status %></span>
+                    </div>
+                  </div>
+                  
+                  <div class="price-details">
+                    <h4>Price Details</h4>
+                    <div class="price-item">
+                      <span>Total MRP</span>
+                      <span>₹<%= order.totalPrice.toFixed(2) %></span>
+                    </div>
+                    <% if (order.discount && (order.discount.bestOffer > 0 || order.discount.coupon > 0)) { %>
+                      <% if (order.discount.bestOffer > 0) { %>
+                        <div class="price-item discount">
+                          <span>Best Offer Discount</span>
+                          <span>-₹<%= order.discount.bestOffer.toFixed(2) %></span>
+                        </div>
+                      <% } %>
+                      <% if (order.discount.coupon > 0) { %>
+                        <div class="price-item discount">
+                          <span>Coupon Discount</span>
+                          <span>-₹<%= order.discount.coupon.toFixed(2) %></span>
+                        </div>
+                      <% } %>
+                      <div class="price-item discount">
+                        <span>Total Discount</span>
+                        <span>-₹<%= order.discount.total.toFixed(2) %></span>
+                      </div>
+                    <% } %>
+                    <div class="price-item final">
+                      <span>Final Price</span>
+                      <span>₹<%= order.finalAmount.toFixed(2) %></span>
+                    </div>
+                  </div>
+
+                  <div class="order-items">
+                    <h4>Ordered Items</h4>
+                    <% order.orderedItems.forEach(item => { %>
+                      <div class="order-item">
+                        <div class="item-image">
+                          <img src="<%= item.product.productImage[0] %>" alt="<%= item.productName %>">
+                        </div>
+                        <div class="item-details">
+                          <h5><%= item.productName %></h5>
+                          <p>Quantity: <%= item.quantity %></p>
+                          <p>Price: ₹<%= item.product.salePrice %></p>
                         </div>
                       </div>
                     <% }) %>
+                  </div>
+
+                  <div class="shipping-address">
+                    <h4>Shipping Address</h4>
+                    <p><%= order.address.name %></p>
+                    <p><%= order.address.addressType %></p>
+                    <p><%= order.address.city %>, <%= order.address.state %> ,<%= order.address.landMark %></p>
+                    <p><%= order.address.pinCode %></p>
+                    <p>Phone: <%= order.address.phone %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+
+          <!-- Pagination -->
+          <% if (locals.totalPages > 1) { %>
+            <div class="pagination" style="text-align: center; margin-top: 20px;">
+              <% if (currentPage > 1) { %>
+                <a href="/order-history?page=<%= currentPage - 1 %>" class="btn btn-info">Previous</a>
+              <% } %>
+
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/order-history?page=<%= i %>" 
+                   class="btn <%= currentPage == i ? 'btn-primary' : 'btn-info' %>">
+                  <%= i %>
+                </a>
+              <% } %>
+
+              <% if (currentPage < totalPages) { %>
+                <a href="/order-history?page=<%= currentPage + 1 %>" class="btn btn-info">Next</a>
+              <% } %>
+            </div>
+          <% } %>
+        <% } else { %>
+          <div style="text-align: center; padding: 50px 0;">
+            <i class="fas fa-shopping-bag" style="font-size: 48px; margin-bottom: 20px;"></i>
+            <h4>No orders yet</h4>
+            <p style="color: #666;">Start shopping to see your orders here!</p>
+            <a href="/shop" class="btn btn-info">Shop Now</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+  async function cancelOrder(orderId) {
+    try {
+        const result = await Swal.fire({
+            title: 'Cancel Order',
+            text: 'Are you sure you want to cancel this order?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, cancel it!',
+            cancelButtonText: 'No, keep it',
+            background: '#1a1a1a',
+            color: '#fff',
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#95a5a6'
+        });
+
+        if (result.isConfirmed) {
+            const response = await fetch(`/cancel-order/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                await Swal.fire({
+                    title: 'Cancelled!',
+                    text: 'Your order has been cancelled.',
+                    icon: 'success',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#3498db'
+                });
+                location.reload();
+            } else {
+                throw new Error(data.message || 'Failed to cancel order');
+            }
+        }
+    } catch (error) {
+        console.error('Error cancelling order:', error);
+        await Swal.fire({
+            title: 'Error!',
+            text: error.message || 'Failed to cancel order',
+            icon: 'error',
+            background: '#1a1a1a',
+            color: '#fff',
+            confirmButtonColor: '#e74c3c'
+        });
+    }
+}
+  async function returnOrder(orderId) {
+        const reasonSelect = document.querySelector(`#returnReason${orderId}`);
+        const details = document.querySelector(`#returnDetails${orderId}`).value;
+        
+        if (!reasonSelect.value || !details) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please fill in all fields'
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch(`/order/return/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    reason: reasonSelect.value,
+                    details: details
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Return request submitted successfully'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+
+              Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message || 'Failed to submit return request'
+        });     
+      
+      }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Failed to submit return request'
+            });
+        }
+    }
+
+ 
+</script>
+
+            <!-- wallet  -->
+            <div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="Wallet-tab">
+              <div class="dashboard-right-box">
+                <div class="wallet-section">
+                  <!-- Current Balance -->
+                  <div class="wallet-grid">
+                    <div class="wallet-card">
+                      <h2>Current Balance</h2>
+                      <div class="wallet-amount">₹<%= wallet.totalBalance %></div>
+                      <div class="wallet-description">Available for use</div>
+                    </div>
+            
+                    <!-- Add Money -->
+                    <div class="wallet-card">
+                      <h2>Add Money</h2>
+                      <input id="addMoneyInput" type="number" placeholder="Enter amount" class="form-control mb-2" required>
+                      <button id="addMoneyButton" class="add-money-btn btn btn-primary">Add Funds</button>
+                      <div id="addMoneyMessage" class="wallet-message mt-2"></div>
+                    </div>
+                  </div>
+            
+                  <!-- Transaction History -->
+                  <div class="transaction-history mt-4">
+                    <h2>Transaction History</h2>
+                    <ul id="transactionList" class="transaction-list">
+                      <% wallet.transactions.forEach(function(transaction) { %>
+                        <li class="transaction-item">
+                          <span class="transaction-icon"><%= transaction.type === 'Deposit' ? '↓' : '↑' %></span>
+                          <div class="transaction-details">
+                            <div><%= transaction.description || transaction.type %></div>
+                            <small><%= new Date(transaction.date).toLocaleString() %></small>
+                          </div>
+                          <div class="transaction-amount" style="color: '<%= transaction.type === 'Deposit' ? 'green' : 'red' %>'">
+                            <%= transaction.type === 'Deposit' ? '+' : '-' %>₹<%= transaction.amount.toFixed(2) %>
+                          </div>
+                          <span class="transaction-status status-<%= transaction.status.toLowerCase() %>"><%= transaction.status %></span>
+                        </li>
+                      <% }); %>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
             
-            <!-- wallet  -->
-            <div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="Wallet-tab">
-              <div class="dashboard-right-box">
-                  <div class="wallet-section">
-                      <div class="wallet-grid">
-                          <div class="wallet-card">
-                              <h2>Current Balance</h2>
-                              <div class="wallet-amount">$0</div>
-                              <div class="wallet-description">Available for use</div>
-                          </div>
-                          <div class="wallet-card">
-                              <h2>Pending Amount</h2>
-                              <div class="wallet-amount">$</div>
-                              <div class="wallet-description">In process</div>
-                          </div>
-                          <div class="wallet-card">
-                              <h2>Add Money</h2>
-                              <button class="add-money-btn">Add Funds</button>
-                          </div>
-                      </div>
-          
-                      <div class="transaction-history">
-                          <h2>Transaction History</h2>
-                          <ul class="transaction-list">
-                              <li class="transaction-item">
-                                  <span class="transaction-icon">↓</span>
-                                  <div class="transaction-details">
-                                      <div>Refund from order #12345</div>
-                                      <small>2024-01-30 14:30</small>
-                                  </div>
-                                  <div class="transaction-amount" style="color: green;">+$500.00</div>
-                                  <span class="transaction-status status-completed">Completed</span>
-                              </li>
-                              <li class="transaction-item">
-                                  <span class="transaction-icon">↑</span>
-                                  <div class="transaction-details">
-                                      <div>Purchase - Premium Package</div>
-                                      <small>To: Premium Store • 2024-01-29 09:15</small>
-                                  </div>
-                                  <div class="transaction-amount" style="color: red;">-$89.99</div>
-                                  <span class="transaction-status status-completed">Completed</span>
-                              </li>
-                              <li class="transaction-item">
-                                  <span class="transaction-icon">↓</span>
-                                  <div class="transaction-details">
-                                      <div>Wallet Top-up</div>
-                                      <small>2024-01-28 16:45</small>
-                                  </div>
-                                  <div class="transaction-amount" style="color: green;">+$1,000.00</div>
-                                  <span class="transaction-status status-completed">Completed</span>
-                              </li>
-                              <li class="transaction-item">
-                                  <span class="transaction-icon">↑</span>
-                                  <div class="transaction-details">
-                                      <div>Withdrawal to Bank Account</div>
-                                      <small>2024-01-27 11:20</small>
-                                  </div>
-                                  <div class="transaction-amount" style="color: red;">-$150.00</div>
-                                  <span class="transaction-status status-pending">Pending</span>
-                              </li>
-                              <li class="transaction-item">
-                                  <span class="transaction-icon">↑</span>
-                                  <div class="transaction-details">
-                                      <div>Purchase - Digital Product</div>
-                                      <small>To: Digital Store • 2024-01-26 13:10</small>
-                                  </div>
-                                  <div class="transaction-amount" style="color: red;">-$45.50</div>
-                                  <span class="transaction-status status-completed">Completed</span>
-                              </li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-          </div>
+         
+<script>
+  const addMoneyButton = document.getElementById('addMoneyButton');
+  const addMoneyInput = document.getElementById('addMoneyInput');
+  const addMoneyMessage = document.getElementById('addMoneyMessage');
+
+  addMoneyButton.addEventListener('click', async () => {
+      const amount = parseFloat(addMoneyInput.value);
+
+      if (!amount || amount <= 0) {
+          addMoneyMessage.textContent = 'Please enter a valid amount.';
+          addMoneyMessage.style.color = 'red';
+          return;
+      }
+
+      try {
+          const response = await fetch('/wallet/add-money', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ amount })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              addMoneyMessage.textContent = 'Money added successfully!';
+              addMoneyMessage.style.color = 'green';
+              document.querySelector('.wallet-amount').textContent = `₹${data.totalBalance.toFixed(2)}`;
+              renderTransactions(data.transactions);  
+          } else {
+              addMoneyMessage.textContent = data.error || 'Failed to add money.';
+              addMoneyMessage.style.color = 'red';
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          addMoneyMessage.textContent = 'An error occurred. Please try again.';
+          addMoneyMessage.style.color = 'red';
+      }
+  });
+</script>
+            
             <!-- Address manager -->
 
             <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
@@ -934,7 +1527,7 @@ async function removeFromWishlist(productId) {
                             </div>
                             <div class="col-md-6">
                               <label class="form-label">State</label>
-                              <input type="text" class="form-control" name="state" minlength="2" required>
+                              <input type="form-control" name="state" minlength="2" required>
                             </div>
                           </div>
 
@@ -1276,7 +1869,7 @@ async function deleteAddress(id) {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel',
+            cancelButtonText: 'Cancel'
         });
 
          if (result.isConfirmed) {
@@ -1363,5 +1956,7 @@ async function deleteAddress(id) {
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
  
+
+  <%- include('../partials/user/footer') %>
 
   <%- include('../partials/user/footer') %>

@@ -4,33 +4,32 @@ const Product = require('../../models/productSchema')
 
 const getOrderList = async (req, res) => {
     try {
-        // Get the page and limit from the query parameters, with defaults
-        const page = parseInt(req.query.page) || 1; // Default to page 1
+         const page = parseInt(req.query.page) || 1; // Default to page 1
         const limit = parseInt(req.query.limit) || 10;  
          const skip = (page - 1) * limit;
 
-        // Fetch orders with pagination and sorting
-        const orders = await Order.find()
+         const orders = await Order.find()
             .populate('userId')
             .populate('orderedItems.product')
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);
 
-        // Get the total count of orders for calculating total pages
-        const totalOrders = await Order.countDocuments();
+         const totalOrders = await Order.countDocuments();
         const totalPages = Math.ceil(totalOrders / limit);
 
         console.log('Fetched Orders:', orders);
 
-        // Render the orders page with pagination details
-        return res.render('orders', {
-            orders,
-            currentPage: page,
-            totalPages,
-            totalOrders,
-            limit,
-        });
+         return res.render('orders', {
+           orders,
+           currentPage: page,
+           totalPages,
+           totalOrders,
+           limit,
+           hasNextPage: page < totalPages,
+           hasPrevPage: page > 1
+               });
+    
     } catch (error) {
         console.error('Error fetching orders:', error);
         return res.status(500).send('Internal Server Error');
@@ -117,9 +116,48 @@ const deleteOrder = async (req, res) => {
     }
 };
 
+const processReturnRequest = async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const { action } = req.body;
+  
+      const order = await Order.findOne({orderId});
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+  
+      //  pending return request
+      if (!order.returnRequest || order.returnRequest.status !== "Pending") {
+        return res
+          .status(400)
+          .json({ message: "No pending return request found" });
+      }
+  
+      // Update return request status
+      order.returnRequest.status = action === "approve" ? "Approved" : "Rejected";
+      order.returnRequest.processedDate = new Date();
+  
+      // If approved, update order status to Returned
+      if (action === "approve") {
+        order.status = "Returned";
+      }
+  
+      await order.save();
+  
+      res.status(200).json({
+        message: `Return request ${action}ed successfully`,
+        order: order,
+      });
+    } catch (error) {
+      console.error("Error in processReturnRequest:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
 module.exports={
     getOrderList,
     getOrderDetailsPage,
     updateOrderStatus,
-    deleteOrder
+    deleteOrder,
+    processReturnRequest
 }

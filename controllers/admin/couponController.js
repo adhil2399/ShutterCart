@@ -1,4 +1,4 @@
- const User = require('../../models/userSchema')
+const User = require('../../models/userSchema')
  const Coupon = require('../../models/couponSchema')
 
 const getCouponList = async (req, res) => {

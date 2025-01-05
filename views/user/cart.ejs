@@ -34,7 +34,7 @@
                     <tr> 
                       <th>Product </th>
                       <th>Price </th>
-                      <th>Quantity</th>
+                       <th>Quantity</th>
                       <th>Total</th>
                       <th></th>
                     </tr>
@@ -52,7 +52,13 @@
                           </div>
                         </div>
                       </td>
-                      <td id="salePrice<%=item.productId._id %>"><%= item.productId.salePrice %></td>
+                      
+                          <td id="salePrice<%=item.productId._id %>"><%= item.productId.salePrice %>
+                            <% if (item.bestOffer > 0) { %>
+                              <span class="offer-badge text-success">-<%= item.bestOffer %>% OFF</span>
+                           <% } %>
+                           
+                      </td>
                       <td>
                         <div class="quantity">
                           <button class="minus" onclick="checkQuantity( '<%=item.productId._id %>' ,-1)" type="button">-</button>
@@ -60,7 +66,7 @@
                           <button class="plus" onclick="checkQuantity( '<%=item.productId._id %>',1 )" type="button">+</button>
                         </div>
                       </td>
-                      <td id="totalprice"><%=item.productId.salePrice*item.quantity %></td>
+                      <td id="totalprice<%=item.productId._id %>" data-price="<%=item.productId.salePrice%>"><%=item.productId.salePrice*item.quantity %></td>
                       <td><a class="deleteButton" onclick="dltCartItem('<%=item.productId._id %>')" href="javascript:void(0)"><i class="iconsax" data-icon="trash"></i></a></td>
                     </tr>
                     <% }) %>
@@ -97,10 +103,10 @@
                 <h6>Price Details (<%= countItems %> Items) </h6>
                 <ul> 
                   <li> 
-                    <p>Subtotal </p><span class="text-black" class="subtotal"> <%= subtotal %></span>
+                    <p>Subtotal </p><span class="text-black" id="subtotal"> <%= cartSubtotal %></span>
                   </li>
                   <li> 
-                    <p>Discount </p><span class="theme-color">0 </span>
+                    <p>Discount </p><span id="discount" class="theme-color">-<%= discount.toFixed(2) %></span>
                   </li>
                   <li> 
                     <!-- <p>Coupon Discount </p><span class="Coupon">Apply Coupon </span> -->
@@ -110,9 +116,10 @@
                   </li>
                 </ul>
               </div>
+              
               <div class="cart-bottom"> 
                 <!-- <p><i class="iconsax me-1" data-icon="tag-2"></i>SPECIAL OFFER (-$1.49) </p> -->
-                <h6 class="pb-4">Total Amount <span class="text-black" class="subtotal"> <%= subtotal %></span></h6>
+                <h6 class="pb-4">Total Amount <span class="text-black"  id="finamount"> <%= totalAmount.toFixed(2) %></span></h6>
                 <!-- <span>Taxes and shipping calculated at checkout</span> -->
               </div>
               <a class="btn btn_black w-100 rounded sm" href="/checkout">Check Out</a>
@@ -130,8 +137,7 @@
       async function checkQuantity(productId,num) {
         try {
           
-           console.log('sdfghbjnm,')
-          const response = await fetch('/cart/add',{
+           const response = await fetch('/cart/add',{
             method:'POST',
             headers:{
               'Content-Type': 'application/json'
@@ -139,8 +145,7 @@
               })
     
           const data = await response.json()
-          console.log(data.message)
-          if(!response.ok){
+           if(!response.ok){
              Toastify({
                     text: data.message || "Error adding to cart",
                     duration: 3000,
@@ -155,21 +160,33 @@
                 },
                 }).showToast();
             }else{
-
-       let quantity= document.getElementById(`quantity${productId}`).value ;
-       const totalprice = document.querySelector(`#row${productId} #totalprice`) 
-       const salePrice = document.getElementById('salePrice'+productId).innerHTML
-
-       const subtotal= document.querySelector('.subtotal')
-              console.log(data)
-       if(data.subtotal&& data.subtotal > 0 ){
-        subtotal.innerHTML= data.subtotal
-       }
+              let quantity= document.getElementById(`quantity${productId}`).value ;
+              const  finalAmount = document.getElementById('finamount')
+              const totalprice = document.querySelector(`#row${productId} #totalprice${productId}`)
+              const originalPrice = totalprice.getAttribute('data-price')
+              const discount = document.getElementById('discount')
+              
+              if(data.subtotal && data.subtotal > 0) {
+                // Clean and convert the values
+                const cleanQuantity = Number(quantity)
+                const cleanPrice = Number(originalPrice)
+                
+                console.log('Clean values - quantity:', cleanQuantity, 'price:', cleanPrice)
+                
+                const itemTotal = cleanQuantity * cleanPrice
+                
+                subtotal.innerHTML = data.subtotal
+                discount.innerHTML = data.discount.toFixed(2)
+                finalAmount.innerHTML = (data.subtotal - data.discount)
+                totalprice.innerHTML = itemTotal
+                
+                console.log('Final total:', itemTotal)
+              }
+              }
 
              
-      totalprice.innerText = +quantity * +salePrice
             }
-        } catch (error) {
+        catch (error) {
             console.error("Error:", error);
             Toastify({
                 text: "Something went wrong. Please try again.",
@@ -252,7 +269,7 @@
                           </td>
                         </tr>
                             `
-         }}
+         }
        } else {
          Toastify({
           text: data.message || "Failed to remove the item from the cart",
@@ -268,6 +285,7 @@
           }
         }).showToast();
       }
+    }
     } catch (error) {
       console.error("Error:", error);
        Toastify({

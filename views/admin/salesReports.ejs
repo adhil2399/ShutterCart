@@ -58,13 +58,16 @@
     <div class="content-header d-flex justify-content-between align-items-center">
         <h2 class="content-title">Sales Report</h2>
         <div class="btn-group">
-            <button onclick="downloadReport('pdf')" class="btn btn-outline-primary">
+            <a href="/admin/salesReport/download/pdf?period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
+               class="btn btn-outline-primary">
                 <i class="fas fa-file-pdf"></i> Download PDF
-            </button>
-            <button onclick="downloadReport('excel')" class="btn btn-outline-success ms-2">
+            </a>
+            <a href="/admin/salesReport/download/excel?period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
+               class="btn btn-outline-success ms-2">
                 <i class="fas fa-file-excel"></i> Download Excel
-            </button>
+            </a>
         </div>
+        
     </div>
 
     <!-- Summary Cards -->
@@ -73,10 +76,10 @@
             <div class="card stats-card h-100 border-primary">
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Total Sales</h6>
-                    <h3 class="card-title text-primary">₹<%= totals.finalAmount %></h3>
+                    <h3 class="card-title text-primary">₹<%= totals.finalAmount.toFixed(2) %></h3>
                     <p class="card-text small">
-                        Original: ₹<%= totals.totalPrice %><br>
-                        Discount: ₹<%= totals.discount %>
+                        Original: ₹<%= totals.totalPrice.toFixed(2) %><br>
+                        Discount: ₹<%= totals.discount.toFixed(2) %>
                     </p>
                 </div>
             </div>
@@ -87,13 +90,13 @@
                     <h6 class="card-subtitle mb-2 text-muted">Order Status</h6>
                     <h3 class="card-title text-success"><%= totals.count %> Total</h3>
                     <p class="card-text small">
-                        Pending: <%= totals.PendingCount   %><br>
-                        Processing: <%= totals.ProcessingCount   %><br>
-                        Shipped: <%= totals.ShippedCount  %><br>
-                        Delivered: <%= totals.DeliveredCount %><br>
-                        Return Request: <%= totals.ReturnRequestCount  %><br>
-                        Returned: <%= totals.ReturnedCount   %><br>
-                        Cancelled: <%= totals.CancelledCount   %>
+                        Pending Payment: <%= totals.pendingPaymentCount || 0 %><br>
+                        Placed: <%= totals.placedCount || 0 %><br>
+                        Rejected: <%= totals.rejectedCount || 0 %><br>
+                        Delivered: <%= totals.deliveredCount || 0 %><br>
+                        Cancelled: <%= totals.cancelledCount || 0 %><br>
+                        Return Request: <%= totals.returnRequestCount || 0 %><br>
+                        Returned: <%= totals.returnedCount || 0 %>
                     </p>
                 </div>
             </div>
@@ -122,6 +125,7 @@
                 <div class="col-12 col-md-3">
                     <label for="period" class="form-label">Time Period</label>
                     <select id="period" name="period" class="form-select">
+                        <option value="all" <%= period === 'all' ? 'selected' : '' %>>All Time</option>
                         <option value="daily" <%= period === 'daily' ? 'selected' : '' %>>Daily</option>
                         <option value="weekly" <%= period === 'weekly' ? 'selected' : '' %>>Weekly</option>
                         <option value="monthly" <%= period === 'monthly' ? 'selected' : '' %>>Monthly</option>
@@ -133,10 +137,14 @@
                 <div class="col-12 col-md-3">
                     <label for="status" class="form-label">Order Status</label>
                     <select id="status" name="status" class="form-select">
-                        <option value="all" <%= status === 'all' ? 'selected' : '' %>>All Status</option>
-                        <% uniqueStatuses.forEach(function(s) { %>
-                            <option value="<%= s %>" <%= status === s ? 'selected' : '' %>><%= s %></option>
-                        <% }); %>
+                        <option value="all" <%= status === 'all' ? 'selected' : '' %>>All Orders</option>
+                        <option value="Pending Payment" <%= status === 'Pending Payment' ? 'selected' : '' %>>Pending Payment</option>
+                        <option value="Placed" <%= status === 'Placed' ? 'selected' : '' %>>Placed</option>
+                        <option value="Rejected" <%= status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                        <option value="Delivered" <%= status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                        <option value="Cancelled" <%= status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <option value="Return Request" <%= status === 'Return Request' ? 'selected' : '' %>>Return Request</option>
+                        <option value="Returned" <%= status === 'Returned' ? 'selected' : '' %>>Returned</option>
                     </select>
                 </div>
                 
@@ -160,49 +168,80 @@
     </div>
 
     <!-- Orders Table -->
-    <div class="card">
+    <div class="card mt-4">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
                             <th>Order ID</th>
                             <th>Date</th>
                             <th>Customer</th>
-                            <th class="text-end">Original</th>
-                            <th class="text-end">Discount</th>
-                            <th class="text-end">Final</th>
-                            <th>Status</th>
+                            <th>Products</th>
                             <th>Payment</th>
+                            <th>Status</th>
+                            <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% orders.forEach(order => { %>
-                        <tr>
-                            <td><%= order.orderId %></td>
-                            <td><%= new Date(order.createdOn).toLocaleDateString() %></td>
-                            <td><%= order.userId?.name || 'N/A' %></td>
-                            <td class="text-end">₹<%= order.totalPrice %></td>
-                            <td class="text-end">₹<%= (order.totalPrice - order.finalAmount) %></td>
-                            <td class="text-end">₹<%= order.finalAmount %></td>
-                            <td>
-                                <% const statusClass = {
-                                    'Pending': 'secondary',
-                                    'Processing': 'primary',
-                                    'Shipped': 'info',
-                                    'Delivered': 'success',
-                                    'Cancelled': 'danger',
-                                    'Return Request': 'warning',
-                                    'Returned': 'dark'
-                                }[order.status] || 'secondary' %>
-                                <span class="badge bg-<%= statusClass %>"><%= order.status %></span>
-                            </td>
-                            <td><span class="badge bg-secondary"><%= order.paymentMethod %></span></td>
-                        </tr>
-                        <% }); %>
+                        <% if (orders.length === 0) { %>
+                            <tr>
+                                <td colspan="7" class="text-center">No orders found</td>
+                            </tr>
+                        <% } else { %>
+                            <% orders.forEach(order => { %>
+                                <tr>
+                                    <td><%= order.orderId %></td>
+                                    <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
+                                    <td><%= order.userId.name %></td>
+                                    <td>
+                                        <% order.orderedItems.forEach((item, index) => { %>
+                                            <%= item.product.productName %> (<%= item.quantity %>)
+                                            <%= index < order.orderedItems.length - 1 ? ',' : '' %>
+                                        <% }) %>
+                                    </td>
+                                    <td><%= order.paymentMethod %></td>
+                                    <td><%= order.status %></td>
+                                    <td>₹<%= order.finalAmount.toFixed(2) %></td>
+                                </tr>
+                            <% }); %>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
+
+            <!-- Pagination -->
+            <% if (pagination.totalPages > 1) { %>
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (pagination.hasPrevPage) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= pagination.prevPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                        <i class="material-icons md-chevron_left"></i>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <% for(let i = 1; i <= pagination.totalPages; i++) { %>
+                                <li class="page-item <%= pagination.page === i ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= i %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                        <%= i %>
+                                    </a>
+                                </li>
+                            <% } %>
+
+                            <% if (pagination.hasNextPage) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= pagination.nextPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                        <i class="material-icons md-chevron_right"></i>
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            <% } %>
         </div>
     </div>
 </div>
@@ -220,19 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
     periodSelect.addEventListener('change', toggleCustomDates);
 });
 
-function downloadReport(format) {
-    const period = document.getElementById('period').value;
-    const status = document.getElementById('status').value;
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-
-    let url = `/admin/salesReport/download/${format}?period=${period}&status=${status}`;
-    if (period === 'custom' && startDate && endDate) {
-        url += `&startDate=${startDate}&endDate=${endDate}`;
-    }
-
-    window.location.href = url;
-}
+ 
 
 </script>
 

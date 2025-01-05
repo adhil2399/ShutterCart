@@ -1,451 +1,883 @@
-    <style>
-        :root {
-            --primary-color: #000;
-            --secondary-color: #fff;
-            --gray-light: #f8f9fa;
-            --gray-medium: #6c757d;
-        }
+<style>
+    :root {
+        --primary-color: #000;
+        --secondary-color: #fff;
+        --gray-light: #f8f9fa;
+        --gray-medium: #6c757d;
+    }
 
-        body {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-        }
+    body {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+    }
 
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
-        }
+    .product-image {
+        max-width: 100%;
+        height: auto;
+        cursor: zoom-in;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+    }
 
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .product-image.switching {
+        opacity: 0;
+        transform: scale(0.95);
+    }
 
-        .thumbnail:hover,
-        .thumbnail.active {
-            border-color: var(--primary-color);
-        }
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        transform: scale(1);
+    }
 
-        .quantity-input {
-            width: 30px;
-            text-align: center;
-            border: 1px solid var(--gray-medium);
-        }
+    .thumbnail:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-        .btn-quantity {
-            background-color: var(--gray-light);
-            border: 1px solid var(--gray-medium);
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  
 
-        .btn-dark {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
+    .main-image-container {
+         overflow: hidden;
+        
+        height: 500px;
+         transition: all 0.4s ease;
+    }
 
-        .btn-outline-dark {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
+    .main-image-container::before {
+        content: '';
+         width: auto;
+         height: auto;
+        border-radius: 15px;
+        padding: 2px;
+         -webkit-mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        transition: background 0.4s ease;
+    }
 
-        .btn-outline-dark:hover {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
+    .main-image-container:hover::before {
+        background: linear-gradient(45deg, #007bff, #00ff88);
+        animation: borderRotate 4s linear infinite;
+    }
 
-        .shipping-card {
-            border: 1px solid var(--gray-medium);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+    @keyframes borderRotate {
+        from {
+            background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+            background-size: 300% 300%;
+            background-position: 0% 0%;
         }
-
-        .rating {
-            color: #ffc107;
+        to {
+            background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+            background-size: 300% 300%;
+            background-position: 300% 300%;
         }
+    }
 
-        .heart-icon {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .product-image {
+        position: absolute;
+        max-width: 100%;
+       
+        object-fit: contain;
+        cursor: zoom-in;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        border-radius: 10px;
+    }
 
-        .heart-icon:hover {
-            transform: scale(1.1);
-        }
+    .product-image.slide-out {
+        opacity: 0;
+        transform: translateX(-100%) scale(0.9);
+    }
 
-        /* Thumbnail slider */
-        .thumbnail-container {
-            position: relative;
-            padding: 0 30px;
-        }
+    .product-image.slide-in {
+        opacity: 0;
+        transform: translateX(100%) scale(0.9);
+    }
 
-        .thumbnail-slider {
-            overflow: hidden;
-            white-space: nowrap;
-            scroll-behavior: smooth;
-        }
+    .product-image.active {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
 
-        .slider-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
+    .main-image-container:hover .product-image.active {
+        transform: scale(1.2);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        .slider-button.prev {
-            left: 0;
-        }
+    /* Enhanced thumbnail styles */
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        transform: scale(1);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-        .slider-button.next {
-            right: 0;
-        }
-    </style>
- <%- include('../partials/user/header') %>
+    .thumbnail:hover {
+        transform: scale(1.08);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: linear-gradient(to right, rgb(39, 124, 31) rgb(28, 87, 136));
+      }
 
+    .thumbnail.active {
+         transform: scale(1.14);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
  
-    <section class="section-b-space pt-0"> 
-      <div class="heading-banner">
-        <div class="custom-container container">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4>Product details</h4>
-            </div>
-            <div class="col-sm-6">
-              <ul class="breadcrumb float-end">
-                <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/">Home </a></li>
-                <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/shop">shop</a></li>
-                <li class="breadcrumb-item active"> <a href="#">Product details</a></li>
-              </ul>
-            </div>
-          </div>
+    /* Zoom overlay effect */
+    .zoom-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        border-radius: 10px;
+    }
+
+    .main-image-container:hover .zoom-overlay {
+        opacity: 1;
+    }
+
+    .quantity-input {
+        width: 30px;
+        text-align: center;
+        border: 1px solid var(--gray-medium);
+    }
+
+    .btn-quantity {
+        background-color: var(--gray-light);
+        border: 1px solid var(--gray-medium);
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-dark {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .btn-outline-dark {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    .btn-outline-dark:hover {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+    }
+
+    .shipping-card {
+        border: 1px solid var(--gray-medium);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .rating {
+        color: #ffc107;
+    }
+
+    .heart-icon {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-size: 24px;
+        color: #6c757d;
+        position: relative;
+        width: fit-content;
+    }
+
+    .heart-icon i {
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .heart-icon:not(.active) i {
+        color: #6c757d;
+        transform: scale(1);
+    }
+
+    .heart-icon.active i {
+        color: #d60808 !important;
+        animation: heartPop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+    }
+
+    .heart-icon:hover {
+        transform: scale(1.1);
+    }
+
+    /* Pop animation when adding to wishlist */
+    @keyframes heartPop {
+        0% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(1.4);
+        }
+        50% {
+            transform: scale(0.8);
+        }
+        75% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* Floating hearts animation */
+    .heart-float {
+        position: absolute;
+        pointer-events: none;
+        animation: floatingHeart 1s ease-out forwards;
+        opacity: 0;
+        font-size: 16px;
+    }
+
+    @keyframes floatingHeart {
+        0% {
+            transform: translate(0, 0) scale(0.5);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(var(--tx), -100px) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    /* Thumbnail slider */
+    .thumbnail-container {
+        position: relative;
+        padding: 0 30px;
+    }
+
+    .thumbnail-slider {
+        overflow: hidden;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+    }
+
+    .slider-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .slider-button.prev {
+        left: 0;
+    }
+
+    .slider-button.next {
+        right: 0;
+    }
+
+    .stock-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        margin: 10px 0;
+    }
+    
+    .stock-status.high {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .stock-status.medium {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+    
+    .stock-status.low {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .stock-status i {
+        margin-right: 8px;
+        font-size: 1.1em;
+    }
+    
+    /* Add category badge styles */
+    .category-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background-color: #e9ecef;
+        color: #495057;
+        border-radius: 20px;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+        text-transform: capitalize;
+        border: 1px solid #dee2e6;
+    }
+    
+    .category-badge i {
+        margin-right: 6px;
+        font-size: 0.9em;
+    }
+
+    /* Swiper Styles */
+  .special-offer-slide-2 {
+    position: relative;
+    padding: 0 40px;
+    margin-bottom: 30px;
+  }
+
+  .special-offer-slide-2 .swiper-button-next,
+  .special-offer-slide-2 .swiper-button-prev {
+    width: 35px;
+    height: 35px;
+    background: #000;
+    border-radius: 50%;
+    color: #fff;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: 0;
+    z-index: 10;
+  }
+
+  .special-offer-slide-2 .swiper-button-next:after,
+  .special-offer-slide-2 .swiper-button-prev:after {
+    font-size: 16px;
+  }
+
+  .special-offer-slide-2 .swiper-button-prev {
+    left: 0;
+  }
+
+  .special-offer-slide-2 .swiper-button-next {
+    right: 0;
+  }
+
+  .special-offer-slide-2 .swiper-slide {
+    height: auto;
+  }
+</style>
+<%- include('../partials/user/header') %>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+<section class="section-b-space pt-0"> 
+  <div class="heading-banner">
+    <div class="custom-container container">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h4>Product details</h4>
+        </div>
+        <div class="col-sm-6">
+          <ul class="breadcrumb float-end">
+            <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/">Home </a></li>
+            <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/shop">shop</a></li>
+            <li class="breadcrumb-item active "> <a class="text-decoration-none text-black" href="#">Product details</a></li>
+          </ul>
         </div>
       </div>
-    </section>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Add zoom.js library -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom/dist/style.css">
-    
+    </div>
+  </div>
+</section>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Add zoom.js library -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom/dist/style.css">
+
 </head>
 <body>
-    <div class="container py-5">
-        <div class="row">
-         <!-- Product Images -->
+<div class="container py-5">
+    <div class="row">
+     <!-- Product Images -->
 <div class="col-md-6 mb-4">
-  <div class="main-image-container mb-3">
-      <% if (product.productImage && product.productImage.length > 0) { %>
-          <img src="<%= product.productImage[0] %>" alt="<%= product.name %>" id="mainImage" class="product-image img-fluid">
-      <% } %>
+<div class="main-image-container mb-3">
+  <% if (product.productImage && product.productImage.length > 0) { %>
+      <img src="<%= product.productImage[0] %>" alt="<%= product.name %>" id="mainImage" class="product-image active">
+      <img src="" alt="<%= product.name %>" id="nextImage" class="product-image slide-in">
+      <div class="zoom-overlay"></div>
+  <% } %>
+</div>
+<div class="thumbnail-container">
+  <button class="slider-button prev" id="prevButton">&lt;</button>
+  <div class="thumbnail-slider d-flex gap-2" id="thumbnailSlider">
+      <% product.productImage.forEach((image, index) => { %>
+          <img src="<%= image %>" alt="Thumbnail <%= index + 1 %>" class="thumbnail <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>">
+      <% }) %>
   </div>
-  <div class="thumbnail-container">
-      <button class="slider-button prev" id="prevButton">&lt;</button>
-      <div class="thumbnail-slider d-flex gap-2" id="thumbnailSlider">
-          <% product.productImage.forEach((image, index) => { %>
-              <img src="<%= image %>" alt="Thumbnail <%= index + 1 %>" class="thumbnail <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>">
-          <% }) %>
-      </div>
-      <button class="slider-button next" id="nextButton">&gt;</button>
-  </div>
+  <button class="slider-button next" id="nextButton">&gt;</button>
+</div>
 </div>
 
- 
-            <!-- Product Details -->
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h1 class="h2 mb-3"><%= product.productName %></h1>
-                    <div onclick="addToWishlist('<%=product._id%>')" class="heart-icon">❤️</div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-start">
+                <h1 class="h2 mb-3"><%= product.productName %></h1>
+                <div onclick="toggleWishlist('<%=product._id%>', this)" class="heart-icon <%= product.isInWishlist ? 'active' : '' %>" data-product="<%=product._id%>">
+                    <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
                 </div>
-                <div class="d-flex align-items-center mb-3">
-                    <div class="rating me-2">
-                        ★★★★☆
+            </div>
+            <div class="category-badge">
+                <i class="bi bi-tag-fill"></i>
+                <%=category %>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+                <div class="rating me-2">
+                    ★★★★☆
+                </div>
+                <span class="text-muted">(150 Reviews)</span>
+            </div>
+            <h2 class="h3 mb-4">$<%= product.salePrice %></h2>
+            <% 
+            let stockClass = '';
+            let stockIcon = '';
+            if (product.quantity > 10) {
+                stockClass = 'high';
+                stockIcon = 'bi-check-circle-fill';
+            } else if (product.quantity > 5) {
+                stockClass = 'medium';
+                stockIcon = 'bi-exclamation-circle-fill';
+            } else {
+                stockClass = 'low';
+                stockIcon = 'bi-exclamation-triangle-fill';
+            }
+            %>
+            <div class="stock-status <%= stockClass %>">
+                <i class="bi <%= stockIcon %>"></i>
+                <% if (product.quantity > 0) { %>
+                    <%= product.quantity %> units in stock
+                <% } else { %>
+                    Out of stock
+                <% } %>
+            </div>
+            <p class="mb-4">
+              <%= product.description %>
+            </p>
+
+            <!-- Quantity Selector -->
+            <div class="d-flex align-items-center mb-4">
+                <button class="btn btn-quantity" onclick="updateQuantity(-1)">-</button>
+                <input type="number" class="form-control quantity-input mx-2" value="1" min="1"  max="6" id="quantity">
+                <button class="btn btn-quantity" onclick="updateQuantity(1)">+</button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-grid gap-2 mb-4">
+                <button class="btn btn-dark" onclick="addToCart('<%=product._id%>',)">Add to Cart</button>
+                <button class="btn btn-outline-dark">Buy Now</button>
+            </div>
+
+            <!-- Shipping Information -->
+            <div class="shipping-card">
+                <div class="d-flex align-items-center mb-2">
+                    <svg width="24" height="24" class="me-2">
+                        <path d="M3 3h18v18H3z"/>
+                    </svg>
+                    <div>
+                        <h3 class="h6 mb-0">Free Delivery</h3>
+                        <small class="text-muted">Enter your postal code for Delivery Availability</small>
                     </div>
-                    <span class="text-muted">(150 Reviews)</span>
                 </div>
-                <h2 class="h3 mb-4">$<%= product.salePrice %></h2>
-                <p> <b><%= product.quantity%></b>stock left</p>
-                <p class="mb-4">
-                  <%= product.description %>
-                </p>
-
-                <!-- Quantity Selector -->
-                <div class="d-flex align-items-center mb-4">
-                    <button class="btn btn-quantity" onclick="updateQuantity(-1)">-</button>
-                    <input type="number" class="form-control quantity-input mx-2" value="1" min="1"  max="6" id="quantity">
-                    <button class="btn btn-quantity" onclick="updateQuantity(1)">+</button>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="d-grid gap-2 mb-4">
-                    <button class="btn btn-dark" onclick="addToCart('<%=product._id%>',)">Add to Cart</button>
-                    <button class="btn btn-outline-dark">Buy Now</button>
-                </div>
-
-                <!-- Shipping Information -->
-                <div class="shipping-card">
-                    <div class="d-flex align-items-center mb-2">
-                        <svg width="24" height="24" class="me-2">
-                            <path d="M3 3h18v18H3z"/>
-                        </svg>
-                        <div>
-                            <h3 class="h6 mb-0">Free Delivery</h3>
-                            <small class="text-muted">Enter your postal code for Delivery Availability</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="shipping-card">
-                    <div class="d-flex align-items-center">
-                        <svg width="24" height="24" class="me-2">
-                            <path d="M3 3h18v18H3z"/>
-                        </svg>
-                        <div>
-                            <h3 class="h6 mb-0">Return Delivery</h3>
-                            <small class="text-muted">Free 30 Days Delivery Returns. Details</small>
-                        </div>
+            </div>
+            <div class="shipping-card">
+                <div class="d-flex align-items-center">
+                    <svg width="24" height="24" class="me-2">
+                        <path d="M3 3h18v18H3z"/>
+                    </svg>
+                    <div>
+                        <h3 class="h6 mb-0">Return Delivery</h3>
+                        <small class="text-muted">Free 30 Days Delivery Returns. Details</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <section class="section-b-space pt-0">
-      <div class="custom-container container product-contain">
-        <div class="title text-start"> 
-          <h3>Related Products</h3>
-          <svg>
-            <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#main-line"></use>
-          </svg>
-        </div>
-        <div class="swiper special-offer-slide-2">
-          <div class="swiper-wrapper ratio1_3">
-           
-            <% relatedProducts.forEach(product=>{ %>
+<section class="section-b-space pt-0">
+  <div class="custom-container container product-contain">
+    <div class="title text-start mb-4"> 
+      <h3>Related Products</h3>
+    </div>
+    <div class="position-relative">
+      <div class="swiper related-products-swiper">
+        <div class="swiper-wrapper">
+          <% relatedProducts.forEach(product => { %>
             <div class="swiper-slide">
               <div class="product-box-3">
-                <div class="img-wrapper">
-                  <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                  <div class="product-image"><a class="pro-first" href="/productDetails?id=<%= product._id %>"> <img class="bg-img" src=" <%= product.productImage[0] %>" alt="product"></a><a class="pro-sec"href="/productDetails?id=<%= product._id %>"> <img class="bg-img" src="<%=product.productImage[1] %>" alt="product"></a></div>
-                  <div class="cart-info-icon"> <a href="#" onclick="addToCart('<%=product._id %>')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to cart"> </i></a><a href="compare.html" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                </div>
-                <div class="product-detail">
-                  <div class="rating ms-3">★★★★☆</div>
+                <div class="product-image">
                   <a href="/productDetails?id=<%= product._id %>">
-                    <h6><% product.name %></h6></a>
-                    <p>
-                      <%= product.salePrice %>
-                      <del><%= product.regularPrice %></del>
-                    </p>
-                </div>
-              </div>
-            </div>
-          <% }) %>
-            <!-- <div class="swiper-slide">
-              <div class="product-box-3">
-                <div class="img-wrapper">
-                  <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                  <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/18.jpg" alt="product"></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/17.jpg" alt="product"></a></div>
-                  <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to cart"> </i></a><a href="compare.html" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
+                    <img src="<%= product.productImage[0] %>" alt="<%= product.productName %>" class="img-fluid">
+                  </a>
+                  <div class="product-actions">
+                    <% if (product.quantity > 0) { %>
+                      <button class="action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart">
+                        <i class="bi bi-cart-plus"></i>
+                      </button>
+                    <% } %>
+                    <button class="action-icon <%= product.isInWishlist ? 'active' : '' %>" 
+                            onclick="toggleWishlist('<%=product._id%>', this)" 
+                            title="Add to Wishlist"
+                            data-product-id="<%=product._id%>">
+                      <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+                    </button>
+                  </div>
                 </div>
                 <div class="product-detail">
-                  <ul class="rating">      
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li>4.3</li>
-                  </ul><a href="product.html"> 
-                    <h6>Long Sleeve Rounded T-Shirt</h6></a>
-                  <p>$120.30  
-                    <del>$140.00</del><span>-20%</span>
-                  </p>
+                  <div class="rating">★★★★☆</div>
+                  <a href="/productDetails?id=<%= product._id %>">
+                    <h6 class="name"><%= product.productName %></h6>
+                  </a>
+                  <% if (product.quantity <= 0) { %>
+                    <p class="price text-danger">Out of Stock</p>
+                  <% } else { %>
+                    <p class="price">
+                      $<%= product.salePrice %>
+                      <% if(product.regularPrice && product.regularPrice > product.salePrice) { %>
+                        <del>$<%= product.regularPrice %></del>
+                      <% } %>
+                    </p>
+                  <% } %>
                 </div>
               </div>
-            </div>-->
-            
             </div>
-          </div>
+          <% }); %>
         </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
-    </section>
-    
-    <script>
-      
-      document.addEventListener('DOMContentLoaded', function() {
+    </div>
+  </div>
+</section>
+
+<!-- Add Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+
+<!-- Add Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper
+    new Swiper('.related-products-swiper', {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+            },
+            576: {
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 3,
+            },
+            992: {
+                slidesPerView: 4,
+            }
+        }
+    });
+
+    // Initialize tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+});
+</script>
+
+<style>
+  .product-box-3 {
+    position: relative;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 10px;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .product-box-3:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-box-3 .product-image {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .product-box-3 img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-box-3:hover img {
+    transform: scale(1.05);
+  }
+
+  .product-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+  }
+
+  .product-box-3:hover .product-actions {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .action-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+
+  .action-icon:hover {
+    background: #000;
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .action-icon.active {
+    background: #dc3545;
+    color: white;
+  }
+
+  .action-icon.active:hover {
+    background: #c82333;
+  }
+
+  .product-detail {
+    padding: 10px 0;
+  }
+
+  .name {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+    height: 40px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .price {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    font-size: 18px;
+    color: #000;
+  }
+
+  .related-products-swiper {
+    padding: 0 40px;
+    height: 350px;
+  }
+</style>
+
+<!-- Add zoom.js library -->
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
+
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function() {
+const mainImage = document.getElementById('mainImage');
+const thumbnails = document.querySelectorAll('.thumbnail');
+const thumbnailSlider = document.getElementById('thumbnailSlider');
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+
+// Initialize zoom functionality only for main product image
+const zoom = mediumZoom(document.querySelector('#mainImage'), {
+    margin: 50,
+    background: 'rgba(0, 0, 0, 0.9)',
+    scrollOffset: 0
+});
+
+// Function to update main image
+function updateMainImage(src) {
+    mainImage.src = src;
+    // Update zoom after image source changes
+    setTimeout(() => {
+        zoom.detach();
+        zoom.attach(mainImage);
+    }, 100);
+}
+
+// Function to update active thumbnail
+function updateActiveThumbnail(index) {
+    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+    thumbnails[index].classList.add('active');
+}
+
+// Add click event listeners to thumbnails
+thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', function() {
+        updateMainImage(this.src);
+        updateActiveThumbnail(index);
+    });
+});
+
+// Thumbnail slider navigation
+let currentIndex = 0;
+const thumbnailWidth = 80; // Adjust this value based on your thumbnail width + gap
+
+prevButton.addEventListener('click', () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        thumbnailSlider.scrollTo({
+            left: currentIndex * thumbnailWidth,
+            behavior: 'smooth'
+        });
+    }
+});
+
+nextButton.addEventListener('click', () => {
+    if (currentIndex < thumbnails.length - 1) {
+        currentIndex++;
+        thumbnailSlider.scrollTo({
+            left: currentIndex * thumbnailWidth,
+            behavior: 'smooth'
+        });
+    }
+});
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
     const mainImage = document.getElementById('mainImage');
+    const nextImage = document.getElementById('nextImage');
     const thumbnails = document.querySelectorAll('.thumbnail');
-    const thumbnailSlider = document.getElementById('thumbnailSlider');
-    const prevButton = document.getElementById('prevButton');
-    const nextButton = document.getElementById('nextButton');
+    let isAnimating = false;
 
-    // Function to update main image
-    function updateMainImage(src) {
-        mainImage.src = src;
+    function switchImages(newSrc) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Prepare next image
+        nextImage.src = newSrc;
+        nextImage.classList.add('slide-in');
+
+        // Start animation after a brief delay
+        setTimeout(() => {
+            mainImage.classList.add('slide-out');
+            nextImage.classList.remove('slide-in');
+            nextImage.classList.add('active');
+
+            // After animation completes
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.classList.remove('slide-out');
+                mainImage.classList.add('active');
+                nextImage.classList.remove('active');
+                isAnimating = false;
+            }, 500);
+        }, 50);
     }
 
-    // Function to update active thumbnail
-    function updateActiveThumbnail(index) {
-        thumbnails.forEach(thumb => thumb.classList.remove('active'));
-        thumbnails[index].classList.add('active');
-    }
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            if (this.src === mainImage.src) return;
 
-    // Add click event listeners to thumbnails
-    thumbnails.forEach((thumbnail, index) => {
-        thumbnail.addEventListener('click', function() {
-            updateMainImage(this.src);
-            updateActiveThumbnail(index);
+            // Remove active class from all thumbnails
+            thumbnails.forEach(t => t.classList.remove('active'));
+            // Add active class to clicked thumbnail
+            this.classList.add('active');
+
+            switchImages(this.src);
         });
     });
 
-    // Thumbnail slider navigation
-    let currentIndex = 0;
-    const thumbnailWidth = 80; // Adjust this value based on your thumbnail width + gap
+    // Thumbnail slider functionality
+    const slider = document.getElementById('thumbnailSlider');
+    const prevBtn = document.getElementById('prevButton');
+    const nextBtn = document.getElementById('nextButton');
+    const scrollAmount = 100;
 
-    prevButton.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            thumbnailSlider.scrollTo({
-                left: currentIndex * thumbnailWidth,
-                behavior: 'smooth'
-            });
-        }
+    prevBtn.addEventListener('click', () => {
+        slider.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
     });
 
-    nextButton.addEventListener('click', () => {
-        if (currentIndex < thumbnails.length - 1) {
-            currentIndex++;
-            thumbnailSlider.scrollTo({
-                left: currentIndex * thumbnailWidth,
-                behavior: 'smooth'
-            });
-        }
-    });
-
-    // Initialize zoom functionality
-    mediumZoom(mainImage, {
-        margin: 24,
-        background: '#000000e6'
+    nextBtn.addEventListener('click', () => {
+        slider.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
     });
 });
-    </script>
-<script>
- 
-
-    // Quantity selector
-    function updateQuantity(change) {
-        const input = document.getElementById('quantity');
-        const newValue = parseInt(input.value) + change;
-        if (newValue >= 1) {
-          input.value = newValue;
-        }
-      }
-      
-      // Thumbnail navigation
-      document.querySelectorAll('.thumbnail').forEach(thumb => {
-        thumb.addEventListener('click', function() {
-          // Update main image
-            document.getElementById('mainImage').src = this.src.replace('80', '600');
-            
-            // Update active state
-            document.querySelector('.thumbnail.active').classList.remove('active');
-            this.classList.add('active');
-          });
-    });
-    
-    // Thumbnail slider navigation
-    const slider = document.querySelector('.thumbnail-slider');
-    document.querySelector('.slider-button.prev').addEventListener('click', () => {
-      slider.scrollBy({ left: -100, behavior: 'smooth' });
-    });
-    document.querySelector('.slider-button.next').addEventListener('click', () => {
-      slider.scrollBy({ left: 100, behavior: 'smooth' });
-    });
 </script>
 
-
-
-
 <script>
 
-  async function addToCart(productId) {
-    try {
-      const quantity = document.getElementById('quantity').value
-      const response = await fetch('/cart/add',{
-        method:'POST',
-        headers:{
-          'Content-Type': 'application/json'
-        },body:JSON.stringify({productId,quantity})
-
-      })
-      const data = await response.json()
-      if(response.ok){
-       Toastify({
-                text: "Product added to cart successfully!",
-                duration: 3000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                backgroundColor: "#28a745", // Success color (green)
-                stopOnFocus: true, // Prevents dismissing on hover
-            }).showToast();
-        } else {
-            Toastify({
-                text: data.message || "Error adding to cart",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#dc3545", // Error color (red)
-                stopOnFocus: true,
-                style: {
-                  color: "#ffffff", // Text color
-                fontSize: "16px", // Optional: Adjust font size
-                },
-            }).showToast();
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        Toastify({
-            text: "Something went wrong. Please try again.",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            backgroundColor: "#dc3545",
-            stopOnFocus: true,
-            style: {
-                  color: "#ffffff", // Text color
-                fontSize: "16px", // Optional: Adjust font size
-                },
-        }).showToast();
-    }
-}
-
-
-    // Add to Wishlist
-        
-    async function addToWishlist(productId) {
+async function toggleWishlist(productId, button) {
   try {
-    const response = await fetch('/wishlist/add', {
+    const response = await fetch('/wishlist/toggle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -454,43 +886,251 @@
     });
 
     const result = await response.json();
-      if (response.ok) {
+    if (response.ok) {
+      // Update the clicked button
+      if (button) {
+        const icon = button.querySelector('i');
+        button.classList.toggle('active');
+        if (icon) {
+          if (icon.classList.contains('bi-heart')) {
+            icon.classList.remove('bi-heart');
+            icon.classList.add('bi-heart-fill');
+          } else {
+            icon.classList.remove('bi-heart-fill');
+            icon.classList.add('bi-heart');
+          }
+        }
+      }
+
+      // Update all other instances of the same product's wishlist button
+      const allWishlistButtons = document.querySelectorAll(`button[data-product-id="${productId}"]`);
+      allWishlistButtons.forEach(otherButton => {
+        if (otherButton !== button) {
+          const otherIcon = otherButton.querySelector('i');
+          otherButton.classList.toggle('active');
+          if (otherIcon) {
+            if (otherIcon.classList.contains('bi-heart')) {
+              otherIcon.classList.remove('bi-heart');
+              otherIcon.classList.add('bi-heart-fill');
+            } else {
+              otherIcon.classList.remove('bi-heart-fill');
+              otherIcon.classList.add('bi-heart');
+            }
+          }
+        }
+      });
+
+      // Show success message
       Toastify({
-        text: 'Product added to wishlist!',
-        duration: 3000,
-        gravity: 'top', // Position
-        position: 'right', // Left or right
-        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)', // Custom background
-        close: true,
-      }).showToast();
-    } else {
-      Toastify({
-        text: result.error || 'Failed to add product to wishlist.',
+        text: result.message || 'Wishlist updated successfully!',
         duration: 3000,
         gravity: 'top',
         position: 'right',
-        backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)', // Custom background for error
+        backgroundColor: '#28a745',
+      }).showToast();
+    } else {
+      Toastify({
+        text: result.error || 'Failed to update wishlist.',
+        duration: 3000,
+        gravity: 'top',
+        position: 'right',
+        backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
         close: true,
       }).showToast();
     }
   } catch (error) {
     console.error('Error:', error);
     Toastify({
-      text: 'An error occurred. Please try again.',
+      text: error.message || 'Failed to update wishlist',
       duration: 3000,
       gravity: 'top',
       position: 'right',
-      backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
-      close: true,
+      backgroundColor: '#dc3545',
     }).showToast();
   }
+}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainImage = document.getElementById('mainImage');
+    const nextImage = document.getElementById('nextImage');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    let isAnimating = false;
+
+    function switchImages(newSrc) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Prepare next image
+        nextImage.src = newSrc;
+        nextImage.classList.add('slide-in');
+
+        // Start animation after a brief delay
+        setTimeout(() => {
+            mainImage.classList.add('slide-out');
+            nextImage.classList.remove('slide-in');
+            nextImage.classList.add('active');
+
+            // After animation completes
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.classList.remove('slide-out');
+                mainImage.classList.add('active');
+                nextImage.classList.remove('active');
+                isAnimating = false;
+            }, 500);
+        }, 50);
+    }
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            if (this.src === mainImage.src) return;
+
+            // Remove active class from all thumbnails
+            thumbnails.forEach(t => t.classList.remove('active'));
+            // Add active class to clicked thumbnail
+            this.classList.add('active');
+
+            switchImages(this.src);
+        });
+    });
+
+    // Thumbnail slider functionality
+    const slider = document.getElementById('thumbnailSlider');
+    const prevBtn = document.getElementById('prevButton');
+    const nextBtn = document.getElementById('nextButton');
+    const scrollAmount = 100;
+
+    prevBtn.addEventListener('click', () => {
+        slider.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        slider.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
+
+<script>
+
+async function addToCart(productId) {
+try {
+  const quantity = document.getElementById('quantity').value
+  const response = await fetch('/cart/add',{
+    method:'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },body:JSON.stringify({productId,quantity})
+
+  })
+  const data = await response.json()
+  if(response.ok){
+   Toastify({
+            text: "Product added to cart successfully!",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            backgroundColor: "#28a745", // Success color (green)
+            stopOnFocus: true, // Prevents dismissing on hover
+        }).showToast();
+    } else {
+        Toastify({
+            text: data.message || "Error adding to cart",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#dc3545", // Error color (red)
+            stopOnFocus: true,
+            style: {
+              color: "#ffffff", // Text color
+            fontSize: "16px", // Optional: Adjust font size
+            },
+        }).showToast();
+    }
+} catch (error) {
+    console.error("Error:", error);
+    Toastify({
+        text: "Something went wrong. Please try again.",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#dc3545",
+        stopOnFocus: true,
+        style: {
+              color: "#ffffff", // Text color
+            fontSize: "16px", // Optional: Adjust font size
+            },
+    }).showToast();
+}
+}
+
+
+// Add to Wishlist
+    
+async function addToWishlist(productId) {
+try {
+const response = await fetch('/wishlist/add', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ productId }),
+});
+
+const result = await response.json();
+  if (response.ok) {
+  Toastify({
+    text: 'Product added to wishlist!',
+    duration: 3000,
+    gravity: 'top', // Position
+    position: 'right', // Left or right
+    backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)', // Custom background
+    close: true,
+  }).showToast();
+} else {
+  Toastify({
+    text: result.error || 'Failed to add product to wishlist.',
+    duration: 3000,
+    gravity: 'top',
+    position: 'right',
+    backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)', // Custom background for error
+    close: true,
+  }).showToast();
+}
+} catch (error) {
+console.error('Error:', error);
+Toastify({
+  text: 'An error occurred. Please try again.',
+  duration: 3000,
+  gravity: 'top',
+  position: 'right',
+  backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+  close: true,
+}).showToast();
+}
 }
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
-
 
 <%- include('../partials/user/footer') %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+});
+</script>

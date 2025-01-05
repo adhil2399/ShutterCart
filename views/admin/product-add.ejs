@@ -351,37 +351,86 @@
         });
 
         form.addEventListener('submit', async (e) => {
-    e.preventDefault(); 
-console.log('form submition trigerd')
-if (validateForm()) {
-        console.log("Validation successful");
-        const formData = new FormData(form);
-        const uploadPromises = croppedImages.map((imageSrc, index) =>
-            fetch(imageSrc)
-                .then(res => res.blob())
-                .then(blob => {
-                    formData.append('images',` blob, image${index + 1}.png`);
-                })
-        );
+            e.preventDefault();
+            console.log('Form submission triggered');
+            
+            if (validateForm()) {
+                try {
+                    console.log("Validation successful");
+                    console.log("Number of images:", croppedImages.length);
+                    
+                    const formData = new FormData();
+                    
+                    // Add form fields
+                    const formFields = form.querySelectorAll('input:not([type="file"]), select, textarea');
+                    formFields.forEach(field => {
+                        formData.append(field.name, field.value);
+                    });
+                    
+                    // Add each cropped image to formData
+                    for (let i = 0; i < croppedImages.length; i++) {
+                        try {
+                            const response = await fetch(croppedImages[i]);
+                            const blob = await response.blob();
+                            formData.append('images', blob, `image${i + 1}.jpeg`);
+                            console.log(`Added image ${i + 1} to formData`);
+                        } catch (error) {
+                            console.error(`Error processing image ${i + 1}:`, error);
+                            throw new Error(`Failed to process image ${i + 1}`);
+                        }
+                    }
 
-        Promise.all(uploadPromises).then(() => {
-            // Submit the form after all images are appended
-            fetch(form.action, {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    window.location.href = '/admin/products';
-                } else {
-                    alert('Error submitting form. Please try again.');
+                    console.log("Submitting form with images:", croppedImages.length);
+
+                    // Submit the form
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: result.message || 'Product added successfully',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = '/admin/products';
+                        });
+                    } else {
+                        // Handle specific error cases
+                        if (response.status === 409) {
+                            // Duplicate product name error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Duplicate Product Name',
+                                text: result.message,
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            // Other errors
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: result.message || 'Failed to add product. Please try again.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: error.message || 'An unexpected error occurred. Please try again.',
+                        confirmButtonText: 'OK'
+                    });
                 }
-            });
+            }
         });
-    }
-});
-
-
-
+        
         function validateForm() {
             let isValid = true;
             const errorElements = document.querySelectorAll('.error-message');

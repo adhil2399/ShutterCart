@@ -6,6 +6,7 @@ const Address = require('../../models/addressSchema')
 const bcrypt = require('bcrypt')
 const Order = require('../../models/orderSchema')
 const Wishlist = require('../../models/wishlistSchema')
+const Wallet = require('../../models/walletSchema'); 
 const getForgotPassword = async (req, res) => {
 
   try {
@@ -138,8 +139,9 @@ const userProfile = async (req, res) => {
     const userData = await User.findById(userId)
     const addressData = await Address.find({ userId: userId })
      const userOrders = await Order.find({ userId })
-    .populate('orderedItems.product')
-    .lean();
+     .populate('orderedItems.product')  
+     .populate('address')  
+     .lean()
     const wishlistData = await Wishlist.findOne({ userId })
     .populate({
         path: 'products.productId',
@@ -152,12 +154,20 @@ const userProfile = async (req, res) => {
     .lean(); 
      const AddressData = addressData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
      const userorders =  userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-     console.log('wishhhhhhhhhhhhhhhhhhh',wishlistData);
-    res.render('profile', { 
+     console.log('wishhhhhhhhhhhhhhhhhhhhh',wishlistData);
+     const walletData = await Wallet.findOne({ userId });
+     walletData.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+     console.log('User Data:', userData);
+     console.log('Wallet Data:', walletData);
+
+     res.render('profile', { 
       user: userData,
       userAddress: AddressData , 
       orders: userorders,
-      wishlist: wishlistData});
+      wishlist: wishlistData,
+      wallet: walletData || { totalBalance: 0, transactions: [] },
+
+    });
 
 
   } catch (error) {

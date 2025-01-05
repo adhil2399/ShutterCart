@@ -181,100 +181,100 @@ filterModal.addEventListener('hidden.bs.modal', function () {
   </div>
   
   <script>
-  document.getElementById('searchForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-      
-      const searchQuery = document.getElementById('searchInput').value.trim();
-      if (!searchQuery) return;
+    document.getElementById('searchForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const searchQuery = document.getElementById('searchInput').value.trim();
+        if (!searchQuery) return;
+    
+        try {
+            // Update URL to reflect search
+            const url = new URL(window.location.href);
+            url.searchParams.set('query', searchQuery);
+            window.history.pushState({}, '', url);
+    
+            // Fetch search results
+            const response = await fetch(`/shop/search?query=${encodeURIComponent(searchQuery)}`);
+            
+            if (!response.ok) {
+                throw new Error('Search failed');
+            }
+    
+            const data = await response.json();
+            const productList = document.getElementById('product-list');
+            
+            // Clear current products
+            productList.innerHTML = '';
+    
+            if (data.products && data.products.length > 0) {
+                // Render products
+                data.products.forEach(product => {
+                    const productHTML =  `
+                        <div class="product-box-3 shadow-lg bg-body rounded">
+                            <div class="img-wrapper shadow-lg bg-body rounded-top">
+                                <div class="label-block">
+                                    <a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0">
+                                        <i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i>
+                                    </a>
+                                </div>
+                                <div class="product-image">
+                                    <a class="pro-first" href="/productDetails?id=${product._id}">
+                                        <img class="bg-img" src="${product.productImage[0]}" alt="product">
+                                    </a>
+                                    <a class="pro-sec" href="/productDetails?id=${product._id}">
+                                        <img class="bg-img" src="${product.productImage[1]}" alt="product">
+                                    </a>
+                                </div>
+                                <div class="cart-info-icon">
+                                    <a href="" onclick="addToCart('${product._id}')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
+                                        <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Cart"></i>
+                                    </a>
+                                    <a href="compare.html" tabindex="0">
+                                        <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
+                                    </a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
+                                        <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-detail">
+                                <a class="text-decoration-none" href="/productDetails?id=${product._id}">
+                                    <h6 class="ms-3">${product.productName}</h6>
+                                </a>
+                                <div class="rating ms-3">★★★★☆</div>
+                                <p class="list-per">${product.description}</p>
+                                <p class="ms-3 mb-3">$${product.salePrice}
+                                    <del>$${product.regularPrice}</del>
+                                    `
   
-      try {
-          // Update URL to reflect search
-          const url = new URL(window.location.href);
-          url.searchParams.set('query', searchQuery);
-          window.history.pushState({}, '', url);
   
-          // Fetch search results
-          const response = await fetch(`/shop/search?query=${encodeURIComponent(searchQuery)}`);
-          
-          if (!response.ok) {
-              throw new Error('Search failed');
-          }
   
-          const data = await response.json();
-          const productList = document.getElementById('product-list');
-          
-          // Clear current products
-          productList.innerHTML = '';
-  
-          if (data.products && data.products.length > 0) {
-              // Render products
-              data.products.forEach(product => {
-                  const productHTML =  `
-                      <div class="product-box-3 shadow-lg bg-body rounded">
-                          <div class="img-wrapper shadow-lg bg-body rounded-top">
-                              <div class="label-block">
-                                  <a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0">
-                                      <i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i>
-                                  </a>
-                              </div>
-                              <div class="product-image">
-                                  <a class="pro-first" href="/productDetails?id=${product._id}">
-                                      <img class="bg-img" src="${product.productImage[0]}" alt="product">
-                                  </a>
-                                  <a class="pro-sec" href="/productDetails?id=${product._id}">
-                                      <img class="bg-img" src="${product.productImage[1]}" alt="product">
-                                  </a>
-                              </div>
-                              <div class="cart-info-icon">
-                                  <a href="" onclick="addToCart('${product._id}')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
-                                      <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Cart"></i>
-                                  </a>
-                                  <a href="compare.html" tabindex="0">
-                                      <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
-                                  </a>
-                                  <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
-                                      <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
-                                  </a>
-                              </div>
-                          </div>
-                          <div class="product-detail">
-                              <a class="text-decoration-none" href="/productDetails?id=${product._id}">
-                                  <h6 class="ms-3">${product.productName}</h6>
-                              </a>
-                              <div class="rating ms-3">★★★★☆</div>
-                              <p class="list-per">${product.description}</p>
-                              <p class="ms-3 mb-3">$${product.salePrice}
-                                  <del>$${product.regularPrice}</del>
-                                  `
-
-
-
-                  productList.insertAdjacentHTML('beforeend', productHTML);
-              });
-          } else {
-              // Show no results message
-              productList.innerHTML = `
-                  <div class="col-12 text-center py-5">
-                      <h3>No products found</h3>
-                      <p>Try different search terms or browse our categories</p>
-                  </div>
-              `;
-          }
-      } catch (error) {
-          console.error('Search error:', error);
-          // Show error message to user
-          Toastify({
-              text: "Error searching products. Please try again.",
-              duration: 3000,
-              close: true,
-              gravity: "top",
-              position: "right",
-              backgroundColor: "#dc3545",
-              stopOnFocus: true
-          }).showToast();
-      }
-  });
-  </script>
+                    productList.insertAdjacentHTML('beforeend', productHTML);
+                });
+            } else {
+                // Show no results message
+                productList.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <h3>No products found</h3>
+                        <p>Try different search terms or browse our categories</p>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            // Show error message to user
+            Toastify({
+                text: "Error searching products. Please try again.",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545",
+                stopOnFocus: true
+            }).showToast();
+        }
+    });
+    </script>
 
                   <form id="sort-form" action="">
                 <div class="category-dropdown">
@@ -299,17 +299,11 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                        <div class="product-box-3 shadow-lg bg-body rounded">
                           <div class="img-wrapper shadow-lg bg-body rounded-top">
                               <div class="label-block">
-                                <a class="label-2 wishlist-icon <%= wishlistProductIds.includes(element._id.toString()) ? 'in-wishlist' : '' %>" 
-                                  href="javascript:void(0)" 
+                                <button class="wishlist-icon <%= wishlistProductIds.includes(element._id.toString()) ? 'active' : '' %>" 
                                   onclick="toggleWishlist('<%=element._id %>')" 
-                                  data-product-id="<%=element._id %>"
-                                  tabindex="0">
-                                   <i class="iconsax <%= wishlistProductIds.includes(element._id.toString()) ? 'text-danger' : '' %>" 
-                                      data-icon="heart" 
-                                      aria-hidden="true" 
-                                      data-bs-toggle="tooltip" 
-                                      data-bs-title="Add to Wishlist"></i>
-                               </a>
+                                  data-product-id="<%=element._id %>">
+                                  <i class="bi <%= wishlistProductIds.includes(element._id.toString()) ? 'bi-heart-fill text-danger' : 'bi-heart' %>"></i>
+                                </button>
                               </div>
                               <div class="product-image">
                                   <a class="pro-first" href="/productDetails?id=<%= element._id %>">
@@ -323,38 +317,43 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                                   <a href="" onclick="addToCart('<%=element._id %>')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
                                       <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Cart"></i>
                                   </a>
-                                  <a href="compare.html" tabindex="0">
+                                  <!-- <a href="compare.html" tabindex="0">
                                       <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
-                                  </a>
+                                  </a> -->
                                   <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
                                       <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
                                   </a>
                               </div>
                           </div>
                           <div class="product-detail">
-                              <a class="text-decoration-none" href="/productDetails?id=<%= element._id %>">
-                                  <h6 class="ms-3"><%= element.productName %></h6>
-                              </a>
-                              <div class="rating ms-3">★★★★☆</div>
-                              <p class="list-per"><%= element.description %></p>
-                               <% if (element.quantity < 1) { %>
-                                  <span>
-                                      <p class="text-danger">Stock Out</p>
-                                  </span>
-                              <% } else { %>
-                                  <p class="ms-3 mb-3">$<%= element.salePrice %>
-                                      <del>$<%= element.regularPrice %></del>
-                                      <% if (element.productOffer === 0 && element.categoryOffer === 0) { %>
-                                        <span>0%</span>
-                                      <% }else{ %>
-                                      <span><%= element.productOffer||element.categoryOffer %> %</span>
-                                      <% } %>
-                                  </p>
-                              <% } %>
-                              <div class="listing-button">
-                                  <a class="btn" href="cart.html">Quick Shop</a>
-                              </div>
+                            <a class="text-decoration-none" href="/productDetails?id=<%= element._id %>">
+                              <h6 class="ms-3"><%= element.productName %></h6>
+                            </a>
+                            <div class="rating ms-3">★★★★☆</div>
+                            <p class="list-per"><%= element.description %></p>
+                            <% if (element.quantity < 1) { %>
+                              <span>
+                                <p class="text-danger">Out of Stock</p>
+                              </span>
+                            <% } else { %>
+                              <p class="price">
+                                <% if (element.bestOffer) { %>
+                                    $<%= element.offerPrice %>
+                                    <del class="text-muted ms-2">$<%= element.salePrice %></del>
+                                    <span class="text-success ms-2">-<%= element.bestOffer %>% OFF</span>
+                                <% } else if (element.salePrice < element.regularPrice) { %>
+                                    $<%= element.salePrice %>
+                                    <del class="text-muted ms-2">$<%= element.regularPrice %></del>
+                                <% } else { %>
+                                    $<%= element.regularPrice %>
+                                <% } %>
+                              </p>
+                            <% } %>
+                            <div class="listing-button">
+                              <a class="btn" href="cart.html">Quick Shop</a>
+                            </div>
                           </div>
+                          
                       </div>
                    
                     <% }) %>
@@ -433,9 +432,11 @@ filterModal.addEventListener('hidden.bs.modal', function () {
       <div class="product-box-3 shadow-lg bg-body rounded">
         <div class="img-wrapper shadow-lg bg-body rounded-top">
           <div class="label-block">
-            <a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0">
-              <i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i>
-            </a>
+            <button class="wishlist-icon" 
+                    onclick="toggleWishlist('${element._id}')" 
+                    data-product-id="${element._id}">
+              <i class="bi bi-heart"></i>
+            </button>
           </div>
           <div class="product-image">
             <a class="pro-first" href="/productDetails?id=${element._id}">
@@ -463,11 +464,16 @@ filterModal.addEventListener('hidden.bs.modal', function () {
           </a>
           <div class="rating ms-3">★★★★☆</div>
           <p class="list-per">${element.description}</p>
-          <p class="ms-3 mb-3">
-            $${element.salePrice}
-            <del>$${element.regularPrice}</del>
-<span>${element.productOffer === 0 ? '0%' : `${element.productOffer}%`}</span>
-          </p>
+          ${element.quantity < 1 ? 
+            `<span>
+              <p class="text-danger">Out of Stock</p>
+            </span>` :
+            `<p class="ms-3 mb-3">
+              $${element.salePrice}
+              ${element.salePrice < element.regularPrice ? `<del>$${element.regularPrice}</del>` : ''}
+              ${element.bestOffer ? `<span class="text-success ms-2">-${element.bestOffer}% OFF</span>` : ''}
+            </p>`
+          }
           <div class="listing-button">
             <a class="btn" href="cart.html">Quick Shop</a>
           </div>
@@ -504,8 +510,11 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                 gravity: "top", // `top` or `bottom`
                 position: "right", // `left`, `center` or `right`
                 backgroundColor: "#28a745", // Success color (green)
-                stopOnFocus: true, // Prevents dismissing on hover
-            }).showToast();
+                stopOnFocus: true,
+                style: {
+                  color: "#ffffff",
+                  fontSize:'16px'
+               }}).showToast();
         } else {
             Toastify({
                 text: data.message || "Error adding to cart",
@@ -555,27 +564,37 @@ filterModal.addEventListener('hidden.bs.modal', function () {
     const result = await response.json();
 
     if (response.ok) {
-      const wishlistIcon = document.querySelector(`.wishlist-icon[data-product-id="${productId}"] .iconsax`);
+      const wishlistIcon = document.querySelector(`.wishlist-icon[data-product-id="${productId}"] .bi`);
       
       if (result.action === 'added') {
-        wishlistIcon.classList.add('text-danger');
+        wishlistIcon.classList.remove('bi-heart');
+        wishlistIcon.classList.add('bi-heart-fill', 'text-danger');
+        
         Toastify({
           text: 'Product added to wishlist!',
           duration: 3000,
           gravity: 'top',
           position: 'right',
-          backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
-          close: true,
+          backgroundColor: '#28a745',
+          style: {
+            color: '#fff',
+            fontSize:'16px'
+          },
         }).showToast();
-      } else if (result.action === 'removed') {
-        wishlistIcon.classList.remove('text-danger');
+      } else {
+        wishlistIcon.classList.remove('bi-heart-fill', 'text-danger');
+        wishlistIcon.classList.add('bi-heart');
+        
         Toastify({
           text: 'Product removed from wishlist!',
           duration: 3000,
           gravity: 'top',
           position: 'right',
-          backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
-          close: true,
+          backgroundColor: '#dc3545',
+          style: {
+            color: '#fff',
+            fontSize:'16px'
+          },
         }).showToast();
       }
     } else {
@@ -587,16 +606,16 @@ filterModal.addEventListener('hidden.bs.modal', function () {
         backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
         close: true,
       }).showToast();
+    
     }
   } catch (error) {
     console.error('Error:', error);
     Toastify({
-      text: 'An error occurred. Please try again.',
+      text: error.message || 'Failed to update wishlist',
       duration: 3000,
       gravity: 'top',
       position: 'right',
-      backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
-      close: true,
+      backgroundColor: '#dc3545',
     }).showToast();
   }
 }
@@ -605,3 +624,64 @@ filterModal.addEventListener('hidden.bs.modal', function () {
  
 
     </script>
+    <style>
+  .wishlist-icon {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .wishlist-icon:hover {
+    transform: scale(1.1);
+  }
+
+  .wishlist-icon i {
+    font-size: 18px;
+    transition: all 0.3s ease;
+  }
+
+  .wishlist-icon:hover i {
+    color: #dc3545;
+  }
+
+  .wishlist-icon.active i {
+    color: #dc3545;
+  }
+
+  .product-box-3 {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .product-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-box-3:hover .product-image img {
+    transform: scale(1.05);
+  }
+</style>
+  }
+</style>

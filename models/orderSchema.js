@@ -31,33 +31,100 @@ const orderSchema = new Schema({
         required: true,
     },
     discount: {
-        type: Number,
-        default: 0,
+        bestOffer: {
+            type: Number,
+            default: 0
+        },
+        coupon: {
+            type: Number,
+            default: 0
+        },
+        total: {
+            type: Number,
+            default: 0
+        }
     },
     finalAmount: {
         type: Number,
         required: true,
     },
     address: {
-        type: Schema.Types.ObjectId,
-        ref: 'address',
-        required: true,
+        name: {
+            type: String,
+            required: true,
+        },
+        addressType: {
+            type: String,
+            required: true,
+        },
+        city: {
+            type: String,
+            required: true,
+        },
+        pinCode: {
+            type: String,
+            required: true,
+        },
+        landMark: {
+            type: String,
+            required: true,
+        },
+        state: {
+            type: String,
+            required: true,
+        },
+        phone: {
+            type: String,
+            required: true,
+        },
+        altPhone: {
+            type: String,
+            required: false,
+        },
     },
     status: {
         type: String,
         required: true,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Return Request', 'Returned'],
+        enum: [ 'Pending Payment', 'Placed', 'Rejected', 'Delivered', 'Cancelled', 'Return Request', 'Returned'],
     },
     paymentMethod: {  
         type: String,
         required: true,
-        enum: ['COD', 'PayPal', 'RazorPay'], 
+        enum: ['COD', 'wallet', 'ONLINE'], 
+    },
+    paymentStatus: {
+        type: String,
+        required: true,
+        enum: ['Paid', 'Unpaid', 'Refunded','Failed'],
+        default: 'Unpaid',
     },
     couponApplied: {
         type: Boolean,
         default: false,
     },
-
+    razorpayOrderId: {
+        type: String,
+        required: false,
+        default: null
+    },
+    returnRequest: {
+        status: {
+          type: String,
+          enum: ['Pending', 'Approved', 'Rejected',],
+          default: null
+        },
+        reason: String,
+        details: String,
+        date: {
+          type: Date,
+          default: Date.now
+        },
+        processedDate: {
+          type: Date,
+          default: null
+        }
+      },
+ 
 
 },{timestamps:true});
 

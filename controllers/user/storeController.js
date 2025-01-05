@@ -8,7 +8,7 @@ const Wishlist = require('../../models/wishlistSchema');
 // Fetch products based on filters
 const getShopPage = async (req, res) => {
   try {
- const user = req.session.user;
+    const user = req.session.user;
     const { category, brand, price, availability, page = 1 } = req.query;
 
     const limit = 12; // Number of products per page
@@ -41,22 +41,20 @@ const getShopPage = async (req, res) => {
       filterQuery.brand = { $in: brandNamesSet };
     }
 
-// Apply price filter
-if (price) {
-  const priceRanges = price.split(",").map((range) => {
-    const [min, max] = range.split("-").map(Number);
-    return { min, max };
-  });
+    // Apply price filter
+    if (price) {
+      const priceRanges = price.split(",").map((range) => {
+        const [min, max] = range.split("-").map(Number);
+        return { min, max };
+      });
 
-  // Create a single `$or` query combining all ranges
-  filterQuery.$or = priceRanges.map((range) => {
-    return range.max !== undefined
-      ? { salePrice: { $gte: range.min, $lte: range.max } }
-      : { salePrice: { $gte: range.min } };
-  });
-}
-
-
+      // Create a single `$or` query combining all ranges
+      filterQuery.$or = priceRanges.map((range) => {
+        return range.max !== undefined
+          ? { salePrice: { $gte: range.min, $lte: range.max } }
+          : { salePrice: { $gte: range.min } };
+      });
+    }
 
     // Apply availability filter
     if (availability) {
@@ -70,16 +68,38 @@ if (price) {
       filterQuery.$or = availabilityFilters;
     }
 
-    // Log filter query for debugging
-    console.log("Filter Query:", filterQuery);
-
     // Fetch products based on filters
     const products = await Product.find(filterQuery)
       .sort({ createdAt: -1 }) 
       .skip(skip)
       .limit(limit)
-      .populate("category", "name")  
+      .populate("category", "categoryOffer") // Populate category offer
       .exec();
+
+    // Calculate the best offer for each product
+    let productsWithOffers = products.map(product => {
+      const productOffer = product.productOffer || 0;
+      const categoryOffer = product.category?.categoryOffer || 0;
+      const bestOffer = Math.max(productOffer, categoryOffer);
+
+      return {
+        ...product._doc,
+        bestOffer,
+        offerType: bestOffer === productOffer ? "Product Offer" : "Category Offer"
+      };
+    });
+
+    // Calculate offer prices for products
+    productsWithOffers = productsWithOffers.map(product => {
+        if (product.bestOffer) {
+            const offerPrice = product.salePrice - (product.salePrice * (product.bestOffer / 100));
+            return {
+                ...product,
+                offerPrice: Math.round(offerPrice)
+            };
+        }
+        return product;
+    });
 
     // Total count for pagination
     const totalProducts = await Product.countDocuments(filterQuery);
@@ -89,13 +109,14 @@ if (price) {
     const categories = await Category.find({ isListed: true }).select("name");
     const brands = await Brand.find({ isBlocked: false }).select("brandName");
 
-    let wishlistProductIds = [];  // Initialize as empty array
+    let wishlistProductIds = []; // Initialize as empty array
     if (user) {
       const wishlist = await Wishlist.findOne({ userId: user });   
       if (wishlist) {
         wishlistProductIds = wishlist.products.map(item => item.productId.toString());
       }
     }
+
     // Prepare pagination data
     const pagination = {
       currentPage: parseInt(page),
@@ -107,11 +128,11 @@ if (price) {
         isActive: i + 1 === parseInt(page),
       })),
     };
+    
 
-    console.log('wishlist Products',wishlistProductIds);
     // Render the shop page
     res.render("shop", {
-      products,
+      products: productsWithOffers, // Pass products with offers
       user,
       categories,
       brands,
@@ -124,6 +145,7 @@ if (price) {
     res.status(500).send("An error occurred while fetching the shop page.");
   }
 };
+
 
 
 
@@ -191,6 +213,7 @@ const searchProducts = async (req, res) => {
       });
   }
 };
+
 
 
   const sortProducts = async (req,res)=>{

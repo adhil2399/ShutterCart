@@ -6,7 +6,7 @@ const {Schema}= mongoose;
 const addressSchema= new Schema({
     userId:{
         type : Schema.Types.ObjectId,
-        ref:"address",
+        ref:"User",
         required:true
     },
     address:[{
@@ -41,7 +41,7 @@ const addressSchema= new Schema({
         altPhone:{
             type:Number,
         }
-    }]
+    },{timestamps:true}]
 })
 
 

@@ -53,7 +53,6 @@ router.get('/blockProduct',adminAuth,productController.blockProduct)
 router.get('/unblockProduct',adminAuth,productController.unblockProduct)
 router.get('/editProducts',adminAuth,productController.getEditProducts)
 router.post('/editProducts/:id',adminAuth,uploads.array("images",6),productController.editProducts)
-router.post('/deleteImage',adminAuth,productController.deleteSingleImage)
 router.post('/addProductOffer',adminAuth,productController.addProductOffer)
 router.post('/removeProductOffer',adminAuth,productController.removeProductOffer)
 
@@ -62,6 +61,7 @@ router.get('/orders',adminAuth,orderController.getOrderList)
 router.delete('/orders/delete',adminAuth,orderController.deleteOrder)
 router.get('/orderDetails',adminAuth,orderController.getOrderDetailsPage);  
 router.post('/update-order-status',adminAuth,orderController.updateOrderStatus)
+router.patch('/order/return/:orderId',adminAuth,orderController.processReturnRequest)
 
 //coupon management
 router.get('/coupon',adminAuth,couponController.getCouponList)
@@ -71,4 +71,4 @@ router.delete('/deleteCoupon/:id',adminAuth,couponController.deleteCoupon)
 //salesReport management
 router.get('/salesReport',adminAuth,salesReportsController.getSalesReports)
 router.get('/salesReport/download/:format',adminAuth,salesReportsController.downloadReport)
- module.exports=router;
+  module.exports=router;
