@@ -139,7 +139,7 @@
                                     <th>Expire On</th>
                                     <th>Offer Price</th>
                                     <th>Minimum Price</th>
-                                    <th>Status</th>
+                                    <!-- <th>Status</th> -->
                                     <th>Delete</th>
                                 </tr>
                             </thead>
@@ -156,8 +156,7 @@
 
                                     <td class="text-start"><%=coupon.offerPrice%></td>
                                     <td class="text-start"><%=coupon.minimumPrice%></td>
-                                    <td class="text-start"><%=coupon.isList%></td>
-                                    <td class="text-start">
+                                     <td class="text-start">
                                         <!-- <a href="/admin/editCoupon?id=<%=coupon._id%>" class="btn btn-primary btn-sm">Edit</a> -->
                                         <a href="javascript:void(0)"
                                             onclick="deleteCoupon('<%=coupon._id%>')"

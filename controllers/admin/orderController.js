@@ -43,9 +43,15 @@ const getOrderDetailsPage = async (req, res) => {
         const {orderId}= req.query;
         console.log('dddddddddddddddddddddddd',orderId);
         const order = await Order.findOne({ orderId })
-        .populate('userId')
-        .populate('orderedItems.product')
-        .populate('address');
+            .populate('userId')
+            .populate({
+                path: 'orderedItems.product',
+                populate: {
+                    path: 'category',
+                    select: 'name'
+                }
+            })
+            .populate('address');
     
 
         if (!order) {

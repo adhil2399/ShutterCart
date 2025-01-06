@@ -273,7 +273,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 1000;
 }
 
@@ -1162,9 +1162,9 @@ async function removeFromWishlist(productId) {
                       <div class="order-item">
                         <div class="item-image">
                           <img src="<%= item.product.productImage[0] %>" alt="<%= item.productName %>">
-                        </div>
+                         </div>
                         <div class="item-details">
-                          <h5><%= item.productName %></h5>
+                          <h5><%= item.product.productName%></h5>
                           <p>Quantity: <%= item.quantity %></p>
                           <p>Price: ₹<%= item.product.salePrice %></p>
                         </div>
@@ -1173,7 +1173,7 @@ async function removeFromWishlist(productId) {
                   </div>
 
                   <div class="shipping-address">
-                    <h4>Shipping Address</h4>
+                    <h4 style="color: #000;">Shipping Address</h4>
                     <p><%= order.address.name %></p>
                     <p><%= order.address.addressType %></p>
                     <p><%= order.address.city %>, <%= order.address.state %> ,<%= order.address.landMark %></p>
@@ -1957,6 +1957,5 @@ async function deleteAddress(id) {
 
  
 
-  <%- include('../partials/user/footer') %>
-
+ 
   <%- include('../partials/user/footer') %>

@@ -1,85 +1,132 @@
  <%- include('../partials/admin/header') %>
 
-        <section class="content-main">
-            <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Order detail</h2>
-                 </div>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order Details</h2>
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span id="orderDate">
+                        <i class="material-icons md-calendar_today"></i> <b><%= new Date(order.createdAt).toLocaleString() %></b>
+                    </span> <br>
+                    <small class="text-muted">Order ID: <%= order.orderId %></small>
+                    <% if (order.razorpayOrderId) { %>
+                        <br>
+                        <small class="text-muted">Razorpay Order ID: <%= order.razorpayOrderId %></small>
+                    <% } %>
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end" data-order-id="<%= order.orderId %>">
+                    <select id="statusSelect" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                        <option>Change status</option>
+                        <option value="Pending Payment" <%= order.status === 'Pending Payment' ? 'selected' : '' %>>Pending Payment</option>
+                        <option value="Placed" <%= order.status === 'Placed' ? 'selected' : '' %>>Placed</option>
+                        <option value="Rejected" <%= order.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                        <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                        <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <option value="Return Request" <%= order.status === 'Return Request' ? 'selected' : '' %>>Return Request</option>
+                        <option value="Returned" <%= order.status === 'Returned' ? 'selected' : '' %>>Returned</option>
+                    </select>
+                    <a id="saveButton" class="btn btn-primary" href="#">Save</a>
+                    <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                </div>
             </div>
-            <div class="card">
-                <header class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                            <span id="orderDate">
-                                <i class="material-icons md-calendar_today"></i> <b><%= order.createdAt %></b>
-                            </span> <br>
-                            <small class="text-muted">Order ID: <%= order.orderId %></small>
+        </header>
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer Details</h6>
+                            <p class="mb-1">
+                                <%= order.userId.name %> <br>
+                                <%= order.userId.email %><br>
+                                <%= order.userId.phone %>
+                            </p>
                         </div>
-                        <div class="col-lg-6 col-md-6 ms-auto text-md-end" data-order-id="<%= order.orderId %>">
-                            <select id="statusSelect" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
-                                <option>Change status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Processing">Processing</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Delivered">Delivered</option>
-                                <option value="Cancelled">Cancelled</option>
-                                <option value="Return Request">Return Request</option>
-                                <option value="Returned">Returned</option>
-                            </select>
-                            <a id="saveButton" class="btn btn-primary" href="#">Save</a>
-                            <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-local_shipping"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Shipping Address</h6>
+                            <p class="mb-1">
+                                <%= order.address.name %><br>
+                                <%= order.address.addressType %><br>
+                                <%= order.address.landMark %><br>
+                                <%= order.address.city %>, <%= order.address.state %><br>
+                                PIN: <%= order.address.pinCode %><br>
+                                Phone: <%= order.address.phone %>
+                                <% if (order.address.altPhone) { %>
+                                    <br>Alt Phone: <%= order.address.altPhone %>
+                                <% } %>
+                            </p>
                         </div>
-                    </div>
-                </header> <!-- card-header end// -->
-                <div class="card-body">
-                    <div class="row mb-50 mt-20 order-info-wrap">
-                        <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-person"></i>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-payment"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Payment Info</h6>
+                            <p class="mb-1">
+                                Method: <%= order.paymentMethod %><br>
+                                Status: <span class="badge <%= 
+                                    order.paymentStatus === 'Paid' ? 'bg-success' : 
+                                    order.paymentStatus === 'Unpaid' ? 'bg-warning' : 
+                                    order.paymentStatus === 'Refunded' ? 'bg-info' : 
+                                    'bg-danger' %>">
+                                    <%= order.paymentStatus %>
+                                </span><br>
+                                Order Status: <span class="badge <%= 
+                                    order.status === 'Delivered' ? 'bg-success' : 
+                                    order.status === 'Cancelled' ? 'bg-danger' : 
+                                    order.status === 'Return Request' ? 'bg-warning' : 
+                                    'bg-primary' %>">
+                                    <%= order.status %>
                                 </span>
-                                <div class="text">
-                                    <h6 class="mb-1">Customer</h6>
-                                    <p class="mb-1">
-                                        <%= order.userId.name %> <br><%= order.userId.email %><br> <%= order.userId.phone %>
-                                    </p>
-                                    <!-- <a href="#">View profile</a> -->
-                                </div>
-                            </article>
-                        </div> <!-- col// -->
-                        <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-local_shipping"></i>
-                                </span>
-                                <div class="text">
-                                    <h6 class="mb-1">Order info</h6>
-                                    <p class="mb-1">
-                                        Shipping: Fargo express <br> Pay method: <%= order.paymentMethod %> <br> Status: <%= order.status %>
-                                    </p>
-                                    <!-- <a href="#">Download info</a> -->
-                                </div>
-                            </article>
-                        </div> <!-- col// -->
-                        <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <% if (order.returnRequest && order.returnRequest.status !== null) { %>
-                                    <div class="mt-4">
-                                        <h5 class="mb-3">Return Request Information</h5>
-                                        <p>
-                                            <strong>Status:</strong>
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <% if (order.returnRequest && order.returnRequest.status !== null) { %>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h5 class="card-title">Return Request Information</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Status:</strong> 
                                             <span class="badge <%= 
                                                 order.returnRequest.status === 'Pending' ? 'bg-warning' : 
                                                 order.returnRequest.status === 'Approved' ? 'bg-success' : 
-                                                order.returnRequest.status === 'Rejected' ? 'bg-danger' : 'bg-secondary' 
-                                            %>">
+                                                'bg-danger' %>">
                                                 <%= order.returnRequest.status %>
                                             </span>
                                         </p>
                                         <p><strong>Reason:</strong> <%= order.returnRequest.reason %></p>
-                                        <p><strong>Request Date:</strong> <%= new Date(order.returnRequest.date).toLocaleDateString() %></p>
-                                        
-                                            <% if (order.returnRequest.status === 'Pending') { %>
+                                        <p><strong>Details:</strong> <%= order.returnRequest.details || 'No additional details provided' %></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Request Date:</strong> <%= new Date(order.returnRequest.date).toLocaleString() %></p>
+                                        <% if (order.returnRequest.processedDate) { %>
+                                            <p><strong>Processed Date:</strong> <%= new Date(order.returnRequest.processedDate).toLocaleString() %></p>
+                                        <% } %>
+                                        <% if (order.returnRequest.status === 'Pending') { %>
                                             <div class="mt-3">
                                                 <button class="btn btn-success btn-sm process-return" 
                                                         data-order-id="<%= order.orderId %>" 
@@ -94,109 +141,97 @@
                                             </div>
                                         <% } %>
                                     </div>
-                                <% } %>
-                                </article>
-                            </div>
-
-                             <!-- col// -->
-                    </div> <!-- row // -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th width="40%">Product</th>
-                                            <th width="20%">Unit Price</th>
-                                            <th width="20%">Quantity</th>
-                                            <th width="20%" class="text-end">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% order.orderedItems.forEach(item => { %>
-                                            <tr>
-                                                <td>
-                                                    <a class="itemside" href="#">
-                                                        <div class="left">
-                                                            <img src="<%= item.product.productImage[0] %>" width="40" height="40" class="img-xs" alt="<%= item.product.name %>">
-                                                        </div>
-                                                        <div class="info"> <%= item.product.name %> </div>
-                                                    </a>
-                                                </td>
-                                                <td> ₹<%= item.product.salePrice %> </td>
-                                                <td> <%= item.quantity %> </td>
-                                                <td class="text-end"> $<%= (item.product.salePrice * item.quantity) %> </td>
-                                            </tr>
-                                            <% }) %>
-                                            
-                                        <tr>
-                                          
-                                            <td colspan="4">
-                                                <article class="float-end">
-                                                    <dl class="dlist">
-                                                        <dt>Subtotal:</dt>
-                                                        <dd> <%= grandTotal %></dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>discount:</dt>
-                                                        <dd>0</dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">₹<%= grandTotal %> </b> </dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt class="text-muted">Status:</dt>
-                                                        <dd>
-                                                            <span class="badge rounded-pill alert-success text-success">Payment done</span>
-                                                        </dd>
-                                                    </dl>
-                                                </article>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> <!-- table-responsive// -->
-                            <!-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> -->
-                        </div> <!-- col// -->
-                        <div class="col-lg-1"></div>
-                        <div class="col-lg-4">
-                            <!-- <div class="box shadow-sm bg-light">
-                                <h6 class="mb-15">Payment info</h6>
-                                <p>
-                                    <img src="../assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
-                                    Business name: Grand Market LLC <br>
-                                    Phone: +1 (800) 555-154-52
-                                </p>
-                            </div> -->
-                            <!-- <div class="h-25 pt-4">
-                                <div class="mb-3">
-                                    <label>Notes</label>
-                                    <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
                                 </div>
-                                <button class="btn btn-primary">Save note</button>
-                            </div> -->
-                        </div> <!-- col// -->
+                            </div>
+                        </div>
                     </div>
-                </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
-        </section> <!-- content-main end// -->
-       
+                </div>
+            <% } %>
 
-        <%- include('../partials/admin/footer') %>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="15%">Image</th>
+                                    <th width="25%">Product Name</th>
+                                    <th width="15%">Category</th>
+                                    <th width="15%">Unit Price</th>
+                                    <th width="15%">Quantity</th>
+                                    <th width="15%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order.orderedItems.forEach(item => { %>
+                                    <tr>
+                                        <td>
+                                            <div class="left">
+                                                <img src="<%= item.product.productImage[0] %>" width="40" height="40" class="img-xs" alt="<%= item.product.name %>">
+                                            </div>
+                                        </td>
+                                        <td>
+                                                  <br>
+                                                <small class="text-muted"><%= item.product.productName %></small>
+                                        </td>
+                                        <td>
+                                            <%= item.product.category ? item.product.category.name : 'N/A' %>
+                                        </td>
+                                        <td>₹<%= item.product.salePrice.toFixed(2) %></td>
+                                        <td><%= item.quantity %></td>
+                                        <td class="text-end">₹<%= (item.product.salePrice * item.quantity).toFixed(2) %></td>
+                                    </tr>
+                                <% }) %>
+                                <tr>
+                                    <td colspan="6">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Total MRP:</dt>
+                                                <dd>₹<%= order.totalPrice.toFixed(2) %></dd>
+                                            </dl>
+                                            <% if (order.discount.bestOffer > 0) { %>
+                                                <dl class="dlist">
+                                                    <dt>Best Offer Discount:</dt>
+                                                    <dd>-₹<%= order.discount.bestOffer.toFixed(2) %></dd>
+                                                </dl>
+                                            <% } %>
+                                            <% if (order.couponApplied && order.discount.coupon > 0) { %>
+                                                <dl class="dlist">
+                                                    <dt>Coupon Discount:</dt>
+                                                    <dd>-₹<%= order.discount.coupon.toFixed(2) %></dd>
+                                                </dl>
+                                            <% } %>
+                                            <dl class="dlist">
+                                                <dt>Total Discount:</dt>
+                                                <dd>-₹<%= order.discount.total.toFixed(2) %></dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt>Final Amount:</dt>
+                                                <dd><b class="h5">₹<%= order.finalAmount.toFixed(2) %></b></dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<%- include('../partials/admin/footer') %>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const orderDateElement = document.getElementById('orderDate').querySelector('b');
+        const orderDate = new Date(orderDateElement.textContent);
+        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+        orderDateElement.textContent = orderDate.toLocaleDateString('en-US', options);
+    });
+</script>
 
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const orderDateElement = document.getElementById('orderDate').querySelector('b');
-                const orderDate = new Date(orderDateElement.textContent);
-                const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-                orderDateElement.textContent = orderDate.toLocaleDateString('en-US', options);
-            });
-        </script>
-        
 <script>
     document.getElementById('saveButton').addEventListener('click', function(event) {
         event.preventDefault();

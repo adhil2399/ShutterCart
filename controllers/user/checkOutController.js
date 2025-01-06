@@ -20,18 +20,33 @@ const renderCheckoutPage = async (req, res) => {
             populate: { path: "category" } // Populate category inside product
           });
           console.log('cartgg',cart)
+
+            
         if (!cart) {
-            return res.render('checkout', {
-                user: userDetails,
-                cartItems: [],
-                subtotal: 0,
-                tax: 0,
-                totalAmount: 0
-            });
+            return res.status(404).json({ success: false, message: 'Cart not found' });
         }
 
+        // Check if all products in cart have sufficient quantity
+        // for (const ltem of cart.items) {
+        //     const products = await Cart.findById(ltem.productId);
+
+        //     if (products.quantity < ltem.quantity) {
+        //         return res.status(400).json({ success: false, message: 'Quantity not available' });
+        //     }
+        // }
+        
+        
+       
+
+
         const userAddress= await Address.find({userId})
-        const coupon= await Coupon.find()
+        const coupon= await Coupon.find({isList:true,userId:{$ne:userId}})
+        if(!coupon){
+
+             res.status(404).json({ success: false, message: 'Coupon not found' });
+        }
+
+        
 
         let totalWithoutDiscount = 0;
         const cartItemsWithOffers = cart.items.map((item) => {

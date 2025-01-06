@@ -19,6 +19,12 @@ const placeOrder = async (req, res) => {
         }
 
         const { addressId, paymentMethod, totalPrice, Discount, couponCode } = req.body;
+        console.log('Client side values received:', { 
+            totalPrice: parseFloat(totalPrice), 
+            Discount, 
+            couponCode,
+            paymentMethod 
+        });
 
         // Validate request body
         if (!addressId || !paymentMethod) {
@@ -43,35 +49,83 @@ const placeOrder = async (req, res) => {
             return res.status(404).json({ success: false, message: "Address not found." });
         }
 
-        const userCart = await Cart.findOne({ userId }).populate("items.productId");
+        const userCart = await Cart.findOne({ userId }).populate({
+            path: 'items.productId',
+            populate: { path: 'category', select: 'categoryOffer' }
+        });
+
         if (!userCart || userCart.items.length === 0) {
             return res.status(400).json({ success: false, message: "Cart is empty." });
         }
 
-        // Check if coupon is applied
+        // Calculate prices using the same logic as checkout
+        let totalAmount = 0;
+        let bestOfferDiscount = 0;
+
+        // Calculate prices and offers for each item
+        userCart.items.forEach(item => {
+            if (item.productId) {
+                const productOffer = item.productId.productOffer || 0;
+                const categoryOffer = item.productId.category?.categoryOffer || 0;
+                const bestOffer = Math.max(productOffer, categoryOffer);
+
+                const salePrice = item.productId.salePrice * item.quantity;
+                const offerDiscount = (salePrice * bestOffer / 100);
+                
+                totalAmount += salePrice;
+                bestOfferDiscount += offerDiscount;
+            }
+        });
+
+        const totalAfterOffers = totalAmount - bestOfferDiscount;
+
+        // Handle coupon discount
+        let couponDiscount = 0;
         let coupon = null;
         if (couponCode) {
-            coupon = await Coupon.findOne({ name: couponCode, isList: true });
+            coupon = await Coupon.findOne({ name: couponCode});
             if (!coupon) {
-                return res.status(400).json({ success: false, message: "Invalid or expired coupon." });
+                return res.status(400).json({ success: false, message: "Invalid  coupon." });
             }
 
-            // Check if coupon has expired
             if (new Date() > new Date(coupon.expireOn)) {
                 return res.status(400).json({ success: false, message: "Coupon has expired." });
             }
 
-            // Check minimum purchase amount
-            if (totalPrice < coupon.minimumPrice) {
+            if(coupon.userId == userId){
+                return res.status(400).json({ success: false, message: "Coupon already used." });
+            }
+
+            if (totalAmount < coupon.minimumPrice) {
                 return res.status(400).json({ 
                     success: false, 
                     message: `Minimum purchase amount of ₹${coupon.minimumPrice} required for this coupon.` 
                 });
             }
+            
+            // Calculate coupon discount same as checkout
+            couponDiscount = Math.min(coupon.offerPrice, totalAfterOffers);
         }
 
-        const discount = coupon ? coupon.offerPrice : Discount || 0;
-        const finalAmount = totalPrice - discount;
+        const finalAmount = totalAfterOffers - couponDiscount;
+        const totalDiscount = bestOfferDiscount + couponDiscount;
+
+        // Calculate shipping
+        const freeShippingThreshold = 1000;
+        const shippingRate = 0
+        const shipping = finalAmount >= freeShippingThreshold ? 0 : shippingRate;
+        const finalAmountWithShipping = finalAmount + shipping;
+
+        // console.log('Price calculations:', {
+        //     totalAmount,
+        //     bestOfferDiscount,
+        //     totalAfterOffers,
+        //     couponDiscount,
+        //     totalDiscount,
+        //     finalAmount,
+        //     shipping,
+        //     finalAmountWithShipping
+        // });
 
         const orderedItems = userCart.items.map((item) => ({
             product: item.productId._id,
@@ -95,8 +149,9 @@ const placeOrder = async (req, res) => {
                 key_secret: process.env.RAZORPAY__KEY_SECRET,
             });
 
+            // Create Razorpay order
             const razorpayOrder = await razorpay.orders.create({
-                amount: finalAmount * 100,
+                amount: finalAmountWithShipping * 100,
                 currency: "INR",
                 receipt: orderId,
             });
@@ -108,11 +163,15 @@ const placeOrder = async (req, res) => {
                 orderId,
                 razorpayOrderId,
                 orderedItems,
-                totalPrice,
-                discount,
-                finalAmount,
+                totalPrice: totalAmount,
+                discount: {
+                    bestOffer: bestOfferDiscount,
+                    coupon: couponDiscount,
+                    total: totalDiscount
+                },
+                finalAmount: finalAmountWithShipping,
                 couponApplied: !!coupon,
-                couponDetails: coupon ? { code: coupon.name, discountAmount: coupon.offerPrice } : null,
+                couponDetails: coupon ? { code: coupon.name, discountAmount: couponDiscount } : null,
                 address: {
                     name: address.name,
                     addressType: address.addressType,
@@ -130,7 +189,6 @@ const placeOrder = async (req, res) => {
 
             await newOrder.save();
             await Cart.findOneAndUpdate({ userId }, { $set: { items: [] } });
-
             res.status(200).json({
                 message: "Razorpay Order created successfully!",
                 razorpayOrderId,
@@ -144,11 +202,15 @@ const placeOrder = async (req, res) => {
                 userId,
                 orderId,
                 orderedItems,
-                totalPrice,
-                discount,
-                finalAmount,
+                totalPrice: totalAmount,
+                discount: {
+                    bestOffer: bestOfferDiscount,
+                    coupon: couponDiscount,
+                    total: totalDiscount
+                },
+                finalAmount: finalAmountWithShipping,
                 couponApplied: !!coupon,
-                couponDetails: coupon ? { code: coupon.name, discountAmount: coupon.offerPrice } : null,
+                couponDetails: coupon ? { code: coupon.name, discountAmount: couponDiscount } : null,
                 address: {
                     name: address.name,
                     addressType: address.addressType,

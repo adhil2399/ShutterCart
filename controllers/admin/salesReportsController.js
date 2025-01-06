@@ -137,7 +137,11 @@ function calculateTotals(orders) {
     const totals = {
         count: orders.length,
         totalPrice: 0,
-        discount: 0,
+        discount: {
+            bestOffer: 0,
+            coupon: 0,
+            total: 0
+        },
         finalAmount: 0,
         pendingPaymentCount: 0,
         placedCount: 0,
@@ -151,7 +155,14 @@ function calculateTotals(orders) {
     orders.forEach(order => {
         // Calculate financial totals
         totals.totalPrice += order.totalPrice || 0;
-        totals.discount += order.discount || 0;
+        
+        // Handle discount object structure
+        if (order.discount) {
+            totals.discount.bestOffer += order.discount.bestOffer || 0;
+            totals.discount.coupon += order.discount.coupon || 0;
+            totals.discount.total += order.discount.total || 0;
+        }
+        
         totals.finalAmount += order.finalAmount || 0;
 
         // Count orders by status
@@ -242,7 +253,7 @@ const downloadReport = async (req, res) => {
             worksheet.getCell('A6').value = 'Total Sales';
             worksheet.getCell('B6').value = totals.finalAmount;
             worksheet.getCell('A7').value = 'Total Discount';
-            worksheet.getCell('B7').value = totals.discount;
+            worksheet.getCell('B7').value = totals.discount.total;
 
             // Add status summary
             worksheet.mergeCells('G4:J4');
@@ -307,7 +318,7 @@ const downloadReport = async (req, res) => {
                     order.paymentStatus,
                     order.status,
                     order.totalPrice,
-                    order.discount,
+                    order.discount ? order.discount.total : 0,
                     order.finalAmount
                 ]);
             });
@@ -329,7 +340,7 @@ const downloadReport = async (req, res) => {
                 '',
                 '',
                 totals.totalPrice,
-                totals.discount,
+                totals.discount.total,
                 totals.finalAmount
             ]);
             totalRow.font = { bold: true };
@@ -412,7 +423,7 @@ const downloadReport = async (req, res) => {
 
             // Calculate summary data
             const totalAmount = orders.reduce((sum, order) => sum + order.totalPrice, 0);
-            const totalDiscount = orders.reduce((sum, order) => sum + (order.discount || 0), 0);
+            const totalDiscount = orders.reduce((sum, order) => sum + (order.discount ? order.discount.total : 0), 0);
             const totalFinalAmount = orders.reduce((sum, order) => sum + order.finalAmount, 0);
             
             // Draw summary cards

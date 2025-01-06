@@ -427,13 +427,13 @@
   <% } %>
 </div>
 <div class="thumbnail-container">
-  <button class="slider-button prev" id="prevButton">&lt;</button>
+  <!-- <button class="slider-button prev" id="prevButton">&lt;</button> -->
   <div class="thumbnail-slider d-flex gap-2" id="thumbnailSlider">
       <% product.productImage.forEach((image, index) => { %>
           <img src="<%= image %>" alt="Thumbnail <%= index + 1 %>" class="thumbnail <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>">
       <% }) %>
   </div>
-  <button class="slider-button next" id="nextButton">&gt;</button>
+  <!-- <button class="slider-button next" id="nextButton">&gt;</button> -->
 </div>
 </div>
 
@@ -456,7 +456,12 @@
                 </div>
                 <span class="text-muted">(150 Reviews)</span>
             </div>
-            <h2 class="h3 mb-4">$<%= product.salePrice %></h2>
+            <h2 class="h3 mb-4">₹<%= product.salePrice %> <del style="font-size: x-large; color: #726c6c;">₹<%= product.regularPrice %></del>
+             <% if(offer>0){  %> 
+              <h4 class="text-success" style="font-size: x-large;"> <%= offer %> %OFF</h4> 
+            <% } %> </h2>
+
+          
             <% 
             let stockClass = '';
             let stockIcon = '';
@@ -489,6 +494,7 @@
                 <input type="number" class="form-control quantity-input mx-2" value="1" min="1"  max="6" id="quantity">
                 <button class="btn btn-quantity" onclick="updateQuantity(1)">+</button>
             </div>
+ 
 
             <!-- Action Buttons -->
             <div class="d-grid gap-2 mb-4">
@@ -615,6 +621,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
+
+
+async function updateQuantity(value) {
+  const quantityInput = document.getElementById('quantity');
+  let quantity = parseInt(quantityInput.value);
+  quantity += value;
+  if (quantity < 1) {
+    quantity = 1;
+  } else if (quantity > 6) {
+    quantity = 6;
+  }
+  quantityInput.value = quantity;
+}
 </script>
 
 <style>

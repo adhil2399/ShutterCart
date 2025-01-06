@@ -16,13 +16,17 @@ const productDetails = async (req, res) => {
 
         const findCategory = product.category;
         const cat = findCategory.name;
-        const productOffer = product?.productOffer || 0;
-        
+        const productOffer = product.productOffer || 0;
+        const categoryOffer = product.category?.categoryOffer || 0;
+        const bestOffer = Math.max(productOffer, categoryOffer);
+        product.regularPrice= product.salePrice 
+        product.salePrice = product.salePrice - (product.salePrice * bestOffer / 100);
+
         // Get related products
         const relatedProducts = await Product.find({
             category: findCategory._id,  
             _id: { $ne: productid }, 
-        }).limit(8);
+        })
 
         // Check which related products are in wishlist
         const relatedProductsWithWishlist = relatedProducts.map(product => {
@@ -31,8 +35,9 @@ const productDetails = async (req, res) => {
                 isInWishlist: wishlist?.products.some(item => item.productId.toString() === product._id.toString())
             };
         });
+          
         
-        console.log('find category', relatedProductsWithWishlist);
+        // console.log('find category', relatedProductsWithWishlist);
  
         return res.render('product-details', {
             user: userData,
@@ -43,6 +48,7 @@ const productDetails = async (req, res) => {
             quantity: product.quantity,
             category: cat,
             relatedProducts: relatedProductsWithWishlist,
+            offer:bestOffer,
         });
 
     } catch (error) {
