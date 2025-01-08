@@ -431,25 +431,20 @@
 
             if (result.isConfirmed) {
                 try {
-                    // Show loading
                     Swal.fire({
-                        title: 'Deleting...',
+                        title: "Deleting Coupon...",
                         allowOutsideClick: false,
-                        showConfirmButton: false,
-                        willOpen: () => {
+                        didOpen: () => {
                             Swal.showLoading();
                         }
                     });
-
                     const response = await fetch(`/admin/deletecoupon/${couponId}`, {
                         method: "DELETE"
                     });
 
                     if (response.ok) {
-                        // Close loading
                         Swal.close();
-
-                        // Success message
+                        
                         Swal.fire({
                             icon: "success",
                             title: "Deleted!",

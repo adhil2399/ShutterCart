@@ -122,7 +122,7 @@
                 <h6 class="pb-4">Total Amount <span class="text-black"  id="finamount"> <%= totalAmount.toFixed(2) %></span></h6>
                 <!-- <span>Taxes and shipping calculated at checkout</span> -->
               </div>
-              <a class="btn btn_black w-100 rounded sm" href="/checkout">Check Out</a>
+              <a class="btn btn_black w-100 rounded sm" href="/checkout" id="checkOutBtn"  >Check Out</a>
             </div>
           </div>
           
@@ -133,6 +133,7 @@
 
 
     <script>
+      
 
       async function checkQuantity(productId,num) {
         try {

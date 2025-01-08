@@ -17,10 +17,7 @@ const cartSchema= new Schema({
             type:Number,
             default:1
         },
-        cancellationReason:{
-            type:String,
-            default:"null"
-        }
+        
     }]
 })
 

@@ -14,11 +14,7 @@ const brandSchema= new Schema({
         type:Boolean,
     default:false
     },
-    careatedAt:{
-        type:Date,
-        default:Date.now
-    }
-})
+},{timeStamps:true})
 const Brand =mongoose.model('Brand',brandSchema)
 
 module.exports=Brand

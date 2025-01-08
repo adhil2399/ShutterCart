@@ -52,101 +52,172 @@
         <div class="row"> 
           <div class="col-12">
    <!-- Button to trigger modal -->
-   <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#filterModal">
-    Filter Products
-</button>
-
-<a href="/shop" class="btn btn-dark">Clear search & filter</a>
- 
-<!-- Filter Modal -->
+   <div class="col-sm-3">
+                <button 
+                  type="button" 
+                  class="btn <%= (selectedCategories && selectedCategories.length > 0) || 
+                               (selectedBrands && selectedBrands.length > 0) || 
+                               (selectedPrice && selectedPrice.length > 0) || 
+                               selectedAvailability ? 'btn-success' : 'btn-dark' %>"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#filterModal"
+                >
+                  <i class="bi bi-funnel"></i>
+                  <%= (selectedCategories && selectedCategories.length > 0) || 
+                      (selectedBrands && selectedBrands.length > 0) || 
+                      (selectedPrice && selectedPrice.length > 0) || 
+                      selectedAvailability ? 'Filters Applied' : 'Filter Products' %>
+                </button>
+                <% if ((selectedCategories && selectedCategories.length > 0) || 
+                      (selectedBrands && selectedBrands.length > 0) || 
+                      (selectedPrice && selectedPrice.length > 0) || 
+                      selectedAvailability || search) { %>
+                  <a href="/shop" class="btn btn-outline-danger ms-2">
+                    <i class="bi bi-x-circle"></i> Clear All
+                  </a>
+                <% } %>
+              </div>
+ <!-- Filter Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-left">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="filterModalLabel">Filter Products</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form id="filterForm" action="/shop" method="GET">
-              <!-- Category Filter -->
-                  <div class="mb-3">
-                      <label class="form-label">Category</label>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="category" value="camara" id="categoryCamara">
-                          <label class="form-check-label" for="categoryCamara">Camara</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="category" value="lens" id="categoryLens">
-                          <label class="form-check-label" for="categoryLens">Lens</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="category" value="drone" id="categoryDrone">
-                          <label class="form-check-label" for="categoryDrone">Drone</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="category" value="mic" id="categoryMic">
-                          <label class="form-check-label" for="categoryMic">Mic</label>
-                      </div>
-                  </div>
-
-                  <!-- Brand Filter -->
-                  <div class="mb-3">
-                      <label class="form-label">Brand</label>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="brand" value="sony" id="brandSony">
-                          <label class="form-check-label" for="brandSony">Sony</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="brand" value="canon" id="brandCanon">
-                          <label class="form-check-label" for="brandCanon">Canon</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="brand" value="nikon" id="brandNikon">
-                          <label class="form-check-label" for="brandNikon">Nikon</label>
-                      </div>
-                  </div>
-
-                  <!-- Price Range Filter -->
-                  <div class="mb-3">
-                      <label class="form-label">Price Range</label>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="price" value="0-10000" id="price1">
-                          <label class="form-check-label" for="price1">₹0 - ₹10,000</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="price" value="10001-50000" id="price2">
-                          <label class="form-check-label" for="price2">₹10,001 - ₹50,000</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="price" value="50001-100000" id="price3">
-                          <label class="form-check-label" for="price3">₹50,001 - ₹1,00,000</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="price" value="100001" id="price4">
-                          <label class="form-check-label" for="price4">₹1,00,001 & Above</label>
-                      </div>
-                  </div>
-
-                  <!-- Availability Filter -->
-                  <div class="mb-3">
-                      <label class="form-label">Availability</label>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="availability" value="inStock" id="availabilityInStock">
-                          <label class="form-check-label" for="availabilityInStock">In Stock</label>
-                      </div>
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="availability" value="outOfStock" id="availabilityOutOfStock">
-                          <label class="form-check-label" for="availabilityOutOfStock">Out of Stock</label>
-                      </div>
-                  </div>
-
-                  <!-- Submit Button -->
-                  <button type="submit" class="btn btn-dark w-100">Apply Filters</button>
-              </form>
-          </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filterModalLabel">Filter Products</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <form id="filterForm" action="/shop" method="GET">
+          <% if (typeof search !== 'undefined' && search) { %>
+            <input type="hidden" name="search" value="<%= search %>">
+          <% } %>
+          <!-- Category Filter -->
+          <div class="mb-3">
+            <label class="form-label">Category</label>
+            <% categories.forEach(category => { %>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="category"
+                  value="<%= category.name %>"
+                  id="category<%= category._id %>"
+                  <%= selectedCategories && selectedCategories.includes(category.name) ? 'checked' : '' %>
+                />
+                <label class="form-check-label" for="category<%= category._id %>">
+                  <%= category.name %>
+                </label>
+              </div>
+            <% }) %>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <% if (brands && brands.length > 0) { %>
+              <% brands.forEach(brand => { %>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="brand"
+                    value="<%= brand.brandName %>"
+                    id="brand<%= brand._id %>"
+                    <%= selectedBrands && selectedBrands.includes(brand.brandName) ? 'checked' : '' %>
+                  />
+                  <label class="form-check-label" for="brand<%= brand._id %>">
+                    <%= brand.brandName %>
+                  </label>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="text-muted">No brands available</div>
+            <% } %>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div class="mb-3">
+            <label class="form-label">Price Range</label>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="price"
+                value="0-10000"
+                id="price1"
+                <%= selectedPrice && selectedPrice.includes("0-10000") ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="price1">₹0 - ₹10,000</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="price"
+                value="10001-50000"
+                id="price2"
+                <%= selectedPrice && selectedPrice.includes("10001-50000") ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="price2">₹10,001 - ₹50,000</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="price"
+                value="50001-100000"
+                id="price3"
+                <%= selectedPrice && selectedPrice.includes("50001-100000") ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="price3">₹50,001 - ₹1,00,000</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="price"
+                value="100001"
+                id="price4"
+                <%= selectedPrice && selectedPrice.includes("100001") ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="price4">Above ₹1,00,000</label>
+            </div>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="mb-3">
+            <label class="form-label">Availability</label>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="availability"
+                value="inStock"
+                id="availabilityInStock"
+                <%= selectedAvailability === "inStock" ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="availabilityInStock">In Stock</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="availability"
+                value="outOfStock"
+                id="availabilityOutOfStock"
+                <%= selectedAvailability === "outOfStock" ? 'checked' : '' %>
+              />
+              <label class="form-check-label" for="availabilityOutOfStock">Out of Stock</label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-dark w-100">Apply Filters</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -164,145 +235,66 @@ filterModal.addEventListener('hidden.bs.modal', function () {
   
 
    <div class="container py-3">
-    <form class="d-flex" id="searchForm">
+    <form class="d-flex" id="searchForm" action="/shop" method="GET">
+        <% if (typeof selectedCategories !== 'undefined' && selectedCategories.length > 0) { %>
+            <input type="hidden" name="category" value="<%= selectedCategories %>">
+        <% } %>
+        <% if (typeof selectedBrands !== 'undefined' && selectedBrands.length > 0) { %>
+            <input type="hidden" name="brand" value="<%= selectedBrands %>">
+        <% } %>
+        <% if (typeof selectedPrice !== 'undefined' && selectedPrice.length > 0) { %>
+            <input type="hidden" name="price" value="<%= selectedPrice %>">
+        <% } %>
+        <% if (typeof selectedAvailability !== 'undefined' && selectedAvailability) { %>
+            <input type="hidden" name="availability" value="<%= selectedAvailability %>">
+        <% } %>
+        <% if (typeof sort !== 'undefined' && sort !== 'default') { %>
+            <input type="hidden" name="sort" value="<%= sort %>">
+        <% } %>
         <input 
             class="form-control me-2" 
             type="search" 
-            name="query" 
+            name="search" 
             id="searchInput"
             placeholder="Search for products..." 
             aria-label="Search" 
-            required
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
         >
         <button class="btn btn-dark" type="submit">
             <i class="bi bi-search"></i>
         </button>
     </form>
   </div>
-  
-  <script>
-    document.getElementById('searchForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-        
-        const searchQuery = document.getElementById('searchInput').value.trim();
-        if (!searchQuery) return;
-    
-        try {
-            // Update URL to reflect search
-            const url = new URL(window.location.href);
-            url.searchParams.set('query', searchQuery);
-            window.history.pushState({}, '', url);
-    
-            // Fetch search results
-            const response = await fetch(`/shop/search?query=${encodeURIComponent(searchQuery)}`);
-            
-            if (!response.ok) {
-                throw new Error('Search failed');
-            }
-    
-            const data = await response.json();
-            const productList = document.getElementById('product-list');
-            
-            // Clear current products
-            productList.innerHTML = '';
-    
-            if (data.products && data.products.length > 0) {
-                // Render products
-                data.products.forEach(product => {
-                    const productHTML =  `
-                        <div class="product-box-3 shadow-lg bg-body rounded">
-                            <div class="img-wrapper shadow-lg bg-body rounded-top">
-                                <div class="label-block">
-                                    <a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0">
-                                        <i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i>
-                                    </a>
-                                </div>
-                                <div class="product-image">
-                                    <a class="pro-first" href="/productDetails?id=${product._id}">
-                                        <img class="bg-img" src="${product.productImage[0]}" alt="product">
-                                    </a>
-                                    <a class="pro-sec" href="/productDetails?id=${product._id}">
-                                        <img class="bg-img" src="${product.productImage[1]}" alt="product">
-                                    </a>
-                                </div>
-                                <div class="cart-info-icon">
-                                    <a href="" onclick="addToCart('${product._id}')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
-                                        <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Cart"></i>
-                                    </a>
-                                    <a href="compare.html" tabindex="0">
-                                        <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
-                                    </a>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
-                                        <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <a class="text-decoration-none" href="/productDetails?id=${product._id}">
-                                    <h6 class="ms-3">${product.productName}</h6>
-                                </a>
-                                <div class="rating ms-3">★★★★☆</div>
-                                <p class="list-per">${product.description}</p>
-                                <p class="ms-3 mb-3">$${product.salePrice}
-                                    <del>$${product.regularPrice}</del>
-                                    `
-  
-  
-  
-                    productList.insertAdjacentHTML('beforeend', productHTML);
-                });
-            } else {
-                // Show no results message
-                productList.innerHTML = `
-                    <div class="col-12 text-center py-5">
-                        <h3>No products found</h3>
-                        <p>Try different search terms or browse our categories</p>
-                    </div>
-                `;
-            }
-        } catch (error) {
-            console.error('Search error:', error);
-            // Show error message to user
-            Toastify({
-                text: "Error searching products. Please try again.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "#dc3545",
-                stopOnFocus: true
-            }).showToast();
-        }
-    });
-    </script>
 
-                  <form id="sort-form" action="">
-                <div class="category-dropdown">
-                  <label for="cars">Sort By :</label>
-                  <select class="form-select" name="sort" id="sort" onchange=" return onSortChange()">
-                    <option value="default">Default</option>
-                    <option value="az">name: A-Z</option>
-                    <option value="za">Name: Z-A</option>
-                    <option value="priceHigh">Price : High - low </option>
-                    <option value="priceLow">Price: low - High</option>
+                  <form id="sort-form" action="/shop" method="GET">
+                   <input type="hidden" name="category" value="<%= typeof selectedCategories !== 'undefined' ? selectedCategories : '' %>">
+                   <input type="hidden" name="brand" value="<%= typeof selectedBrands !== 'undefined' ? selectedBrands : '' %>">
+                   <input type="hidden" name="price" value="<%= typeof selectedPrice !== 'undefined' ? selectedPrice : '' %>">
+                   <input type="hidden" name="availability" value="<%= typeof selectedAvailability !== 'undefined' ? selectedAvailability : '' %>">
+                   <input type="hidden" name="search" value="<%= typeof search !== 'undefined' ? search : '' %>">
+                   <label for="cars">Sort By :</label>
+                   <select class="form-select" name="sort" onchange="this.form.submit()">
+                    <option value="default" <%= sort === 'default' ? 'selected' : '' %>>Default</option>
+                    <option value="priceAsc" <%= sort === 'priceAsc' ? 'selected' : '' %>>Price: Low to High</option>
+                    <option value="priceDesc" <%= sort === 'priceDesc' ? 'selected' : '' %>>Price: High to Low</option>
+                    <option value="nameAsc" <%= sort === 'nameAsc' ? 'selected' : '' %>>Name: A to Z</option>
+                    <option value="nameDesc" <%= sort === 'nameDesc' ? 'selected' : '' %>>Name: Z to A</option>
                   </select>
-                </div>
-              </form>
+                </form>
               </div>
               
             </div>
             <div class="product-tab-content ratio1_3" >
               <div class="row-cols-lg-4 row-cols-md-3 row-cols-2 grid-section view-option row g-3 g-xl-4"id="product-list">
               
-                
                   <% products.forEach(( element)=>{ %>
                        <div class="product-box-3 shadow-lg bg-body rounded">
                           <div class="img-wrapper shadow-lg bg-body rounded-top">
                               <div class="label-block">
-                                <button class="wishlist-icon <%= wishlistProductIds.includes(element._id.toString()) ? 'active' : '' %>" 
+                                <button class="wishlist-icon <%= wishlistProductIds && wishlistProductIds.includes(element._id.toString()) ? 'active' : '' %>" 
                                   onclick="toggleWishlist('<%=element._id %>')" 
                                   data-product-id="<%=element._id %>">
-                                  <i class="bi <%= wishlistProductIds.includes(element._id.toString()) ? 'bi-heart-fill text-danger' : 'bi-heart' %>"></i>
+                                  <i class="bi <%= wishlistProductIds && wishlistProductIds.includes(element._id.toString()) ? 'bi-heart-fill text-danger' : 'bi-heart' %>"></i>
                                 </button>
                               </div>
                               <div class="product-image">
@@ -350,7 +342,7 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                               </p>
                             <% } %>
                             <div class="listing-button">
-                              <a class="btn" href="cart.html">Quick Shop</a>
+                              <a class="btn" href="">Quick Shop</a>
                             </div>
                           </div>
                           
@@ -363,35 +355,30 @@ filterModal.addEventListener('hidden.bs.modal', function () {
             </div>
 
             <div class="pagination-wrap">
-              <ul class="pagination">
-                  <!-- Previous Page Link -->
-                  <% if (pagination.prevPage) { %>
-                  <li>
-                      <a class="prev text-decoration-none" href="?page=<%= pagination.prevPage %>">
-                          <i class="iconsax" data-icon="chevron-left"></i>
-                      </a>
-                  </li>
-                  <% } %>
-          
-                  <!-- Page Numbers -->
-                  <% pagination.pages.forEach(page => { %>
-                  <li>
-                      <a href="?page=<%= page.number %>" class=" text-decoration-none text-black <%= page.isActive ? 'active' : '' %>">
-                          <%= page.number %>
-                      </a>
-                  </li>
-                  <% }) %>
-          
-                  <!-- Next Page Link -->
-                  <% if (pagination.nextPage) { %>
-                  <li>
-                      <a class="next" href="?page=<%= pagination.nextPage %>">
-                          <i class="iconsax" data-icon="chevron-right"></i>
-                      </a>
-                  </li>
-                  <% } %>
-              </ul>
-          </div>
+              <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <% if (currentPage > 1) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage('<%= currentPage - 1 %>')">Previous</a>
+                      </li>
+                    <% } %>
+                    
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                      <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                        <a class="page-link" href="#" onclick="changePage('<%= i %>')"><%= i %></a>
+                      </li>
+                    <% } %>
+                    
+                    <% if (currentPage < totalPages) { %>
+                      <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage('<%= currentPage + 1 %>')">Next</a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </nav>
+              </div>
+            </div>
           
       
            </div>
@@ -402,94 +389,7 @@ filterModal.addEventListener('hidden.bs.modal', function () {
  <%- include('../partials/user/footer') %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-
-    <script>
-      function onSortChange() {
-          const sortValue = document.getElementById('sort').value;
-           console.log(sortValue)
-               const url = new URL(window.location.href);
-    url.searchParams.set('sort', sortValue);
-    window.history.pushState({}, '', url);
-          fetch(`/products?sort=${sortValue}`)
-              .then(response => response.json())
-              .then(products => {
-                  const productList = document.getElementById('product-list');
-      
-
-                  console.log('3werstttttttttttt',productList)
-                  if (!productList) {
-                      alert('Error: Element with ID "product-list" not found.');
-                      return;
-                  }
-      
-                  // Clear current products
-                  productList.innerHTML = '';
-      
-                  // Re-render products
-                  products.forEach( element => { 
-                      const productHTML = `
-                          <div>
-      <div class="product-box-3 shadow-lg bg-body rounded">
-        <div class="img-wrapper shadow-lg bg-body rounded-top">
-          <div class="label-block">
-            <button class="wishlist-icon" 
-                    onclick="toggleWishlist('${element._id}')" 
-                    data-product-id="${element._id}">
-              <i class="bi bi-heart"></i>
-            </button>
-          </div>
-          <div class="product-image">
-            <a class="pro-first" href="/productDetails?id=${element._id}">
-              <img class="bg-img" src="${element.productImage[0]}" alt="product">
-            </a>
-            <a class="pro-sec" href="/productDetails?id=${element._id}">
-              <img class="bg-img" src="${element.productImage[1]}" alt="product">
-            </a>
-          </div>
-          <div class="cart-info-icon">
-            <a href="" onclick="addToCart('${element._id}')" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0">
-              <i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to cart"> </i>
-            </a>
-            <a href="compare.html" tabindex="0">
-              <i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i>
-            </a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0">
-              <i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i>
-            </a>
-          </div>
-        </div>
-        <div class="product-detail">
-          <a class="text-decoration-none" href="/productDetails?id=${element._id}">
-            <h6 class="ms-3">${element.productName}</h6>
-          </a>
-          <div class="rating ms-3">★★★★☆</div>
-          <p class="list-per">${element.description}</p>
-          ${element.quantity < 1 ? 
-            `<span>
-              <p class="text-danger">Out of Stock</p>
-            </span>` :
-            `<p class="ms-3 mb-3">
-              $${element.salePrice}
-              ${element.salePrice < element.regularPrice ? `<del>$${element.regularPrice}</del>` : ''}
-              ${element.bestOffer ? `<span class="text-success ms-2">-${element.bestOffer}% OFF</span>` : ''}
-            </p>`
-          }
-          <div class="listing-button">
-            <a class="btn" href="cart.html">Quick Shop</a>
-          </div>
-        </div>
-      </div>
-    </div>
-                      `;
-                      productList.insertAdjacentHTML('beforeend', productHTML);
-                  });
-              })
-              .catch(error => console.error('Error fetching products:', error));
-      }
-    
-      </script>
-      
-      <script>
+    <script>       
         
   async function addToCart(productId) {
     const quantity= 1
@@ -619,11 +519,31 @@ filterModal.addEventListener('hidden.bs.modal', function () {
     }).showToast();
   }
 }
-
-// Remove from Wishlist
- 
-
     </script>
+    <script>
+function changePage(page) {
+  const currentParams = new URLSearchParams(window.location.search);
+  currentParams.set('page', page);
+  window.location.href = '/shop?' + currentParams.toString();
+}
+
+// Function to update URL with all parameters
+function updateURL(params) {
+  const currentParams = new URLSearchParams(window.location.search);
+  
+  // Preserve all existing parameters except page (since we're changing filters)
+  for (const [key, value] of currentParams.entries()) {
+    if (key !== 'page') {
+      params.set(key, value);
+    }
+  }
+  
+  // Reset to page 1 when filters change
+  params.set('page', '1');
+  
+  window.location.href = '/shop?' + params.toString();
+}
+</script>
     <style>
   .wishlist-icon {
     background: none;
@@ -683,5 +603,4 @@ filterModal.addEventListener('hidden.bs.modal', function () {
     transform: scale(1.05);
   }
 </style>
-  }
-</style>
+ 

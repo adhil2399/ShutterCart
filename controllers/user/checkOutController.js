@@ -2,51 +2,26 @@ const Cart = require('../../models/cartSchema');
 const User = require('../../models/userSchema');
 const Address =require('../../models/addressSchema')
 const Coupon = require('../../models/couponSchema');
+const Product = require('../../models/productSchema');
+
 
 const renderCheckoutPage = async (req, res) => {
     try {
         const userId = req.session.user;
-
-         if (!userId) {
-            return res.status(401).json({ success: false, message: 'User not logged in' });
-        }
-
-         const userDetails = await User.findById(userId);
-        if (!userDetails) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
+        const { couponName, couponDiscount } = req.session.appliedCoupon || {};
+        const userDetails = await User.findById(userId);
+        
         const cart = await Cart.findOne({ userId }).populate({
             path: "items.productId",
             populate: { path: "category" } // Populate category inside product
           });
           console.log('cartgg',cart)
-
-            
-        if (!cart) {
-            return res.status(404).json({ success: false, message: 'Cart not found' });
-        }
-
-        // Check if all products in cart have sufficient quantity
-        // for (const ltem of cart.items) {
-        //     const products = await Cart.findById(ltem.productId);
-
-        //     if (products.quantity < ltem.quantity) {
-        //         return res.status(400).json({ success: false, message: 'Quantity not available' });
-        //     }
-        // }
-        
-        
-       
-
-
+              
         const userAddress= await Address.find({userId})
-        const coupon= await Coupon.find({isList:true,userId:{$ne:userId}})
-        if(!coupon){
-
-             res.status(404).json({ success: false, message: 'Coupon not found' });
-        }
-
-        
+        const availableCoupons = await Coupon.find({
+            isList: true,
+            userId: { $ne: userId }
+        });
 
         let totalWithoutDiscount = 0;
         const cartItemsWithOffers = cart.items.map((item) => {
@@ -68,17 +43,25 @@ const renderCheckoutPage = async (req, res) => {
           const totalPriceAfterOffers = cartItemsWithOffers.reduce((sum, item) => sum + item.totalPrice, 0);
           const totalDiscount = cartItemsWithOffers.reduce((sum, item) => sum + parseFloat(item.itemDiscount), 0);
 
-          console.log('couponnnnnnnnnnnnnnnnnn',coupon)
+          // Calculate final total with coupon discount if applicable
+          const finalTotal = couponDiscount 
+            ? (totalPriceAfterOffers - couponDiscount).toFixed(2)
+            : totalPriceAfterOffers.toFixed(2);
 
- 
+          // Calculate total discount including coupon
+          const totalDiscountWithCoupon = couponDiscount 
+            ? (totalDiscount + couponDiscount).toFixed(2)
+            : totalDiscount.toFixed(2);
+
          res.render('checkout', {
             user: userDetails,
             cartItems:cartItemsWithOffers,
             userAddress,
-            coupon,
-            discount:totalDiscount.toFixed(2),
-            total:totalWithoutDiscount.toFixed(2),
-            finalTotal:totalPriceAfterOffers.toFixed(2),
+            coupon: availableCoupons,
+            couponName,
+            discount: totalDiscountWithCoupon,
+            total: totalWithoutDiscount.toFixed(2),
+            finalTotal,
             razorpayKey: process.env.RAZORPAY__KEY_ID, // Pass the Razorpay Key
 
         });
@@ -87,6 +70,8 @@ const renderCheckoutPage = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+
+
 const applyCoupon = async (req, res) => {
     try {
         const { couponCode } = req.body;
@@ -99,6 +84,12 @@ const applyCoupon = async (req, res) => {
             });
         }
 
+        if(!userId){
+            return res.status(401).json({
+                success: false,
+                message: 'You are logged out ,please login first',
+            });
+        }
         // Find the coupon
         const coupon = await Coupon.findOne({
             name: couponCode,
@@ -154,17 +145,24 @@ const applyCoupon = async (req, res) => {
         // Calculate coupon discount
         const couponDiscount = Math.min(coupon.offerPrice, totalAfterOffers); // Ensure coupon discount doesn't exceed the total after offers
         const finalAmount = totalAfterOffers - couponDiscount;
-        const totalDiscount = bestOfferDiscount + couponDiscount;
 
         // Store applied coupon in session
         req.session.appliedCoupon = {
-            name: coupon.name,
-            discount: couponDiscount,
+            couponName: coupon.name,
+            couponDiscount: couponDiscount,
         };
+
+        // Save session
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
 
         return res.json({
             success: true,
-            discount: totalDiscount, // Send total discount (offer + coupon)
+            discount: couponDiscount, // Send total discount (offer + coupon)
             finalAmount: finalAmount,
             message: 'Coupon applied successfully.',
         });
@@ -179,9 +177,15 @@ const applyCoupon = async (req, res) => {
 const removeCoupon = async (req, res) => {
     try {
         // Remove coupon from session
-        if (req.session.appliedCoupon) {
-            delete req.session.appliedCoupon;
-        }
+        delete req.session.appliedCoupon;
+
+        // Save session
+        await new Promise((resolve, reject) => {
+            req.session.save((err) => {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
 
         // Get the cart details
         const userId = req.session.user;
@@ -198,20 +202,28 @@ const removeCoupon = async (req, res) => {
         }
 
         // Recalculate total amount without coupon discount
-        const totalAmount = cart.items.reduce((sum, item) => {
+        let totalAmount = 0;
+        let bestOfferDiscount = 0;
+
+        cart.items.forEach(item => {
             const product = item.productId;
+            const salePrice = product.salePrice * item.quantity;
             const bestOffer = Math.max(product.productOffer || 0, product.category.categoryOffer || 0);
-            const salePrice = product.regularPrice - (product.regularPrice * bestOffer / 100);
-            return sum + salePrice * item.quantity;
-        }, 0);
+            const offerDiscount = (salePrice * bestOffer / 100);
+            
+            totalAmount += salePrice;
+            bestOfferDiscount += offerDiscount;
+        });
+
+        const finalAmount = totalAmount - bestOfferDiscount;
 
         return res.json({
             success: true,
-            finalAmount: totalAmount,
+            finalAmount: finalAmount,
             message: 'Coupon removed successfully.',
         });
     } catch (error) {
-        console.error('Remove coupon error:', error);
+        console.error('Error removing coupon:', error);
         res.status(500).json({
             success: false,
             message: 'Error removing coupon.',
@@ -223,5 +235,5 @@ const removeCoupon = async (req, res) => {
 module.exports = {
     renderCheckoutPage,
     applyCoupon,
-    removeCoupon
+    removeCoupon,
 }

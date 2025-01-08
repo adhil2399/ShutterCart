@@ -1,4 +1,5 @@
-const mongoose= require('mongoose')
+const mongoose =require('mongoose')
+
 const {Schema}= mongoose;
 
 const userSchema= new Schema({
@@ -38,10 +39,6 @@ const userSchema= new Schema({
         type:Schema.Types.ObjectId,
         res:'cart'
     }],
-    wallet:{
-        type:Number,
-        default:0
-    },
     wishlist:[{
         type:Schema.Types.ObjectId,
         res:'wishlist'
@@ -50,34 +47,8 @@ const userSchema= new Schema({
         type:Schema.Types.ObjectId,
         res:'order'
     }],
-    createdOn:{
-        type:Date,
-        default:Date.now
-    },
-    referalCode:{
-        type:String,
-    },
-    redeemed:{
-        type:Boolean
-    },
-    redeemedUser:[{
-        type:Schema.Types.ObjectId,
-        res:'user'
-    }],
-    searchHistory:[{
-        category:{
-            type:Schema.Types.ObjectId,
-            ref:'category'
-        },
-        brand:{
-            type:String,
-        },
-        searchOn:{
-            type:Date,
-            default:Date.now
-        }
-    }]
-})
+     
+},{timeStamps:true})
 
 const User= mongoose.model('User',userSchema)
 

@@ -15,7 +15,7 @@ const couponSchema =new Schema({
     expireOn:{
         type:Date,
         required:true
-    },
+    },  
     offerPrice:{
         type:Number,
         required:true

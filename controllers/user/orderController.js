@@ -6,11 +6,7 @@ const Razorpay = require('razorpay');
 const Address = require('../../models/addressSchema');
 const Wallet = require('../../models/walletSchema');
 const Coupon = require('../../models/couponSchema');
- // Initialize Razorpay instance
-const razorpay = new Razorpay({
-    key_id: 'YOUR_RAZORPAY_KEY_ID',
-    key_secret: 'YOUR_RAZORPAY_KEY_SECRET'
-});
+ 
 const placeOrder = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -19,19 +15,11 @@ const placeOrder = async (req, res) => {
         }
 
         const { addressId, paymentMethod, totalPrice, Discount, couponCode } = req.body;
-        console.log('Client side values received:', { 
-            totalPrice: parseFloat(totalPrice), 
-            Discount, 
-            couponCode,
-            paymentMethod 
-        });
 
-        // Validate request body
         if (!addressId || !paymentMethod) {
             return res.status(400).json({ success: false, message: "Address and payment method are required." });
         }
 
-        // Validate address fields
         const addressDocument = await Address.findOne({
             userId,
             address: { $elemMatch: { _id: addressId } },
@@ -79,6 +67,15 @@ const placeOrder = async (req, res) => {
 
         const totalAfterOffers = totalAmount - bestOfferDiscount;
 
+
+        if(totalPrice != totalAfterOffers){
+            return res.status(400).json({ success: false, message: "Total price mismatch." });
+        }
+
+        if(Discount != bestOfferDiscount){
+            return res.status(400).json({ success: false, message: "Discount mismatch." });
+        }
+
         // Handle coupon discount
         let couponDiscount = 0;
         let coupon = null;
@@ -116,23 +113,13 @@ const placeOrder = async (req, res) => {
         const shipping = finalAmount >= freeShippingThreshold ? 0 : shippingRate;
         const finalAmountWithShipping = finalAmount + shipping;
 
-        // console.log('Price calculations:', {
-        //     totalAmount,
-        //     bestOfferDiscount,
-        //     totalAfterOffers,
-        //     couponDiscount,
-        //     totalDiscount,
-        //     finalAmount,
-        //     shipping,
-        //     finalAmountWithShipping
-        // });
-
         const orderedItems = userCart.items.map((item) => ({
             product: item.productId._id,
             quantity: item.quantity,
             price: item.productId.salePrice,
         }));
 
+       // Generate order ID
         const generateOrderId = () => {
             const prefix = "ORD";
             const timestamp = Date.now();
@@ -143,6 +130,7 @@ const placeOrder = async (req, res) => {
         const orderId = generateOrderId();
         let razorpayOrderId = null;
 
+        //online payment logic
         if (paymentMethod === "ONLINE") {
             const razorpay = new Razorpay({
                 key_id: process.env.RAZORPAY__KEY_ID,
@@ -158,6 +146,7 @@ const placeOrder = async (req, res) => {
 
             razorpayOrderId = razorpayOrder.id;
 
+            // Save order to database
             const newOrder = new Order({
                 userId,
                 orderId,
@@ -170,6 +159,7 @@ const placeOrder = async (req, res) => {
                     total: totalDiscount
                 },
                 finalAmount: finalAmountWithShipping,
+                //if coupon is applied then it will be true
                 couponApplied: !!coupon,
                 couponDetails: coupon ? { code: coupon.name, discountAmount: couponDiscount } : null,
                 address: {
@@ -187,7 +177,10 @@ const placeOrder = async (req, res) => {
                 paymentStatus: "Unpaid",
             });
 
+            // Save order to database
             await newOrder.save();
+
+            // Remove items from cart
             await Cart.findOneAndUpdate({ userId }, { $set: { items: [] } });
             res.status(200).json({
                 message: "Razorpay Order created successfully!",
@@ -196,7 +189,7 @@ const placeOrder = async (req, res) => {
                 currency: razorpayOrder.currency,
                 orderId,
             });
-
+            //cod payment
         } else if (paymentMethod === "COD") {
             const newOrder = new Order({
                 userId,
@@ -226,8 +219,11 @@ const placeOrder = async (req, res) => {
                 paymentStatus: "Unpaid",
             });
 
+            // Save order to database
             await newOrder.save();
+            await coupon.updateOne({ $addToSet: { userId: userId }},{new: true});
 
+            //decrease product quantity from database
             for (const item of userCart.items) {
                 const product = await Product.findById(item.productId._id);
                 if (product) {
@@ -238,7 +234,7 @@ const placeOrder = async (req, res) => {
                     await product.save();
                 }
             }
-
+            // Remove items from cart
             await Cart.findOneAndUpdate({ userId }, { $set: { items: [] } });
 
             res.json({

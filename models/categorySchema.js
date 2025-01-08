@@ -18,11 +18,7 @@ const categorySchema = new Schema({
         type:Number,
         default:0
     },
-    createdAt :{
-        type:Date,
-        default:Date.now
-
-    }
-})
+   
+},{timeStamps:true})
 const category=mongoose.model('Category',categorySchema)
 module.exports=category

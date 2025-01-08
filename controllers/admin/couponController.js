@@ -25,7 +25,7 @@ const createCoupon = async (req, res) => {
     // Check if the coupon name already exists
     const existingCoupon = await Coupon.findOne({ name: couponName });
     if (existingCoupon) {
-      return res.status(400).json({ message: "Coupon name already exists." });
+      return res.status(400).json({ success: false, message: "Coupon name already exists." });
     }
 
     // Create a new coupon
@@ -55,8 +55,10 @@ const deleteCoupon = async (req,res)=>{
    const couponId = req.params.id;
     const coupon = await Coupon.findByIdAndDelete(couponId);
     if (!coupon) {
-      return res.status(404).json({ message: "Coupon not found." });
+      return res.status(404).json({ success: false, message: "Coupon not found." });
     }
+
+    res.status(200).json({ success: true, message: "Coupon deleted successfully." });
 
   } catch (error) {
     res.status(500).json({ message: "Internal server error. Please try again." });j

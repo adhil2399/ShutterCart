@@ -61,16 +61,16 @@ router.post('/edit-profile',userAuth,profileController.editProfile)
 // shop page & filter
 
 router.get('/shop',StoreController.getShopPage)
-router.get('/products',StoreController.sortProducts)
+// router.get('/products',StoreController.sortProducts)
  router.get('/cart',userAuth,CartController.getCart)
  router.post('/cart/add',CartController.addToCart)
  router.delete('/cart/remove',userAuth,CartController.removeFromCart)
- router.get('/shop/search',StoreController.searchProducts)
+//  router.get('/shop/search',StoreController.searchProducts)
  
  //checkOut 
- router.get('/checkout', userAuth,checkoutController.renderCheckoutPage);
- router.post('/apply-coupon', userAuth, checkoutController.applyCoupon);
- router.post('/remove-coupon', userAuth, checkoutController.removeCoupon);
+  router.get('/checkout',userAuth,checkoutController.renderCheckoutPage);
+ router.post('/apply-coupon',userAuth, checkoutController.applyCoupon);
+ router.post('/remove-coupon',userAuth, checkoutController.removeCoupon);
  
  
 // Place new order
