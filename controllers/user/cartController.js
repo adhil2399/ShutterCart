@@ -72,7 +72,7 @@ const addToCart = async (req, res) => {
         const shipping = calculateShipping(subtotal - discount);
         const totalPrice = calculateTotalPrice(subtotal, discount, shipping);
 
-        return res.status(200).json({ success: true, cart, subtotal, discount, shipping, totalPrice });
+        return res.status(200).json({ success: true, cart, subtotal, discount, shipping, totalPrice , quantity:existingItem});
     } catch (error) {
         console.error(error);
         return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -195,9 +195,29 @@ const removeFromCart = async (req,res)=>{
     }
 }
 
+
+const clearCart = async (req, res) => {
+    const userId = req.session.user;
+  
+    try {
+      const cart = await Cart.findOneAndUpdate(
+        { userId },
+        { items: [] },
+        { new: true }
+      );
+      if (!cart) {
+        return res.status(404).json({success: false, message: 'Cart not found' });
+      }
+      res.status(200).json({ success: true, message: 'Cart cleared successfully', cart });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  };
  
 module.exports={
     getCart,
     addToCart,
     removeFromCart,
+    clearCart
  }

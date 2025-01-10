@@ -150,15 +150,7 @@ const applyCoupon = async (req, res) => {
         req.session.appliedCoupon = {
             couponName: coupon.name,
             couponDiscount: couponDiscount,
-        };
-
-        // Save session
-        await new Promise((resolve, reject) => {
-            req.session.save((err) => {
-                if (err) reject(err);
-                else resolve();
-            });
-        });
+        };  
 
         return res.json({
             success: true,
@@ -176,18 +168,8 @@ const applyCoupon = async (req, res) => {
 };
 const removeCoupon = async (req, res) => {
     try {
-        // Remove coupon from session
-        delete req.session.appliedCoupon;
-
-        // Save session
-        await new Promise((resolve, reject) => {
-            req.session.save((err) => {
-                if (err) reject(err);
-                else resolve();
-            });
-        });
-
-        // Get the cart details
+     
+         // Get the cart details
         const userId = req.session.user;
         const cart = await Cart.findOne({ userId }).populate({
             path: 'items.productId',
@@ -214,12 +196,13 @@ const removeCoupon = async (req, res) => {
             totalAmount += salePrice;
             bestOfferDiscount += offerDiscount;
         });
-
         const finalAmount = totalAmount - bestOfferDiscount;
-
+        // Remove coupon from session
+        req.session.appliedCoupon=null;
         return res.json({
             success: true,
-            finalAmount: finalAmount,
+            discount:bestOfferDiscount,
+            finalAmount,
             message: 'Coupon removed successfully.',
         });
     } catch (error) {

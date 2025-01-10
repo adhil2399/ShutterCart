@@ -155,8 +155,11 @@ const userProfile = async (req, res) => {
      const AddressData = addressData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
      const userorders =  userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
      console.log('wishhhhhhhhhhhhhhhhhhhhh',wishlistData);
+
      const walletData = await Wallet.findOne({ userId });
+     if (walletData) {
      walletData.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+     }
      console.log('User Data:', userData);
      console.log('Wallet Data:', walletData);
 

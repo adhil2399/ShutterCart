@@ -2,7 +2,7 @@ const Product = require('../../models/productSchema')
 const category = require('../../models/categorySchema');
 const User = require("../../models/userSchema");
 const Wishlist = require('../../models/wishlistSchema');
-
+const Brand = require('../../models/brandSchema');
 const productDetails = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -35,7 +35,7 @@ const productDetails = async (req, res) => {
                 isInWishlist: wishlist?.products.some(item => item.productId.toString() === product._id.toString())
             };
         });
-          
+          const brand= await Brand.findOne({brandName:product.brand});
         
         // console.log('find category', relatedProductsWithWishlist);
  
@@ -49,6 +49,7 @@ const productDetails = async (req, res) => {
             category: cat,
             relatedProducts: relatedProductsWithWishlist,
             offer:bestOffer,
+            brand
         });
 
     } catch (error) {

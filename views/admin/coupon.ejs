@@ -139,8 +139,8 @@
                                     <th>Expire On</th>
                                     <th>Offer Price</th>
                                     <th>Minimum Price</th>
-                                    <!-- <th>Status</th> -->
-                                    <th>Delete</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,11 +156,16 @@
 
                                     <td class="text-start"><%=coupon.offerPrice%></td>
                                     <td class="text-start"><%=coupon.minimumPrice%></td>
-                                     <td class="text-start">
-                                        <!-- <a href="/admin/editCoupon?id=<%=coupon._id%>" class="btn btn-primary btn-sm">Edit</a> -->
-                                        <a href="javascript:void(0)"
-                                            onclick="deleteCoupon('<%=coupon._id%>')"
-                                            class="btn btn-danger btn-sm">Delete</a>
+                                    <td class="text-start">
+                                        <span class="badge <%= coupon.isListed ? 'bg-success' : 'bg-danger' %>">
+                                            <%= coupon.isListed ? 'Listed' : 'Unlisted' %>
+                                        </span>
+                                    </td>
+                                    <td class="text-start">
+                                        <button onclick="toggleCouponStatus('<%=coupon._id%>', '<%=coupon.isListed%>')"
+                                            class="btn btn-sm <%= coupon.isListed ? 'btn-danger' : 'btn-success' %>">
+                                            <%= coupon.isListed ? 'Unlist' : 'List' %>
+                                        </button>
                                     </td>
                                 </tr>
                                 <% }) %>
@@ -417,78 +422,47 @@
     `;
     document.head.appendChild(style);
 
-    async function deleteCoupon(couponId) {
+    async function toggleCouponStatus(couponId, currentStatus) {
         try {
+            const action = currentStatus ? 'unlist' : 'list';
             const result = await Swal.fire({
-                title: "Are you sure?",
-                text: "This action cannot be undone!",
-                icon: "warning",
+                title: 'Are you sure?',
+                text: `Do you want to ${action} this coupon?`,
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
             });
 
             if (result.isConfirmed) {
-                try {
-                    Swal.fire({
-                        title: "Deleting Coupon...",
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                    const response = await fetch(`/admin/deletecoupon/${couponId}`, {
-                        method: "DELETE"
-                    });
+                const response = await fetch(`/admin/toggleCouponStatus/${couponId}`, {
+                    method: 'PATCH'
+                });
 
-                    if (response.ok) {
-                        Swal.close();
-                        
-                        Swal.fire({
-                            icon: "success",
-                            title: "Deleted!",
-                            text: "Coupon has been deleted successfully",
-                            showConfirmButton: false,
-                            timer: 1500
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        Swal.fire(
+                            'Success!',
+                            `Coupon ${action}ed successfully`,
+                            'success'
+                        ).then(() => {
+                            location.reload();
                         });
-
-                        // Remove the row
-                        const row = document.querySelector(`tr[data-coupon-id="${couponId}"]`);
-                        if (row) {
-                            row.style.transition = 'all 0.3s';
-                            row.style.opacity = '0';
-                            row.style.transform = 'translateX(20px)';
-                            
-                            setTimeout(() => {
-                                row.remove();
-                                
-                                // Check if table is empty
-                                const tbody = row.closest('tbody');
-                                if (tbody && tbody.children.length === 0) {
-                                    tbody.innerHTML = '<tr><td colspan="7" class="text-center">No coupons available</td></tr>';
-                                }
-                            }, 300);
-                        }
                     } else {
-                        const errorData = await response.json();
-                        throw new Error(errorData.message || 'Failed to delete coupon');
+                        throw new Error(data.message || 'Something went wrong');
                     }
-                } catch (error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: error.message || "Failed to delete the coupon. Please try again."
-                    });
+                } else {
+                    throw new Error('Failed to update coupon status');
                 }
             }
         } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: "An unexpected error occurred. Please try again."
-            });
+            Swal.fire(
+                'Error!',
+                error.message || 'Failed to update coupon status',
+                'error'
+            );
         }
     }
 

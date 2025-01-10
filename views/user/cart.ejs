@@ -24,10 +24,19 @@
           
           <div class="col-xxl-9 col-xl-8">
             <div class="cart-table">
-              <div class="table-title"> 
-                <h5>Cart<span id="cartTitle">(3)</span></h5>
-                <button id="clearAllButton">Clear All</button>
+              <div class="cart-header d-flex justify-content-between align-items-center mb-4">
+                <h5>Shopping Cart (<%= countItems %> Items)</h5>
+                <% if (cartItems && cartItems.length > 0) { %>
+                  <button class="btn btn-outline-danger d-flex align-items-center gap-2" onclick="clearCart()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                    </svg>
+                    <b> Clear All</b>
+                  </button>
+                <% } %>
               </div>
+             
               <div class="table-responsive theme-scrollbar"> 
                 <table class="table" id="cart-table">
                   <thead>
@@ -166,7 +175,8 @@
               const totalprice = document.querySelector(`#row${productId} #totalprice${productId}`)
               const originalPrice = totalprice.getAttribute('data-price')
               const discount = document.getElementById('discount')
-              
+              let quantityInput =  document.getElementById( `quantity${productId}`).value
+              quantityInput=data.quantity.quantity
               if(data.subtotal && data.subtotal > 0) {
                 // Clean and convert the values
                 const cleanQuantity = Number(quantity)
@@ -253,7 +263,8 @@
             fontSize: "16px"  
           }
         }).showToast();
-
+      
+        window.location.reload();
          const tbody= document.getElementById('tbody')
          console.log(data);
          
@@ -305,5 +316,124 @@
     }
   }
   
+</script>
+
+<script>
+  async function clearCart() {
+    try {
+      const result = await Swal.fire({
+        title: 'Clear Cart?',
+        text: "Are you sure you want to remove all items from your cart?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, clear cart',
+        cancelButtonText: 'Cancel'
+      });
+
+      if (result.isConfirmed) {
+        const response = await fetch('/cart/clear', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Show success message
+          Toastify({
+            text: "Cart cleared successfully",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#28a745",
+            stopOnFocus: true,
+            style: {
+              color: "#ffffff",
+              fontSize: "16px"
+            }
+          }).showToast();
+
+          // Update the cart display
+          const tbody = document.getElementById('tbody');
+          if (tbody) {
+            tbody.innerHTML = `
+              <tr>
+                <td colspan="5" class="text-center">
+                  <div>
+                    <div id="data-show">
+                      <img src="../assets/images/cart/1.gif" alt="">
+                      <h4>Your shopping cart is empty!</h4>
+                      <p>Looks like you haven't added anything to your cart yet.</p>
+                      <a href="/shop" class="btn btn_black">Continue Shopping</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }
+
+          // Update cart summary
+          const subtotal = document.getElementById('subtotal');
+          const discount = document.getElementById('discount');
+          const finalAmount = document.getElementById('finamount');
+
+          if (subtotal) subtotal.innerHTML = '0.00';
+          if (discount) discount.innerHTML = '-0.00';
+          if (finalAmount) finalAmount.innerHTML = '0.00';
+
+          // Update cart count in header
+          const cartCount = document.querySelector('.cart-count');
+          if (cartCount) cartCount.textContent = '0';
+
+          // Hide price details section
+          const priceDetails = document.querySelector('.price-details');
+          if (priceDetails) {
+            priceDetails.style.display = 'none';
+          }
+
+          // Hide clear all button
+          const clearAllBtn = document.querySelector('[onclick="clearCart()"]');
+          if (clearAllBtn) {
+            clearAllBtn.style.display = 'none';
+          }
+
+        } else {
+          Toastify({
+            text: data.message || "Failed to clear cart",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#dc3545",
+            stopOnFocus: true,
+            style: {
+              color: "#ffffff",
+              fontSize: "16px"
+            }
+          }).showToast();
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Toastify({
+        text: "Something went wrong. Please try again.",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#dc3545",
+        stopOnFocus: true,
+        style: {
+          color: "#ffffff",
+          fontSize: "16px"
+        }
+      }).showToast();
+    }
+  }
 </script>
     <%- include('../partials/user/footer') %>

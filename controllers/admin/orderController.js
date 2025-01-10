@@ -1,7 +1,7 @@
 const User = require("../../models/userSchema")
 const Order = require('../../models/orderSchema')
 const Product = require('../../models/productSchema')
-
+const Wallet = require('../../models/walletSchema') 
 const getOrderList = async (req, res) => {
     try {
          const page = parseInt(req.query.page) || 1; // Default to page 1
@@ -146,10 +146,39 @@ const processReturnRequest = async (req, res) => {
       // If approved, update order status to Returned
       if (action === "approve") {
         order.status = "Returned";
+        
+        // Update product quantities using orderedItems
+        const orderedItems = order.orderedItems || [];
+        if (orderedItems.length > 0) {
+          for (const item of orderedItems) {
+            const product = await Product.findById(item.product);
+            if (product) {
+              console.log('Before update - Product:', product.productName, 'Current quantity:', product.quantity);
+              product.quantity = product.quantity + Number(item.quantity);
+              console.log('After update - Product:', product.productName, 'New quantity:', product.quantity);
+              await product.save();
+            }
+          }
+        }
       }
-  
+
       await order.save();
-  
+
+      // Process wallet refund after product quantities are updated
+      const wallet = await Wallet.findOne({ userId: order.userId });
+      if (wallet && action === "approve") {
+        wallet.totalBalance += order.finalAmount;
+        wallet.transactions.push({
+          type: "Refund",
+          amount: order.finalAmount,
+          orderId: order.orderId,
+          status: "Completed",
+          description: `Order Return ${order.orderId}`,
+          date: new Date(),
+        });
+        await wallet.save();
+      }
+      
       res.status(200).json({
         message: `Return request ${action}ed successfully`,
         order: order,

@@ -1,197 +1,774 @@
  <%- include('../partials/user/header') %>
-    <section class="section-b-space py-0">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 px-0"> 
-            <div class="order-box-1"><img src="../assets/images/gif/success.gif" alt="">
-              <h4>Order Success</h4>
-              <p>Payment Is Successfully Processsed And Your Order Is On The Way</p>
+
+<style>
+  :root {
+    --primary-black: #1a1a1a;
+    --secondary-black: #2d2d2d;
+    --light-gray: #f5f5f5;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #757575;
+    --success-color: #2d2d2d;
+  }
+
+  body {
+    background: var(--light-gray);
+    color: var(--primary-black);
+  }
+
+  .success-page {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    min-height: 100vh;
+  }
+
+  .success-icon {
+    width: 320px;
+    height: 120px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: iconPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .success-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  }
+
+  /* Common animations */
+  @keyframes iconPop {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Checkmark specific animations */
+  .animate-checkmark {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-checkmark .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke: #4CAF50;
+    fill: none;
+    animation: 
+      stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards,
+      circleRotate 2s linear infinite;
+  }
+
+  .animate-checkmark .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: #4CAF50;
+    stroke-width: 3;
+    animation: 
+      stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards,
+      pulse 2s ease-in-out infinite;
+  }
+
+  /* Star specific animations */
+  .animate-star {
+    animation: rotate 8s linear infinite;
+  }
+
+  .animate-star path {
+    stroke: #FFD700;
+    stroke-width: 2;
+    fill: none;
+    animation: 
+      starFill 1s ease-out forwards,
+      starGlow 2s ease-in-out infinite;
+  }
+
+  /* Heart specific animations */
+  .animate-heart {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-heart path {
+    stroke: #FF4081;
+    stroke-width: 2;
+    fill: none;
+    animation: 
+      heartFill 1s ease-out forwards,
+      heartBeat 1.2s ease-in-out infinite;
+  }
+
+  /* Thumbs Up specific animations */
+  .animate-thumbs {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-thumbs path {
+    stroke: #2196F3;
+    stroke-width: 2;
+    fill: none;
+    animation: 
+      thumbsFill 1s ease-out forwards,
+      thumbsWave 1.5s ease-in-out infinite;
+  }
+
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes circleRotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes starFill {
+    0% {
+      fill: transparent;
+    }
+    100% {
+      fill: #FFD700;
+    }
+  }
+
+  @keyframes starGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 5px #FFD700);
+    }
+    50% {
+      filter: drop-shadow(0 0 20px #FFD700);
+    }
+  }
+
+  @keyframes heartFill {
+    0% {
+      fill: transparent;
+    }
+    100% {
+      fill: #FF4081;
+    }
+  }
+
+  @keyframes heartBeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes thumbsFill {
+    0% {
+      fill: transparent;
+    }
+    100% {
+      fill: #2196F3;
+    }
+  }
+
+  @keyframes thumbsWave {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-15deg);
+    }
+    75% {
+      transform: rotate(15deg);
+    }
+  }
+
+  .order-card {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  .order-card .card-header {
+    background: var(--primary-black);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+  }
+
+  .badge-custom {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+  }
+
+  .product-img {
+    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .product-img:hover {
+    transform: scale(1.05);
+  }
+
+  .table th {
+    border-top: none;
+    color: var(--dark-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+
+  .table td {
+    border-color: var(--medium-gray);
+  }
+
+  .btn-custom {
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-primary {
+    background-color: var(--primary-black);
+    border-color: var(--primary-black);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--secondary-black);
+    border-color: var(--secondary-black);
+  }
+
+  .btn-outline-primary {
+    color: var(--primary-black);
+    border-color: var(--primary-black);
+  }
+
+  .btn-outline-primary:hover {
+    background-color: var(--primary-black);
+    border-color: var(--primary-black);
+  }
+
+  .price-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: var(--primary-black);
+  }
+
+  .text-success {
+    color: var(--success-color) !important;
+  }
+
+  .alert-success {
+    background-color: var(--light-gray);
+    border-color: var(--medium-gray);
+    color: var(--primary-black);
+  }
+
+  .bg-light {
+    background-color: var(--light-gray) !important;
+  }
+
+  .address-box {
+    background: var(--light-gray);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 0.5px solid var(--medium-gray);
+    height: 81%;
+    border-color: #b9b7b7;
+  }
+
+  .order-summary-box {
+    background: var(--light-gray);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+
+  .table-footer {
+    background-color: var(--light-gray);
+    border-radius: 0 0 10px 10px;
+  }
+
+  .badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .success-animation {
+    margin: 50px auto;
+  }
+
+  .success-icon {
+    width: 350px;
+    height: 150px;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .success-icon .circular {
+    animation: rotate-circle 2s ease-in-out infinite;
+    transform-origin: 50% 50%;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+  }
+
+  .success-icon .path {
+    stroke-dasharray: 330;
+    stroke-dashoffset: 330;
+    stroke: #4CAF50;
+    animation: 
+      draw-circle 0.8s ease-in-out forwards,
+      circle-fade 0.8s ease-in-out forwards;
+  }
+
+  .success-icon .checkmark {
+    width: 350px;
+    height: 150px;
+    position: absolute;
+    animation: pop-check 0.8s ease-in-out forwards;
+    opacity: 0;
+  }
+
+  .success-icon .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    stroke: #4CAF50;
+    stroke-width: 8;
+    animation: 
+      draw-check 0.8s ease-in-out forwards 0.95s,
+      check-fade 0.8s ease-in-out forwards 0.95s;
+  }
+
+  .green-stroke {
+    stroke: #4CAF50;
+  }
+
+  @keyframes rotate-circle {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  @keyframes draw-circle {
+    0% {
+      stroke-dashoffset: 330;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes circle-fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop-check {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes draw-check {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes check-fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .success-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 70%);
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2);
+      opacity: 0.2;
+    }
+  }
+
+  .info-box {
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 82%;
+    border: 0.5px solid #b3afaf;
+  }
+  
+  .info-box p {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .info-box .label-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+  }
+  
+  .info-box i {
+    color: var(--dark-gray);
+    width: 16px;
+    text-align: center;
+  }
+  
+  .info-box .value {
+    color: #4a4a4a;
+    font-weight: 500;
+  }
+  
+  .badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .badge i {
+    width: auto;
+    color: inherit;
+  }
+</style>
+
+<div class="success-page py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <!-- Order Status Section -->
+        <div class="text-center mb-5">
+          <% if (order.status === 'Placed') { %>
+            <div class="success-animation mb-4 position-relative">
+              <div class="success-icon">
+                <svg class="circular green-stroke">
+                  <circle class="path" cx="75" cy="75" r="50" fill="none" stroke-width="5" stroke-miterlimit="10"/>
+                </svg>
+                <svg class="checkmark green-stroke">
+                  <g transform="matrix(0.79961,8.65821e-32,8.39584e-32,0.79961,-489.57,-205.679)">
+                    <path class="checkmark__check" fill="none" d="M616.306,283.025L634.087,300.805L673.361,261.53"/>
+                  </g>
+                </svg>
+              </div>
             </div>
-          </div>
+            <h2 class="mb-3 display-4 fw-bold text-success">Thank You for Your Order!</h2>
+            <p class="text-muted h5 mb-4">Order ID: <span class="badge bg-dark text-white"><%= order.orderId %></span></p>
+            <div class="alert alert-success d-inline-block shadow-sm">
+              <i class="fas fa-truck me-2"></i> Your order is confirmed and will be shipped soon
+            </div>
+          <% } else{ %>
+            <div class="failed-animation mb-4">
+              <lottie-player 
+                src="https://lottie.host/0a76b19c-7a5c-4d4a-84f4-10a8a9fba0e8/HXBwKverLi.json"
+                background="transparent"
+                speed="1"
+                style="width: 350px; height: 150px; margin: 0 auto;"
+                autoplay>
+              </lottie-player>
+            </div>
+            <h2 class="mb-3 text-danger">Order Failed</h2>
+            <div class="alert alert-danger d-inline-block">
+              <i class="fas fa-exclamation-triangle me-2"></i> There was an issue processing your payment. Please try again.
+            </div>
+          <% } %>
         </div>
-      </div>
-    </section>
-    <!-- <section class="section-b-space">
-      <div class="custom-container container order-success">
-        <div class="row gy-4">
-          <div class="col-xl-8"> 
-            <div class="order-items sticky"> 
-              <h4>Order Information</h4>
-              <p>Order invoice has been sent to your registered email account. Please double-check your order details.</p>
-              <div class="order-table"> 
-                <div class="table-responsive theme-scrollbar">  
-                  <table class="table">
-                    <thead>
-                      <tr> 
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% if (order.orderedItems && order.orderedItems.length > 0) { %>
-                        <% order.orderedItems.forEach(item => { %>
-                          <tr>
-                            <td>
-                              <div class="cart-box">
-                                <a href="/product/<%= item.product._id %>">
-                                  <img src="<%= item.product.image %>" alt="<%= item.product.name %>">
-                                </a>
-                                <div>
-                                  <a href="/product/<%= item.product._id %>">
-                                    <h5><%= item.product.name %></h5>
-                                  </a>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$<%= item.product.price %></td>
-                            <td><%= item.quantity %></td>
-                            <td>$<%= item.product.price * item.quantity %></td>
-                          </tr>
-                        <% }) %>
-                      <% } else { %>
-                        <tr>
-                          <td colspan="4" class="text-center">No items in the order.</td>
-                        </tr>
-                      <% } %>
-                      <tr>
-                        <td colspan="2"></td>
-                        <td class="total fw-bold">Total:</td>
-                        <td class="total fw-bold">$<%= order.totalAmount %></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+
+        <!-- Order Details Card -->
+        <div class="order-card card shadow mb-4">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h5 class="mb-0">Order Details</h5>
+              </div>
+              <div class="col-auto">
+                <span class="<%= order.status === 'Placed' ? 'badge text-bg-success' : 'badge text-bg-danger' %>"><%= order.status %></span>
               </div>
             </div>
           </div>
-          <div class="col-xl-4">
-            <div class="summery-box">
-              <div class="sidebar-title">
-                <div class="loader-line"></div>
-                <h4>Order Details</h4>
-              </div>
-              <div class="summery-content"> 
-                <ul> 
-                  <li> 
-                    <p class="fw-semibold">Product total (<%= order.orderedItems.length %>)</p>
-                    <h6>$<%= order.subTotal %></h6>
-                  </li>
-                  <li> 
-                    <p>Shipping to</p><span><%=  order.address  %></span>
-                  </li>
-                </ul>
-                <ul> 
-                  <li> 
-                    <p>Shipping Costs</p><span>$<%= order.shippingCost || "0.00" %></span>
-                  </li>
-                  <li> 
-                    <p>Total without VAT</p><span>$<%= order.subTotal %></span>
-                  </li>
-                  <li> 
-                    <p>Including 10% VAT</p><span>$<%= order.vatAmount %></span>
-                  </li>
-                  <li> 
-                    <p>Discount Code</p><span>$<%= order.discount || "0.00" %></span>
-                  </li>
-                </ul>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h6>Total (USD)</h6>
-                  <h5>$<%= order.totalAmount %></h5>
-                </div>
-              </div>
-            </div>
-            <div class="summery-footer"> 
-              <div class="sidebar-title">
-                <div class="loader-line"></div>
-                <h4>Shipping Address</h4>
-              </div>
-              <ul> 
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <h6 class="text-muted mb-3">Shipping Address</h6>
                 <% if (order.address) { %>
-                  <li> 
-                    <h6><%= order.address.landMark || "No Landmark Provided" %></h6>
-                    <h6><%= order.address.city %>, <%= order.address.pinCode || "No Pin Code" %></h6>
-                  </li>
+                  <div class="address-box">
+                    <p class="mb-1"><strong><%= order.address.name %></strong></p>
+                     <p class="mb-1"><%= order.address.landMark %>, <%= order.address.city %></p>
+                    <p class="mb-1"><%= order.address.state %> - <%= order.address.pinCode %></p>
+                    <p class="mb-0"><i class="fas fa-phone-alt me-2"></i><%= order.address.phone %></p>
+                  </div>
                 <% } else { %>
-                  <li>
-                    <h6>Address information is unavailable.</h6>
-                  </li>
+                  <p class="text-muted">Address information not available</p>
                 <% } %>
-              </ul>
-              
+              </div>
+              <div class="col-md-6">
+                <h6 class="text-muted mb-3">Order Information</h6>
+                <div class="info-box">
+                  <p>
+                    <span class="label-group">
+                      <i class="fas fa-hashtag"></i>
+                      <strong>Order ID:</strong>
+                    </span>
+                    <span class="value"><%= order.orderId %></span>
+                  </p>
+                  <p>
+                    <span class="label-group">
+                      <i class="fas fa-wallet"></i>
+                      <strong>Payment Method:</strong>
+                    </span>
+                    <span class="value"><%= order.paymentMethod %></span>
+                  </p>
+                  <p>
+                    <span class="label-group">
+                      <i class="fas fa-money-check-alt"></i>
+                      <strong>Payment Status:</strong>
+                    </span>
+                    <span class="badge <%= order.paymentStatus === 'Paid' ? 'bg-success' : order.paymentStatus === 'Failed' ? 'bg-danger' : order.paymentStatus === 'Refunded' ? 'bg-info' : 'bg-warning' %>">
+                      <i class="fas <%= order.paymentStatus === 'Paid' ? 'fa-check-circle' : order.paymentStatus === 'Failed' ? 'fa-times-circle' : order.paymentStatus === 'Refunded' ? 'fa-undo' : 'fa-clock' %>"></i>
+                      <%= order.paymentStatus %>
+                    </span>
+                  </p>
+                  <p class="mb-0">
+                    <span class="label-group">
+                      <i class="far fa-calendar-alt"></i>
+                      <strong>Order Date:</strong>
+                    </span>
+                    <span class="value"><%= new Date(order.createdAt).toLocaleDateString() %></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order Items Table -->
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (order.orderedItems && order.orderedItems.length > 0) { %>
+                    <% order.orderedItems.forEach(item => { %>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <% if (item.product && item.product.productImage && item.product.productImage.length > 0) { %>
+                              <img src="<%= item.product.productImage[0] %>" 
+                                   alt="<%= item.product.productName %>" 
+                                   class="product-img img-fluid rounded" 
+                                   style="width: 60px; height: 60px; object-fit: cover;">
+                            <% } else { %>
+                              <div class="rounded bg-light" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-image text-muted"></i>
+                              </div>
+                            <% } %>
+                            <div class="ms-3">
+                              <h6 class="mb-0"><%= item.product ? item.product.productName : 'Product Unavailable' %></h6>
+                              <small class="text-muted"><%= item.product ? item.product.brand : '' %></small>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center price-text">₹<%= item.price ? item.price.toFixed(2) : '0.00' %></td>
+                        <td class="text-center"><%= item.quantity %></td>
+                        <td class="text-end price-text">₹<%= item.price ? (item.price * item.quantity).toFixed(2) : '0.00' %></td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="4" class="text-center text-muted">No items in this order</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+                <tfoot class="table-footer">
+                  <tr>
+                    <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+                    <td class="text-end price-text">₹<%= order.totalPrice ? order.totalPrice.toFixed(2) : '0.00' %></td>
+                  </tr>
+                  <% if (order.discount && (order.discount.bestOffer > 0 || order.discount.coupon > 0)) { %>
+                    <% if (order.discount.bestOffer > 0) { %>
+                      <tr>
+                        <td colspan="3" class="text-end text-success"> Discount:</td>
+                        <td class="text-end text-success price-text">-₹<%= order.discount.bestOffer.toFixed(2) %></td>
+                      </tr>
+                    <% } %>
+                    <% if (order.discount.coupon > 0) { %>
+                      <tr>
+                        <td colspan="3" class="text-end text-success">Coupon Discount:</td>
+                        <td class="text-end text-success price-text">-₹<%= order.discount.coupon.toFixed(2) %></td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+                  <tr>
+                    <td colspan="3" class="text-end"><strong>Final Amount:</strong></td>
+                    <td class="text-end"><strong class="h5 mb-0 price-text">₹<%= order.finalAmount ? order.finalAmount.toFixed(2) : '0.00' %></strong></td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </div>
         </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+          <a href="/shop" class="btn btn-primary btn-custom me-3">
+            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+          </a>
+           
+        </div>
       </div>
-    </section>
-       -->
-  <div class="d-flex justify-content-center  align-items-center">
-    <a href="/shop" class="btn btn_black">Continue Shopping</a>
-
+    </div>
   </div>
-<!-- Bootstrap js-->
-<script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-<!-- iconsax js -->
-<script src="../assets/js/iconsax.js"> </script>
-<!-- cursor js-->
-<script src="../assets/js/stats.min.js"> </script>
-<script src="../assets/js/cursor.js"> </script>
-<script src="../assets/js/swiper-slider/swiper-bundle.min.js"></script>
-<script src="../assets/js/swiper-slider/swiper-custom.js"></script>
-<script src="../assets/js/countdown.js"></script>
-<script src="../assets/js/newsletter.js"></script>
-<script src="../assets/js/skeleton-loader.js"></script>
-<script src="../assets/js/grid-option.js"></script>
-<script src="../assets/js/countdown.js"></script>
-<script src="../assets/js/filter-range-slider.js"></script>
-<script src="../assets/js/collection-box.js"></script>
-<!-- touchspin-->
-<!-- touchspin-->
-<script src="../assets/js/touchspin.js"></script>
-<!-- cookie js-->
-<script src="../assets/js/cookie.js"></script>
-<!-- tost js -->
-<script src="../assets/js/toastify.js"></script>
-<script src="../assets/js/theme-setting.js"></script>
-<!-- Theme js-->
-<script src="../assets/js/script.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script src="./user-assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="./user-assets/js/vendor/jquery-3.6.0.min.js"></script>
-<script src="./user-assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-<script src="./user-assets/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="./user-assets/js/plugins/slick.js"></script>
-<script src="./user-assets/js/plugins/jquery.syotimer.min.js"></script>
-<script src="./user-assets/js/plugins/wow.js"></script>
-<script src="./user-assets/js/plugins/jquery-ui.js"></script>
-<script src="./user-assets/js/plugins/perfect-scrollbar.js"></script>
-<script src="./user-assets/js/plugins/magnific-popup.js"></script>
-<script src="./user-assets/js/plugins/select2.min.js"></script>
-<script src="./user-assets/js/plugins/waypoints.js"></script>
-<script src="./user-assets/js/plugins/counterup.js"></script>
-<script src="./user-assets/js/plugins/jquery.countdown.min.js"></script>
-<script src="./user-assets/js/plugins/images-loaded.js"></script>
-<script src="./user-assets/js/plugins/isotope.js"></script>
-<script src="./user-assets/js/plugins/scrollup.js"></script>
-<script src="./user-assets/js/plugins/jquery.vticker-min.js"></script>
-<script src="./user-assets/js/plugins/jquery.theia.sticky.js"></script>
-<script src="./user-assets/js/plugins/jquery.elevatezoom.js"></script>
-<script src="./user-assets/js/maind134.js?v=3.4"></script>
-<script src="./user-assets/js/shopd134.js?v=3.4"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</div>
 
-</body>
-</html>
+<%- include('../partials/user/footer') %>
+
+<!-- Required Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const successIcons = [
+      // Checkmark Icon
+      {
+        html: `<svg class="animate-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>`,
+        class: 'animate-checkmark'
+      },
+      // Star Icon
+      {
+        html: `<svg class="animate-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48">
+          <path d="M25.5 1l6.6 13.3L46 16.5l-10.3 10 2.4 14.1-12.7-6.7-12.7 6.7 2.4-14.1L5 16.5l13.9-2.2L25.5 1z"/>
+        </svg>`,
+        class: 'animate-star'
+      },
+      // Heart Icon
+      {
+        html: `<svg class="animate-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48">
+          <path d="M25.5 39.7l-10.8-9C6.5 23.5 4.6 12.6 11.9 6.8c4.9-3.9 12.1-3.3 16.4 1.4l-2.8 2.8 2.8-2.8c4.3-4.7 11.5-5.3 16.4-1.4 7.3 5.8 5.4 16.7-2.8 23.9l-10.8 9-2.8 2.8-2.8-2.8z"/>
+        </svg>`,
+        class: 'animate-heart'
+      },
+      // Thumbs Up Icon
+      {
+        html: `<svg class="animate-thumbs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48">
+          <path d="M7 22H2v20h5V22zm37.5-2.5c0-1.1-.9-2-2-2h-14l2.1-8.2c.2-.8 0-1.7-.5-2.3-.5-.6-1.2-1-2-1H26l-6 6v20h20c1.1 0 2-.9 2-2l-4-16c0-.1 0-.2 0-.3v-2.2z"/>
+        </svg>`,
+        class: 'animate-thumbs'
+      }
+    ];
+
+    // Randomly select an icon
+    const randomIcon = successIcons[Math.floor(Math.random() * successIcons.length)];
+    const successIconContainer = document.querySelector('.success-icon');
+    successIconContainer.innerHTML = randomIcon.html;
+    successIconContainer.classList.add(randomIcon.class);
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

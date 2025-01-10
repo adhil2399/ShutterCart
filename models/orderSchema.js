@@ -24,7 +24,10 @@ const orderSchema = new Schema({
             type: Number,
             required: true,
         },
-        
+        price: {
+            type: Number,
+            required: true,
+        }
     }],
     totalPrice: {
         type: Number,
@@ -101,6 +104,23 @@ const orderSchema = new Schema({
     couponApplied: {
         type: Boolean,
         default: false,
+    },
+    couponDetails:{
+code:{
+    type: String,
+    required: false,
+    default: null
+},
+    offerPrice: {
+        type: Number,
+        required: false,
+        default: null
+    },
+    minimumPrice: {
+        type: Number,
+        required: false,
+        default: null
+    }
     },
     razorpayOrderId: {
         type: String,

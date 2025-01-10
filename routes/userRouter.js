@@ -62,24 +62,29 @@ router.post('/edit-profile',userAuth,profileController.editProfile)
 
 router.get('/shop',StoreController.getShopPage)
 // router.get('/products',StoreController.sortProducts)
- router.get('/cart',userAuth,CartController.getCart)
- router.post('/cart/add',CartController.addToCart)
- router.delete('/cart/remove',userAuth,CartController.removeFromCart)
+
+//cart managment
+router.get('/cart',userAuth,CartController.getCart)
+router.post('/cart/add',CartController.addToCart)
+router.delete('/cart/remove',userAuth,CartController.removeFromCart)
+router.delete('/cart/clear',userAuth,CartController.clearCart)
 //  router.get('/shop/search',StoreController.searchProducts)
- 
- //checkOut 
-  router.get('/checkout',userAuth,checkoutController.renderCheckoutPage);
- router.post('/apply-coupon',userAuth, checkoutController.applyCoupon);
- router.post('/remove-coupon',userAuth, checkoutController.removeCoupon);
+
+//checkOut 
+router.get('/checkout',userAuth,checkoutController.renderCheckoutPage);
+router.post('/apply-coupon',userAuth, checkoutController.applyCoupon);
+router.post('/remove-coupon',userAuth, checkoutController.removeCoupon);
  
  
 // Place new order
 router.post('/order/place', userAuth, orderController.placeOrder);
- router.get('/order/success',userAuth,orderController.getOrderDetails)
- router.post('/order/verify', userAuth,orderController.verifyPayment);
+router.get('/order/success',userAuth,orderController.getOrderDetails)
+router.post('/order/verify', userAuth,orderController.verifyPayment);
 
+// Retry payment route
+router.post('/retry-payment', userAuth, orderController.retryPayment);
 
- router.post('/wishlist/toggle',wishListController.toggleWishlist)
+router.post('/wishlist/toggle',wishListController.toggleWishlist)
 router.delete('/wishlist/remove/:productId',userAuth,wishListController.removeFromWishlist)
 
 
@@ -96,4 +101,8 @@ router.post('/cancel-order/:orderId',userAuth,orderController.cancelOrder)
 router.post('/order/return/:orderId',userAuth,orderController.returnOrder)
 // Route to add money to the wallet
 router.post('/wallet/add-money', userAuth, walletController.addMoney);
+
+// Download invoice
+router.get('/download-invoice/:orderId', userAuth, orderController.downloadInvoice);
+
 module.exports = router

@@ -24,7 +24,7 @@ const couponSchema =new Schema({
         type:Number,
         required:true
     },
-    isList:{
+    isListed:{
         type:Boolean,
         default:true
     },
