@@ -1,331 +1,279 @@
 <%- include("../partials/admin/header") %>
 
-    <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-        <style>
-            /* General Styling */
-            .content-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-                padding: 20px 0;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .content-title {
-                font-size: 24px;
-                font-weight: bold;
-            }
-
-            .table-container {
-                padding: 20px;
-                background-color: #f8f9fa00;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Search Bar */
-            .input-group {
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Table Styling */
-            .table {
-            
-                color: #fff;
-                border-radius: 8px;
-                overflow: hidden;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .table th {
-                background-color: #ffffff00;
-                color: #fff;
-                text-align: center;
-                font-weight: 600;
-            }
-
-            .table td {
-                text-align: center;
-                vertical-align: middle;
-                color: #fff;
-            }
-
-            /* Button Styling */
-            .btn {
-                border-radius: 20px;
-                padding: 6px 12px;
-                font-size: 14px;
-                transition: all 0.3s ease;
-            }
-
-            .btn-info {
-                background-color: #17a2b8;
-                border-color: #17a2b8;
-                color: #fff;
-            }
-
-            .btn-info:hover {
-                background-color: #138496;
-                border-color: #117a8b;
-            }
-
-            .btn-danger {
-                background-color: #dc3545;
-                border-color: #dc3545;
-                color: #fff;
-            }
-
-            .btn-danger:hover {
-                background-color: #c82333;
-                border-color: #bd2130;
-            }
-
-            .btn-success {
-                background-color: #28a745;
-                border-color: #28a745;
-                color: #fff;
-            }
-
-            .btn-success:hover {
-                background-color: #218838;
-                border-color: #1e7e34;
-            }
-
-            /* Links Styling */
-            .btn a {
-                text-decoration: none;
-                color: #fff;
-                display: block;
-            }
-
-            .btn a:hover {
-                color: #fff;
-            }
-        </style>
-    </head>
-
+<div class="dashboard-container">
     <div class="content-header">
-        <div>
-            <h1 class="ms-5">Products</h1>
+        <h1 class="page-title">Products Management</h1>
+    </div>
+
+    <div class="search-container">
+        <div class="search-wrapper">
+            <form action="/admin/products" method="GET" class="search-form">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="search" 
+                        name="search" 
+                        placeholder="Search products..." 
+                        value="<%= search || '' %>"
+                        class="search-input"
+                    >
+                </div>
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <a href="/admin/addProducts" class="btn-add">
+                <i class="fas fa-plus"></i> Add Product
+            </a>
         </div>
     </div>
 
-    <header class="card-header text-center mb-4">
-        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
-            <!-- Search Form -->
-              <form class="d-flex" action="/admin/products" method="GET">
-                <input  name="search" class="form-control me-2" type="search" placeholder="Search" 
-                value="<%= search || '' %>" style="max-width: 300px;" aria-label="Search">
-                <button class="btn btn-brand rounded " type="submit">Search</button>
-              </form>
-              
-            <!-- Add Product Button -->
-            <button class="btn btn-md rounded font-sm hover-up">
-                <a href="/admin/addProducts" >Add Product</a>
-            </button>
-        </div>
-    </header>
-
     <div class="table-container">
-        <table class="table table-striped table-hover">
+        <table class="product-table">
             <thead>
                 <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Category</th>
-                     <th scope="col">Sale Price</th>
-                    <th scope="col"><b>Offer Price</b></th>
-                    <th scope="col"><b>Offer</b></th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Action</th>
-                    <th scope="col">Edit</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Offer</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <% data.forEach(element => { %>
                 <tr>
-                    <!-- Product Image -->
-                    <td style="text-align: center;">
-                        <% if (element.productImage && element.productImage.length > 0) { %>
-                        <img src="<%= element.productImage[0] %>" 
-                             alt="Product Image" 
-                             style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;" />
+                    <td>
+                        <div class="product-info">
+                            <div class="product-image">
+                                <% if (element.productImage && element.productImage.length > 0) { %>
+                                    <img src="<%= element.productImage[0] %>" alt="<%= element.productName %>">
+                                <% } else { %>
+                                    <div class="no-image">No Image</div>
+                                <% } %>
+                            </div>
+                            <div class="product-details">
+                                <h3 class="product-name"><%= element.productName %></h3>
+                                <span class="product-id">ID: #<%= element._id.toString() %></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="category-info">
+                        <%= element.category ? element.category.name : 'N/A' %>
+                    </td>
+                    <td class="price-info">
+                        <div class="price">₹<%= element.salePrice %></div>
+                        <% if (element.productOffer && element.productOffer !== '0%') { %>
+                            <div class="offer-price">₹<%= Math.round(element.salePrice * (1 - element.productOffer/100)) %></div>
                         <% } %>
                     </td>
-        
-                    <!-- Product Name -->
-                    <td><%= element.productName %></td>
-        
-                    <!-- Category -->
-                    <td><%= element.category ? element.category.name : 'N/A' %></td>
-        
-                    <!-- Sale Price -->
-                     <td><%= element.salePrice %></td>
- 
-                     <td><%= element.productOffer || '0%' %></td>
-                     <td class="text-center">
-                       <% if (element.productOffer===0) { %>
-                         
-                         <button class="btn btn-info btn-sm" onclick="addProductOffer('<%= element._id %>')">Add Offer</button>
-                        
-     
-                         <% } else { %>
-                         <button class="btn btn-danger btn-sm" onclick="removeOffer('<%= element._id %>')">Remove Offer</button>
-                       <% } %>
-                     </td>
-                     
-                    <!-- Quantity -->
-                    <td><%= element.quantity %></td>
-        
-                    <!-- Action Buttons -->
                     <td>
-                        <% if (!element.isBlocked) { %>
-                        <a href="/admin/blockProduct?id=<%= element._id %>" 
-                           class="btn btn-sm btn-brand rounded font-sm mt-15" 
-                           style="width: 80px; text-decoration: none; color: white;">
-                            UnList
-                        </a>
+                        <% if (element.productOffer === 0) { %>
+                            <button class="btn-offer btn-add-offer" onclick="addProductOffer('<%= element._id %>')">
+                                Add Offer
+                            </button>
                         <% } else { %>
-                        <a href="/admin/unblockProduct?id=<%= element._id %>" 
-                           class="btn btn-sm btn-warning rounded font-sm mt-15" 
-                           style="width: 80px; text-decoration: none; color: white;">
-                            List
-                        </a>
+                            <div class="offer-info">
+                                <span class="offer-badge">
+                                    <%= element.productOffer %>%
+                                    <button class="btn-remove-offer" onclick="removeOffer('<%= element._id %>')" title="Remove Offer">
+                                        <i class="material-icons md-close"></i>
+                                    </button>
+                                </span>
+                            </div>
                         <% } %>
                     </td>
-        
-                    <!-- Edit Button -->
                     <td>
-                        <a href="/admin/editProducts?id=<%= element._id %>" 
-                           class="btn btn-sm btn-brand rounded font-sm mt-15" 
-                           style="width: 80px; text-decoration: none; color: white;">
-                            Edit
-                        </a>
+                        <span class="stock-count <%= element.quantity === 0 ? 'out-of-stock' : '' %>">
+                            <%= element.quantity %>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge <%= !element.isBlocked ? 'listed' : 'blocked' %>">
+                            <%= !element.isBlocked ? 'Listed' : 'Unlisted' %>
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <% if (!element.isBlocked) { %>
+                                <button onclick="blockProduct('<%= element._id %>','<%=search%>','<%=currectPage%>')" class="btn-action btn-block" title="Unlist Product">
+                                    <i class="material-icons md-block"></i>
+                                </button>
+                            <% } else { %>
+                                <button onclick="unblockProduct('<%= element._id %>','<%=search%>','<%=currectPage%>')" class="btn-action btn-unblock" title="List Product">
+                                    <i class="material-icons md-check"></i>
+                                </button>
+                            <% } %>
+                            <a href="/admin/editProducts?id=<%= element._id %>" class="btn-action btn-edit" title="Edit Product">
+                                <i class="material-icons md-edit"></i>
+                            </a>
+                            <div></div>
+                        </div>
                     </td>
                 </tr>
-                <% }) %>
+                <% }); %>
             </tbody>
         </table>
-        
-    
-        <!-- Pagination -->
-        
-        <div class="pagination-area mt-15 mb-50 d-flux ">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <% for(let i = 1 ; i<= totalPages; i++){ %>
-                    <li class="page-item  <%=(i===currectPage) ? 'Active' : '' %>">
-                        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                    </li>
-                    <%}  %>
-                </ul>
-            </nav>
-        </div>
-
     </div>
+
+    <div class="pagination">
+        <% if(currectPage > 1) { %>
+            <a href="?page=<%= currectPage - 1 %>&search=<%= search %>" class="page-link">
+                <i class="material-icons md-chevron_left"></i>
+            </a>
+        <% } %>
+        
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <a href="?page=<%= i %>&search=<%= search %>" 
+               class="page-link <%= (i === parseInt(currectPage)) ? 'active' : '' %>">
+                <%= i %>
+            </a>
+        <% } %>
+        
+        <% if(currectPage < totalPages) { %>
+            <a href="?page=<%= currectPage + 1 %>&search=<%= search %>" class="page-link">
+                <i class="material-icons md-chevron_right"></i>
+            </a>
+        <% } %>
+    </div>
+</div>
+
+<style>
     
+</style>
+
 <script>
     async function addProductOffer(productId) {
-  // Show the SweetAlert input dialog
-  const { value: amount } = await Swal.fire({
-    title: "Offer in Percentage",
-    input: "number",
-    inputLabel: "Percentage",
-    inputPlaceholder: "%",
-    inputAttributes: {
-      min: 0,
-      max: 100,
-      step: 1,
-    },
-  });
-
-  // Check if user entered a value
-  if (!amount) {
-    Swal.fire("Cancelled", "No percentage entered", "info");
-    return;
-  }
-
-  try {
-    // Send the request using Fetch API
-    const response = await fetch("/admin/addProductOffer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        percentage: amount,
-        productId: productId,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (response.ok && result.success === true) {
-      // Reload the page and show success alert
-      Swal.fire("Offer Added", "The offer has been added successfully", "success").then(() => {
-        location.reload();
-      });
-    } else {
-      // Handle failure
-      Swal.fire("Error", "Failed to add the offer. Please try again.", "error");
-    }
-  } catch (error) {
-    // Handle network or server errors
-    console.error("Error:", error);
-    Swal.fire("Error", "An unexpected error occurred. Please try again.", "error");
-  }
-}
-
-async function removeOffer(productId) {
-  // Show the SweetAlert confirmation dialog
-  Swal.fire({
-    title: "Remove Offer",
-    text: "Are you sure you want to remove the offer?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#dc3545",
-    confirmButtonText: "Remove",
-    cancelButtonText: "Cancel",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        // Send the request using Fetch API
-        const response = await fetch("/admin/removeProductOffer", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            productId: productId,
-          }),
+        const { value: offerPercentage } = await Swal.fire({
+            title: 'Add Product Offer',
+            input: 'number',
+            inputLabel: 'Enter offer percentage',
+            inputPlaceholder: 'Enter percentage (1-99)',
+            confirmButtonColor: '#00b517',
+            cancelButtonColor: '#6c757d',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Please enter an offer percentage';
+                }
+                if (value < 1 || value > 99) {
+                    return 'Offer must be between 1% and 99%';
+                }
+            }
         });
 
-        const result = await response.json();
+        if (offerPercentage) {
+            try {
+                const response = await fetch('/admin/addProductOffer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId,
+                        percentage: offerPercentage
+                    })
+                });
 
-        if (response.ok && result.success === true) {
-          // Reload the page and show success alert
-          Swal.fire("Offer Removed", "The offer has been removed successfully", "success").then(() => {
-            location.reload();
-          });
-        } else {
-          // Handle failure
-          Swal.fire("Error", "Failed to remove the offer. Please try again.", "error");
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Offer added successfully',
+                        icon: 'success',
+                        confirmButtonColor: '#00b517'
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    throw new Error('Failed to add offer');
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add offer',
+                    icon: 'error',
+                    confirmButtonColor: '#00b517'
+                });
+            }
         }
-      } catch (error) {
-        // Handle network or server errors
-        console.error("Error:", error);
-        Swal.fire("Error", "An unexpected error occurred. Please try again.", "error");
-      }
     }
-  });
-}
 
+    async function removeOffer(productId) {
+        // Show the SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will remove the offer from the product",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff4d4d',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, remove it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // Send the request using Fetch API
+                    const response = await fetch("/admin/removeProductOffer", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            productId: productId,
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success === true) {
+                        // Reload the page and show success alert
+                        Swal.fire("Offer Removed", "The offer has been removed successfully", "success").then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        // Handle failure
+                        Swal.fire("Error", "Failed to remove the offer. Please try again.", "error");
+                    }
+                } catch (error) {
+                    // Handle network or server errors
+                    console.error("Error:", error);
+                    Swal.fire("Error", "An unexpected error occurred. Please try again.", "error");
+                }
+            }
+        });
+    }
+
+    function blockProduct(productId, search, currectPage) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will unlist the product from the store",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff4d4d',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, unlist it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/admin/blockProduct?id=${productId}&search=${search}&currectPage=${currectPage}`;
+            }
+        });
+    }
+
+    function unblockProduct(productId, search, currectPage) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will list the product in the store",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#00b517',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, list it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/admin/unblockProduct?id=${productId}&search=${search}&currectPage=${currectPage}`;
+            }
+        });
+    }
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <%- include("../partials/admin/footer") %>
 
-
- 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<%- include("../partials/admin/footer") %>

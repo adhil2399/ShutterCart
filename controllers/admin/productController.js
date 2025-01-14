@@ -100,7 +100,7 @@ const getAllProducts = async (req, res) => {
   try {
     const search = req.query.search || "";
     const page = req.query.page || 1;
-    const limit = 5;
+    const limit = 6;
     const skip = (page - 1) * limit;
 
     const productQuery = {
@@ -137,7 +137,7 @@ const getAllProducts = async (req, res) => {
 
 const blockProduct = async (req, res) => {
   try {
-    const { id } = req.query;
+    const { id , currectPage , search} = req.query;
 
     if (!id) {
       console.error("Error: No product ID provided for blocking.");
@@ -150,7 +150,7 @@ const blockProduct = async (req, res) => {
     );
     console.log(`Success: Product with ID ${id} has been blocked.`);
 
-    return res.redirect("/admin/products");
+    return res.redirect(`/admin/products?page=${currectPage}&search=${search}`);
   } catch (error) {
     console.error("Error in blockProduct:", error.message);
     res.status(500).redirect("/admin/pageerror");
@@ -159,7 +159,7 @@ const blockProduct = async (req, res) => {
 
 const unblockProduct = async (req, res) => {
   try {
-    const { id } = req.query;
+    const { id , currectPage , search} = req.query;
 
     if (!id) {
       console.error("Error: No product ID provided for unblocking.");
@@ -172,7 +172,7 @@ const unblockProduct = async (req, res) => {
     );
     console.log(`Success: Product with ID ${id} has been unblocked.`);
 
-    return res.redirect("/admin/products");
+    return res.redirect(`/admin/products?page=${currectPage}&search=${search}`);
   } catch (error) {
     console.error("Error in unblockProduct:", error.message);
     res.status(500).redirect("/admin/pageerror");

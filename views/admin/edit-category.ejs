@@ -1,22 +1,158 @@
 <%- include("../partials/admin/header") %>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6 mt-60">
-            <form method="post" action="/admin/editcategory/<%= category._id %>">
-                <div class="d-grid text-end mt-30 col-md-5">
-                    <button class="btn btn-primary" type="submit">Update category</button>
+        <div class="col-md-6 mt-4">
+            <div class="card form-card">
+                <div class="card-body">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="material-icons md-edit"></i>
+                        </div>
+                        <h5 class="card-title">Edit Category</h5>
+                    </div>
+                    <form  action="/admin/editcategory/<%= category._id %>" id="editCategoryForm">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="material-icons md-label"></i>
+                                Category Name
+                            </label>
+                            <input 
+                                type="text" 
+                                name="categoryName" 
+                                value="<%= category.name %>" 
+                                class="form-control" 
+                                placeholder="Enter category name"
+                                id="categoryName"
+                                minlength="3"
+                                maxlength="50"
+                            />
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="material-icons md-description"></i>
+                                Description
+                            </label>
+                            <textarea 
+                                name="description" 
+                                class="form-control" 
+                                placeholder="Enter category description" 
+                                rows="4"
+                                id="description"
+                                minlength="10"
+                                maxlength="500"
+                            ><%= category.description %></textarea>
+                            <div class="error-message" id="descriptionError"></div>
+                        </div>
+
+                        <button class="btn btn-create w-100" type="submit">
+                            <i class="material-icons md-update"></i>
+                            Update Category
+                        </button>
+                    </form>
                 </div>
-                <div class="mb-4 mt-30">
-                    <label for="product_name" class="form-label">Name</label>
-                    <input type="text" name="categoryName" value="<%= category.name %>" class="form-control border" />
-                </div>
-                
-                <div class="mb-4">
-                    <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control border"><%= category.description %></textarea>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('editCategoryForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const form = this;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonContent = submitButton.innerHTML;
+        
+        // Validate form
+        const categoryName = document.getElementById('categoryName').value.trim();
+        const description = document.getElementById('description').value.trim();
+        
+        // Clear previous errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.textContent = '';
+            el.style.opacity = '0';
+        });
+
+        let isValid = true;
+        
+        if (!categoryName) {
+            showError('nameError', 'Category name is required');
+            isValid = false;
+        } else if (categoryName.length < 3) {
+            showError('nameError', 'Category name must be at least 3 characters');
+            isValid = false;
+        } else if (categoryName.length > 50) {
+            showError('nameError', 'Category name cannot exceed 50 characters');
+            isValid = false;
+        }
+
+        if (!description) {
+            showError('descriptionError', 'Description is required');
+            isValid = false;
+        } else if (description.length < 10) {
+            showError('descriptionError', 'Description must be at least 10 characters');
+            isValid = false;
+        } else if (description.length > 500) {
+            showError('descriptionError', 'Description cannot exceed 500 characters');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return;
+        }
+
+        submitButton.innerHTML = 'Updating...';
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ categoryName, description })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                window.location.href = '/admin/category';
+            } else {
+                throw new Error(data.message || 'Failed to update category');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: error.message || 'Something went wrong. Please try again.'
+            });
+        } finally {
+            submitButton.innerHTML = originalButtonContent;
+            submitButton.disabled = false;
+        }
+    });
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.opacity = '1';
+        }
+    }
+</script>
+
+ 
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <%- include("../partials/admin/footer") %>

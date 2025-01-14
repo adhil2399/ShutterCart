@@ -1,104 +1,372 @@
 <%- include('../partials/admin/header') %>
 
-<section class="content-main">
+<div class="dashboard-container">
     <div class="content-header">
-        <h2 class="content-title">Sellers list</h2>
-        <!-- <div>
-            <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
-        </div> -->
+        <h1 class="page-title">Customer Management</h1>
     </div>
-    <div class="card mb-4">
-        <header class="card-header">
-            <div class="row gx-3">
-                      <!-- Search Form -->
-              <form class="d-flex" action="/admin/users" method="GET">
-                <input  name="search" class="form-control me-2" type="search" placeholder="Search" 
-                value="<%= search || '' %>" style="max-width: 300px;" aria-label="Search">
-                <button class="btn btn-brand rounded " type="submit">Search</button>
-              </form>
-                <!-- <div class="col-lg-2 col-md-3 col-6">
-                    <select class="form-select">
-                        <option>Status</option>
-                        <option>Active</option>
-                        <option>Disabled</option>
-                        <option>Show all</option>
-                    </select>
-                </div> -->
-                <!-- <div class="col-lg-2 col-md-3 col-6">
-                    <select class="form-select">
-                        <option>Show 20</option>
-                        <option>Show 30</option>
-                        <option>Show 40</option>
-                    </select>
-                </div> -->
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="search-container">
+                    <form action="/admin/users" method="GET" class="search-form">
+                        <div class="search-input-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input 
+                                type="search" 
+                                name="search" 
+                                placeholder="Search customers..." 
+                                value="<%= search || '' %>"
+                                class="search-input"
+                            >
+                        </div>
+                        <button type="submit" class="search-button">Search</button>
+                    </form>
+                </div>
             </div>
-        </header> <!-- card-header end// -->
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Seller</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Registered</th>
-                            <th class="text-end"> Action </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% data.forEach((item) => { %>  
-                          <tr>
-                            <td width="40%">
-                              <a href="#" class="itemside">
-                                <div class="left">
-                                  <img src="../assets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                </div>
-                                <div class="info pl-3">
-                                  <h6 class="mb-0 title"><%= item.name %></h6>
-                                </div>
-                              </a>
-                            </td>
-                            <td><%= item.email %></td>
-                            <td>
-                              <span class="badge rounded-pill <%= item.isBlocked ? 'alert-danger' : 'alert-success' %>">
-                                <%= item.isBlocked ? 'Blocked' : 'Active' %>
-                              </span>
-                            </td>
-                            <td><%= new Date(item.createdOn).toLocaleDateString() %></td>
-                            <td class="text-end">
-                              <% if (!item.isBlocked) { %>
-                                <a 
-                                  href="/admin/blockCustomer?id=<%= item._id %>" 
-                                  class="btn btn-sm btn-brand rounded font-sm mt-15">
-                                   Block
-                                </a>
-                              <% } else { %>
-                                <a 
-                                  href="/admin/unBlockCustomer?id=<%= item._id %>" 
-                                  class="btn btn-sm btn-danger rounded font-sm mt-15"
-                                >
-                                  Unblock
-                                </a>
-                              <% } %>
-                            </td>
-                          </tr>
-                        <% }); %>
-                      </tbody>
-                </table> <!-- table-responsive.// -->
-            </div>
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
-    <div class="pagination-area mt-15 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <% for(let i = 1 ; i<= totalPage; i++){ %>
-                <li class="page-item  <%=(i===currentPage) ? 'Active' : '' %>">
-                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
-                </li>
-                <%}  %>
-            </ul>
-        </nav>
+        </div>
     </div>
-</section> <!-- content-main end// -->
+
+    <div class="table-container">
+        <table class="customer-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Contact Info</th>
+                    <th>Status</th>
+                    <th>Join Date</th>
+                    <th></th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach((item) => { %>
+                <tr>
+                    <td>
+                        <div class="customer-info">
+                            <div class="avatar">
+                                <div class="avatar-letter"><%= item.name.charAt(0).toUpperCase() %></div>
+                            </div>
+                            <div class="customer-details">
+                                <h3 class="customer-name"><%= item.name %></h3>
+                                <span class="customer-id">ID: #<%= item._id.toString().slice(-6) %></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="contact-info">
+                        <div class="email"><%= item.email %></div>
+                        <% if(item.phone) { %>
+                            <div class="phone"><%= item.phone %></div>
+                        <% } %>
+                    </td>
+                    <td>
+                        <span class="status-badge <%= item.isBlocked ? 'blocked' : 'active' %>">
+                            <%= item.isBlocked ? 'Blocked' : 'Active' %>
+                        </span>
+                    </td>
+                    <td class="date-info">
+                        <div class="join-date">
+                            <%= item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'Invalid Date' %>
+                        </div>
+                    </td>
+                    <td>
+                     </td>
+                    <td>
+                        <div class="action-buttons">
+                            <% if (!item.isBlocked) { %>
+                                <a href="/admin/blockCustomer?id=<%= item._id %>&page=<%= currentPage %>&search=<%= search %>" 
+                                   class="btn-action btn-block">
+                                    Block
+                                </a>
+                            <% } else { %>
+                                <a href="/admin/unBlockCustomer?id=<%= item._id %>&page=<%= currentPage %>&search=<%= search %>" 
+                                   class="btn-action btn-unblock">
+                                    Unblock
+                                </a>
+                            <% } %>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <% if(currentPage > 1) { %>
+            <a href="?page=1&search=<%= search %>" class="page-link" title="First Page">
+                <i class="material-icons md-first_page"></i>
+            </a>
+            <a href="?page=<%= currentPage - 1 %>&search=<%= search %>" class="page-link">
+                <i class="material-icons md-chevron_left"></i>
+            </a>
+        <% } %>
+        
+        <% for(let i = 1; i <= totalPage; i++) { %>
+            <a href="?page=<%= i %>&search=<%= search %>" 
+               class="page-link <%= (i === parseInt(currentPage)) ? 'active' : '' %>">
+                <%= i %>
+            </a>
+        <% } %>
+        
+        <% if(currentPage < totalPage) { %>
+            <a href="?page=<%= currentPage + 1 %>&search=<%= search %>" class="page-link">
+                <i class="material-icons md-chevron_right"></i>
+            </a>
+            <a href="?page=<%= totalPage %>&search=<%= search %>" class="page-link" title="Last Page">
+                <i class="material-icons md-last_page"></i>
+            </a>
+        <% } %>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        background: #1a1f2c;
+        min-height: 100vh;
+        padding: 2rem;
+        color: #fff;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: #fff;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .page-link {
+        min-width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0.5rem;
+        background: #1e2433;
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .page-link:hover {
+        background: #00b517;
+        transform: translateY(-1px);
+    }
+
+    .page-link.active {
+        background: #00b517;
+        color: #fff;
+    }
+
+    .page-link i {
+        font-size: 1.2rem;
+        line-height: 1;
+    }
+
+    .table-container {
+        background: #262b3c;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .customer-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .customer-table th {
+        background: #1e2231;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #6c7293;
+    }
+
+    .customer-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #2e3446;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #105e2e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar-letter {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .customer-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .customer-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .customer-name {
+        font-size: 0.95rem;
+        margin: 0;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .customer-id {
+        font-size: 0.8rem;
+        color: #6c7293;
+    }
+
+    .contact-info {
+        font-size: 0.9rem;
+    }
+
+    .email {
+        color: #fff;
+    }
+
+    .phone {
+        color: #6c7293;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+
+    .status-badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-badge.active {
+        background: rgba(0, 255, 0, 0.1);
+        color: #0f0;
+    }
+
+    .status-badge.blocked {
+        background: rgba(255, 0, 0, 0.1);
+        color: #ff4d4d;
+    }
+
+    .date-info {
+        font-size: 0.9rem;
+        color: #6c7293;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        min-width: 80px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        color: #fff;
+        transition: all 0.3s;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .btn-block {
+        background: #ff4d4d;
+    }
+
+    .btn-unblock {
+        background: #0f0;
+    }
+
+    .btn-action:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .search-container {
+        margin-bottom: 2rem;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 1rem;
+        max-width: 600px;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+        flex-grow: 1;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c7293;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.8rem 1rem 0.8rem 2.5rem;
+        background: #262b3c;
+        border: 1px solid #2e3446;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 0.95rem;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #00b517;
+    }
+
+    .search-button {
+        background-color: #00b517 !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.8rem 1.5rem !important;
+        border-radius: 8px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s !important;
+        cursor: pointer;
+    }
+
+    .search-button:hover {
+        background-color: #008f12 !important;
+        transform: translateY(-1px);
+    }
+</style>
 
 <%- include('../partials/admin/footer') %>

@@ -205,6 +205,9 @@ const postaddAddress = async (req, res) => {
     const { name, city, addressType, state, landMark, pinCode, phone, altPhone } = req.body;
     const userAddress = await Address.findOne({ userId: findUser._id });
 
+    if(!name || !city || !addressType || !state || !landMark || !pinCode || !phone){
+      return res.status(400).json({ message: "All fields are required" });
+    }
     let newAddress;
 
     if (!userAddress) {
@@ -225,7 +228,7 @@ const postaddAddress = async (req, res) => {
     }
 
     // Return the new address as JSON
-    res.status(200).json({ success: true, address: newAddress });
+    res.status(200).json({ success: true, message: "Address added successfully."});
   } catch (error) {
     console.error("Error adding address:", error);
     res.status(500).json({ message: "Failed to add address. Please try again." });

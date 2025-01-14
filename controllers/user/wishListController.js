@@ -24,6 +24,11 @@ const toggleWishlist = async (req, res) => {
         await wishlist.save();
         return res.status(200).json({ action: 'removed', message: 'Product removed from wishlist' });
       } else {
+        if (wishlist.products.length >= 9) {
+          return res
+            .status(200)
+            .json({ action: 'full',  message: 'Wishlist is full' });
+        }
         // Add product to wishlist
         wishlist.products.push({ productId });
         await wishlist.save();

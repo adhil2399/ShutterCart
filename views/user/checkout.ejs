@@ -424,24 +424,7 @@
         </div>
     </div>
 </div>
-
-     <script>
-        // Bootstrap Validation Script
-        (function () {
-            'use strict';
-            const forms = document.querySelectorAll('.needs-validation');
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        })();
-    </script>
-
+ 
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -450,10 +433,14 @@ document.addEventListener('DOMContentLoaded', function() {
         addressForm.addEventListener('submit', async (event) => {
             console.log("Form submission intercepted");
             event.preventDefault();
-
+           if(!addressForm.checkValidity()){
+            event.stopPropagation();
+            addressForm.classList.add('was-validated');
+            return;
+        }
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
-
+       
             try {
                 const response = await fetch('/profile/add-address', {
                     method: 'POST',
@@ -463,20 +450,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify(data),
                 });
 
+                const result = await response.json();
                 if (response.ok) {
-                    const result = await response.json();
 
                     if (result.success) {
                         console.log("Address added successfully");
-                        addNewAddress(result.address);
-
-                        Swal.fire({
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('address-modal'));
+                    await Swal.fire({
                             icon: "success",
                             title: "Address Added Successfully!",
                             showConfirmButton: false,
                             timer: 1500,
+                            width: 500,
+                            heightAuto: true,
+                            borderRadius: '50px',
+                            background: '#f8f9fa',
                         });
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('address-modal'));
+                        window.location.reload();
                     if (modal) {
                   modal.hide();
                  // Remove the modal backdrop
@@ -490,9 +480,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     } else {
                         throw new Error(result.message || "Failed to add address.");
+                        console.log( result.message);
                     }
                 } else {
-                    throw new Error("Server responded with an error.");
+                    swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:  result.message || "Server responded with an error.",
+                    });
                 }
             } catch (error) {
                 console.error("Error details:", error);
@@ -500,60 +495,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Could not add the address. Please try again.",
+                    text: error.message || "Could not add the address. Please try again.",
                 });
             }
         });
     } else {
         console.error("Address form not found");
     }
-
-    function addNewAddress(address) {
-        const addressContainer = document.getElementById("currentAddresses");
-        if (!addressContainer) {
-            console.error("Address container not found");
-            return;
-        }
-
-        const index = document.querySelectorAll(".address-option").length;
-
-        const addressHTML = `<div class="col-xxl-4">
-    <label for="address-billing-0">
-        <span class="delivery-address-box">
-            <span class="form-check">
-                <input class="custom-radio" id="address-billing-0" type="radio" checked="checked" name="address">
-            </span>
-            <span class="address-detail">
-                <span class="address">
-                    <span class="buttons d-flex justify-content-end align-items-start">
-                        <a class="btn btn-outline-danger sm" href="/editAddress?id=${address._id}" title="Edit">Edit</a>
-                    </span>
-                    <span class="address-title">${address.addressType}</span>
-                </span>
-                <span class="address">
-                    <span class="address-home">
-                        <span class="address-tag">Address:</span> ${address.landMark}, ${address.city}
-                    </span>
-                </span>
-                <span class="address">
-                    <span class="address-home">
-                        <span class="address-tag">Pin Code:</span> ${address.pinCode}
-                    </span>
-                </span>
-                <span class="address">
-                    <span class="address-home">
-                        <span class="address-tag">Phone:</span> +91 ${address.phone}
-                    </span>
-                </span>
-            </span>
-        </span>
-    </label>
-</div>
- `;
-
-  addressContainer.innerHTML += addressHTML;
-    }
-})
+});
 </script>
 
 
@@ -569,11 +518,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Validation: Ensure both address and payment method are selected
             if (!selectedAddressId) {
-                Toastify({ text: "Please select an address.", backgroundColor: "red" }).showToast();
+                Toastify({ text: "Please select an address.", backgroundColor: "red",
+                    style: {
+                        color: "#FFFFFF", // White text color
+                        fontWeight: "bold", // Bold text
+                     },
+                 }).showToast();
                 return;
             }
             if (!selectedPaymentMethod) {
-                Toastify({ text: "Please select a payment method.", backgroundColor: "red" }).showToast();
+                Toastify({
+                    text: "Please select a payment method.",
+                    backgroundColor: "red",
+                    style: {
+                        color: "#ffffff", // White text color
+                        fontWeight: "bold", // Bold text
+                        borderRadius: "10px",
+                    },
+                }).showToast();
                 return;
             }
 
@@ -607,15 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                Swal.fire({
-                    title: 'Processing...',
-                    text: 'Please wait while we process your order.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
                 const response = await fetch('/order/place', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -651,10 +604,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 const verifyResult = await verifyResponse.json();
                                 if (verifyResponse.ok) {
-                                    Toastify({ text: "Payment successful!", backgroundColor: "green" }).showToast();
+                                    await Swal.fire({
+                                        icon: 'success',
+                                        title: 'Payment Successful',
+                                        text: 'Your payment has been processed successfully!',
+                                     })
                                     window.location.href = `/order/success?Id=${verifyResult.orderId}`;
                                 } else {
-                                    throw new Error(verifyResult.message || "Payment verification failed.");
+                                    await Swal.fire({
+                                        icon: 'error',
+                                        title: 'Payment Failed',
+                                        text: verifyResult.message || 'An error occurred while processing the payment.',
+                                    });
                                 }
                             },
                             prefill: {
@@ -677,15 +638,27 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     } else {
                         // COD flow
-                        Toastify({ text: "Order placed successfully!", backgroundColor: "green" }).showToast();
+                        await Swal.fire({
+                            icon: "success",
+                            title: "Order Placed Successfully",
+                            text: "Your order has been placed successfully.",
+                        });
                         window.location.href = `/order/success?Id=${result.orderId}`;
                     }
                 } else {
-                    Toastify({ text:result.message || "order not placed.", backgroundColor: "red" }).showToast();
+                    swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: result.message || "Order placement failed.",
+                    });
                 }
             } catch (error) {
                 console.error("Order Error:", error);
-                Toastify({ text:result.error || "An error occurred while placing the order.", backgroundColor: "red" }).showToast();
+                swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: result.message || "An error occurred while placing the order.",
+                });
             }
         });
     }
@@ -755,6 +728,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: data.message,
                     showConfirmButton: false,
                     timer: 1500,
+                    style: {
+                        color: 'green',
+                        background: 'white',
+                    },
                 });
 
                 // Clear any error messages
@@ -768,6 +745,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon: 'error',
                 title: 'Error!',
                 text: error.message || 'Error applying coupon. Please try again.',
+                style: {
+                    color: 'red',
+                    background: 'white',
+                },
             });
         }
     }

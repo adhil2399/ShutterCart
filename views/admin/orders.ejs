@@ -1,169 +1,116 @@
  <%- include('../partials/admin/header') %>
-                <div>
-                    <h2 class="content-title card-title">Order List </h2>
-                    <!-- <p>Lorem ipsum dolor sit amet.</p> -->
-                </div>
-                 
-            </div>
-            <div class="card mb-4">
-                <header class="card-header">
-                    <div class="row gx-3">
-                        <!-- <div class="col-lg-4 col-md-6 me-auto">
-                            <input type="text" placeholder="Search..." class="form-control">
-                        </div> -->
-                        <!-- <div class="col-lg-2 col-6 col-md-3">
-                            <select class="form-select">
-                                <option>Status</option>
-                                <option>Active</option>
-                                <option>Disabled</option>
-                                <option>Show all</option>
-                            </select>
-                        </div> -->
-                       
-                    </div>
-                </header> <!-- card-header end// -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <!-- <th>No:</th> -->
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col" class="text-end"> Action </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% orders.forEach((order, index) => { %>
-                                <tr>
-                                    <!-- <td><%= index + 1 %></td> -->
-                                    <td><b><%= order.userId.name %></b></td> <!-- User Name -->
-                                    <td><%= order.userId.email %></td> <!-- User Email -->
-                                    <td>₹<%= (order.finalAmount / 100).toFixed(2) %></td> <!-- Total Amount (Assuming in paise) -->
-                                    <td>
-                                        <span 
-                                            class="badge rounded-pill 
-                                            <%= order.status === 'Pending' ? 'alert-warning' : 'alert-success' %>">
-                                            <%= order.status %>
-                                        </span>
-                                    </td> <!-- Order Status -->
-                                    <td><%= new Date(order.createdAt).toLocaleDateString() %></td> <!-- Order Date -->
-                                    <td class="text-end">
-                                        <a href="/admin/orderDetails?orderId=<%= order.orderId %>" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> 
-                                                <i class="material-icons md-more_horiz"></i> 
-                                            </a>
-                                            <div class="dropdown-menu">
-                                                <!-- <a class="dropdown-item" href="/admin/orderDetails?orderId=<%= order.orderId %>">View detail</a> -->
-                                                <!-- <a class="dropdown-item" href="/orders/edit/<%= order._id %>">Edit info</a> -->
-                                                <button class="dropdown-item text-danger delete-order-btn" data-order-id="<%= order._id %>">Delete</button>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                        
-                    </div> <!-- table-responsive //end -->
-                </div> <!-- card-body end// -->
-                <div class="pagination-area mt-15 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <% if (currentPage > 1) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">
-                                        <i class="material-icons md-chevron_left"></i>
-                                    </a>
-                                </li>
-                            <% } %>
-    
-                            <% for(let i = 1; i <= totalPages; i++) { %>
-                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                    <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
-                                </li>
-                            <% } %>
-    
-                            <% if (currentPage < totalPages) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
-                                        <i class="material-icons md-chevron_right"></i>
-                                    </a>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
-            </div> <!-- card end// -->
+
+<div class="dashboard-container">
+    <div class="content-header">
+        <h1 class="page-title">Order Management</h1>
+    </div>
+
+    <div class="table-container">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Order Info</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Order Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% orders.forEach((order) => { %>
+                <tr>
+                    <td>
+                        <div class="customer-info">
+                            <div class="avatar">
+                                <div class="avatar-letter"><%= order.userId ? order.userId.name.charAt(0).toUpperCase() : 'D' %></div>
+                            </div>
+                            <div class="customer-details">
+                                <h3 class="customer-name"><%= order.userId ? order.userId.name : 'Deleted User' %></h3>
+                                <span class="customer-email"><%= order.userId ? order.userId.email : 'N/A' %></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="order-info">
+                        <div class="order-id">Order #<%= order.orderId %></div>
+                    </td>
+                    <td class="amount-info">
+                        <div class="amount">₹<%= (order.finalAmount / 100).toFixed(2) %></div>
+                    </td>
+                    <td>
+                        <span class="status-badge <%= order.status.toLowerCase() %>">
+                            <%= order.status %>
+                        </span>
+                    </td>
+                    <td class="date-info">
+                        <div class="order-date">
+                            <%= new Date(order.createdAt).toLocaleDateString() %>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/admin/orderDetails?orderId=<%= order.orderId %>" class="btn-action btn-view" title="View Details">
+                                <i class="material-icons md-visibility"></i>
+                            </a>
+                            <!-- <button class="btn-action btn-delete delete-order-btn" data-order-id="<%= order._id %>" title="Delete Order">
+                                <i class="material-icons md-delete"></i>
+                            </button> -->
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <% if (currentPage > 1) { %>
+            <a href="?page=<%= currentPage - 1 %>&limit=<%= limit %>" class="page-link">
+                <i class="material-icons md-chevron_left"></i>
+            </a>
+        <% } %>
+
+        <% for(let i = 1; i <= totalPages; i++) { %>
+            <% if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) { %>
+                <a href="?page=<%= i %>&limit=<%= limit %>" 
+                   class="page-link <%= currentPage == i ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } else if (i === currentPage - 2 || i === currentPage + 2) { %>
+                <span class="page-link dots">...</span>
+            <% } %>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <a href="?page=<%= currentPage + 1 %>&limit=<%= limit %>" class="page-link">
+                <i class="material-icons md-chevron_right"></i>
+            </a>
+        <% } %>
+    </div>
+</div>
+
+ 
+
+<script>
+    document.querySelectorAll('.delete-order-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const orderId = this.dataset.orderId;
             
-
-                
-        
-            
-        </section> <!-- content-main end// -->
-       <%- include('../partials/admin/footer') %>
-
-
-       <script>
-        document.querySelectorAll('.delete-order-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const orderId = this.getAttribute('data-order-id');
-    
-                // SweetAlert confirmation dialog
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'This action will permanently delete the order!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Send DELETE request to the server
-                        fetch(`/admin/orders/delete`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ orderId})
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Deleted!',
-                                        text: 'The order has been deleted successfully.',
-                                        confirmButtonText: 'OK'
-                                    }).then(() => {
-                                        location.reload(); // Reload the page to reflect changes
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Failed!',
-                                        text: 'Failed to delete the order. Please try again.',
-                                        confirmButtonText: 'Retry'
-                                    });
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'An unexpected error occurred.',
-                                    confirmButtonText: 'OK'
-                                });
-                            });
-                    }
-                });
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/admin/deleteOrder?orderId=${orderId}`;
+                }
             });
         });
-    </script>
-    
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+<%- include("../partials/admin/footer") %>

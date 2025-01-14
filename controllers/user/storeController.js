@@ -8,23 +8,12 @@ const Wishlist = require('../../models/wishlistSchema');
 // Fetch products based on filters
 const getShopPage = async (req, res) => {
   try {
-    // Get user from session (checking both user and user_id)
-    const userId = req.session.user || req.session.user_id;
+     const userId = req.session.user || req.session.user_id;
     console.log('Session:', req.session);
     console.log('User ID from session:', userId);
 
     const { category, brand, price, availability, sort, search, page = 1 } = req.query;
     const currentPage = parseInt(page) || 1;
-
-    console.log('Query parameters:', {
-      category,
-      brand,
-      price,
-      availability,
-      sort,
-      search,
-      page
-    });
 
     // Get category IDs from names
     let categoryIds = [];
@@ -41,7 +30,7 @@ const getShopPage = async (req, res) => {
     let brandNames = [];
     if (brand) {
       brandNames = Array.isArray(brand) ? brand : [brand];
-      console.log('Brand names:', brandNames);
+      console.log('brand names:', brandNames);
     }
 
     const { filter, sortOption } = buldProductsQuery({
@@ -53,8 +42,7 @@ const getShopPage = async (req, res) => {
     console.log('Final filter:', JSON.stringify(filter, null, 2));
     console.log('Sort option:', sortOption);
 
-    // Get total count for pagination
-    const totalProducts = await Product.countDocuments(filter);
+     const totalProducts = await Product.countDocuments(filter);
     const limit = 12;
     const totalPages = Math.ceil(totalProducts / limit);
     const skip = (currentPage - 1) * limit;
@@ -67,9 +55,8 @@ const getShopPage = async (req, res) => {
       skip
     });
 
-    // Get products with pagination and sorting
-    const products = await Product.find(filter)
-      .collation({ locale: 'en', strength: 2 }) // Case-insensitive sorting
+     const products = await Product.find(filter)
+      .collation({ locale: 'en', strength: 2 }) 
       .sort(sortOption)
       .populate("category", "categoryOffer")
       .skip(skip)
@@ -101,10 +88,10 @@ const getShopPage = async (req, res) => {
 
     // Get all categories and brands for filter options
     const categories = await Category.find({ isListed: true }).lean();
-    console.log('Found categories:', categories.map(c => c.name));
+    console.log('found categories:', categories.map(c => c.name));
     
     const brands = await Brand.find({ isBlocked: false }).lean();
-    console.log('Found brands:', brands.map(b => b.brandName));
+    console.log('found brands:', brands.map(b => b.brandName));
 
     // Get wishlist items if user is logged in
     let wishlistProductIds = [];
@@ -133,8 +120,7 @@ const getShopPage = async (req, res) => {
         
         if (wishlist.products && wishlist.products.length > 0) {
           wishlistProductIds = wishlist.products.map(item => {
-            // Handle both possible structures
-            const productId = item.productId || item.product_id || item;
+             const productId = item.productId || item.product_id || item;
             return productId.toString();
           });
           console.log('Wishlist product IDs:', wishlistProductIds);
@@ -142,8 +128,7 @@ const getShopPage = async (req, res) => {
       }
     }
 
-    // Debug: Check if products are in wishlist
-    productsWithOffers.forEach(product => {
+     productsWithOffers.forEach(product => {
       const productId = product._id.toString();
       const isInWishlist = wishlistProductIds.includes(productId);
       console.log(`Product ${productId}: ${isInWishlist ? 'in wishlist' : 'not in wishlist'}`);
@@ -152,12 +137,10 @@ const getShopPage = async (req, res) => {
       }
     });
 
-    // Get user details if logged in
-    let userDetails = null;
+     let userDetails = null;
     if (userId) {
       userDetails = await User.findById(userId).lean();
-      console.log('User details:', userDetails);
-    }
+     }
 
     // Render the shop page
     res.render("shop", {
@@ -207,8 +190,7 @@ const buldProductsQuery = (query) => {
 
     const priceConditions = priceRanges.map(range => {
       if (range === '100001') {
-        // Special case for prices over 100,000
-        return { salePrice: { $gte: 100001 } };
+         return { salePrice: { $gte: 100001 } };
       }
       
       const [min, max] = range.split('-').map(Number);
@@ -234,10 +216,10 @@ const buldProductsQuery = (query) => {
   }
 
  if (search) {
-  if (!filter.$and) {
-    filter.$and = [];
+  if (!filter.$or) {
+    filter.$or = [];
   }
-  filter.$and.push({ productName: { $regex: search, $options: 'i' } });
+  filter.$or.push({ productName: { $regex: search, $options: 'i' } });
 }
 
   // Sort options
@@ -271,6 +253,4 @@ const buldProductsQuery = (query) => {
 
   module.exports={
     getShopPage,
-     
-     
   }

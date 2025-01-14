@@ -8,7 +8,7 @@ const productController = require('../controllers/admin/productController')
 const orderController= require('../controllers/admin/orderController')
 const couponController = require('../controllers/admin/couponController')
 const salesReportsController = require('../controllers/admin/salesReportsController')
- 
+const dashBoardController= require('../controllers/admin/dashBoardController')
 const {adminAuth}= require('../middlewares/auth')
 const multer = require('multer')
 const storage = require("../helpers/multer")
@@ -18,7 +18,7 @@ const uploads = multer({storage:storage})
 router.get('/pageerror',adminController.pageerror)
 //login managment
 
-router.get('/',adminAuth,adminController.loadDashboard)
+router.get('/',adminAuth,dashBoardController.loadDashboard)
 router.get('/login',adminController.loadlogin)
 router.post('/login',adminController.login)
 router.get('/logout',adminController.logout)
@@ -44,7 +44,7 @@ router.get('/brands',adminAuth,brandcontroller.getBrandpage)
 router.post('/addBrand',adminAuth,uploads.single('image'),brandcontroller.addBrand)
 router.get('/blockBrand',adminAuth,brandcontroller.blockBrand)
 router.get('/unBlockBrand',adminAuth,brandcontroller.unBlockBrand)
-router.get('/deleteBrand',adminAuth,brandcontroller.deleteBrand)
+router.delete ('/deleteBrand',adminAuth,brandcontroller.deleteBrand)
 
 // product management
 router.get('/addProducts',adminAuth,productController.getProductAddPage)
@@ -59,7 +59,6 @@ router.post('/removeProductOffer',adminAuth,productController.removeProductOffer
 
 //order management
 router.get('/orders',adminAuth,orderController.getOrderList)
-router.delete('/orders/delete',adminAuth,orderController.deleteOrder)
 router.get('/orderDetails',adminAuth,orderController.getOrderDetailsPage);  
 router.post('/update-order-status',adminAuth,orderController.updateOrderStatus)
 router.patch('/order/return/:orderId',adminAuth,orderController.processReturnRequest)

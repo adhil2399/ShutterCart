@@ -177,29 +177,46 @@ const geteditcategory = async (req,res)=>{
     }
 }
 
-const editcategory =async (req,res)=>{
+const editcategory = async (req, res) => {
     try {
-        const id= req.params.id;
-        const {categoryName,description}= req.body
-
+        const id = req.params.id;
+        const { categoryName, description } = req.body;
+        
         const existingcategory = await Category.findOne({ 
-            name: { $regex: new RegExp(`^${categoryName}$`, 'i') }, // Case-insensitive match
+            name: { $regex: new RegExp(`^${categoryName}$`, 'i') },
             _id: { $ne: id }   
         });
         
-    
-        if(existingcategory){
-            return res.status(400).json({status:false,message:'Category exists , please choose another name'})
+        if (existingcategory) {
+            return res.status(400).json({
+                status: false,
+                message: 'Category exists, please choose another name'
+            });
         }
-        const updatecategory = await Category.findByIdAndUpdate(id,{$set:{name:categoryName,description:description}},{new:true})
+
+        const updatecategory = await Category.findByIdAndUpdate(
+            id,
+            { $set: { name: categoryName, description: description } },
+            { new: true }
+        );
         
-        if(updatecategory){
-            return res.redirect('/admin/category')
+        if (updatecategory) {
+            return res.status(200).json({
+                status: true,
+                message: 'Category updated successfully'
+            });
         }
-        return res.status(404).json({ status:false,message:'category not found'})
+
+        return res.status(404).json({
+            status: false,
+            message: 'Category not found'
+        });
     } catch (error) {
         console.error('Error in editcategory:', error);
-        return  res.redirect('/admin/pageerror')
+        return res.status(500).json({
+            status: false,
+            message: 'Internal server error'
+        });
     }
 }
 

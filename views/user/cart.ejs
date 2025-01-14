@@ -115,7 +115,7 @@
                     <p>Subtotal </p><span class="text-black" id="subtotal"> <%= cartSubtotal %></span>
                   </li>
                   <li> 
-                    <p>Discount </p><span id="discount" class="theme-color">-<%= discount.toFixed(2) %></span>
+                    <p>Discount </p><span id="discount" class="theme-color"><%= discount.toFixed(2) %></span>
                   </li>
                   <li> 
                     <!-- <p>Coupon Discount </p><span class="Coupon">Apply Coupon </span> -->
@@ -167,6 +167,7 @@
                     style: {
                   color: "#ffffff", // Text color
                 fontSize: "16px", // Optional: Adjust font size
+                borderRadius:'20px'
                 },
                 }).showToast();
             }else{
@@ -210,6 +211,7 @@
                 style: {
                   color: "#ffffff", // Text color
                 fontSize: "16px", // Optional: Adjust font size
+                borderRadius:'20px'
                 },
             }).showToast();
         }
@@ -229,7 +231,11 @@
             confirmButtonColor: '#28a745',
             cancelButtonColor: '#dc3545',
             confirmButtonText: 'Yes, remove it!',
-            cancelButtonText: 'Cancel'
+            cancelButtonText: 'Cancel',
+            background: '#2D2D2D', // Dark background for the alert
+            textColor: '#fff', // White text color
+            focusConfirm: false,
+            focusCancel: false
         });
 
         // If the user confirms, proceed with deletion
@@ -260,7 +266,8 @@
           stopOnFocus: true,
           style: {
             color: "#ffffff",  
-            fontSize: "16px"  
+            fontSize: "16px"  ,
+            borderRadius:'20px'
           }
         }).showToast();
       
@@ -293,7 +300,8 @@
           stopOnFocus: true,
           style: {
             color: "#ffffff",  
-            fontSize: "16px" 
+            fontSize: "16px" ,
+            borderRadius:'20px'
           }
         }).showToast();
       }
@@ -310,7 +318,8 @@
         stopOnFocus: true,
         style: {
           color: "#ffffff",  
-          fontSize: "16px"   
+          fontSize: "16px"   ,
+          borderRadius:'20px'
         }
       }).showToast();
     }
@@ -330,6 +339,7 @@
         cancelButtonColor: '#6c757d',
         confirmButtonText: 'Yes, clear cart',
         cancelButtonText: 'Cancel'
+        
       });
 
       if (result.isConfirmed) {
@@ -354,7 +364,8 @@
             stopOnFocus: true,
             style: {
               color: "#ffffff",
-              fontSize: "16px"
+              fontSize: "16px",
+              borderRadius:'20px'
             }
           }).showToast();
 
@@ -413,7 +424,8 @@
             stopOnFocus: true,
             style: {
               color: "#ffffff",
-              fontSize: "16px"
+              fontSize: "16px",
+              borderRadius:'20px'
             }
           }).showToast();
         }
@@ -430,7 +442,8 @@
         stopOnFocus: true,
         style: {
           color: "#ffffff",
-          fontSize: "16px"
+          fontSize: "16px",
+          borderRadius:'20px'
         }
       }).showToast();
     }

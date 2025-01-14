@@ -1,0 +1,81 @@
+/* Custom SweetAlert2 Styles */
+.swal2-popup {
+    background: #1a1f2c !important;
+    border-radius: 15px !important;
+    color: #ffffff !important;
+}
+
+.swal2-title {
+    color: #ffffff !important;
+}
+
+.swal2-html-container {
+    color: #8f95b2 !important;
+}
+
+.swal2-confirm {
+    background: linear-gradient(45deg, #00c853, #00a846) !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2) !important;
+}
+
+.swal2-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(0, 200, 83, 0.3) !important;
+}
+
+.swal2-cancel {
+    background: #dc3545 !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    font-weight: 500 !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2) !important;
+}
+
+.swal2-cancel:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3) !important;
+}
+
+.swal2-icon {
+    border-color: #00c853 !important;
+    color: #00c853 !important;
+}
+
+.swal2-success-circular-line-left,
+.swal2-success-circular-line-right,
+.swal2-success-fix {
+    background: transparent !important;
+}
+
+.swal2-success-ring {
+    border-color: rgba(0, 200, 83, 0.3) !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #dc3545 !important;
+}
+
+.swal2-x-mark-line-left,
+.swal2-x-mark-line-right {
+    background-color: #dc3545 !important;
+}
+
+.swal2-warning {
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+}
+
+.swal2-info {
+    border-color: #0dcaf0 !important;
+    color: #0dcaf0 !important;
+}
+
+.swal2-question {
+    border-color: #6c757d !important;
+    color: #6c757d !important;
+}

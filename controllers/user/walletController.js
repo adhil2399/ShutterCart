@@ -14,8 +14,22 @@ const Wallet = require('../../models/walletSchema');
          const wallet = await Wallet.findOne({ userId });
 
         if (!wallet) {
-            return res.status(404).json({ error: 'Wallet not found.' });
-        }
+  const  newWallet = new Wallet({
+            userId,
+            totalBalance: amount,
+            transactions: [
+                {
+                    type: 'Deposit',
+                    amount: amount,
+                    status: 'Completed',
+                    description: 'Added money to wallet',
+                    date: new Date()
+                }
+            ]
+        });
+
+        await newWallet.save(); 
+        }else{
 
          wallet.totalBalance += amount;
 
@@ -28,6 +42,7 @@ const Wallet = require('../../models/walletSchema');
         });
 
          await wallet.save();
+    }
 
          res.json({
             message: 'Money added successfully!',

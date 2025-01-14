@@ -1,56 +1,40 @@
 <%- include("../partials/admin/header") %>
 
-<style>
-.content-main {
-    padding: 20px;
-}
 
-.content-header {
-    margin-bottom: 30px;
+<%
+function getStatusIcon(status) {
+    switch(status.toLowerCase()) {
+        case 'pending payment':
+            return 'fa-clock';
+        case 'placed':
+            return 'fa-check';
+        case 'shipped':
+            return 'fa-truck';
+        case 'delivered':
+            return 'fa-check-circle';
+        case 'cancelled':
+            return 'fa-times-circle';
+        case 'return requested':
+            return 'fa-undo';
+        case 'returned':
+            return 'fa-box';
+        case 'rejected':
+            return 'fa-ban';
+        default:
+            return 'fa-info-circle';
+    }
 }
+%>
 
-.card {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    border: none;
-    margin-bottom: 1rem;
-}
-
-.card-body {
-    padding: 1.5rem;
-}
-
-.table th {
-    font-weight: 600;
- }
-
-.table td, .table th {
-    padding: 1rem;
-    vertical-align: middle;
-}
-
-.badge {
-    padding: 0.5em 0.75em;
-}
-
-.custom-dates {
-    transition: all 0.3s ease;
-}
-
-.stats-card {
-    transition: transform 0.2s;
-}
-
-.stats-card:hover {
-    transform: translateY(-5px);
-}
-</style>
+ 
 
 <div class="content-main">
     <div class="container-fluid">
         <div class="row mb-3">
             <div class="col-12">
                 <a href="/admin/" class="btn btn-brand">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    <i class="material-icons md-arrow_back"></i>
+                    Back to Dashboard
                 </a>
             </div>
         </div>
@@ -159,108 +143,132 @@
                 </div>
                 
                 <div class="col-12 col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-sync-alt"></i> Update Report
-                    </button>
+                    <div class="filter-buttons">
+                        <button type="submit" class="filter-btn btn-apply w-100">
+                            <i class="fas fa-search me-2"></i>Apply Filter
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Orders Table -->
-    <div class="card mt-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+    <div class="table-container">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Products</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (orders.length === 0) { %>
+                    <tr>
+                        <td colspan="7" class="text-center">No orders found</td>
+                    </tr>
+                <% } else { %>
+                    <% orders.forEach(order => { %>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Customer</th>
-                            <th>Products</th>
-                            <th>Payment</th>
-                            <th>Status</th>
-                            <th>Amount</th>
+                            <td>
+                                <div class="order-id">#<%= order.orderId %></div>
+                            </td>
+                            <td>
+                                <div class="order-date">
+                                    <%= new Date(order.createdAt).toLocaleDateString() %>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="customer-info">
+                                    <div class="avatar">
+                                        <div class="avatar-letter"><%= order.userId ? order.userId.name.charAt(0).toUpperCase() : 'D' %></div>
+                                    </div>
+                                    <div class="customer-details">
+                                        <h3 class="customer-name"><%= order.userId ? order.userId.name : 'Deleted User' %></h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="products-info">
+                                    <% order.orderedItems.forEach((item, index) => { %>
+                                        <%= item.product.productName %> (<%= item.quantity %>)
+                                        <%= index < order.orderedItems.length - 1 ? ',' : '' %>
+                                    <% }) %>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="payment-method">
+                                    <i class="fas <%= order.paymentMethod.toLowerCase().includes('cod') ? 'fa-money-bill-wave' : 'fa-credit-card' %>"></i>
+                                    <%= order.paymentMethod %>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge <%= order.status.toLowerCase().replace(/\s+/g, '-') %>">
+                                    <i class="fas <%= getStatusIcon(order.status) %>"></i>
+                                    <%= order.status %>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="amount">₹<%= order.finalAmount.toFixed(2) %></div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% if (orders.length === 0) { %>
-                            <tr>
-                                <td colspan="7" class="text-center">No orders found</td>
-                            </tr>
-                        <% } else { %>
-                            <% orders.forEach(order => { %>
-                                <tr>
-                                    <td><%= order.orderId %></td>
-                                    <td><%= new Date(order.createdAt).toLocaleDateString() %></td>
-                                    <td><%= order.userId.name %></td>
-                                    <td>
-                                        <% order.orderedItems.forEach((item, index) => { %>
-                                            <%= item.product.productName %> (<%= item.quantity %>)
-                                            <%= index < order.orderedItems.length - 1 ? ',' : '' %>
-                                        <% }) %>
-                                    </td>
-                                    <td><%= order.paymentMethod %></td>
-                                    <td><%= order.status %></td>
-                                    <td>₹<%= order.finalAmount.toFixed(2) %></td>
-                                </tr>
-                            <% }); %>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <% if (pagination.totalPages > 1) { %>
-                <div class="pagination-area mt-15 mb-50">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-start">
-                            <% if (pagination.hasPrevPage) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= pagination.prevPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
-                                        <i class="material-icons md-chevron_left"></i>
-                                    </a>
-                                </li>
-                            <% } %>
-
-                            <% for(let i = 1; i <= pagination.totalPages; i++) { %>
-                                <li class="page-item <%= pagination.page === i ? 'active' : '' %>">
-                                    <a class="page-link" href="?page=<%= i %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
-                                        <%= i %>
-                                    </a>
-                                </li>
-                            <% } %>
-
-                            <% if (pagination.hasNextPage) { %>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<%= pagination.nextPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
-                                        <i class="material-icons md-chevron_right"></i>
-                                    </a>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
-            <% } %>
-        </div>
+                    <% }); %>
+                <% } %>
+            </tbody>
+        </table>
     </div>
+
+    <!-- Pagination -->
+    <% if (pagination.totalPages > 1) { %>
+        <div class="pagination-area">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <% if (pagination.hasPrevPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= pagination.prevPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% for(let i = 1; i <= pagination.totalPages; i++) { %>
+                        <li class="page-item <%= pagination.page === i ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+
+                    <% if (pagination.hasNextPage) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<%= pagination.nextPage %>&period=<%= period %>&status=<%= status %>&startDate=<%= startDate %>&endDate=<%= endDate %>">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    <% } %>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const periodSelect = document.getElementById('period');
-    const customDates = document.querySelectorAll('.custom-dates');
-    
-    const toggleCustomDates = () => {
-        customDates.forEach(el => el.style.display = periodSelect.value === 'custom' ? 'block' : 'none');
-    };
+    document.addEventListener('DOMContentLoaded', function() {
+        const periodSelect = document.getElementById('period');
+        const customDates = document.querySelectorAll('.custom-dates');
+        
+        const toggleCustomDates = () => {
+            customDates.forEach(el => el.style.display = periodSelect.value === 'custom' ? 'block' : 'none');
+        };
 
-    toggleCustomDates();
-    periodSelect.addEventListener('change', toggleCustomDates);
-});
-
- 
-
+        toggleCustomDates();
+        periodSelect.addEventListener('change', toggleCustomDates);
+    });
 </script>
 
 <%- include("../partials/admin/footer") %>

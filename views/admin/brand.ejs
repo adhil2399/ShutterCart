@@ -1,251 +1,586 @@
 <%- include("../partials/admin/header") %>
+
+<div class="dashboard-container">
+    <div class="content-header">
+        <h1 class="content-title">Brand Management</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Add Brand Form -->
+                <div class="col-md-4">
+                    <div class="form-card">
+                        <form   action="/admin/addBrand" enctype="multipart/form-data" id="brandForm">
+                            <div class="form-header">
+                                <div class="form-icon">
+                                    <i class="material-icons md-add_business"></i>
+                                </div>
+                                <h5 class="card-title">Add New Brand</h5>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="material-icons md-label"></i>
+                                    Brand Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="brandName"
+                                    placeholder="Enter brand name"
+                                    class="form-control"
+                                />
+                                <div class="error-message" id="nameError"></div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="material-icons md-image"></i>
+                                    Brand Logo
+                                </label>
+                                <input 
+                                    class="form-control" 
+                                    name="image" 
+                                    id="brandImage" 
+                                    type="file"
+                                    accept="image/*"
+                                />
+                                <div class="error-message" id="imageError"></div>
+                            </div>
+                            <button class="btn btn-create" type="submit">
+                                <i class="material-icons md-add_circle"></i>
+                                Add Brand
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Brand List -->
+                <div class="col-md-8">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Logo</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.reverse().forEach(function(brand, index) { %>
+                                <tr>
+                                    <td><%= brand.brandName %></td>
+                                    <td>
+                                        <div class="brand-image-container">
+                                            <img
+                                                src="/uploads/re-image/<%= brand.brandImage[0] %>"
+                                                alt="<%= brand.brandName %>"
+                                                class="brand-image"
+                                            />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge <%= brand.isBlocked ? 'alert-danger' : 'alert-success' %>">
+                                            <%= brand.isBlocked ? 'Blocked' : 'Active' %>
+                                        </span>                
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-flex gap-2 justify-content-end">
+                                            <% if (!brand.isBlocked) { %>
+                                                <button class="btn-action btn-block">
+                                                    <a href="/admin/BlockBrand?id=<%= brand._id %>" class="text-white">
+                                                        <i class="material-icons md-block"></i>
+                                                        Block
+                                                    </a>
+                                                </button>
+                                            <% } else { %>
+                                                <button class="btn-action btn-unblock">
+                                                    <a href="/admin/unBlockBrand?id=<%= brand._id %>" class="text-white">
+                                                        <i class="material-icons md-check_circle"></i>
+                                                        Unblock
+                                                    </a>
+                                                </button>
+                                            <% } %>
+                                            <button
+                                                class="btn-action btn-delete"
+                                                onclick="confirmDelete(event, '<%= brand._id %>', '<%= brand.brandName %>')"
+                                            >
+                                                <i class="material-icons md-delete"></i>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
-  .pagination-container {
-    text-align: center;
-  }
-  .pagination {
-    display: inline-block;
-  }
+    /* Dashboard Container */
+    .dashboard-container {
+        background: #1a1f2c;
+        min-height: 100vh;
+        padding: 2rem;
+    }
 
-  .pagination a,
-  .pagination .current-page {
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 0 2px;
-    border: 1px solid #ddd;
-    text-decoration: none;
-    color: #333;
-  }
+    /* Content Header */
+    .content-header {
+        margin-bottom: 2rem;
+    }
 
-  .pagination a:hover {
-    background-color: #f5f5f5;
-  }
+    .content-title {
+        color: #fff;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 0;
+    }
 
-  .error-message {
-    color: red;
-  }
+    /* Card Styles */
+    .card {
+        background: #2d3446;
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    /* Form Card */
+    .form-card {
+        background: #262b3c;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(0, 181, 23, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #00b517;
+    }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #a3a8c3;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-control {
+        background: #1e2433;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+    }
+
+    .form-control:focus {
+        background: #1e2433;
+        border-color: #00b517;
+        box-shadow: 0 0 0 2px rgba(0, 181, 23, 0.25);
+    }
+
+    .form-control::placeholder {
+        color: #6c757d;
+    }
+
+    /* Error Messages */
+    .error-message {
+        color: #ff4d4d;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .error-message:not(:empty) {
+        opacity: 1;
+    }
+
+    /* Buttons */
+    .btn-create {
+        background: linear-gradient(45deg, #00b517, #00d81b);
+        border: none;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0, 181, 23, 0.2);
+    }
+
+    .btn-create:hover {
+        background: linear-gradient(45deg, #009913, #00bf18);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 181, 23, 0.3);
+    }
+
+    .btn-action {
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        width: 5.6rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+        text-decoration: none;
+        min-width: 90px;
+        justify-content: center;
+    }
+
+    .btn-block {
+        background: linear-gradient(45deg, #ff4d4d, #ff6666);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(255, 77, 77, 0.25);
+    }
+
+    .btn-block:hover {
+        background: linear-gradient(45deg, #ff3333, #ff4d4d);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 77, 77, 0.35);
+    }
+
+    .btn-unblock {
+        background: linear-gradient(45deg, #00b517, #00d81b);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 181, 23, 0.25);
+    }
+
+    .btn-unblock:hover {
+        background: linear-gradient(45deg, #009913, #00bf18);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 181, 23, 0.35);
+    }
+
+    .btn-delete {
+        background: linear-gradient(45deg, #dc3545, #ff4d4d);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.25);
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(45deg, #c82333, #dc3545);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+    }
+
+    /* Table Styles */
+    .table-container {
+        background: #262b3c;
+        border-radius: 0.75rem;
+        padding: 1rem;
+    }
+
+    .table {
+        width: 100%;
+        color: #fff;
+        margin-bottom: 0;
+    }
+
+    .table th {
+        color: #a3a8c3;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+    }
+
+    .table td {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        vertical-align: middle;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Brand Image */
+    .brand-image-container {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1e2433;
+    }
+
+    .brand-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Status Badge */
+    .badge {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+    }
+
+    .badge.alert-success {
+        background: rgba(0, 181, 23, 0.1);
+        color: #00b517;
+    }
+
+    .badge.alert-danger {
+        background: rgba(255, 77, 77, 0.1);
+        color: #ff4d4d;
+    }
+
+    /* SweetAlert2 Dark Theme */
+    .swal2-popup {
+        background: #2d3446 !important;
+        border-radius: 1rem !important;
+        color: #fff !important;
+    }
+
+    .swal2-title {
+        color: #fff !important;
+        font-size: 1.5rem !important;
+    }
+
+    .swal2-html-container {
+        color: #a3a8c3 !important;
+    }
+
+    .swal2-icon {
+        border-color: #00b517 !important;
+        color: #00b517 !important;
+    }
+
+    .swal2-icon.swal2-error {
+        border-color: #ff4d4d !important;
+        color: #ff4d4d !important;
+    }
+
+    .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+        background-color: #ff4d4d !important;
+    }
+
+    .swal2-confirm.swal2-styled {
+        background: linear-gradient(45deg, #00b517, #00d81b) !important;
+        border-radius: 0.5rem !important;
+        padding: 0.8rem 1.5rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 8px rgba(0, 181, 23, 0.25) !important;
+    }
+
+    .swal2-confirm.swal2-styled:hover {
+        background: linear-gradient(45deg, #009913, #00bf18) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 181, 23, 0.35) !important;
+    }
+
+    /* Links in Buttons */
+    .btn-action a {
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Loading Spinner */
+    .spinner-border {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+
+    button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
 </style>
-
-<section class="content-main">
-  <div class="content-header">
-    <div>
-      <h2 class="content-title card-title">Brands</h2>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <!-- Add Brand Form -->
-        <div class="col-md-3">
-          <form method="post" action="/admin/addBrand" enctype="multipart/form-data" id="brandForm">
-            <div class="mb-4">
-              <label for="product_name" class="form-label">Brand Name</label>
-              <input
-                type="text"
-                name="name"
-                id="brandName"
-                placeholder="Type here"
-                class="form-control"
-              />
-              <span id="nameError" class="error-message"></span>
-            </div>
-            <label for="product_name" class="form-label">Brand Image</label>
-            <div class="input-upload">
-              <input class="form-control border" name="image" id="brandImage" type="file" />
-              <span id="imageError" class="error-message"></span>
-            </div>
-            <div class="d-grid">
-              <button class="btn btn-primary mt-20" type="submit">
-                Add Brand
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Brand List -->
-        <div class="col-md-7 ml-105">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Brand</th>
-                  <th>Logo</th>
-                  <th>Status</th>
-                  <th>Block/Unblock/Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% data.reverse().forEach(function(brand, index) { %>
-                  <tr>
-                    <td class="text-start"><%= brand.brandName %></td>
-                    <td class="text-start">
-                      <div
-                        class="d-flex align-items-center justify-content-center"
-                        style="
-                          width: 40px;
-                          height: 40px;
-                          border-radius: 50%;
-                          overflow: hidden;
-                        "
-                      >
-                        <img
-                          src="/uploads/re-image/<%= brand.brandImage[0] %>"
-                          alt="<%= brand.brandName %>"
-                          class="img-fluid rounded-circle"
-                          style="width: 100%; height: auto"
-                        />
-                      </div>
-                    </td>
-                    <td class="text-start">
-                      <span class="badge rounded-pill <%= brand.isBlocked ? 'alert-danger' : 'alert-success' %>" 
-                        style="width: 60px">
-                        <%= brand.isBlocked ? 'Blocked' : 'Active' %>
-                      </span>                
-                    </td>
-                    <td class="text-start">
-                      <% if (!brand.isBlocked) { %>
-                      <button class="btn btn-danger" style="width: 90px">
-                        <a href="/admin/BlockBrand?id=<%= brand._id %>" class="text-white">Block</a>
-                      </button>
-                      <% } else { %>
-                      <button class="btn btn-success" style="width: 90px">
-                        <a href="/admin/unBlockBrand?id=<%= brand._id %>" class="text-white">Unblock</a>
-                      </button>
-                      <% } %>
-                      <button
-                        class="btn btn-danger"
-                        style="width: 90px"
-                        onclick="return confirmDelete(event, '/admin/deleteBrand?id=<%= brand._id %>', '<%= brand.brandName %>')"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                <% }); %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pagination-container"></div>
-</section>
-<%- include("../partials/admin/footer") %>
 
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  // Form Validation
-  document.getElementById('brandForm').addEventListener('submit', function (e) {
-    const brandName = document.getElementById('brandName').value.trim();
-    const brandImage = document.getElementById('brandImage').value;
-    let isValid = true;
+    // Form Validation and Submission
+    document.getElementById('brandForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const brandName = document.getElementById('brandName').value.trim();
+        const brandImage = document.getElementById('brandImage').files[0];
+        let isValid = true;
 
-    if (!brandName) {
-      document.getElementById('nameError').textContent = 'Brand Name is required.';
-      isValid = false;
-    } else {
-      document.getElementById('nameError').textContent = '';
-    }
+        // Clear previous errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.textContent = '';
+            el.style.opacity = '0';
+        });
 
-    if (!brandImage) {
-      document.getElementById('imageError').textContent = 'Brand Image is required.';
-      isValid = false;
-    } else {
-      document.getElementById('imageError').textContent = '';
-    }
+        // Validate Brand Name
+        if (!brandName) {
+            showError('nameError', 'Brand Name is required');
+            isValid = false;
+        }
 
-    if (!isValid) {
-      e.preventDefault();
-    }
-  });
+        // Validate Brand Image
+        if (!brandImage) {
+            showError('imageError', 'Brand Logo is required');
+            isValid = false;
+        }
 
-  // SweetAlert for Delete Confirmation
-  function confirmDelete(event, url, brandName) {
-    event.preventDefault();
-    Swal.fire({
-      title: `<span style="color: #ffffff;">Are you sure?</span>`, // White title for dark mode
-      html: `Do you want to delete the brand <strong>${brandName}</strong>?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33", // Red confirm button
-      cancelButtonColor: "#3085d6", // Blue cancel button
-      confirmButtonText: " delete",
-      cancelButtonText: "Cancel",
-      background: '#2D2D2D', // Dark background for the alert
-      color: '#ffffff', // White text color
-      customClass: {
-        title: 'custom-title',
-        popup: 'custom-popup',
-        confirmButton: 'custom-confirm-button',
-        cancelButton: 'custom-cancel-button',
-      },
-      buttonsStyling: false, // To allow custom button styles
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = url;
-      }
+        if (!isValid) {
+            return;
+        }
+
+        // Show loading state
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonContent = submitButton.innerHTML;
+        submitButton.innerHTML = `
+            <div class="spinner-border spinner-border-sm text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Adding Brand...
+        `;
+        submitButton.disabled = true;
+
+        try {
+            const formData = new FormData();
+            formData.append('name', brandName);
+            formData.append('image', brandImage);
+
+            const response = await fetch('/admin/addBrand', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message,
+                    customClass: {
+                        popup: 'swal2-dark'
+                    }
+                });
+                window.location.reload();
+            } else {
+                throw new Error(data.message || 'Failed to add brand');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: error.message || 'Something went wrong. Please try again.',
+                customClass: {
+                    popup: 'swal2-dark'
+                }
+            });
+        } finally {
+            // Reset button state
+            submitButton.innerHTML = originalButtonContent;
+            submitButton.disabled = false;
+        }
     });
-  }
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.opacity = '1';
+        }
+    }
+
+    // Delete Confirmation
+    async function confirmDelete(event, brandId, brandName) {
+        event.preventDefault();
+        
+        try {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                html: `Do you want to delete the brand <strong style="color: #ff4d4d">${brandName}</strong>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    popup: 'swal2-dark'
+                }
+            });
+
+            if (result.isConfirmed) {
+                const response = await fetch(`/admin/deleteBrand?id=${brandId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        customClass: {
+                            popup: 'swal2-dark'
+                        }
+                    });
+                    window.location.href = '/admin/brands';
+                } else {
+                    throw new Error(data.message || 'Failed to delete brand');
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: error.message || 'Failed to delete brand',
+                customClass: {
+                    popup: 'swal2-dark'
+                }
+            });
+        }
+    }
 </script>
 
-<style>
-  /* Custom Styling for Dark Mode Alert */
-  .swal2-title.custom-title {
-    color: #ffffff !important; /* White title color */
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  .swal2-popup.custom-popup {
-    background-color: #2D2D2D !important; /* Dark background for alert */
-    border-radius: 8px;
-    padding: 20px 30px;
-    color: #ffffff; /* White text for the body */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .swal2-confirm.custom-confirm-button {
-    background-color: #d33 !important; /* Red confirm button */
-    border-color: #d33;
-    color: #fff !important;
-    padding: 10px 20px;
-    margin-top: 10px;
-    font-weight: bold;
-    width: 120px; /* Fixed width for consistency */
-    margin-right: 10px; /* Spacing between the buttons */
-  }
-
-  .swal2-cancel.custom-cancel-button {
-    background-color: #3085d6 !important; /* Blue cancel button */
-    border-color: #3085d6;
-    color: #fff !important;
-    padding: 10px 20px;
-    margin-top: 10px;
-    font-weight: bold;
-    width: 120px; /* Fixed width for consistency */
-  }
-
-  /* Styling for the buttons to match dark mode */
-  .swal2-button {
-    font-weight: bold;
-  }
-
-  /* Flexbox for the button alignment */
-  .swal2-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  /* Adjust spacing between buttons */
-  .swal2-actions button {
-    margin: 0 5px;
-  }
-</style>
+<%- include("../partials/admin/footer") %>

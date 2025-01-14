@@ -5,7 +5,7 @@ const product = require('../../models/productSchema')
 const getBrandpage= async (req,res)=>{
     try {
         const page = parseInt(req.query.page)
-        const limit = 4;
+        const limit = Infinity
         const skip = (page-1)*limit
 
         const brandData = await Brand.find({}).sort({cretedAt:-1}).skip(skip).limit(limit)
@@ -27,7 +27,7 @@ const getBrandpage= async (req,res)=>{
 const addBrand = async (req,res)=>{
     try {
         const brand = req.body.name;
-        const findBrand = await Brand.findOne({brand})
+        const findBrand = await Brand.findOne({brandName:brand})   
         if(!findBrand){
             const image = req.file.filename;
             const newBrand = new Brand({
@@ -35,7 +35,9 @@ const addBrand = async (req,res)=>{
                 brandImage:image
             })
             await newBrand.save();
-            return  res.redirect('/admin/brands')
+            return res.status(200).json({success:true,message:'brand added successfully'})
+        }else{
+            return res.status(400).json({success:false,message:'brand already exists'})
         }
 
     } catch (error) {
@@ -73,12 +75,10 @@ const deleteBrand = async (req,res)=>{
     try {
         const {id} = req.query
         if(!id){
-           return res.status(400).redirect('/pageerror')
+           return res.status(401).json({status:false,message:'dont get the brand id '})
         }
-
         await Brand.deleteOne({_id:id})
-        return res.redirect('/admin/brands')
-
+        return res.json({success:true,message:'brand deleted successfully'})
     } catch (error) {
         res.redirect('/pageerror')
         console.log('delete brand Error',error)

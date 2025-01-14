@@ -1,26 +1,26 @@
  <%- include('../partials/admin/header') %>
 
-<section class="content-main">
-    <div class="content-header">
+<section class="content-main" style="background: #1a1f2c; min-height: 100vh; padding: 2rem;">
+    <div class="content-header" style="margin-bottom: 2rem;">
         <div>
-            <h2 class="content-title card-title">Order Details</h2>
+            <h2 class="content-title card-title" style="color: #fff; font-size: 1.5rem; margin: 0;">Order Details</h2>
         </div>
     </div>
-    <div class="card">
-        <header class="card-header">
+    <div class="card" style="background: #2d3446; border: none; border-radius: 0.75rem; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;">
+        <header class="card-header" style="background: #2d3446; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 0.75rem 0.75rem 0 0;">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                    <span id="orderDate">
-                        <i class="material-icons md-calendar_today"></i> <b><%= new Date(order.createdAt).toLocaleString() %></b>
+                    <span id="orderDate" style="color: #fff;">
+                        <i class="material-icons md-calendar_today" style="color: #00b517; vertical-align: middle; margin-right: 0.5rem;"></i> <b><%= new Date(order.createdAt).toLocaleString() %></b>
                     </span> <br>
-                    <small class="text-muted">Order ID: <%= order.orderId %></small>
+                    <small class="text-muted" style="color: #6c757d !important;">Order ID: <%= order.orderId %></small>
                     <% if (order.razorpayOrderId) { %>
                         <br>
-                        <small class="text-muted">Razorpay Order ID: <%= order.razorpayOrderId %></small>
+                        <small class="text-muted" style="color: #6c757d !important;">Razorpay Order ID: <%= order.razorpayOrderId %></small>
                     <% } %>
                 </div>
                 <div class="col-lg-6 col-md-6 ms-auto text-md-end" data-order-id="<%= order.orderId %>">
-                    <select id="statusSelect" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                    <select id="statusSelect" class="form-select d-inline-block mb-lg-0 mb-15 mw-200" style="background-color: #262b3c; border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 0.5rem 1rem; border-radius: 0.5rem; width: auto; margin-right: 1rem;">
                         <option>Change status</option>
                         <option value="Pending Payment" <%= order.status === 'Pending Payment' ? 'selected' : '' %>>Pending Payment</option>
                         <option value="Placed" <%= order.status === 'Placed' ? 'selected' : '' %>>Placed</option>
@@ -30,36 +30,36 @@
                         <option value="Return Request" <%= order.status === 'Return Request' ? 'selected' : '' %>>Return Request</option>
                         <option value="Returned" <%= order.status === 'Returned' ? 'selected' : '' %>>Returned</option>
                     </select>
-                    <a id="saveButton" class="btn btn-primary" href="#">Save</a>
+                    <a id="saveButton" class="btn btn-primary" href="#" style="background: #00b517; border: none; padding: 0.5rem 1.5rem; border-radius: 0.5rem;">Save</a>
                     <!-- <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a> -->
                 </div>
             </div>
         </header>
-        <div class="card-body">
+        <div class="card-body" style="padding: 1.5rem;">
             <div class="row mb-50 mt-20 order-info-wrap">
                 <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-person"></i>
+                    <article class="icontext align-items-start" style="display: flex; align-items: flex-start; padding: 1rem; background: #262b3c; border-radius: 0.75rem; height: 100%;">
+                        <span class="icon icon-sm rounded-circle bg-primary-light" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; background: rgba(0, 181, 23, 0.15) !important;">
+                            <i class="text-primary material-icons md-person" style="color: #00b517 !important;"></i>
                         </span>
-                        <div class="text">
-                            <h6 class="mb-1">Customer Details</h6>
-                            <p class="mb-1">
-                                <%= order.userId.name %> <br>
-                                <%= order.userId.email %><br>
-                                <%= order.userId.phone %>
+                        <div class="text" style="color: #fff;">
+                            <h6 class="mb-1" style="color: #fff; margin-bottom: 0.75rem;">Customer Details</h6>
+                            <p class="mb-1" style="color: #6c757d; line-height: 1.6;">
+                                <%= order.userId ?order.userId.name:'Deleted User'  %> <br>
+                                <%= order.userId?order.userId.email:'Deleted User' %><br>
+                                <%= order.userId?order.userId.phone:'Deleted User' %>
                             </p>
                         </div>
                     </article>
                 </div>
                 <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-local_shipping"></i>
+                    <article class="icontext align-items-start" style="display: flex; align-items: flex-start; padding: 1rem; background: #262b3c; border-radius: 0.75rem; height: 100%;">
+                        <span class="icon icon-sm rounded-circle bg-primary-light" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; background: rgba(0, 181, 23, 0.15) !important;">
+                            <i class="text-primary material-icons md-local_shipping" style="color: #00b517 !important;"></i>
                         </span>
-                        <div class="text">
-                            <h6 class="mb-1">Shipping Address</h6>
-                            <p class="mb-1">
+                        <div class="text" style="color: #fff;">
+                            <h6 class="mb-1" style="color: #fff; margin-bottom: 0.75rem;">Shipping Address</h6>
+                            <p class="mb-1" style="color: #6c757d; line-height: 1.6;">
                                 <%= order.address.name %><br>
                                 <%= order.address.addressType %><br>
                                 <%= order.address.landMark %><br>
@@ -74,26 +74,26 @@
                     </article>
                 </div>
                 <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-payment"></i>
+                    <article class="icontext align-items-start" style="display: flex; align-items: flex-start; padding: 1rem; background: #262b3c; border-radius: 0.75rem; height: 100%;">
+                        <span class="icon icon-sm rounded-circle bg-primary-light" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; background: rgba(0, 181, 23, 0.15) !important;">
+                            <i class="text-primary material-icons md-payment" style="color: #00b517 !important;"></i>
                         </span>
-                        <div class="text">
-                            <h6 class="mb-1">Payment Info</h6>
-                            <p class="mb-1">
+                        <div class="text" style="color: #fff;">
+                            <h6 class="mb-1" style="color: #fff; margin-bottom: 0.75rem;">Payment Info</h6>
+                            <p class="mb-1" style="color: #6c757d; line-height: 1.6;">
                                 Method: <%= order.paymentMethod %><br>
                                 Status: <span class="badge <%= 
                                     order.paymentStatus === 'Paid' ? 'bg-success' : 
                                     order.paymentStatus === 'Unpaid' ? 'bg-warning' : 
                                     order.paymentStatus === 'Refunded' ? 'bg-info' : 
-                                    'bg-danger' %>">
+                                    'bg-danger' %>" style="padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 500;">
                                     <%= order.paymentStatus %>
                                 </span><br>
                                 Order Status: <span class="badge <%= 
                                     order.status === 'Delivered' ? 'bg-success' : 
                                     order.status === 'Cancelled' ? 'bg-danger' : 
                                     order.status === 'Return Request' ? 'bg-warning' : 
-                                    'bg-primary' %>">
+                                    'bg-primary' %>" style="padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 500;">
                                     <%= order.status %>
                                 </span>
                             </p>
@@ -105,7 +105,7 @@
             <% if (order.returnRequest && order.returnRequest.status !== null) { %>
                 <div class="row mb-4">
                     <div class="col-12">
-                        <div class="card bg-light">
+                        <div class="card bg-light" style="background: #262b3c !important;">
                             <div class="card-body">
                                 <h5 class="card-title">Return Request Information</h5>
                                 <div class="row">
@@ -114,7 +114,7 @@
                                             <span class="badge <%= 
                                                 order.returnRequest.status === 'Pending' ? 'bg-warning' : 
                                                 order.returnRequest.status === 'Approved' ? 'bg-success' : 
-                                                'bg-danger' %>">
+                                                'bg-danger' %>" style="padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 500;">
                                                 <%= order.returnRequest.status %>
                                             </span>
                                         </p>
@@ -130,12 +130,12 @@
                                             <div class="mt-3">
                                                 <button class="btn btn-success btn-sm process-return" 
                                                         data-order-id="<%= order.orderId %>" 
-                                                        data-action="approve">
+                                                        data-action="approve" style="border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; background: #00b517;">
                                                     <i class="fas fa-check"></i> Approve Return
                                                 </button>
                                                 <button class="btn btn-danger btn-sm ms-2 process-return" 
                                                         data-order-id="<%= order.orderId %>" 
-                                                        data-action="reject">
+                                                        data-action="reject" style="border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; background: #ff4a4a;">
                                                     <i class="fas fa-times"></i> Reject Return
                                                 </button>
                                             </div>
@@ -151,15 +151,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" style="color: #fff; margin-bottom: 0;">
                             <thead>
                                 <tr>
-                                    <th width="15%">Image</th>
-                                    <th width="25%">Product Name</th>
-                                    <th width="15%">Category</th>
-                                    <th width="15%">Unit Price</th>
-                                    <th width="15%">Quantity</th>
-                                    <th width="15%" class="text-end">Total</th>
+                                    <th width="15%" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Image</th>
+                                    <th width="25%" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Product Name</th>
+                                    <th width="15%" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Category</th>
+                                    <th width="15%" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Unit Price</th>
+                                    <th width="15%" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Quantity</th>
+                                    <th width="15%" class="text-end" style="background: #262b3c; border-bottom: none; color: #6c757d; font-weight: 500; padding: 1rem;">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,19 +167,21 @@
                                     <tr>
                                         <td>
                                             <div class="left">
-                                                <img src="<%= item.product.productImage[0] %>" width="40" height="40" class="img-xs" alt="<%= item.product.name %>">
+                                                <img src="<%= item.product.productImage[0] %>" class="product-img" alt="<%= item.product.name %>">
                                             </div>
                                         </td>
-                                        <td>
-                                                  <br>
-                                                <small class="text-muted"><%= item.product.productName %></small>
+                                        <td class="product-cell">
+                                            <a href="#" class="product-name"><%= item.product.productName %></a>
+                                            <% if (item.product.brand) { %>
+                                                <small class="text-muted" style="color: #6c757d !important;">Brand: <%= item.product.brand %></small>
+                                            <% } %>
                                         </td>
                                         <td>
                                             <%= item.product.category ? item.product.category.name : 'N/A' %>
                                         </td>
-                                        <td>₹<%= item.product.salePrice.toFixed(2) %></td>
+                                        <td>₹<span class="price-tag"><%= item.product.salePrice.toFixed(2) %></span></td>
                                         <td><%= item.quantity %></td>
-                                        <td class="text-end">₹<%= (item.product.salePrice * item.quantity).toFixed(2) %></td>
+                                        <td class="text-end">₹<span class="price-tag"><%= (item.product.salePrice * item.quantity).toFixed(2) %></span></td>
                                     </tr>
                                 <% }) %>
                                 <tr>
@@ -187,27 +189,27 @@
                                         <article class="float-end">
                                             <dl class="dlist">
                                                 <dt>Total MRP:</dt>
-                                                <dd>₹<%= order.totalPrice.toFixed(2) %></dd>
+                                                <dd>₹<span class="price-tag"><%= order.totalPrice.toFixed(2) %></span></dd>
                                             </dl>
                                             <% if (order.discount.bestOffer > 0) { %>
                                                 <dl class="dlist">
                                                     <dt>Best Offer Discount:</dt>
-                                                    <dd>-₹<%= order.discount.bestOffer.toFixed(2) %></dd>
+                                                    <dd class="discount-price">-₹<%= order.discount.bestOffer.toFixed(2) %></dd>
                                                 </dl>
                                             <% } %>
                                             <% if (order.couponApplied && order.discount.coupon > 0) { %>
                                                 <dl class="dlist">
                                                     <dt>Coupon Discount:</dt>
-                                                    <dd>-₹<%= order.discount.coupon.toFixed(2) %></dd>
+                                                    <dd class="discount-price">-₹<%= order.discount.coupon.toFixed(2) %></dd>
                                                 </dl>
                                             <% } %>
                                             <dl class="dlist">
                                                 <dt>Total Discount:</dt>
-                                                <dd>-₹<%= order.discount.total.toFixed(2) %></dd>
+                                                <dd class="discount-price">-₹<%= order.discount.total.toFixed(2) %></dd>
                                             </dl>
                                             <dl class="dlist">
                                                 <dt>Final Amount:</dt>
-                                                <dd><b class="h5">₹<%= order.finalAmount.toFixed(2) %></b></dd>
+                                                <dd><span class="final-price">₹<%= order.finalAmount.toFixed(2) %></span></dd>
                                             </dl>
                                         </article>
                                     </td>
@@ -223,122 +225,190 @@
 
 <%- include('../partials/admin/footer') %>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const orderDateElement = document.getElementById('orderDate').querySelector('b');
-        const orderDate = new Date(orderDateElement.textContent);
-        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-        orderDateElement.textContent = orderDate.toLocaleDateString('en-US', options);
-    });
-</script>
-
-<script>
-    document.getElementById('saveButton').addEventListener('click', function(event) {
-        event.preventDefault();
-        const status = document.getElementById('statusSelect').value;
-        const orderId = document.querySelector('.col-lg-6.col-md-6.ms-auto.text-md-end').getAttribute('data-order-id');
-        console.log(orderId);
-         if (status !== 'Change status') {
-            fetch('/admin/update-order-status', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ status: status, orderId })
-})
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // SweetAlert for success
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: 'Status updated successfully',
-            });
-        } else {
-            // SweetAlert for failure
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to update status. Please try again.',
-                confirmButtonText: 'Retry'
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // SweetAlert for unexpected errors
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An unexpected error occurred. Please check the console for more details.',
-            confirmButtonText: 'OK'
-        });
-    });
-} else {
-    // SweetAlert for invalid status selection
-    Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Selection',
-        text: 'Please select a valid status before saving.',
-        confirmButtonText: 'OK'
-    });
-}
-
-    });
-    document.querySelectorAll('.process-return').forEach((button) => {
-  button.addEventListener('click', async (event) => {
-    const orderId = event.target.getAttribute('data-order-id');
-    const action = event.target.getAttribute('data-action'); // 'approve' or 'reject'
-
-    // Confirmation dialog
-    const confirmation = await Swal.fire({
-      title: `Are you sure?`,
-      text: `You are about to ${action} this return request.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: `Yes, ${action} it!`,
-      cancelButtonText: 'Cancel',
-    });
-
-    if (confirmation.isConfirmed) {
-      try {
-        const response = await fetch(`/admin/order/return/${orderId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ action }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: `Return request ${action}ed successfully.`,
-          }).then(() => {
-            window.location.reload(); // Reload the page to reflect changes
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: data.message || `Failed to ${action} return request.`,
-          });
-        }
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.message || 'An unexpected error occurred.',
-        });
-      }
+<style>
+    
+    /* Price Styles */
+    .price-tag {
+        color: #00b517;
+        font-weight: 600;
+        font-size: 1.1rem;
     }
-  });
-});
 
+    .discount-price {
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .final-price {
+        color: #00b517;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .dlist {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: #262b3c;
+        border-radius: 0.5rem;
+        color: #fff;
+    }
+
+    .dlist dt {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .dlist dd {
+        margin-bottom: 0;
+        margin-left: 1rem;
+        font-weight: 500;
+    }
+
+    .table td {
+        vertical-align: middle;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Product Styles */
+    .product-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 2px solid rgba(0, 181, 23, 0.2);
+        padding: 2px;
+    }
+
+    .product-name {
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+        display: block;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .product-name:hover {
+        color: #00b517;
+    }
+
+    .product-cell {
+        background: rgba(0, 181, 23, 0.05);
+        border-radius: 12px;
+        padding: 1rem !important;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.getElementById('saveButton').addEventListener('click', async function(e) {
+        e.preventDefault();
+        const orderId = document.querySelector('[data-order-id]').dataset.orderId;
+        const status = document.getElementById('statusSelect').value;
+
+        if (status === 'Change status') {
+            Swal.fire({
+                title: 'Error',
+                text: 'Please select a status',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch('/admin/update-order-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderId, status })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                Swal.fire({
+                    title: 'Success',
+                    text: data.message || 'Order status updated successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                throw new Error(data.message || 'Failed to update order status');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: error.message || 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+
+    // Return request processing
+    document.querySelectorAll('.process-return').forEach(button => {
+        button.addEventListener('click', async function() {
+            const orderId = this.dataset.orderId;
+            const action = this.dataset.action;
+            const confirmTitle = action === 'approve' ? 'Approve Return Request?' : 'Reject Return Request?';
+            const confirmText = action === 'approve' ? 
+                'This will approve the return request and initiate the refund process.' : 
+                'This will reject the return request. This action cannot be undone.';
+
+            const result = await Swal.fire({
+                title: confirmTitle,
+                text: confirmText,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: action === 'approve' ? 'Yes, Approve' : 'Yes, Reject',
+                cancelButtonText: 'Cancel'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/admin/order/return/${orderId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ action })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: data.message || `Return request ${action}ed successfully`,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        throw new Error(data.message || `Failed to ${action} return request`);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.message || 'Something went wrong',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
+    });
 </script>

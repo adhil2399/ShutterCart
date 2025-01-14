@@ -19,7 +19,7 @@ const renderCheckoutPage = async (req, res) => {
               
         const userAddress= await Address.find({userId})
         const availableCoupons = await Coupon.find({
-            isList: true,
+            isListed: true,
             userId: { $ne: userId }
         });
 
@@ -93,7 +93,7 @@ const applyCoupon = async (req, res) => {
         // Find the coupon
         const coupon = await Coupon.findOne({
             name: couponCode,
-            isList: true,
+            isListed: true,
             expireOn: { $gt: new Date() }, // Ensure the coupon is not expired
         });
 

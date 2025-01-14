@@ -1117,11 +1117,14 @@ async function removeFromWishlist(productId) {
               <div class="modal-content">
                 <a href="#" class="modal-close">&times;</a>
                 <h3>Order Details of : <%= order.orderId %></h3>
+
+                <% if(order.status=='Delivered'){ %>
                 <div class="d-flex justify-content-end mb-3">
                     <a href="/download-invoice/<%= order._id %>" class="btn btn-info">
                         <i class="fas fa-download me-2"></i>Download Invoice
                     </a>
                 </div>
+                <% } %>
                 <div class="order-details-container">
                   <div class="order-summary">
                     <div class="summary-item">
@@ -1177,10 +1180,10 @@ async function removeFromWishlist(productId) {
                     <% order.orderedItems.forEach(item => { %>
                       <div class="order-item">
                         <div class="item-image">
-                          <img src="<%= item.product.productImage[0] %>" alt="<%= item.productName %>">
+                          <img src="<%= item.productImage%>" alt="<%= item.productName %>">
                          </div>
                         <div class="item-details">
-                          <h5><%= item.product.productName%></h5>
+                          <h5><%= item.productName%></h5>
                           <p>Quantity: <%= item.quantity %></p>
                           <p>Price: ₹<%= item.price %></p>
                         </div>
@@ -1238,24 +1241,36 @@ async function removeFromWishlist(productId) {
   async function cancelOrder(orderId) {
     try {
         const result = await Swal.fire({
-            title: 'Cancel Order',
-            text: 'Are you sure you want to cancel this order?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, cancel it!',
-            cancelButtonText: 'No, keep it',
-            background: '#1a1a1a',
-            color: '#fff',
-            confirmButtonColor: '#e74c3c',
-            cancelButtonColor: '#95a5a6'
+          title: 'Enter your reason for cancelling the order',
+          input: 'text',
+          inputLabel: 'Reason',
+          inputPlaceholder: 'Enter your reason',
+          showCancelButton: true,
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          reverseButtons: true,
+          focusCancel: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Reason is required';
+            }
+          }
         });
+
+        if (!result.value) {
+            return;
+        }
+
 
         if (result.isConfirmed) {
             const response = await fetch(`/cancel-order/${orderId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    reason: result.value
+                })
             });
 
             const data = await response.json();
@@ -1482,13 +1497,13 @@ async function verifyRetryPayment(response, orderId) {
                         <li class="transaction-item">
                           <span class="transaction-icon"><%= transaction.type === 'Deposit' ||'Refund'? '↓' : '↑' %></span>
                           <div class="transaction-details">
-                            <div><%= transaction.description || transaction.type %></div>
+                            <div><%= transaction.description %> <small class=" <%= transaction.status === 'Pending' ? 'text-warning' : 'text-success' %>"><%= transaction.status %></small></div>
                             <small><%= new Date(transaction.date).toLocaleString() %></small>
                           </div>
-                          <div class="transaction-amount" style="color: '<%= transaction.type === 'Purchase'||'Withdrawal' ? 'red' : 'green' %>'">
-                            <%= transaction.type === 'Purchase'||'Withdrawal' ? '-' : '+' %>₹<%= transaction.amount.toFixed(2) %>
+                          <div class="transaction-amount" style=" color: '<%= ['Purchase', 'Withdrawal'].includes(transaction.type) ? 'red' : 'green' %>">
+                            <%= ['Purchase', 'Withdrawal'].includes(transaction.type) ? '-' : '+' %>₹<%= transaction.amount.toFixed(2) %>
                           </div>
-                          <span class="transaction-status status-<%= transaction.status.toLowerCase() %>"><%= transaction.status %></span>
+                          <span class="transaction-status status-<%= transaction.status.toLowerCase() %>"><%= transaction.type %></span>
                         </li>
                       <% }); %>
                     </ul>
@@ -1524,18 +1539,28 @@ async function verifyRetryPayment(response, orderId) {
           const data = await response.json();
 
           if (response.ok) {
-              addMoneyMessage.textContent = 'Money added successfully!';
-              addMoneyMessage.style.color = 'green';
-              document.querySelector('.wallet-amount').textContent = `₹${data.totalBalance.toFixed(2)}`;
-              renderTransactions(data.transactions);  
+   await swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: data.message || 'Money added successfully',
+        closeOnConfirm: false
+    }) 
+    window.location.reload();
+               
           } else {
-              addMoneyMessage.textContent = data.error || 'Failed to add money.';
-              addMoneyMessage.style.color = 'red';
+               swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.error || 'Failed to add money',
+    });
           }
       } catch (error) {
           console.error('Error:', error);
-          addMoneyMessage.textContent = 'An error occurred. Please try again.';
-          addMoneyMessage.style.color = 'red';
+          swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred. Please try again.',
+    });
       }
   });
 </script>
@@ -1550,12 +1575,12 @@ async function verifyRetryPayment(response, orderId) {
                     <h4>My Address Details</h4>
                   </div>
                   <div class="row gy-3">
-                      <div id="currentAddresses">
-                    <!-- Existing addresses will be here -->
-                  </div>
+                      
                     <% if (userAddress && userAddress.length> 0) { %>
                       <% userAddress.forEach((addressGroup)=> { %>
                         <% addressGroup.address.forEach(( address, index)=> { %>
+
+                          
                           <div id="address-<%= address._id %>" class="col-xxl-4 col-md-6">
                             <div class="address-option">
                               <label for="address-billing-<%= index %>">
@@ -1597,7 +1622,11 @@ async function verifyRetryPayment(response, orderId) {
                               </label>
                             </div>
                           </div>
+
                           <% }); %>
+                          <div id="currentAddresses">
+                            <!-- Existing addresses will be here -->
+                          </div>
                             <% }); %>
                               <% } else { %>
                                 <p>No addresses found.</p>
@@ -1779,7 +1808,7 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData);
 
             try {
                 const response = await fetch('/profile/add-address', {
@@ -1795,15 +1824,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (result.success) {
                         console.log("Address added successfully");
-                        addNewAddress(result.address);
-
+                        
+                     console.log(result.address)
                         Swal.fire({
                             icon: "success",
                             title: "Address Added Successfully!",
                             showConfirmButton: false,
                             timer: 1500,
                         });
+       
 
+                        window.location.reload();
                         const modal = bootstrap.Modal.getInstance(document.getElementById('add-address'));
                         if (modal) {
                             modal.hide();
@@ -1830,66 +1861,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
-    document.addEventListener('click', (event) => {
-        if (event.target.matches('.btn-outline')) {
-            console.log('Delete button clicked');
-            deleteAddress(event.target.dataset.id);
-        } else if (event.target.matches('.btn-black')) {
-            console.log('Edit button clicked');
-            editAddress(event.target.dataset.id);
-        }
-    });
-
-    function addNewAddress(address) {
-        const addressContainer = document.getElementById("currentAddresses");
-        if (!addressContainer) {
-            console.error("Address container not found");
-            return;
-        }
-
-        const index = document.querySelectorAll(".address-option").length;
-
-        const addressHTML = `
-            <div id="address-${ address._id }" class="col-xxl-4 col-md-6">
-                <div class="address-option">
-                    <label for="address-billing-${index}">
-                        <span class="delivery-address-box">
-                            <span class="form-check">
-                                <input class="custom-radio" id="address-billing-${index}" type="radio" name="radio">
-                            </span>
-                            <span class="address-detail">
-                                <span class="address">
-                                    <span class="address-title">${address.addressType}</span>
-                                </span>
-                                <span class="address">
-                                    <span class="address-home">
-                                        <span class="address-tag">Address:</span> ${address.landMark}, ${address.state}
-                                    </span>
-                                </span>
-                                <span class="address">
-                                    <span class="address-home">
-                                        <span class="address-tag">Pin Code:</span> ${address.pinCode}
-                                    </span>
-                                </span>
-                                <span class="address">
-                                    <span class="address-home">
-                                        <span class="address-tag">Phone:</span> ${address.phone}
-                                    </span>
-                                </span>
-                            </span>
-                        </span>
-                        <span class="buttons">
-                                  <a class="btn btn_black sm" href="/editAddress?id=${address._id }" title="Edit">Edit</a>
-                                  <button class="btn btn_outline sm" href="" onclick="deleteAddress('${ address._id }')" title="Delete">Delete</button>
-                                </span>
-                    </label>
-                </div>
-            </div>
-        `;
-
-        addressContainer.innerHTML += addressHTML;
-    }
+  
 });
 
 
@@ -1993,4 +1965,4 @@ async function deleteAddress(id) {
  
 
  
-  <%- include('../partials/user/footer') %>
+  <%-include('../partials/user/footer')%>

@@ -24,6 +24,14 @@ const orderSchema = new Schema({
             type: Number,
             required: true,
         },
+        productName: {
+            type: String,
+            required: true,
+        },
+        productImage: {
+            type: String,
+            required: true,
+        },
         price: {
             type: Number,
             required: true,
@@ -126,6 +134,16 @@ code:{
         type: String,
         required: false,
         default: null
+    },
+    cancelOrder:{
+        reason:{
+            type: String,
+             default: null
+        },
+        date: {
+            type: Date,
+            default: new Date
+        },
     },
     returnRequest: {
         status: {

@@ -17,6 +17,14 @@ const placeOrder = async (req, res) => {
         if (!userId) {
             return res.status(401).json({ success: false, message: "User not authenticated." });
         }
+        const userCart = await Cart.findOne({ userId }).populate({
+            path: 'items.productId',
+            populate: { path: 'category', select: 'categoryOffer' }
+        });
+
+        if (!userCart || userCart.items.length === 0) {
+            return res.status(400).json({ success: false, message: "Cart is empty!, add products to the cart" });
+        }
 
         const { addressId, paymentMethod, totalPrice } = req.body;
         const sessionCoupon = req.session.appliedCoupon;
@@ -42,14 +50,6 @@ const placeOrder = async (req, res) => {
             return res.status(404).json({ success: false, message: "Address not found." });
         }
 
-        const userCart = await Cart.findOne({ userId }).populate({
-            path: 'items.productId',
-            populate: { path: 'category', select: 'categoryOffer' }
-        });
-
-        if (!userCart || userCart.items.length === 0) {
-            return res.status(400).json({ success: false, message: "Cart is empty." });
-        }
 
         // Calculate prices using the same logic as checkout
         let totalAmount = 0;
@@ -78,11 +78,12 @@ const placeOrder = async (req, res) => {
         if (sessionCoupon && sessionCoupon.couponName) {
             coupon = await Coupon.findOne({ 
                 name: sessionCoupon.couponName,
-                isList: true,
+                isListed: true,  
                 expireOn: { $gt: new Date() }
             });
 
             if (coupon) {
+                // Validate minimum purchase amount
                 if (totalAmount < coupon.minimumPrice) {
                     return res.status(400).json({ 
                         success: false, 
@@ -90,7 +91,11 @@ const placeOrder = async (req, res) => {
                     });
                 }
                 
+                // Calculate coupon discount ensuring it doesn't exceed the total after offers
                 couponDiscount = Math.min(coupon.offerPrice, totalAfterOffers);
+            } else {
+                // If coupon is not found or invalid, clear the session coupon
+                delete req.session.appliedCoupon;
             }
         }
 
@@ -107,6 +112,8 @@ const placeOrder = async (req, res) => {
             product: item.productId._id,
             quantity: item.quantity,
             price: item.productId.salePrice,
+            productName: item.productId.productName,
+            productImage: item.productId.productImage[0],
         }));
 
        // Generate order ID
@@ -325,7 +332,7 @@ console.log('coupon',couponDiscount)
         }
     } catch (error) {
         console.error("Error placing order:", error);
-        res.status(500).json({ success: false, message: "An error occurred while placing the order." });
+        res.status(500).json({ success: false,message: "An error occurred while placing the order." });
     }
 };
 
@@ -423,6 +430,7 @@ const cancelOrder = async (req, res) => {
     try {
         const userId = req.session.user
         const { orderId } = req.params; 
+        const { reason } = req.body;   
 
          const order = await Order.findOne({
             orderId,
@@ -442,7 +450,8 @@ const cancelOrder = async (req, res) => {
                 message: 'Order cannot be cancelled at this stage'
             });
         }
-
+ 
+        order.cancelOrder.reason = reason;
         order.status = 'Cancelled'; 
 
         // Refund logic
@@ -465,8 +474,7 @@ const cancelOrder = async (req, res) => {
                     }]
                 });
             } else {
-                // Update wallet balance and transaction history
-                wallet.totalBalance += refundAmount;
+                 wallet.totalBalance += refundAmount;
                 wallet.transactions.push({
                     type: 'Refund',
                     amount: refundAmount,
@@ -497,10 +505,9 @@ const cancelOrder = async (req, res) => {
             );
         }
 
-        await order.save(); // Save the updated order
+        await order.save();  
 
-        // Send success response
-        const message = order.paymentStatus === 'Refunded'
+         const message = order.paymentStatus === 'Refunded'
             ? `Order cancelled successfully. ₹${order.refundDetails.amount} has been refunded to your wallet.`
             : 'Order cancelled successfully.';
 
@@ -566,7 +573,7 @@ const cancelOrder = async (req, res) => {
                 date: new Date(),
             };
 
-          order.status = 'Return Request'; // Update the order status to indicate a return request
+          order.status = 'Return Request';  
             await order.save();
 
 

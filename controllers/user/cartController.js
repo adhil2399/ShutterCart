@@ -92,7 +92,7 @@ function calculateDiscount(cartItems) {
 
 function calculateShipping(totalPrice) {
     const freeShippingThreshold = 1000; // Example: Free shipping for orders above $1000
-    const shippingRate = 50; // Example: Flat rate shipping
+    const shippingRate = 0
     return totalPrice >= freeShippingThreshold ? 0 : shippingRate;
 }
 function calculateTotalPrice(subtotal, discount, shipping) {

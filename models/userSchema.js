@@ -1,8 +1,8 @@
-const mongoose =require('mongoose')
+const mongoose = require('mongoose')
 
-const {Schema}= mongoose;
+const {Schema} = mongoose;
 
-const userSchema= new Schema({
+const userSchema = new Schema({
     name:{
         type:String,
         required:true
@@ -10,7 +10,7 @@ const userSchema= new Schema({
     email:{
         type:String,
         required:true,
-        unque:true
+        unique:true
     },
     phone:{
         type:String,
@@ -37,19 +37,19 @@ const userSchema= new Schema({
     },
     cart:[{
         type:Schema.Types.ObjectId,
-        res:'cart'
+        ref:'cart'
     }],
     wishlist:[{
         type:Schema.Types.ObjectId,
-        res:'wishlist'
+        ref:'wishlist'
     }],
     orderHistory:[{
         type:Schema.Types.ObjectId,
-        res:'order'
+        ref:'order'
     }],
      
-},{timeStamps:true})
+},{timestamps: true})
 
-const User= mongoose.model('User',userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User;

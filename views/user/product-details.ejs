@@ -213,6 +213,7 @@
         color: #6c757d;
         position: relative;
         width: fit-content;
+        transition: transform 0.2s ease;
     }
 
     .heart-icon i {
@@ -233,41 +234,55 @@
         transform: scale(1.1);
     }
 
-    /* Pop animation when adding to wishlist */
-    @keyframes heartPop {
-        0% {
-            transform: scale(1);
-        }
-        25% {
-            transform: scale(1.4);
-        }
-        50% {
-            transform: scale(0.8);
-        }
-        75% {
-            transform: scale(1.2);
-        }
-        100% {
-            transform: scale(1);
-        }
+    .heart-icon.clicked {
+        animation: heartBeat 0.5s ease;
     }
-
-    /* Floating hearts animation */
-    .heart-float {
+    
+    @keyframes heartBeat {
+        0% { transform: scale(1); }
+        25% { transform: scale(1.3); }
+        50% { transform: scale(1); }
+        75% { transform: scale(1.3); }
+        100% { transform: scale(1); }
+    }
+    
+    .heart-icon::before {
+        content: '';
         position: absolute;
-        pointer-events: none;
-        animation: floatingHeart 1s ease-out forwards;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 68, 68, 0.2);
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 0.3s ease;
+    }
+    
+    .heart-icon.active::before {
+        transform: scale(2);
         opacity: 0;
-        font-size: 16px;
+        transition: all 0.5s ease;
     }
 
-    @keyframes floatingHeart {
+    /* Flying hearts animation */
+    .flying-heart {
+        position: fixed;
+        pointer-events: none;
+        animation: flyHeart 1s ease-out forwards;
+        color: #ff4444;
+        opacity: 0;
+        z-index: 9999;
+    }
+
+    @keyframes flyHeart {
         0% {
-            transform: translate(0, 0) scale(0.5);
+            transform: translate(0, 0) rotate(0deg) scale(0.5);
             opacity: 1;
         }
+        25% {
+            opacity: 0.8;
+        }
         100% {
-            transform: translate(var(--tx), -100px) scale(1.5);
+            transform: translate(var(--tx), var(--ty)) rotate(var(--rotate)) scale(0);
             opacity: 0;
         }
     }
@@ -471,8 +486,7 @@
                 </div>
                 <span class="text-muted">(150 Reviews)</span>
             </div>
-            <h2 class="h3 mb-4">₹<%= product.salePrice %> <del style="font-size: x-large; color: #726c6c;">₹<%= product.regularPrice %></del>
-             <% if(offer>0){  %> 
+            <h2 class="h3 mb-4">₹<%= product.salePrice %> <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %> <del>₹<%= product.regularPrice %></del> <% } %> <% if(offer>0){  %> 
               <h4 class="text-success" style="font-size: x-large;"> <%= offer %> %OFF</h4> 
             <% } %> </h2>
 
@@ -514,7 +528,7 @@
             <!-- Action Buttons -->
             <div class="d-grid gap-2 mb-4">
                 <button class="btn btn-dark" onclick="addToCart('<%=product._id%>',)">Add to Cart</button>
-                <button class="btn btn-outline-dark">Buy Now</button>
+                <!-- <button class="btn btn-outline-dark">Buy Now</button> -->
             </div>
 
             <!-- Shipping Information -->
@@ -582,9 +596,9 @@
                     <p class="price text-danger">Out of Stock</p>
                   <% } else { %>
                     <p class="price">
-                      $<%= product.salePrice %>
-                      <% if(product.regularPrice && product.regularPrice > product.salePrice) { %>
-                        <del>$<%= product.regularPrice %></del>
+                      ₹<%= product.salePrice %>
+                      <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %>
+                        ₹<del><%= product.regularPrice %></del>
                       <% } %>
                     </p>
                   <% } %>
@@ -913,6 +927,25 @@ nextButton.addEventListener('click', () => {
 
 async function toggleWishlist(productId, button) {
   try {
+    // Add flying hearts animation
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // Create 5 hearts with slight delay
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          createFlyingHeart(centerX, centerY);
+        }, i * 100);
+      }
+
+      button.classList.add('clicked');
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 500);
+    }
+
     const response = await fetch('/wishlist/toggle', {
       method: 'POST',
       headers: {
@@ -983,6 +1016,29 @@ async function toggleWishlist(productId, button) {
       backgroundColor: '#dc3545',
     }).showToast();
   }
+}
+
+function createFlyingHeart(x, y) {
+  const heart = document.createElement('i');
+  heart.className = 'bi bi-heart-fill flying-heart';
+  heart.style.fontSize = '20px';
+  heart.style.left = x + 'px';
+  heart.style.top = y + 'px';
+  
+  // Random values for animation
+  const tx = (Math.random() - 0.5) * 150;
+  const ty = -100 - Math.random() * 100;
+  const rotate = (Math.random() - 0.5) * 90;
+  
+  heart.style.setProperty('--tx', `${tx}px`);
+  heart.style.setProperty('--ty', `${ty}px`);
+  heart.style.setProperty('--rotate', `${rotate}deg`);
+  
+  document.body.appendChild(heart);
+  
+  setTimeout(() => {
+    heart.remove();
+  }, 1000);
 }
 </script>
 
@@ -1061,7 +1117,7 @@ try {
   const response = await fetch('/cart/add',{
     method:'POST',
     headers:{
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },body:JSON.stringify({productId,quantity})
 
   })
@@ -1156,6 +1212,7 @@ Toastify({
 }
 
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -1243,5 +1300,64 @@ Toastify({
     .brand-badge i {
       font-size: 1rem;
     }
+  }
+</style>
+
+<style>
+  .heart-icon {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 24px;
+    color: #6c757d;
+    position: relative;
+    width: fit-content;
+    transition: transform 0.2s ease;
+  }
+
+  .heart-icon i {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .heart-icon:not(.active) i {
+    color: #6c757d;
+    transform: scale(1);
+  }
+
+  .heart-icon.active i {
+    color: #d60808 !important;
+    animation: heartPop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+  }
+
+  .heart-icon:hover {
+    transform: scale(1.1);
+  }
+
+  .heart-icon.clicked {
+    animation: heartBeat 0.5s ease;
+  }
+  
+  @keyframes heartBeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  
+  .heart-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 68, 68, 0.2);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .heart-icon.active::before {
+    transform: scale(2);
+    opacity: 0;
+    transition: all 0.5s ease;
   }
 </style>

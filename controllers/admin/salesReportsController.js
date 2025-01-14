@@ -312,7 +312,7 @@ const downloadReport = async (req, res) => {
                 worksheet.addRow([
                     order.orderId,
                     new Date(order.createdAt).toLocaleDateString(),
-                    order.userId.name,
+                    order.userId?order.userId.name : 'N/A',
                     products,
                     order.paymentMethod,
                     order.paymentStatus,

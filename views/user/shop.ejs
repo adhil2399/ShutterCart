@@ -90,6 +90,10 @@
           <% if (typeof search !== 'undefined' && search) { %>
             <input type="hidden" name="search" value="<%= search %>">
           <% } %>
+
+          <% if (typeof sort !== 'undefined' && sort !== 'default') { %>
+            <input type="hidden" name="sort" value="<%= sort %>">
+            <% } %>
           <!-- Category Filter -->
           <div class="mb-3">
             <label class="form-label">Category</label>
@@ -183,8 +187,7 @@
             </div>
           </div>
 
-          <!-- Availability Filter -->
-          <div class="mb-3">
+           <div class="mb-3">
             <label class="form-label">Availability</label>
             <div class="form-check">
               <input
@@ -236,13 +239,13 @@ filterModal.addEventListener('hidden.bs.modal', function () {
 
    <div class="container py-3">
     <form class="d-flex" id="searchForm" action="/shop" method="GET">
-        <% if (typeof selectedCategories !== 'undefined' && selectedCategories.length > 0) { %>
+        <% if (typeof selectedCategories !== 'undefined' && selectedCategories.length ) { %>
             <input type="hidden" name="category" value="<%= selectedCategories %>">
         <% } %>
-        <% if (typeof selectedBrands !== 'undefined' && selectedBrands.length > 0) { %>
+        <% if (typeof selectedBrands !== 'undefined' && selectedBrands.length ) { %>
             <input type="hidden" name="brand" value="<%= selectedBrands %>">
         <% } %>
-        <% if (typeof selectedPrice !== 'undefined' && selectedPrice.length > 0) { %>
+        <% if (typeof selectedPrice !== 'undefined' && selectedPrice.length ) { %>
             <input type="hidden" name="price" value="<%= selectedPrice %>">
         <% } %>
         <% if (typeof selectedAvailability !== 'undefined' && selectedAvailability) { %>
@@ -273,7 +276,7 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                    <input type="hidden" name="availability" value="<%= typeof selectedAvailability !== 'undefined' ? selectedAvailability : '' %>">
                    <input type="hidden" name="search" value="<%= typeof search !== 'undefined' ? search : '' %>">
                    <label for="cars">Sort By :</label>
-                   <select class="form-select" name="sort" onchange="this.form.submit()">
+                    <select class="form-select" name="sort" onchange="this.form.submit()">
                     <option value="default" <%= sort === 'default' ? 'selected' : '' %>>Default</option>
                     <option value="priceAsc" <%= sort === 'priceAsc' ? 'selected' : '' %>>Price: Low to High</option>
                     <option value="priceDesc" <%= sort === 'priceDesc' ? 'selected' : '' %>>Price: High to Low</option>
@@ -413,7 +416,8 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                 stopOnFocus: true,
                 style: {
                   color: "#ffffff",
-                  fontSize:'16px'
+                  fontSize:'16px',
+                  borderRadius:'20px'
                }}).showToast();
         } else {
             Toastify({
@@ -427,6 +431,7 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                  style: {
                   color: "#ffffff", // Text color
                 fontSize: "16px", // Optional: Adjust font size
+                borderRadius:'20px'
                 },
             }).showToast();
         }
@@ -443,6 +448,7 @@ filterModal.addEventListener('hidden.bs.modal', function () {
             style: {
                   color: "#ffffff", // Text color
                 fontSize: "16px", // Optional: Adjust font size
+                borderRadius:'20px'
                 },
         }).showToast();
     }
@@ -474,14 +480,16 @@ filterModal.addEventListener('hidden.bs.modal', function () {
           text: 'Product added to wishlist!',
           duration: 3000,
           gravity: 'top',
+          close: true,
           position: 'right',
           backgroundColor: '#28a745',
           style: {
             color: '#fff',
-            fontSize:'16px'
+            fontSize:'16px',
+            borderRadius:'20px'
           },
         }).showToast();
-      } else {
+      } else if (result.action === 'removed') {
         wishlistIcon.classList.remove('bi-heart-fill', 'text-danger');
         wishlistIcon.classList.add('bi-heart');
         
@@ -490,10 +498,26 @@ filterModal.addEventListener('hidden.bs.modal', function () {
           duration: 3000,
           gravity: 'top',
           position: 'right',
+          close: true,
           backgroundColor: '#dc3545',
           style: {
             color: '#fff',
-            fontSize:'16px'
+            fontSize:'16px',
+            borderRadius:'20px'
+          },
+        }).showToast();
+      }else if (result.action === 'full') {
+        Toastify({
+          text: 'Wishlist is full. Please remove some products to add this one.',
+          duration: 3000,
+          gravity: 'top',
+          position: 'right',
+          close: true,
+          backgroundColor: '#dc3545',
+          style: {
+            color: '#fff',
+            fontSize:'16px',
+            borderRadius:'20px'
           },
         }).showToast();
       }
@@ -502,8 +526,14 @@ filterModal.addEventListener('hidden.bs.modal', function () {
         text: result.error || 'Failed to update wishlist.',
         duration: 3000,
         gravity: 'top',
+        close: true,
         position: 'right',
         backgroundColor: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+        style: {
+          color: '#fff',
+          fontSize:'16px',
+          borderRadius:'20px'
+        },
         close: true,
       }).showToast();
     
@@ -515,7 +545,13 @@ filterModal.addEventListener('hidden.bs.modal', function () {
       duration: 3000,
       gravity: 'top',
       position: 'right',
+      close: true,
       backgroundColor: '#dc3545',
+      style: {
+        color: '#fff',
+        fontSize:'16px',
+        borderRadius:'20px'
+      },
     }).showToast();
   }
 }

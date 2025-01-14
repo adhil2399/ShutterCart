@@ -12,7 +12,10 @@
                         <option value="weekly">Weekly</option>
                         <option value="daily">Daily</option>
                     </select>
-                    <a href="/admin/salesReport" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Sales Report</a>
+                    <a href="/admin/salesReport" class="btn btn-brand">
+                        <i class="fas fa-chart-line me-2"></i>
+                        Sales Report
+                    </a>
                 </div>
             </div>
 
@@ -24,7 +27,7 @@
                             <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Sales</h6>
-                                <span>₹125,000</span>
+                                <span>₹<%= totalSales %></span>
                             </div>
                         </article>
                     </div>
@@ -35,7 +38,7 @@
                             <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-shopping_bag"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Orders</h6>
-                                <span>250</span>
+                                <span> <%=totalOrders%></span>
                             </div>
                         </article>
                     </div>
@@ -46,7 +49,7 @@
                             <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-person"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Users</h6>
-                                <span>180</span>
+                                <span><%=totalUsers%></span>
                             </div>
                         </article>
                     </div>
@@ -57,7 +60,7 @@
                             <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Products</h6>
-                                <span>75</span>
+                                <span> <%=totalProducts%></span>
                             </div>
                         </article>
                     </div>
@@ -70,7 +73,7 @@
                     <div class="card mb-4">
                         <article class="card-body">
                             <h5 class="card-title">Sale Statistics</h5>
-                            <canvas id="salesTrend" height="120px"></canvas>
+                            <canvas id="salesTrend" height="200" width="400"></canvas>
                         </article>
                     </div>
                 </div>
@@ -146,6 +149,33 @@
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+        <style>
+            .btn-brand {
+                background: linear-gradient(45deg, #00c853, #00a846);
+                color: #ffffff;
+                padding: 0.6rem 1.2rem;
+                border-radius: 8px;
+                border: none;
+                font-weight: 500;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+
+            .btn-brand:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2);
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+            .btn-brand i {
+                font-size: 1.1rem;
+            }
+        </style>
 
         <script>
             // Register Chart.js plugins
@@ -265,8 +295,7 @@
 
             // Initialize all charts
             document.addEventListener('DOMContentLoaded', function() {
-                // Sales Trend Chart (initial)
-                updateSalesChart('monthly');
+                 updateSalesChart('monthly');
 
                 // Top Products Chart
                 createBarChart(
@@ -366,7 +395,22 @@
             function exportLedger() {
                 alert('Ledger export functionality will be implemented here');
             }
+
+
+
+    const fetchSalesData = async (timeFrame) => {
+    try {
+        const response = await fetch(`admin/dashBoard/graph/${timeFrame}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching sales data:', error);
+        return { labels: [], data: [] };  // Return empty data on error
+    }
+};
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
         <!-- content-main end// -->
         

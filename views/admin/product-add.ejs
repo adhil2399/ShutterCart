@@ -2,204 +2,440 @@
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #00c853;
+            --primary-hover: #00a846;
+            --secondary-color: #1f2937;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --background-color: #f3f4f6;
+        }
+
+        .content-main {
+            padding: 2rem;
+            background-color: var(--background-color);
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .content-title {
+            color: #ffffff;
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-label i {
+            color: var(--primary-color);
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.1);
+        }
+
         .error-message {
-            color: #ef4444;
+            color: var(--danger-color);
             font-size: 0.875rem;
             margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
         .image-upload-container {
             border: 2px dashed #e5e7eb;
-            border-radius: 0.5rem;
+            border-radius: 1rem;
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .image-upload-container:hover {
-            border-color: #3b82f6;
+            border-color: var(--primary-color);
+            background-color: rgba(0, 200, 83, 0.05);
+        }
+
+        .image-upload-container i {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
 
         .image-preview-container {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
 
         .image-preview {
             position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 0.375rem;
+            aspect-ratio: 1;
+            border-radius: 0.5rem;
             overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .image-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-preview:hover img {
+            transform: scale(1.05);
         }
 
         .remove-image {
             position: absolute;
-            top: 0.25rem;
-            right: 0.25rem;
-            background-color: #ef4444;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--danger-color);
             color: white;
             border: none;
             border-radius: 9999px;
-            width: 1.5rem;
-            height: 1.5rem;
-            font-size: 0.75rem;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .image-preview:hover .remove-image {
             opacity: 1;
         }
 
-        .cropper-content {
-    position: relative;
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    max-width: 600px;
-    width: 90%;
-    max-height: 600px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.cropper-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1050;
-    overflow: auto;
-}
-
-
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 0.375rem;
+            gap: 0.5rem;
+            border-radius: 0.5rem;
             font-weight: 500;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn i {
+            font-size: 1.125rem;
         }
 
         .btn-primary {
-            background-color: #3b82f6;
+            background-color: var(--primary-color);
             color: white;
         }
 
         .btn-primary:hover {
-            background-color: #2563eb;
-            
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background-color: #e5e7eb;
-            color: #1f2937;
+            background-color: #4b5563;
+            color: white;
         }
 
         .btn-secondary:hover {
-            background-color: #d1d5db;
+            background-color: #374151;
+            transform: translateY(-1px);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .save-button{
+            
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 40px;
+    color: #ffffff;
+    border: none;
+    background-color:#00c853;
+    border-radius: 4px;
+}
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .content-main {
+                padding: 1rem;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .col-lg-6 {
+                width: 100%;
+            }
+        }
+
+        .cropper-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 1050;
+            overflow: auto;
+        }
+
+        .cropper-content {
+            position: relative;
+            top: 288px;
+            left: 107px;
+            background-color: #1e293b;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .cropper-content img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cropper-content .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cropper-content .modal-title {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        ::placeholder {
+            color: rgba(255, 255, 255, 0.4) !important;
         }
     </style>
 </head>
 
 <section class="content-main">
     <div class="row">
-        <div class="col-9">
+        <div class="col-12">
             <div class="content-header">
-                <h2 class="content-title">Add New Product</h2>
+                <h2 class="content-title"><i class="fas fa-plus-circle"></i> Add New Product</h2>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-8 mx-auto">
             <div class="card mb-4">
                 <div class="card-body">
                     <form id="addProductForm" method="post" action="/admin/addProducts" enctype="multipart/form-data">
-                        <div class="mb-4">
-                            <label for="product_name" class="form-label">Product Name</label>
-                            <input type="text" placeholder="Type here" name="productName" class="form-control" id="product_name">
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-tag"></i> Product Name
+                            </div>
+                            <input type="text" placeholder="Enter product name" name="productName" class="form-control" id="product_name">
                             <div id="productName-error" class="error-message"></div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Brand</label>
+
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-building"></i> Brand
+                            </div>
                             <select class="form-select" name="brand">
-                                <option value="">Choose a brand</option>
+                                <option value="">Select a brand</option>
                                 <% brand.forEach(element => { %>
                                     <option value="<%= element.brandName %>"><%= element.brandName %></option>
                                 <% }) %>
                             </select>
                             <div id="brand-error" class="error-message"></div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Full description</label>
-                            <textarea placeholder="Type here" id="descriptionid" name="description" class="form-control" rows="4"></textarea>
+
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-align-left"></i> Description
+                            </div>
+                            <textarea placeholder="Enter product description" id="descriptionid" name="description" class="form-control" rows="4"></textarea>
                             <div id="description-error" class="error-message"></div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-4">
-                                    <label class="form-label">Regular price</label>
-                                    <input placeholder="$" name="regularPrice" type="number" step="0.01" class="form-control">
-                                    <div id="regularPrice-error" class="error-message"></div>
-                                </div>
+
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-money-bill"></i> Pricing & Stock
                             </div>
-                            
-                            <div class="col-lg-4">
-                                <div class="mb-4">
-                                    <label class="form-label">Sale price</label>
-                                    <input placeholder="$" name="salePrice" type="number" step="0.01" class="form-control">
-                                    <div id="salePrice-error" class="error-message"></div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-label" style="color: var(--primary-color);">
+                                            <i class="fas fa-dollar-sign"></i> Regular Price
+                                        </div>
+                                        <input placeholder="0.00" name="regularPrice" type="number" step="0.01" class="form-control">
+                                        <div id="regularPrice-error" class="error-message"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="mb-4">
-                                    <label class="form-label">Quantity</label>
-                                    <input placeholder="" name="quantity" type="number" class="form-control">
-                                    <div id="quantity-error" class="error-message"></div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-label" style="color: var(--primary-color);">
+                                            <i class="fas fa-tags"></i> Sale Price
+                                        </div>
+                                        <input placeholder="0.00" name="salePrice" type="number" step="0.01" class="form-control">
+                                        <div id="salePrice-error" class="error-message"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="form-label" style="color: var(--primary-color);">
+                                            <i class="fas fa-boxes"></i> Quantity
+                                        </div>
+                                        <input placeholder="0" name="quantity" type="number" class="form-control">
+                                        <div id="quantity-error" class="error-message"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Category</label>
+
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-list"></i> Category
+                            </div>
                             <select class="form-select" name="category">
-                                <option value="">Choose a category</option>
+                                <option value="">Select a category</option>
                                 <% cat.forEach(element => { %>
                                     <option value="<%= element.name %>"><%= element.name %></option>
                                 <% }) %>
                             </select>
                             <div id="category-error" class="error-message"></div>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Product Images</label>
+
+                        <div class="form-group">
+                            <div class="form-label" style="color: var(--primary-color);">
+                                <i class="fas fa-images"></i> Product Images
+                            </div>
                             <div class="image-upload-container" id="dropZone">
+                                <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
                                 <p>Drag & drop images here or click to select</p>
+                                <small class="text-muted">Supported formats: JPG, PNG, GIF</small>
                                 <input type="file" id="fileInput" name="images" multiple accept="image/*" style="display: none;">
                             </div>
                             <div class="image-preview-container" id="imagePreviewContainer"></div>
                             <div id="images-error" class="error-message"></div>
                         </div>
-                        <div>
-                            <button class="btn btn-primary" type="submit">Publish</button>
+
+                        <div class="button-group"  >
+                            <button type="submit" class="save-button">
+                                <i class="fas fa-save"></i> Save Product
+                            </button>
+                            <button type="reset" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Reset
+                            </button>
+                            <button type="button" onclick="window.location.href='/admin/products'" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -210,10 +446,17 @@
 
 <div id="cropperContainer" class="cropper-container" style="display: none;">
     <div class="cropper-content">
-        <img id="cropperImage" src="" alt="Image to crop" style="max-width: 100%; display: block;">
-        <div class="mt-4">
-            <button id="cropButton" class="btn btn-primary mr-2">Crop & Save</button>
-            <button id="cancelCropButton" class="btn btn-secondary">Cancel</button>
+        <div class="modal-title">
+            <i class="fas fa-crop-alt"></i> Crop Image
+        </div>
+        <img id="cropperImage" src="" alt="Image to crop">
+        <div class="btn-container">
+            <button id="cropButton" class="save-button">
+                <i class="fas fa-check"></i> Apply Crop
+            </button>
+            <button id="cancelCropButton" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </button>
         </div>
     </div>
 </div>
@@ -498,3 +741,4 @@
 });
 
 </script>
+<%- include("../partials/admin/footer") %>

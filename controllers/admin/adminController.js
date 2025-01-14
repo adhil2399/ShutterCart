@@ -44,18 +44,7 @@ const login = async (req,res)=>{
     }
 }
 
-// render dashBoard
-
-const loadDashboard =async (req,res)=>{
-    if(req.session.admin){
-        try {
-            res.render('dashBoard')
-        } catch (error) {
-            res.redirect('/pageerror')
-        }
-    }else{res.redirect('/admin/login')
-    }
-}
+ 
 
 
 
@@ -81,7 +70,6 @@ const logout= async (req,res)=>{
 module.exports = {
     loadlogin,
     login,
-    loadDashboard,
     pageerror,
     logout,
  }
