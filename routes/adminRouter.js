@@ -1,15 +1,15 @@
-const express= require('express')
-const router= express.Router()
-const adminController= require('../controllers/admin/adminController')
+const express = require('express')
+const router = express.Router()
+const { adminAuth } = require('../middlewares/auth')
+const adminController = require('../controllers/admin/adminController')
 const customerController = require('../controllers/admin/customerController')
 const categoryController = require('../controllers/admin/categoryController')
 const brandcontroller = require('../controllers/admin/brandcontroller')
 const productController = require('../controllers/admin/productController')
-const orderController= require('../controllers/admin/orderController')
+const orderController = require('../controllers/admin/orderController')
 const couponController = require('../controllers/admin/couponController')
 const salesReportsController = require('../controllers/admin/salesReportsController')
-const dashBoardController= require('../controllers/admin/dashBoardController')
-const {adminAuth}= require('../middlewares/auth')
+const dashBoardController = require('../controllers/admin/dashBoardController')
 const multer = require('multer')
 const storage = require("../helpers/multer")
 const uploads = multer({storage:storage})
@@ -18,7 +18,15 @@ const uploads = multer({storage:storage})
 router.get('/pageerror',adminController.pageerror)
 //login managment
 
+//dashboard routes
 router.get('/',adminAuth,dashBoardController.loadDashboard)
+router.get('/sales-data',adminAuth,dashBoardController.getSalesData)
+router.get('/category-distribution',adminAuth,dashBoardController.getCategoryDistribution)
+router.get('/top-products',adminAuth,dashBoardController.getTopProducts)
+router.get('/top-categories',adminAuth,dashBoardController.getTopCategories)
+router.get('/top-brands',adminAuth,dashBoardController.getTopBrands)
+router.get('/ledger-data',adminAuth,dashBoardController.getLedgerData)
+
 router.get('/login',adminController.loadlogin)
 router.post('/login',adminController.login)
 router.get('/logout',adminController.logout)
@@ -72,6 +80,9 @@ router.delete('/deleteCoupon/:id',adminAuth,couponController.deleteCoupon)
 //salesReport management
 router.get('/salesReport',adminAuth,salesReportsController.getSalesReports)
 router.get('/salesReport/download/:format',adminAuth,salesReportsController.downloadReport)
+
+// API endpoint for dashboard data
+router.get('/api/dashboard-data', adminAuth, dashBoardController.getDashboardData);
 
  
   module.exports=router;

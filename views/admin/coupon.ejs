@@ -503,20 +503,37 @@
         }
 
         if (sDate && eDate) {
-            const sDateObj = new Date(sDate);
-            const eDateObj = new Date(eDate);
-            const todayDateObj = new Date();
-            todayDateObj.setHours(0, 0, 0, 0);
+            // Format today's date to match the input date format (YYYY-MM-DD)
+            const today = new Date();
+            const todayFormatted = today.toISOString().split('T')[0];
 
-            if (sDateObj > eDateObj) {
+            if (sDate === eDate) {
+                showError("error-end-date", "End date cannot be the same as start date");
+                errors.push("Start and end dates cannot be the same");
+                isValid = false;
+            }
+
+            if (sDate > eDate) {
                 showError("error-end-date", "End date must be after the start date");
                 errors.push("Invalid date range");
                 isValid = false;
             }
 
-            if (sDateObj < todayDateObj) {
+            if (sDate < todayFormatted) {
                 showError("error-start-date", "Start date cannot be in the past");
                 errors.push("Invalid start date");
+                isValid = false;
+            }
+
+            // Calculate the difference in days
+            const startDate = new Date(sDate);
+            const endDate = new Date(eDate);
+            const diffTime = Math.abs(endDate - startDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 1) {
+                showError("error-end-date", "Coupon must be valid for at least 1 day");
+                errors.push("Coupon duration too short");
                 isValid = false;
             }
         }

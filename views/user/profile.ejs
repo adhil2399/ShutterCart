@@ -914,6 +914,7 @@
 
             
 <script> 
+
 async function removeFromWishlist(productId) {
     try {
         // Show confirmation dialog using SweetAlert
@@ -1925,8 +1926,13 @@ async function deleteAddress(id) {
                 position: "right", // `left`, `center` or `right`
                 backgroundColor: "#28a745", // Success color (green)
                 className: "info",
-                escapeMarkup: false, // Allow HTML content
-            }).showToast();
+                escapeMarkup: false,
+                style: {
+                  color: '#fff',
+                  fontSize:'16px',
+                  borderRadius:'20px'
+      },
+             }).showToast();
         } else {
             Toastify({
                 text: data.message || "Error adding to cart",
@@ -1938,7 +1944,8 @@ async function deleteAddress(id) {
                 className: "error",
                 style: {
                   color: "#ffffff", // Text color
-                fontSize: "16px", // Optional: Adjust font size
+                fontSize: "16px",
+                borderRadius:'20px'
                 },
             }).showToast();
         }
@@ -1953,7 +1960,8 @@ async function deleteAddress(id) {
             backgroundColor: "#dc3545",
             style: {
                   color: "#ffffff", // Text color
-                fontSize: "16px", // Optional: Adjust font size
+                fontSize: "16px",
+                borderRadius:'20px'
                 },
         }).showToast();
     }

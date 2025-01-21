@@ -39,6 +39,9 @@ router.get('/logout',userController.logout)
 router.get('/productDetails',productController.productDetails)
 
 
+//wishlist management
+router.get('/wishlist',userAuth,wishListController.loadWishlist)
+
 //profile managment
 router.get('/forgot-password',profileController.getForgotPassword)
 router.post('/forgot-email-valid',profileController.forgotEmailValid)

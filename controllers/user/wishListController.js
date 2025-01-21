@@ -2,6 +2,30 @@ const Wishlist = require('../../models/wishlistSchema');
 const Product = require('../../models/productSchema');
 const { default: mongoose } = require('mongoose');
 
+const loadWishlist= async (req,res)=>{
+  try {
+      const userId =req.session.user
+      if(!userId){
+          return res.redirect('/')
+      }
+  
+        const wishlistData = await Wishlist.findOne({ userId })
+        .populate({
+            path: 'products.productId',
+            model: 'product', 
+            populate: {
+                path: 'category', 
+                model: 'Category' 
+            }
+        })
+      return res.render('wishlist', { wishlist:wishlistData});
+      
+    } catch (error) {
+      console.log('wishlist page not loading',error)
+      res.redirect('/pageNotFound')
+  }
+}
+
 const toggleWishlist = async (req, res) => {
   try {
     const userId = req.session.user;
@@ -82,6 +106,7 @@ const toggleWishlist = async (req, res) => {
 
 
 module.exports = {
+  loadWishlist,
   toggleWishlist,
    removeFromWishlist
 };

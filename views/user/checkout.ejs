@@ -87,7 +87,7 @@
                                 <div class="col-sm-6">
                                     <div class="payment-box">
                                         <input class="custom-radio me-2" id="wallet" value="wallet"  type="radio" name="paymentMethod">
-                                        <label for="wallet">Waller</label>
+                                        <label for="wallet">Wallet</label>
                                     </div>
                                 </div>
 
@@ -579,24 +579,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     if (selectedPaymentMethod === "ONLINE") {
-                        // Open Razorpay payment interface
-                        const razorpayOptions = {
-                            key: result.razorpayKey || '<%= razorpayKey %>', // Replace with Razorpay key
+                         const razorpayOptions = {
+                            key: result.razorpayKey || '<%= razorpayKey %>',  
                             amount: result.amount,
                             currency: result.currency,
                             name: "ShutterCart",
                             description: "Order Payment",
-                            order_id: result.razorpayOrderId, // Razorpay order ID
+                            order_id: result.razorpayOrderId,  
                             handler: async function (response) {
-                                // Payment success callback
-                                const paymentData = {
+                                 const paymentData = {
                                     razorpayPaymentId: response.razorpay_payment_id,
                                     razorpayOrderId: response.razorpay_order_id,
                                     razorpaySignature: response.razorpay_signature,
                                 };
 
-                                // Verify payment on server
-                                const verifyResponse = await fetch('/order/verify', {
+                                 const verifyResponse = await fetch('/order/verify', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(paymentData),
@@ -619,9 +616,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             },
                             prefill: {
-                                name: "<%= user.name %>", // Prefill user's name
-                                email: "<%= user.email %>", // Prefill user's email
-                                contact: "<%= user.phone %>", // Prefill user's contact number
+                                name: "<%= user.name %>",  
+                                email: "<%= user.email %>",  
+                                contact: "<%= user.phone %>",  
                             },
                             theme: {
                                 color: "#333",
@@ -631,9 +628,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         const razorpay = new Razorpay(razorpayOptions);
                         razorpay.open();
 
-                        // Catch payment interface closure without completion
-                        razorpay.on('payment.failed', function (response) {
-                            Toastify({ text: "Payment failed or cancelled.", backgroundColor: "red" }).showToast();
+                         razorpay.on('payment.failed',async function (response) {
+                            await Swal.fire({
+                                icon: "error",
+                                title: "Payment Failed",
+                                text: "Payment failed. Please try again.",
+                            });
+
                             console.error("Payment failed:", response.error);
                         });
                     } else {

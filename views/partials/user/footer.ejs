@@ -156,6 +156,81 @@
     </div>
   </div>
 </div> -->
+
+<div class="offcanvas offcanvas-top search-details" id="offcanvasTop" tabindex="-1" aria-labelledby="offcanvasTopLabel">
+  <style>
+    .offcanvas-backdrop {
+      background-color: transparent !important;
+      backdrop-filter: blur(5px);
+    }
+
+    .search-details {
+      height: 40vh;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    .search-details .offcanvas-body {
+      background: transparent !important;
+    }
+    .search-details input {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      color: inherit !important;
+    }
+    .search-details h3, .search-details h4 {
+      color: inherit !important;
+    }
+  </style>
+  <div class="offcanvas-header">
+    <button class="btn-close" type="button" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="offcanvas-body theme-scrollbar">
+    <div class="container">
+      <h3>What are you trying to find?</h3>
+      <form action="/shop">
+      <div class="search-box"> 
+        <input type="search" name="search" placeholder="I'm looking for…"><i class="iconsax" data-icon="search-normal-2"></i>
+      </div>
+      </form>
+
+      <h4>Popular Searches</h4>
+      <ul class="rapid-search">
+        <li> <a href="/shop?search=sony+ZV-1F"><i class="iconsax" data-icon="search-normal-2"></i> sony ZV-1F</a></li>
+        <li> <a href="/shop?search=alpha+7"><i class="iconsax" data-icon="search-normal-2"></i> alpha 7</a></li>
+        <li> <a href="/shop?search=sony"><i class="iconsax" data-icon="search-normal-2"></i> sony</a></li>
+        <li> <a href="/shop?search=bag"><i class="iconsax" data-icon="search-normal-2"></i> bag</a></li>
+        <li> <a href="/shop?search=dji+mini"><i class="iconsax" data-icon="search-normal-2"></i>DJI mini</a></li>
+       </ul>
+      <!-- <h4>You Might Like</h4>
+      <div class="row gy-4 ratio_square-2 preemptive-search"> 
+        <div class="col-xl-2 col-sm-4 col-6"> 
+          <div class="product-box-6">
+            <div class="img-wrapper">
+              <div class="product-image"><a href="product.html"> <img class="bg-img" src="../assets/images/product/product-2/blazers/1.jpg" alt="product"></a></div>
+            </div>
+            <div class="product-detail">
+              <div><a href="product.html"> 
+                  <h6> Women's Stylish Top</h6></a>
+                <p>$50.00 </p>
+                <ul class="rating">      
+                  <li><i class="fa-solid fa-star"></i></li>
+                  <li><i class="fa-solid fa-star"></i></li>
+                  <li><i class="fa-solid fa-star"></i></li>
+                  <li><i class="fa-solid fa-star-half-stroke"></i></li>
+                  <li><i class="fa-regular fa-star"></i></li>
+                  <li>4+</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+  </div>
+</div>
+
+
 <!-- Bootstrap js-->
 <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
 <!-- iconsax js -->

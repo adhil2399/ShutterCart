@@ -135,9 +135,9 @@ const placeOrder = async (req, res) => {
                 key_secret: process.env.RAZORPAY__KEY_SECRET,
             });
 
-            // Create Razorpay order without creating the actual order in database
-            const razorpayOrder = await razorpay.orders.create({
-                amount: finalAmountWithShipping * 100,
+            
+             const razorpayOrder = await razorpay.orders.create({
+                amount: Math.round(finalAmountWithShipping * 100),  
                 currency: "INR",
                 receipt: orderId,
             });

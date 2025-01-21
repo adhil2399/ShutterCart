@@ -7,10 +7,10 @@
                 </div>
                 <div>
                     <select id="timeFilter" class="form-select me-2 d-inline-block" style="width: 150px;">
-                        <option value="yearly">Yearly</option>
-                        <option value="monthly">Monthly</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="daily">Daily</option>
+                        <option value="yearly" <%= timeFrame === 'yearly' ? 'selected' : '' %>>Yearly</option>
+                        <option value="monthly" <%= timeFrame === 'monthly' ? 'selected' : '' %>>Monthly</option>
+                        <option value="weekly" <%= timeFrame === 'weekly' ? 'selected' : '' %>>Weekly</option>
+                        <option value="daily" <%= timeFrame === 'daily' ? 'selected' : '' %>>Daily</option>
                     </select>
                     <a href="/admin/salesReport" class="btn btn-brand">
                         <i class="fas fa-chart-line me-2"></i>
@@ -27,7 +27,7 @@
                             <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Sales</h6>
-                                <span>₹<%= totalSales %></span>
+                                <span id="totalSales">₹<%= totalSales %></span>
                             </div>
                         </article>
                     </div>
@@ -38,7 +38,7 @@
                             <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-shopping_bag"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Orders</h6>
-                                <span> <%=totalOrders%></span>
+                                <span id="totalOrders"><%= totalOrders %></span>
                             </div>
                         </article>
                     </div>
@@ -49,7 +49,7 @@
                             <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-person"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Users</h6>
-                                <span><%=totalUsers%></span>
+                                <span id="totalUsers"><%= totalUsers %></span>
                             </div>
                         </article>
                     </div>
@@ -60,7 +60,7 @@
                             <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Total Products</h6>
-                                <span> <%=totalProducts%></span>
+                                <span id="totalProducts"><%= totalProducts %></span>
                             </div>
                         </article>
                     </div>
@@ -73,7 +73,9 @@
                     <div class="card mb-4">
                         <article class="card-body">
                             <h5 class="card-title">Sale Statistics</h5>
-                            <canvas id="salesTrend" height="200" width="400"></canvas>
+                            <div style="height: 400px; position: relative;">
+                                <canvas id="salesTrend"></canvas>
+                            </div>
                         </article>
                     </div>
                 </div>
@@ -81,66 +83,23 @@
                     <div class="card mb-4">
                         <article class="card-body">
                             <h5 class="card-title">Category Distribution</h5>
-                            <canvas id="categoryPie" height="200px"></canvas>
+                            <div style="height: 400px; position: relative;">
+                                <canvas id="categoryPie"></canvas>
+                            </div>
                         </article>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-xl-4 col-lg-12">
+                <div class="col-xl-12">
                     <div class="card mb-4">
                         <article class="card-body">
                             <h5 class="card-title">Top 10 Products</h5>
-                            <canvas id="topProducts" height="250px"></canvas>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Top 10 Categories</h5>
-                            <canvas id="topCategories" height="250px"></canvas>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Top 10 Brands</h5>
-                            <canvas id="topBrands" height="250px"></canvas>
-                        </article>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ledger Book -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="card-title">Ledger Book</h5>
-                                <button class="btn btn-primary" onclick="exportLedger()">Export</button>
+                            <div style="height: 400px; position: relative;">
+                                <canvas id="topProducts"></canvas>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Transaction ID</th>
-                                            <th>Description</th>
-                                            <th>Debit</th>
-                                            <th>Credit</th>
-                                            <th>Balance</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ledgerBody">
-                                        <!-- Ledger entries will be populated here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -148,270 +107,260 @@
 
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
-        <style>
-            .btn-brand {
-                background: linear-gradient(45deg, #00c853, #00a846);
-                color: #ffffff;
-                padding: 0.6rem 1.2rem;
-                border-radius: 8px;
-                border: none;
-                font-weight: 500;
-                display: inline-flex;
-                align-items: center;
-                gap: 0.5rem;
-                transition: all 0.3s ease;
-                text-decoration: none;
-            }
-
-            .btn-brand:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2);
-                color: #ffffff;
-                text-decoration: none;
-            }
-
-            .btn-brand i {
-                font-size: 1.1rem;
-            }
-        </style>
-
+        
         <script>
-            // Register Chart.js plugins
-            Chart.register(ChartDataLabels);
-
-            // Demo Data
-            const timeFrames = {
-                yearly: {
-                    labels: ['2023', '2024', '2025'],
-                    data: [280000, 350000, 420000]
-                },
-                monthly: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    data: [35000, 42000, 38000, 45000, 48000, 52000]
-                },
-                weekly: {
-                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    data: [12000, 15000, 13000, 16000]
-                },
-                daily: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    data: [2500, 3000, 2800, 3200, 3500, 4000, 3800]
-                }
-            };
-
-            // Top 10 Products Data
-            const topProductsData = {
-                labels: ['iPhone 13', 'Samsung TV', 'Nike Shoes', 'PS5', 'MacBook Pro', 'AirPods', 'iPad', 'Xbox', 'Canon Camera', 'Fitbit'],
-                data: [150, 120, 100, 90, 85, 80, 75, 70, 65, 60]
-            };
-
-            // Top 10 Categories Data
-            const topCategoriesData = {
-                labels: ['Electronics', 'Fashion', 'Home & Living', 'Sports', 'Books', 'Beauty', 'Toys', 'Automotive', 'Health', 'Garden'],
-                data: [300, 250, 200, 180, 150, 130, 120, 100, 90, 80]
-            };
-
-            // Top 10 Brands Data
-            const topBrandsData = {
-                labels: ['Apple', 'Samsung', 'Nike', 'Sony', 'LG', 'Dell', 'Adidas', 'HP', 'Lenovo', 'Asus'],
-                data: [400, 350, 300, 250, 200, 180, 160, 140, 120, 100]
-            };
-
-            // Chart Configuration Helper
-            function createBarChart(ctx, data, label, color) {
-                return new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: label,
-                            data: data.data,
-                            backgroundColor: color,
-                            borderColor: color,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            datalabels: {
-                                color: '#000',
-                                anchor: 'end',
-                                align: 'right',
-                                formatter: (value) => `${value}`
-                            }
-                        },
-                        scales: {
-                            x: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Initialize Charts
-            let salesChart;
-            function updateSalesChart(timeFrame) {
-                const data = timeFrames[timeFrame];
-                if (salesChart) {
-                    salesChart.destroy();
-                }
-                salesChart = new Chart(document.getElementById('salesTrend').getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Sales',
-                            data: data.data,
-                            borderColor: '#4CAF50',
-                            tension: 0.1,
-                            fill: true,
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top'
-                            },
-                            datalabels: {
-                                color: '#000',
-                                anchor: 'end',
-                                align: 'top',
-                                formatter: (value) => `₹${value.toLocaleString()}`
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Initialize all charts
             document.addEventListener('DOMContentLoaded', function() {
-                 updateSalesChart('monthly');
+                let salesChart, categoryChart, productsChart;
 
-                // Top Products Chart
-                createBarChart(
-                    document.getElementById('topProducts').getContext('2d'),
-                    topProductsData,
-                    'Units Sold',
-                    'rgba(255, 99, 132, 0.7)'
-                );
+                // Define fixed colors array
+                const chartColors = [
+                    '#f43f5e', // Red
+                    '#f59e0b', // Orange
+                    '#10b981', // Green
+                    '#3b82f6', // Blue
+                    '#8b5cf6'  // Purple
+                ];
 
-                // Top Categories Chart
-                createBarChart(
-                    document.getElementById('topCategories').getContext('2d'),
-                    topCategoriesData,
-                    'Total Sales',
-                    'rgba(54, 162, 235, 0.7)'
-                );
+                // Format currency
+                const formatCurrency = (value) => {
+                    return new Intl.NumberFormat('en-IN', {
+                        style: 'currency',
+                        currency: 'INR',
+                        maximumFractionDigits: 0
+                    }).format(value);
+                };
 
-                // Top Brands Chart
-                createBarChart(
-                    document.getElementById('topBrands').getContext('2d'),
-                    topBrandsData,
-                    'Total Revenue',
-                    'rgba(75, 192, 192, 0.7)'
-                );
+                // Format date based on timeFrame
+                const formatDate = (dateStr, timeFrame) => {
+                    if (!dateStr) return '';
+                    
+                    const date = new Date(dateStr);
+                    
+                    if (isNaN(date.getTime())) {
+                        console.error('Invalid date:', dateStr);
+                        return dateStr;
+                    }
+                    
+                    switch(timeFrame) {
+                        case 'yearly':
+                            return date.getFullYear().toString();
+                        case 'monthly':
+                            return date.toLocaleString('en-US', { 
+                                month: 'short',
+                                year: 'numeric'
+                            });
+                        case 'weekly':
+                            return `Week ${date.getWeek()}, ${date.getFullYear()}`;
+                        default: // daily
+                            return date.toLocaleString('en-US', { 
+                                month: 'short',
+                                day: 'numeric'
+                            });
+                    }
+                };
 
-                // Category Pie Chart
-                new Chart(document.getElementById('categoryPie').getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: topCategoriesData.labels.slice(0, 5),
-                        datasets: [{
-                            data: topCategoriesData.data.slice(0, 5),
-                            backgroundColor: [
-                                '#FF6384',
-                                '#36A2EB',
-                                '#FFCE56',
-                                '#4BC0C0',
-                                '#9966FF'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
+                // Add week number calculation
+                Date.prototype.getWeek = function() {
+                    const d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+                    const dayNum = d.getUTCDay() || 7;
+                    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+                    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+                    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+                };
+
+                // Initialize Charts
+                function initializeCharts(data, timeFrame) {
+                    // Sort category data alphabetically
+                    const sortedCategoryData = [...data.categoryData].sort((a, b) => 
+                        a.name.localeCompare(b.name)
+                    );
+
+                    // Create a map to store fixed colors for categories
+                    const categoryColorMap = new Map();
+                    sortedCategoryData.forEach((category, index) => {
+                        categoryColorMap.set(category.name, chartColors[index % chartColors.length]);
+                    });
+
+                    // Destroy existing charts if they exist
+                    if (salesChart) salesChart.destroy();
+                    if (categoryChart) categoryChart.destroy();
+                    if (productsChart) productsChart.destroy();
+
+                    // Update stats
+                    document.getElementById('totalSales').textContent = formatCurrency(data.totalSales);
+                    document.getElementById('totalOrders').textContent = data.totalOrders;
+                    document.getElementById('totalUsers').textContent = data.totalUsers;
+                    document.getElementById('totalProducts').textContent = data.totalProducts;
+
+                    // Sales Trend Chart
+                    const salesCtx = document.getElementById('salesTrend').getContext('2d');
+                    salesChart = new Chart(salesCtx, {
+                        type: 'line',
+                        data: {
+                            labels: data.salesData.map(item => item.date),
+                            datasets: [{
+                                label: 'Sales',
+                                data: data.salesData.map(item => item.amount),
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return formatCurrency(context.raw);
+                                        },
+                                        title: function(tooltipItems) {
+                                            return formatDate(tooltipItems[0].label, timeFrame);
+                                        }
+                                    }
+                                }
                             },
-                            datalabels: {
-                                color: '#fff',
-                                formatter: (value, ctx) => {
-                                    let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                                    let percentage = (value * 100 / sum).toFixed(1) + '%';
-                                    return percentage;
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return formatCurrency(value);
+                                        }
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        callback: function(value, index) {
+                                            const label = this.getLabelForValue(value);
+                                            return formatDate(label, timeFrame);
+                                        },
+                                        maxRotation: 45,
+                                        minRotation: 45,
+                                        autoSkip: true,
+                                        maxTicksLimit: timeFrame === 'monthly' ? 12 : 10
+                                    }
                                 }
                             }
                         }
+                    });
+
+                    // Category Distribution Chart
+                    const categoryCtx = document.getElementById('categoryPie').getContext('2d');
+                    const categoryChartData = {
+                        labels: sortedCategoryData.map(item => item.name),
+                        datasets: [{
+                            data: sortedCategoryData.map(item => item.count),
+                            backgroundColor: sortedCategoryData.map(item => categoryColorMap.get(item.name))
+                        }]
+                    };
+
+                    categoryChart = new Chart(categoryCtx, {
+                        type: 'pie',
+                        data: categoryChartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    labels: {
+                                        padding: 20,
+                                        usePointStyle: true,
+                                        pointStyle: 'circle'
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.raw || 0;
+                                            const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return `${label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Top Products Chart
+                    const productsCtx = document.getElementById('topProducts').getContext('2d');
+                    productsChart = new Chart(productsCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.topProducts.map(item => item.name),
+                            datasets: [{
+                                label: 'Units Sold',
+                                data: data.topProducts.map(item => item.sales),
+                                backgroundColor: '#10b981',
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        display: false
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Function to fetch dashboard data
+                async function fetchDashboardData(timeFrame) {
+                    try {
+                        const response = await fetch(`/admin/api/dashboard-data?timeFrame=${timeFrame}`);
+                        if (!response.ok) throw new Error('Failed to fetch dashboard data');
+                        const data = await response.json();
+                        initializeCharts(data, timeFrame);
+                    } catch (error) {
+                        console.error('Error fetching dashboard data:', error);
                     }
-                });
+                }
 
-                // Time filter change event
-                document.getElementById('timeFilter').addEventListener('change', function(e) {
-                    updateSalesChart(e.target.value);
-                });
+                // Initialize charts with initial data
+                initializeCharts({
+                    totalSales: <%= totalSales %>,
+                    totalOrders: <%= totalOrders %>,
+                    totalUsers: <%= totalUsers %>,
+                    totalProducts: <%= totalProducts %>,
+                    salesData: <%- JSON.stringify(salesData) %>,
+                    categoryData: <%- JSON.stringify(categoryData) %>,
+                    topProducts: <%- JSON.stringify(topProducts) %>
+                }, '<%= timeFrame %>');
 
-                // Generate demo ledger data
-                generateLedgerData();
+                // Time Filter Change Handler
+                document.getElementById('timeFilter').addEventListener('change', function() {
+                    const timeFrame = this.value;
+                    fetchDashboardData(timeFrame);
+                    // Update URL without refreshing
+                    window.history.pushState({}, '', `/admin?timeFrame=${timeFrame}`);
+                });
             });
-
-            // Generate demo ledger data
-            function generateLedgerData() {
-                const ledgerBody = document.getElementById('ledgerBody');
-                let balance = 50000;
-                const transactions = [
-                    { date: '2024-01-10', id: 'TRX001', desc: 'Product Sales', debit: 15000, credit: 0 },
-                    { date: '2024-01-09', id: 'TRX002', desc: 'Supplier Payment', debit: 0, credit: 8000 },
-                    { date: '2024-01-08', id: 'TRX003', desc: 'Service Income', debit: 5000, credit: 0 },
-                    { date: '2024-01-07', id: 'TRX004', desc: 'Utility Bill', debit: 0, credit: 2000 },
-                    { date: '2024-01-06', id: 'TRX005', desc: 'Online Sales', debit: 12000, credit: 0 }
-                ];
-
-                transactions.forEach(trx => {
-                    balance += trx.debit - trx.credit;
-                    ledgerBody.innerHTML += `
-                        <tr>
-                            <td>${trx.date}</td>
-                            <td>${trx.id}</td>
-                            <td>${trx.desc}</td>
-                            <td>₹${trx.debit.toLocaleString()}</td>
-                            <td>₹${trx.credit.toLocaleString()}</td>
-                            <td>₹${balance.toLocaleString()}</td>
-                        </tr>
-                    `;
-                });
-            }
-
-            // Export ledger function
-            function exportLedger() {
-                alert('Ledger export functionality will be implemented here');
-            }
-
-
-
-    const fetchSalesData = async (timeFrame) => {
-    try {
-        const response = await fetch(`admin/dashBoard/graph/${timeFrame}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching sales data:', error);
-        return { labels: [], data: [] };  // Return empty data on error
-    }
-};
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-        <!-- content-main end// -->
-        
-        <%- include('../partials/admin/footer') %>
+<%- include('../partials/admin/footer') %>
