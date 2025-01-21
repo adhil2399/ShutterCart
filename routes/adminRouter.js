@@ -81,8 +81,7 @@ router.delete('/deleteCoupon/:id',adminAuth,couponController.deleteCoupon)
 router.get('/salesReport',adminAuth,salesReportsController.getSalesReports)
 router.get('/salesReport/download/:format',adminAuth,salesReportsController.downloadReport)
 
-// API endpoint for dashboard data
-router.get('/api/dashboard-data', adminAuth, dashBoardController.getDashboardData);
+ router.get('/api/dashboard-data', adminAuth, dashBoardController.getDashboardData);
 
  
   module.exports=router;
