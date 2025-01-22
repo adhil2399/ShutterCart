@@ -293,7 +293,7 @@
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
 }
 
 .modal-close {
@@ -388,7 +388,7 @@
 }
 
 .address-box {
-    background-color: #2a2a2a;
+    /* background-color: #2a2a2a; */
     padding: 15px;
     border-radius: 4px;
     margin: 10px 0;
@@ -439,7 +439,7 @@
 }
 
 .modal-content .order-table td {
-    border-bottom: 1px solid #333;
+    /* border-bottom: 1px solid #333; */
     color: #e0e0e0;
 }
 
@@ -447,7 +447,7 @@
     color: #fff;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #333;
+    /* border-bottom: 1px solid #333; */
 }
 
 .swal2-popup {
@@ -1247,6 +1247,8 @@ async function removeFromWishlist(productId) {
           inputLabel: 'Reason',
           inputPlaceholder: 'Enter your reason',
           showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
           reverseButtons: true,
@@ -1330,13 +1332,13 @@ async function removeFromWishlist(productId) {
             const data = await response.json();
 
             if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Return request submitted successfully'
-                }).then(() => {
-                    window.location.reload();
-                });
+               await Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Return request submitted successfully'
+              }).then(() => {
+                window.location.reload();
+              });
             } else {
 
               Swal.fire({
@@ -1636,23 +1638,23 @@ async function verifyRetryPayment(response, orderId) {
 
                   <a class="btn add-address" data-bs-toggle="modal" data-bs-target="#add-address" title="Quick View"
                     href="" tabindex="0" id="addNewAddress">+ Add Address</a>
-                </div>
+                </div>  
                 <!-- Add Address Modal -->
                 <div class="modal fade" id="add-address" tabindex="-1" aria-labelledby="addAddressLabel"
                   aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
+                    <div class="modal-content bg-light">
                       <div class="modal-header border-0">
                         <div class="sidebar-title">
-                          <div class="loader-line"></div>
-                          <h4>Add New Address</h4>
+                          <div class="loader-line text-dark"></div>
+                          <h4 class="text-dark">Add New Address</h4>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <form id="addressForm"    class="address-form">
+                        <form id="addressForm" class="address-form needs-validation" novalidate>
                           <!-- Address Type Selection -->
-                          <div class="mb-4">
+                          <div class="mb-4 text-dark">
                             <div class="form-check form-check-inline">
                               <input class="custom-radio" type="radio" name="addressType" id="homeAddress" value="home"
                                 checked required>
@@ -1668,47 +1670,81 @@ async function verifyRetryPayment(response, orderId) {
                                 value="others" required>
                               <label class="form-check-label" for="otherAddress">Others</label>
                             </div>
+                            <div class="invalid-feedback">Please select an address type.</div>
                           </div>
 
-                          <!-- Name Field -->
+                          <!-- Name -->
                           <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="name" minlength="3" maxlength="50">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" required>
                           </div>
 
                           <!-- City and State -->
                           <div class="row mb-3">
                             <div class="col-md-6">
                               <label class="form-label">City</label>
-                              <input type="text" class="form-control" name="city" minlength="2" required>
+                              <input type="text" class="form-control" name="city" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label">State</label>
-                              <input type="form-control" name="state" minlength="2" required>
+                              <select class="form-select" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Kashmir">Kashmir</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tripura">Tripura</option>
+                            </select>
                             </div>
                           </div>
 
                           <!-- Landmark -->
                           <div class="mb-3">
                             <label class="form-label">Landmark</label>
-                            <input type="text" class="form-control" name="landMark" minlength="3" required>
+                            <input type="text" class="form-control" name="landMark" required>
                           </div>
 
                           <!-- Pin Code -->
                           <div class="mb-3">
                             <label class="form-label">PIN Code</label>
-                            <input type="text" class="form-control" name="pinCode" pattern="[0-9]{6}" maxlength="6" required>
+                            <input type="number" class="form-control" name="pinCode" required>
                           </div>
 
                           <!-- Phone Numbers -->
                           <div class="row mb-3">
                             <div class="col-md-6">
                               <label class="form-label">Phone Number</label>
-                              <input type="tel" class="form-control" name="phone" pattern="[0-9]{10}" maxlength="10" required>
+                              <input type="number" class="form-control" name="phone" required>
                             </div>
                             <div class="col-md-6">
                               <label class="form-label">Alt Phone (Optional)</label>
-                              <input type="tel" class="form-control" name="altPhone" pattern="[0-9]{10}" maxlength="10">
+                              <input type="number" class="form-control" name="altPhone">
                             </div>
                           </div>
 
@@ -1723,75 +1759,181 @@ async function verifyRetryPayment(response, orderId) {
                   </div>
                 </div>
 
-                <!-- JavaScript Validation -->
-                <script>
-                  document.getElementById("addressForm").addEventListener('DOMContentLoaded',"submit", function (e) {
-                    e.preventDefault(); // Prevent form submission for validation
-
-                    const form = e.target;
-                    let isValid = true;
-
-                    // Clear previous errors
-                    form.querySelectorAll(".form-control").forEach((field) => {
-                      field.style.borderColor = "";
-                    });
-                    form.querySelectorAll(".error-message").forEach((msg) => msg.remove());
-
-                    // Helper function to show validation errors
-                    function showValidationError(field, message) {
-                      field.style.borderColor = "#dc3545";
-                      const errorMessage = document.createElement("small");
-                      errorMessage.className = "error-message text-danger";
-                      errorMessage.textContent = message;
-                      field.closest("div").appendChild(errorMessage);
-                      isValid = false;
-                    }
-
-                    // Validate Name
-                    const nameField = form.name;
-                    if (nameField.value.length < 3 || nameField.value.length > 50) {
-                      showValidationError(nameField, "Name must be between 3 and 50 characters.");
-                    }
-
-                    // Validate City
-                    const cityField = form.city;
-                    if (cityField.value.length < 2) {
-                      showValidationError(cityField, "City must be at least 2 characters.");
-                    }
-
-                    // Validate State
-                    const stateField = form.state;
-                    if (stateField.value.length < 2) {
-                      showValidationError(stateField, "State must be at least 2 characters.");
-                    }
-
-                    // Validate Landmark
-                    const landMarkField = form.landMark;
-                    if (landMarkField.value.length < 3) {
-                      showValidationError(landMarkField, "Landmark must be at least 3 characters.");
-                    }
-
-                    // Validate PIN Code
-                    const pinCodeField = form.pinCode;
-                    if (!/^\d{6}$/.test(pinCodeField.value)) {
-                      showValidationError(pinCodeField, "PIN Code must be exactly 6 digits.");
-                    }
-
-                    // Validate Phone Number
-                    const phoneField = form.phone;
-                    if (!/^\d{10}$/.test(phoneField.value)) {
-                      showValidationError(phoneField, "Phone number must be exactly 10 digits.");
-                    }
-
-
-                    // Submit the form if all fields are valid
+                <!-- JavaScript Validation-->
+                  <script>
+                  const addressForm = document.getElementById("addressForm");
+                  
+                  // Real-time validation function
+                  function validateField(field, pattern, message) {
+                    const isValid = pattern.test(field.value);
+                    
+                    // Remove any existing error messages
+                    const existingErrors = field.parentNode.querySelectorAll('.error-message');
+                    existingErrors.forEach(error => error.remove());
+                    
                     if (isValid) {
-                      form.submit();
+                      field.classList.remove('is-invalid');
+                      field.classList.add('is-valid');
+                    } else {
+                      field.classList.remove('is-valid');
+                      field.classList.add('is-invalid');
+                      // Add new error message
+                      const errorMessageDiv = document.createElement("small");
+                      errorMessageDiv.className = "error-message text-danger d-block mt-1";
+                      errorMessageDiv.textContent = message;
+                      field.parentNode.appendChild(errorMessageDiv);
                     }
-                  });
+                    return isValid;
+                  }
 
+                  // Clear validation state
+                  function clearValidation(field) {
+                    field.classList.remove('is-invalid', 'is-valid');
+                    const existingErrors = field.parentNode.querySelectorAll('.error-message');
+                    existingErrors.forEach(error => error.remove());
+                  }
+
+                  // Add real-time validation listeners
+                  if (addressForm) {
+                    const nameInput = addressForm.querySelector('input[name="name"]');
+                    const cityInput = addressForm.querySelector('input[name="city"]');
+                    const stateInput = addressForm.querySelector('select[name="state"]');
+                    const landmarkInput = addressForm.querySelector('input[name="landMark"]');
+                    const pincodeInput = addressForm.querySelector('input[name="pinCode"]');
+                    const phoneInput = addressForm.querySelector('input[name="phone"]');
+                    const altPhoneInput = addressForm.querySelector('input[name="altPhone"]');
+
+                    // Clear all validations when modal is hidden
+                    const modal = document.getElementById('add-address');
+                    modal.addEventListener('hidden.bs.modal', function () {
+                      const inputs = addressForm.querySelectorAll('input, select');
+                      inputs.forEach(clearValidation);
+                      addressForm.reset();
+                    });
+
+                    // Name validation
+                    nameInput.addEventListener('input', function() {
+                      this.value = this.value.replace(/[0-9]/g, '');
+                      validateField(this, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid name (letters and spaces only)');
+                    });
+
+                    // City validation
+                    cityInput.addEventListener('input', function() {
+                      this.value = this.value.replace(/[0-9]/g, '');
+                      validateField(this, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid city name (letters and spaces only)');
+                    });
+
+                    // State validation
+                    stateInput.addEventListener('change', function() {
+                      validateField(this, /^.+$/, 'Please select a state');
+                    });
+
+                    // Landmark validation
+                    landmarkInput.addEventListener('input', function() {
+                      validateField(this, /^[A-Za-z0-9\s,./-]{3,100}$/, 'Please enter a valid landmark (letters, numbers, spaces, and punctuation only)');
+                    });
+
+                    // PIN Code validation
+                    pincodeInput.addEventListener('input', function() {
+                      this.value = this.value.replace(/\D/g, '').slice(0, 6);
+                      if (this.value.length === 6) {
+                        validateField(this, /^[0-9]{6}$/, 'Please enter a valid 6-digit PIN code');
+                      } else {
+                        clearValidation(this);
+                      }
+                    });
+
+                    // Phone validation
+                    phoneInput.addEventListener('input', function() {
+                      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+                      if (this.value.length === 10) {
+                        validateField(this, /^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+                      } else {
+                        clearValidation(this);
+                      }
+                    });
+
+                    // Alt Phone validation (optional)
+                    altPhoneInput.addEventListener('input', function() {
+                      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+                      if (this.value.length > 0) {
+                        if (this.value.length === 10) {
+                          validateField(this, /^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+                        } else {
+                          clearValidation(this);
+                        }
+                      } else {
+                        clearValidation(this);
+                      }
+                    });
+
+                    // Form submit handler
+                    addressForm.addEventListener('submit', function(e) {
+                      e.preventDefault();
+                      
+                      // Validate all required fields
+                      const nameValid = validateField(form.name, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid name (letters and spaces only)');
+                      const cityValid = validateField(form.city, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid city name (letters and spaces only)');
+                      const stateValid = validateField(form.state, /^.+$/, 'Please select a state');
+                      const landmarkValid = validateField(form.landMark, /^[A-Za-z0-9\s,./-]{3,100}$/, 'Please enter a valid landmark (letters, numbers, spaces, and punctuation only)');
+                      const pincodeValid = validateField(form.pinCode, /^[0-9]{6}$/, 'Please enter a valid 6-digit PIN code');
+                      const phoneValid = validateField(form.phone, /^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+
+                      const isValid = nameValid && cityValid && stateValid && landmarkValid && pincodeValid && phoneValid;
+
+                      if (isValid) {
+                        const formData = new FormData(form);
+                        const data = Object.fromEntries(formData);
+                        
+                        fetch('/profile/add-address', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                          if (result.success) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Success!',
+                              text: 'Address added successfully',
+                              showConfirmButton: false,
+                              timer: 1500
+                            }).then(() => {
+                              // Close modal and clean up
+                              const modal = bootstrap.Modal.getInstance(document.getElementById('add-address'));
+                              if (modal) {
+                                modal.hide();
+                              }
+                              // Remove modal backdrop and reset body
+                              document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+                              document.body.classList.remove('modal-open');
+                              document.body.style.overflow = 'auto';
+                              // Reload page
+                              location.reload();
+                            });
+                          } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Error!',
+                              text: result.message || 'Could not add the address. Please try again.'
+                            });
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Could not add the address. Please try again.'
+                          });
+                        });
+                      }
+                    });
+                  }
                 </script>
-
               </div>
             </div>
         
@@ -1800,74 +1942,9 @@ async function verifyRetryPayment(response, orderId) {
       </div>
     </div>
   </section>
-  <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const addressForm = document.getElementById('addressForm');
-    if (addressForm) {
-        addressForm.addEventListener('submit', async (event) => {
-            console.log("Form submission intercepted");
-            event.preventDefault();
 
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
-
-            try {
-                const response = await fetch('/profile/add-address', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-
-                    if (result.success) {
-                        console.log("Address added successfully");
-                        
-                     console.log(result.address)
-                        Swal.fire({
-                            icon: "success",
-                            title: "Address Added Successfully!",
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-       
-
-                        window.location.reload();
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('add-address'));
-                        if (modal) {
-                            modal.hide();
-                        }
-
-                        // Ensure backdrop is removed
-                        document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
-                        document.body.classList.remove('modal-open');
-                        document.body.style.overflow = 'auto';
-                    } else {
-                        throw new Error(result.message || "Failed to add address.");
-                    }
-                } else {
-                    throw new Error("Server responded with an error.");
-                }
-            } catch (error) {
-                console.error("Error details:", error);
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: "Could not add the address. Please try again.",
-                });
-            }
-        });
-    }
-  
-});
-
-
-</script>
-
+ 
+ 
 <script>
 async function deleteAddress(id) {
     try {
@@ -1876,6 +1953,8 @@ async function deleteAddress(id) {
             text: 'Do you really want to delete this address? This action cannot be undone.',
             icon: 'warning',
             showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
             confirmButtonText: 'Yes, delete it!',
             cancelButtonText: 'Cancel'
         });
@@ -1974,3 +2053,4 @@ async function deleteAddress(id) {
 
  
   <%-include('../partials/user/footer')%>
+ 

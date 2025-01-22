@@ -353,8 +353,8 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="name">Name</label>
-                                    <input class="form-control" id="name" name="name" type="text" placeholder="Enter Name" required minlength="2" maxlength="50" pattern="[A-Za-z ]+">
-                                    <div class="invalid-feedback">Enter a valid name (2-50 letters only).</div>
+                                    <input class="form-control" id="name" name="name" type="text" placeholder="Enter Name" required minlength="2" maxlength="50" pattern="^[A-Za-z\s]+$" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                                    <div class="invalid-feedback">Enter a valid name (letters and spaces only).</div>
                                 </div>
                             </div>
                             <!-- State -->
@@ -363,10 +363,35 @@
                                     <label class="form-label" for="state">State</label>
                                     <select class="form-select" id="state" name="state" required>
                                         <option value="">Select State</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Goa">Goa</option>
                                         <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
                                         <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
                                         <option value="Madhya Pradesh">Madhya Pradesh</option>
                                         <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
                                     </select>
                                     <div class="invalid-feedback">Please select a state.</div>
                                 </div>
@@ -375,16 +400,16 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="city">City</label>
-                                    <input class="form-control" id="city" name="city" type="text" placeholder="Enter City" required minlength="2" maxlength="50" pattern="[A-Za-z ]+">
-                                    <div class="invalid-feedback">Enter a valid city name (2-50 letters only).</div>
+                                    <input class="form-control" id="city" name="city" type="text" placeholder="Enter City" required minlength="2" maxlength="50" pattern="^[A-Za-z\s]+$" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                                    <div class="invalid-feedback">Enter a valid city name (letters and spaces only).</div>
                                 </div>
                             </div>
                             <!-- Landmark -->
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="form-label" for="landmark">Landmark</label>
-                                    <input class="form-control" id="landMark" name="landMark" type="text" placeholder="Enter Landmark" required minlength="2" maxlength="100" pattern="[A-Za-z0-9 ,.-]+">
-                                    <div class="invalid-feedback">Enter a valid landmark (2-100 characters, alphanumeric and punctuation allowed).</div>
+                                    <input class="form-control" id="landMark" name="landMark" type="text" placeholder="Enter Landmark" required minlength="2" maxlength="100" pattern="^[A-Za-z\s,./-]+$" oninput="this.value = this.value.replace(/[0-9]/g, '')">
+                                    <div class="invalid-feedback">Enter a valid landmark (letters, spaces, and punctuation only).</div>
                                 </div>
                             </div>
                             <!-- Pincode -->

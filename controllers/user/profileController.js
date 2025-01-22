@@ -206,7 +206,7 @@ const postaddAddress = async (req, res) => {
     const userAddress = await Address.findOne({ userId: findUser._id });
 
     if(!name || !city || !addressType || !state || !landMark || !pinCode || !phone){
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({status: false, message: "All fields are required" });
     }
     let newAddress;
 

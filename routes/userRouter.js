@@ -108,4 +108,7 @@ router.post('/wallet/add-money', userAuth, walletController.addMoney);
 // Download invoice
 router.get('/download-invoice/:orderId', userAuth, orderController.downloadInvoice);
 
+router.get('/about',userController.getAboutPage)
+
+router.get('/contact',userController.getContactPage)
 module.exports = router

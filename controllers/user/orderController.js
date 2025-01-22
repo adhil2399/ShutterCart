@@ -26,6 +26,32 @@ const placeOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: "Cart is empty!, add products to the cart" });
         }
 
+        // Check product availability and quantity
+        for (const cartItem of userCart.items) {
+            const product = await Product.findById(cartItem.productId._id);
+            
+            if (!product) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `Product ${cartItem.productId.productName} is no longer available.` 
+                });
+            }
+
+            if (!product.isListed) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `Product ${cartItem.productId.productName} is currently unavailable.` 
+                });
+            }
+
+            if (cartItem.quantity > product.quantity) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `Only ${product.quantity} units of ${product.productName} are available. Please update your cart.` 
+                });
+            }
+        }
+
         const { addressId, paymentMethod, totalPrice } = req.body;
         const sessionCoupon = req.session.appliedCoupon;
 
@@ -49,7 +75,6 @@ const placeOrder = async (req, res) => {
         if (!address) {
             return res.status(404).json({ success: false, message: "Address not found." });
         }
-
 
         // Calculate prices using the same logic as checkout
         let totalAmount = 0;
@@ -116,7 +141,7 @@ const placeOrder = async (req, res) => {
             productImage: item.productId.productImage[0],
         }));
 
-       // Generate order ID
+        // Generate order ID
         const generateOrderId = () => {
             const prefix = "ORD";
             const timestamp = Date.now();
@@ -127,7 +152,6 @@ const placeOrder = async (req, res) => {
         const orderId = generateOrderId();
         let razorpayOrderId = null;
 
-    
         //online payment logic
         if (paymentMethod === "ONLINE") {
             const razorpay = new Razorpay({
@@ -135,8 +159,10 @@ const placeOrder = async (req, res) => {
                 key_secret: process.env.RAZORPAY__KEY_SECRET,
             });
 
-            
-             const razorpayOrder = await razorpay.orders.create({
+            if(finalAmountWithShipping > 400000){
+                return res.status(400).json({ success: false, message: "Maximum order in ONLINE should be ₹400000" });
+            }
+            const razorpayOrder = await razorpay.orders.create({
                 amount: Math.round(finalAmountWithShipping * 100),  
                 currency: "INR",
                 receipt: orderId,
@@ -174,15 +200,22 @@ const placeOrder = async (req, res) => {
                 paymentStatus: "Unpaid",
                 razorpayOrderId
             });
- 
+
             await newOrder.save();
 
-                 // clear cart
-                 await Cart.findOneAndUpdate(
-                    {userId }, 
-                    { $set: { items: [] } }
+            // Update product quantities
+            for (const item of orderedItems) {
+                await Product.findByIdAndUpdate(
+                    item.product,
+                    { $inc: { quantity: -item.quantity } }
                 );
-    
+            }
+
+            // clear cart
+            await Cart.findOneAndUpdate(
+                {userId }, 
+                { $set: { items: [] } }
+            );
 
             res.status(200).json({
                 message: "Razorpay Order created successfully!",
@@ -192,10 +225,10 @@ const placeOrder = async (req, res) => {
                 orderId,
             });
         } else if (paymentMethod === "COD") {
-
             if(finalAmountWithShipping < 10000){
                 return res.status(400).json({ success: false, message: "Minimum order in COD should be ₹10000" });
             }
+
             const newOrder = new Order({
                 userId,
                 orderId,
@@ -208,7 +241,7 @@ const placeOrder = async (req, res) => {
                 },
                 finalAmount: finalAmountWithShipping,
                 couponApplied: !!coupon,
-                couponDetails: coupon ? { code: coupon.name, offerPrice: couponDiscount ,minimumPrice: coupon.minimumPrice} : null,
+                couponDetails: coupon ? { code: coupon.name, offerPrice: couponDiscount, minimumPrice: coupon.minimumPrice } : null,
                 address: {
                     name: address.name,
                     addressType: address.addressType,

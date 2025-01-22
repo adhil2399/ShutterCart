@@ -255,6 +255,32 @@ try {
 }
 
 
+const getAboutPage = async (req, res) => {
+  const {user}=req.session
+
+  try {
+    if(!user){
+      return res.render("about");
+    }
+    return res.render("about",{user});
+  } catch (error) {
+    res.redirect("/pageNotFound");
+  }
+}
+
+
+const getContactPage = async (req, res) => {
+  const {user}=req.session
+  try {
+    if(!user){
+      return res.render("contact");
+    }
+    res.render("contact",{user});
+  } catch (error) {
+    res.redirect("/pageNotFound");
+  }
+}
+
 module.exports = {
   lodeHomepage,
   pageNotFound,
@@ -265,5 +291,7 @@ module.exports = {
   verifyOtp,
   resendOtp,
   logout,
+  getAboutPage,
+  getContactPage
 
 };

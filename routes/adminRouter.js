@@ -20,6 +20,7 @@ router.get('/pageerror',adminController.pageerror)
 
 //dashboard routes
 router.get('/',adminAuth,dashBoardController.loadDashboard)
+router.get('/api/dashboard-data',adminAuth,dashBoardController.getDashboardData)
 router.get('/sales-data',adminAuth,dashBoardController.getSalesData)
 router.get('/category-distribution',adminAuth,dashBoardController.getCategoryDistribution)
 router.get('/top-products',adminAuth,dashBoardController.getTopProducts)
@@ -81,7 +82,4 @@ router.delete('/deleteCoupon/:id',adminAuth,couponController.deleteCoupon)
 router.get('/salesReport',adminAuth,salesReportsController.getSalesReports)
 router.get('/salesReport/download/:format',adminAuth,salesReportsController.downloadReport)
 
- router.get('/api/dashboard-data', adminAuth, dashBoardController.getDashboardData);
-
- 
-  module.exports=router;
+module.exports=router;

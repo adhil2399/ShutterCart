@@ -7,83 +7,272 @@
        <div class="row mb-50">
            <div class="form-group col-md-4">
                <label for="addressType">Address Type:</label>
-               <input type="text" class="form-control border-3" value="<%= address.addressType %>" id="addressType" name="addressType"      >
+               <input type="text" class="form-control border-3" value="<%= address.addressType %>" id="addressType" name="addressType"
+               minlength="2" maxlength="15"
+               pattern="^[A-Za-z\s]+$"
+               >
            </div>
            <div class="form-group col-md-4">
                <label for="name">Name:</label>
-               <input type="text" class="form-control border-3" value="<%= address.name %>" id="name" name="name"  >
-           </div>
+               <input type="text" class="form-control border-3" value="<%= address.name %>" id="name" name="name"
+                      minlength="2" maxlength="20"
+                      pattern="^[A-Za-z\s]+$"
+ >           </div>
            <div class="form-group col-md-4">
                <label for="city">City:</label>
-               <input type="text" class="form-control border-3" id="city" value="<%= address.city %>" name="city"  >
-           </div>
+               <input type="text" class="form-control border-3" id="city" value="<%= address.city %>" name="city"
+                      minlength="2" maxlength="50"
+                      pattern="^[A-Za-z\s]+$"
+ >           </div>
        </div>
        <div class="row mb-3">
            <div class="form-group col-md-4">
                <label for="landMark">Landmark:</label>
-               <input type="text" class="form-control border-3" value="<%= address.landMark%>" id="landMark" name="landMark"  >
-           </div>
+               <input type="text" class="form-control border-3" value="<%= address.landMark%>" id="landMark" name="landMark"
+                      minlength="3" maxlength="100"
+                      pattern="^[A-Za-z0-9\s,./-]+$"
+>           </div>
            <div class="form-group col-md-4">
                <label for="state">State:</label>
-               <input type="text" class="form-control border-3" value="<%= address.state %>" id="state" name="state"  >
+               <select class="form-control border-3" id="state" name="state">
+                   <option value="">Select State</option>
+                   <option value="Andhra Pradesh" <%= address.state === 'Andhra Pradesh' ? 'selected' : '' %>>Andhra Pradesh</option>
+                   <option value="Karnataka" <%= address.state === 'Karnataka' ? 'selected' : '' %>>Karnataka</option>
+                   <option value="Kerala" <%= address.state === 'Kerala' ? 'selected' : '' %>>Kerala</option>
+                   <option value="Tamil Nadu" <%= address.state === 'Tamil Nadu' ? 'selected' : '' %>>Tamil Nadu</option>
+                   <option value="Telangana" <%= address.state === 'Telangana' ? 'selected' : '' %>>Telangana</option>
+                   <option value="Punjab" <%= address.state === 'Punjab' ? 'selected' : '' %>>Punjab</option>
+                   <option value="Uttar Pradesh" <%= address.state === 'Uttar Pradesh' ? 'selected' : '' %>>Uttar Pradesh</option>
+                   <option value="West Bengal" <%= address.state === 'West Bengal' ? 'selected' : '' %>>West Bengal</option>
+                   <option value="Maharashtra" <%= address.state === 'Maharashtra' ? 'selected' : '' %>>Maharashtra</option>
+                   <option value="Gujarat" <%= address.state === 'Gujarat' ? 'selected' : '' %>>Gujarat</option>
+                   <option value="Rajasthan" <%= address.state === 'Rajasthan' ? 'selected' : '' %>>Rajasthan</option>
+                   <option value="Odisha" <%= address.state === 'Odisha' ? 'selected' : '' %>>Odisha</option>
+                   <option value="Chhattisgarh" <%= address.state === 'Chhattisgarh' ? 'selected' : '' %>>Chhattisgarh</option>
+                   <option value="Jharkhand" <%= address.state === 'Jharkhand' ? 'selected' : '' %>>Jharkhand</option>
+                   <option value="Madhya Pradesh" <%= address.state === 'Madhya Pradesh' ? 'selected' : '' %>>Madhya Pradesh</option>
+                   <option value="Arunachal Pradesh" <%= address.state === 'Arunachal Pradesh' ? 'selected' : '' %>>Arunachal Pradesh</option>
+                   <option value="Assam" <%= address.state === 'Assam' ? 'selected' : '' %>>Assam</option>
+                   <option value="Bihar" <%= address.state === 'Bihar' ? 'selected' : '' %>>Bihar</option>
+                   <option value="Chandigarh" <%= address.state === 'Chandigarh' ? 'selected' : '' %>>Chandigarh</option>
+                   <option value="Goa" <%= address.state === 'Goa' ? 'selected' : '' %>>Goa</option>
+                   <option value="Haryana" <%= address.state === 'Haryana' ? 'selected' : '' %>>Haryana</option>
+                   <option value="Himachal Pradesh" <%= address.state === 'Himachal Pradesh' ? 'selected' : '' %>>Himachal Pradesh</option>
+                   <option value="Jammu and Kashmir" <%= address.state === 'Jammu and Kashmir' ? 'selected' : '' %>>Jammu and Kashmir</option>
+                   <option value="Kashmir" <%= address.state === 'Kashmir' ? 'selected' : '' %>>Kashmir</option>
+                   <option value="Meghalaya" <%= address.state === 'Meghalaya' ? 'selected' : '' %>>Meghalaya</option>
+                   <option value="Manipur" <%= address.state === 'Manipur' ? 'selected' : '' %>>Manipur</option>
+                   <option value="Mizoram" <%= address.state === 'Mizoram' ? 'selected' : '' %>>Mizoram</option>
+                   <option value="Nagaland" <%= address.state === 'Nagaland' ? 'selected' : '' %>>Nagaland</option>
+                   <option value="Puducherry" <%= address.state === 'Puducherry' ? 'selected' : '' %>>Puducherry</option>
+                   <option value="Sikkim" <%= address.state === 'Sikkim' ? 'selected' : '' %>>Sikkim</option>
+                   <option value="Tripura" <%= address.state === 'Tripura' ? 'selected' : '' %>>Tripura</option>
+               </select>
            </div>
            <div class="form-group col-md-4">
-               <label for="pincode">Pincode:</label>
-               <input type="number" class="form-control border-3" value="<%= address.pinCode %>" id="pincode" name="pinCode"  >
+               <label for="pincode">PIN Code:</label>
+               <input type="number" class="form-control border-3" value="<%= address.pinCode %>" id="pincode" name="pinCode"
+                      pattern="[0-9]{6}"
+                      title="Please enter a valid 6-digit PIN code"
+                      min="100000" max="999999">
            </div>
        </div>
        <div class="row mb-3">
            <div class="form-group col-md-4">
                <label for="phone">Phone:</label>
-               <input type="number" class="form-control border-3" id="phone" value="<%= address.phone %>" name="phone"  >
+               <input type="number" class="form-control border-3" id="phone" value="<%= address.phone %>" name="phone"
+                      pattern="[0-9]{10}"
+                      title="Please enter a valid 10-digit phone number"
+                      min="1000000000" max="9999999999">
            </div>
            <div class="form-group col-md-4">
-               <label for="altPhone">Alt Phone(Optional):</label>
-               <input type="number" class="form-control border-3" id="altPhone" value="<%= address.altPhone %>" name="altPhone"  >
+               <label for="altPhone">Alt Phone (Optional):</label>
+               <input type="number" class="form-control border-3" id="altPhone" value="<%= address.altPhone %>" name="altPhone"
+                      pattern="[0-9]{10}"
+                      title="Please enter a valid 10-digit phone number"
+                      min="1000000000" max="9999999999">
            </div>
        </div>
        <button type="submit" id="submitButton" class="btn btn_black sm">Submit</button>
    </form>
 </div>
 
-
 <script>
-   document.getElementById('submitButton').addEventListener('click', function (event) {
-       if (!validateForm()) {
-           event.preventDefault();
+   // Real-time validation function
+   function validateField(field, pattern, message) {
+     const isValid = pattern.test(field.value);
+     
+     // Remove any existing error messages
+     const existingErrors = field.parentNode.querySelectorAll('.error-message');
+     existingErrors.forEach(error => error.remove());
+     
+     if (isValid) {
+       field.classList.remove('is-invalid');
+       field.classList.add('is-valid');
+     } else {
+       field.classList.remove('is-valid');
+       field.classList.add('is-invalid');
+       // Add new error message
+       const errorMessageDiv = document.createElement("small");
+       errorMessageDiv.className = "error-message text-danger d-block mt-1";
+       errorMessageDiv.textContent = message;
+       field.parentNode.appendChild(errorMessageDiv);
+     }
+     return isValid;
+   }
+
+   // Clear validation state
+   function clearValidation(field) {
+     field.classList.remove('is-invalid', 'is-valid');
+     const existingErrors = field.parentNode.querySelectorAll('.error-message');
+     existingErrors.forEach(error => error.remove());
+   }
+
+   const addressForm = document.getElementById('addressForm');
+   if (addressForm) {
+     const addressTypeInput = addressForm.querySelector('input[name="addressType"]');
+     const nameInput = addressForm.querySelector('input[name="name"]');
+     const cityInput = addressForm.querySelector('input[name="city"]');
+     const stateInput = addressForm.querySelector('select[name="state"]');
+     const landmarkInput = addressForm.querySelector('input[name="landMark"]');
+     const pincodeInput = addressForm.querySelector('input[name="pinCode"]');
+     const phoneInput = addressForm.querySelector('input[name="phone"]');
+     const altPhoneInput = addressForm.querySelector('input[name="altPhone"]');
+
+     // Address Type validation
+     addressTypeInput.addEventListener('input', function() {
+       validateField(this, /^.{1,50}$/, 'Please enter an address type');
+     });
+
+     // Name validation
+     nameInput.addEventListener('input', function() {
+       this.value = this.value.replace(/[0-9]/g, '');
+       validateField(this, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid name (letters and spaces only)');
+     });
+
+     // City validation
+     cityInput.addEventListener('input', function() {
+       this.value = this.value.replace(/[0-9]/g, '');
+       validateField(this, /^[A-Za-z\s]{2,50}$/, 'Please enter a valid city name (letters and spaces only)');
+     });
+
+     // State validation
+     stateInput.addEventListener('change', function() {
+       if (this.value === '') {
+         this.classList.add('is-invalid');
+         const errorMessageDiv = document.createElement("small");
+         errorMessageDiv.className = "error-message text-danger d-block mt-1";
+         errorMessageDiv.textContent = 'Please select a state';
+         this.parentNode.appendChild(errorMessageDiv);
+       } else {
+         this.classList.remove('is-invalid');
+         this.classList.add('is-valid');
+         const existingErrors = this.parentNode.querySelectorAll('.error-message');
+         existingErrors.forEach(error => error.remove());
        }
-   });
+     });
 
+     // Landmark validation
+     landmarkInput.addEventListener('input', function() {
+       validateField(this, /^[A-Za-z0-9\s,./-]{3,100}$/, 'Please enter a valid landmark (letters, numbers, spaces, and punctuation only)');
+     });
 
-   function validateForm() {
-       let isValid = true;
-       const requiredFields = ["addressType", "name", "city", "landMark", "state", "pincode", "phone"];
-       requiredFields.forEach(function (field) {
-           const input = document.getElementById(field);
-           if (input.value.trim() === "") {
-               Swal.fire({
-                   title: 'Error',
-                   text: `Please fill all the field.`,
-                   icon: 'error'
-               });
-               isValid = false;
-           } 
+     // PIN Code validation
+     pincodeInput.addEventListener('input', function() {
+       this.value = this.value.replace(/\D/g, '').slice(0, 6);
+       if (this.value.length === 6) {
+         validateField(this, /^[0-9]{6}$/, 'Please enter a valid 6-digit PIN code');
+       } else {
+         clearValidation(this);
+       }
+     });
+
+     // Phone validation
+     phoneInput.addEventListener('input', function() {
+       this.value = this.value.replace(/\D/g, '').slice(0, 10);
+       if (this.value.length === 10) {
+         validateField(this, /^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+       } else {
+         clearValidation(this);
+       }
+     });
+
+     // Alt Phone validation (optional)
+     altPhoneInput.addEventListener('input', function() {
+       this.value = this.value.replace(/\D/g, '').slice(0, 10);
+       if (this.value.length > 0) {
+         if (this.value.length === 10) {
+           validateField(this, /^[0-9]{10}$/, 'Please enter a valid 10-digit phone number');
+         } else {
+           clearValidation(this);
+         }
+       } else {
+         clearValidation(this);
+       }
+     });
+
+     // Form submit handler
+     addressForm.addEventListener('submit', async function(e) {
+       e.preventDefault();
+       
+       // Create FormData from the form
+       const formData = new FormData(this);
+       const data = {};
+       formData.forEach((value, key) => {
+         data[key] = value;
        });
-       if(isValid){
-       Swal.fire({
-                    text: `Address edited successfully`,
-                   icon: 'success',
-                   showConfirmButton: false,
-                   timer: 2500,
-               });
-            }
 
-       return isValid;
+       try {
+         const response = await fetch(this.action, {
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(data)
+         });
+
+         // Check if response status is successful (2xx)
+         if (response.status >= 200 && response.status < 300) {
+           await Swal.fire({
+             icon: 'success',
+             title: 'Success!',
+             text: 'Address updated successfully',
+             showConfirmButton: false,
+             timer: 1500
+           });
+           window.location.href = '/userprofile';
+         } else {
+           await Swal.fire({
+             icon: 'error',
+             title: 'Error!',
+             text:  response.message||'Could not update the address. Please try again.'
+           });
+         }
+       } catch (error) {
+         console.error('Error:', error);
+         // If the address was actually updated despite the error
+         if (error instanceof SyntaxError) {
+           await Swal.fire({
+             icon: 'success',
+             title: 'Success!',
+             text: 'Address updated successfully',
+             showConfirmButton: false,
+             timer: 1500
+           });
+           window.location.href = '/userprofile';
+         } else {
+           await Swal.fire({
+             icon: 'error',
+             title: 'Error!',
+             text: 'Could not update the address. Please try again.'
+           });
+         }
+       }
+     });
    }
 </script>
+
   <!-- Add SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <%- include("../partials/user/footer") %>
-
-

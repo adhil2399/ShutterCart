@@ -1,112 +1,217 @@
-<footer class="footer-layout-img"> 
-  <section class="section-b-space footer-1">
-    <div class="custom-container container">
-      <div class="row"> 
-        <div class="col-xl-3 col-lg-4 col-md-6">
-          <div class="footer-content">
-            <div class="footer-logo"><a href="index.html"> <img class="img-fluid" src="../assets/images/logo/logo-white-1.png" alt="Footer Logo"/></a></div>
-            <ul> 
-              <li> <i class="iconsax" data-icon="location"></i>
-                <h6>1418 Riverwood Drive, Suite 3245 Cottonwood, CA 96052, United States</h6>
-              </li>
-              <li> <i class="iconsax" data-icon="phone-calling"></i>
-                <h6>+ 185659635</h6>
-              </li>
-              <li> <i class="iconsax" data-icon="mail"></i>
-                <h6>contact@katie.com</h6>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col offset-xl-1">
-          <div class="footer-content">
-            <div> 
-              <div class="footer-title d-md-block"> 
-                <h5>About Us</h5>
-                <ul class="footer-details accordion-hidden"> 
-                  <li> <a class="nav" href="index.html">Home</a></li>
-                  <li> <a class="nav" href="collection-left-sidebar.html">Shop</a></li>
-                  <li> <a class="nav" href="about-us.html">About Us</a></li>
-                  <li> <a class="nav" href="blog-left-sidebar.html">Blog</a></li>
-                  <li> <a class="nav" href="contact.html">Contact</a></li>
+<style>
+    .footer {
+        background-color: #1a1a1a;
+        padding: 70px 0 30px;
+        color: #fff;
+    }
+    .footer-heading {
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: #fff;
+    }
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+    .footer-links a {
+        color: #999;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 0.95rem;
+    }
+    .footer-links a:hover {
+        color: #fff;
+    }
+    .footer-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 2px;
+        margin-bottom: 1rem;
+     }
+    .footer-description {
+        color: #999;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 1.5rem;
+    }
+    .social-links a {
+        color: #999;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+        color: #fff;
+        transform: translateY(-3px);
+    }
+    .contact-info {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .contact-info li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        color: #999;
+    }
+    .contact-info i {
+        font-size: 1.2rem;
+        color: #fff;
+    }
+    .footer-bottom {
+        border-top: 1px solid #333;
+        margin-top: 40px;
+        padding-top: 30px;
+        text-align: center;
+        color: #999;
+    }
+    .newsletter-form {
+        margin-top: 20px;
+    }
+    .newsletter-form input {
+        background: #333;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        margin-bottom: 10px;
+        color: #fff;
+        border-radius: 4px;
+    }
+    .newsletter-form button {
+        background: #fff;
+        color: #000;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .newsletter-form button:hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+    }
+    .payment-methods {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+    .payment-methods i {
+        font-size: 2rem;
+        color: #999;
+    }
+</style>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Brand Info -->
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <div class="footer-brand">ShutterCart</div>
+                <p class="footer-description">
+                    Your one-stop destination for premium cameras and photography equipment. 
+                    Capture life's precious moments with our carefully curated selection of professional gear.
+                </p>
+                <ul class="contact-info">
+                    <li>
+                        <i class="bi bi-geo-alt"></i>
+                        <span>123 Photography Lane, Camera City, PC 12345</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-telephone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-envelope"></i>
+                        <span>info@shuttercart.com</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-clock"></i>
+                        <span>Mon - Sat: 9:00 AM - 8:00 PM</span>
+                    </li>
                 </ul>
-              </div>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+                    <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="footer-content">
-            <div>
-              <div class="footer-title d-md-block">
-                <h5>New Categories</h5>
-                <ul class="footer-details accordion-hidden"> 
-                  <li> <a class="nav" href="product-bundle.html">Latest Shoes</a></li>
-                  <li> <a class="nav" href="variant-radio.html">Branded Jeans</a></li>
-                  <li> <a class="nav" href="product.html">New Jackets</a></li>
-                  <li> <a class="nav" href="variant-images.html">Colorful Hoodies</a></li>
-                  <li> <a class="nav" href="variant-dropdown.html">Best Perfume</a></li>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/careers">Careers</a></li>
                 </ul>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="footer-content">
-            <div>
-              <div class="footer-title d-md-block"> 
-                <h5>Get Help</h5>
-                <ul class="footer-details accordion-hidden"> 
-                  <li> <a class="nav" href="order-success.html">Your Orders</a></li>
-                  <li> <a class="nav" href="dashboard.html">Your Account</a></li>
-                  <li> <a class="nav" href="order-tracking.html">Track Orders</a></li>
-                  <li> <a class="nav" href="wishlist.html">Your Wishlist</a></li>
-                  <li> <a class="nav" href="faq.html">Shopping FAQs</a></li>
+
+            <!-- Categories -->
+            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                <h3 class="footer-heading">Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="/shop?category=cameras">DSLR Cameras</a></li>
+                    <li><a href="/shop?category=mirrorless">Mirrorless</a></li>
+                    <li><a href="/shop?category=lenses">Camera Lenses</a></li>
+                    <li><a href="/shop?category=drones">Drones</a></li>
+                    <li><a href="/shop?category=accessories">Accessories</a></li>
+                    <li><a href="/shop?category=lighting">Lighting</a></li>
                 </ul>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="footer-content">
-            <div>
-              <div class="footer-title d-md-block"> 
-                <h5>My Account</h5>
-                <ul class="footer-details accordion-hidden"> 
-                  <li> <a class="nav" href="dashboard.html">My Account</a></li>
-                  <li> <a class="nav" href="login.html">Login/Register</a></li>
-                  <li> <a class="nav" href="cart.html">Cart</a></li>
-                  <li> <a class="nav" href="order-success.html">Order History</a></li>
-                  <li> <a class="nav" href="faq.html">Delivery FAQs</a></li>
+
+            <!-- Newsletter and Support -->
+            <div class="col-lg-4 col-md-4">
+                <h3 class="footer-heading">Newsletter</h3>
+                <p class="footer-description">Subscribe to receive updates, access to exclusive deals, and more.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+
+                <h3 class="footer-heading mt-4">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="/shipping">Shipping Information</a></li>
+                    <li><a href="/returns">Returns & Exchange</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/size-guide">Size Guide</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
                 </ul>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <i class="bi bi-credit-card" title="Credit Card"></i>
+                <i class="bi bi-paypal" title="PayPal"></i>
+                <i class="bi bi-wallet2" title="Digital Wallet"></i>
+                <i class="bi bi-bank" title="Bank Transfer"></i>
+            </div>
+            <p class="mt-3 mb-0">&copy; <%= new Date().getFullYear() %> ShutterCart. All rights reserved. Crafted with <i class="bi bi-heart-fill" style="color: #ff4444;"></i> for photographers.</p>
+        </div>
     </div>
-  </section>
-  <div class="sub-footer"> 
-    <div class="custom-container container">
-      <div class="row"> 
-        <div class="col-xl-6 col-md-6 col-sm-12">
-          <div class="footer-end">
-            <h6>2024 Copyright By Themeforest Powered By Pixelstrap </h6>
-          </div>
-        </div>
-        <div class="col-xl-6 col-md-6 col-sm-12">
-          <div class="payment-card-bottom">
-            <ul> 
-              <li> <img src="../assets/images/footer/discover.png" alt=""/></li>
-              <li> <img src="../assets/images/footer/american.png" alt=""/></li>
-              <li> <img src="../assets/images/footer/master.png" alt=""/></li>
-              <li> <img src="../assets/images/footer/giro.png" alt=""/></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer> 
+</footer>
+
 <div class="wrapper">
   <div class="title-box"> <img src="../assets/images/other-img/cookie.png" alt=""/>
     <h3>Cookies Consent</h3>

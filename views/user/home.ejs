@@ -1,1210 +1,307 @@
 <%- include('../partials/user/header') %>
 
-  <div id="carouselExampleFade" class="carousel slide carousel-fade">
+<!-- Hero Section with Video -->
+<div class="hero-container position-relative vh-100 overflow-hidden">
+  <video autoplay muted   class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
+    <source src="../shuttercart-imags/03f19d73-6fe5-4db0-b009-01fd42277cd7.mp4" type="video/mp4">
+  </video>
+  <div class="hero-content position-absolute start-0 top-50 translate-middle-y text-start text-white p-5">
+    <div class="container">
+      <div class="animate-text">
+        <h1 class="display-2 fw-bold mb-4 text-shadow">Capture Your Moments</h1>
+      </div>
+      <div class="animate-text" style="animation-delay: 0.3s;">
+        <p class="lead mb-4 text-shadow" style="max-width: 500px;">Discover premium camera gear for every photographer</p>
+      </div>
+      <div class="animate-text" style="animation-delay: 0.6s;">
+        <a href="/shop" class="btn btn-light btn-lg px-5 py-3 rounded-pill hover-scale">Shop Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<section class="features-section py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card p-4 bg-white rounded-4 shadow-sm text-center">
+          <img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/1.svg" alt="Shipping" class="mb-3" style="width: 48px;">
+          <h5 class="mb-2">Free Worldwide Shipping</h5>
+          <p class="text-muted mb-0">On orders over $800</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card p-4 bg-white rounded-4 shadow-sm text-center">
+          <img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/2.svg" alt="Returns" class="mb-3" style="width: 48px;">
+          <h5 class="mb-2">Easy Returns</h5>
+          <p class="text-muted mb-0">30-day return policy</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card p-4 bg-white rounded-4 shadow-sm text-center">
+          <img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/3.svg" alt="Support" class="mb-3" style="width: 48px;">
+          <h5 class="mb-2">24/7 Support</h5>
+          <p class="text-muted mb-0">Expert assistance</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="feature-card p-4 bg-white rounded-4 shadow-sm text-center">
+          <img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/4.svg" alt="Rewards" class="mb-3" style="width: 48px;">
+          <h5 class="mb-2">Reward Points</h5>
+          <p class="text-muted mb-0">Earn on every purchase</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="categories-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">Shop by Category</h2>
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="category-card position-relative rounded-4 overflow-hidden">
+          <img src="../shuttercart-imags/1-d.jpg" alt="Cameras" class="w-100 h-100 object-fit-cover">
+          <div class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50">
+            <div class="text-center text-white">
+              <h3 class="mb-3">Cameras</h3>
+              <a href="/shop?category=camara" class="btn btn-outline-light rounded-pill px-4">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="category-card position-relative rounded-4 overflow-hidden">
+          <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" alt="Lenses" class="w-100 h-100 object-fit-cover">
+          <div class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50">
+            <div class="text-center text-white">
+              <h3 class="mb-3">Lenses</h3>
+              <a href="/shop?category=lense" class="btn btn-outline-light rounded-pill px-4">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="category-card position-relative rounded-4 overflow-hidden">
+          <img src="../shuttercart-imags/e85cd88799f7ec307ea3a5d0aadb9bfd.jpg" alt="Drones" class="w-100 h-100 object-fit-cover">
+          <div class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50">
+            <div class="text-center text-white">
+              <h3 class="mb-3">Drones</h3>
+              <a href="/shop?category=drone" class="btn btn-outline-light rounded-pill px-4">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Special Products Section -->
+<section class="special-products py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center mb-4">
+      <div class="col">
+        <h2 class="mb-0">Special Products</h2>
+      </div>
+      <div class="col-auto">
+        <ul class="nav nav-pills" id="specialProductsTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#new-arrivals" type="button">New Arrivals</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#best-sellers" type="button">Best Sellers</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-content" id="specialProductsContent">
+      <div class="tab-pane fade show active" id="new-arrivals" role="tabpanel">
+        <div class="row g-4">
+          <% products.forEach(product => { %>
+            <div class="col-lg-3 col-md-4 col-6">
+              <div class="product-card h-100 rounded-4 overflow-hidden bg-white shadow-sm">
+                <div class="product-image position-relative">
+                  <div class="badge bg-danger position-absolute top-0 start-0 m-3">NEW</div>
+                  <a href="/productDetails?id=<%= product._id %>">
+                    <img src="<%= product.productImage[0] %>" class="w-100 object-fit-cover primary-img" alt="<%= product.productName %>" style="height: 280px;">
+                    <% if(product.productImage[1]) { %>
+                      <img src="<%= product.productImage[1] %>" class="w-100 object-fit-cover secondary-img" alt="<%= product.productName %>" style="height: 280px;">
+                    <% } %>
+                  </a>
+                  <div class="product-actions position-absolute bottom-0 start-0 w-100 p-3 bg-white bg-opacity-75">
+                    <div class="d-flex justify-content-around">
+                      <a href="#" class="text-dark" data-bs-toggle="tooltip" title="Add to Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                      </a>
+                      <a href="#" class="text-dark" data-bs-toggle="tooltip" title="Add to Wishlist">
+                        <i class="fas fa-heart"></i>
+                      </a>
+                      <a href="/productDetails?id=<%= product._id %>" class="text-dark" data-bs-toggle="tooltip" title="View Details">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-info p-3">
+                  <h5 class="product-title mb-2">
+                    <a href="/productDetails?id=<%= product._id %>" class="text-dark text-decoration-none">
+                      <%= product.productName %>
+                    </a>
+                  </h5>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="price-box">
+                      <span class="current-price fw-bold">$<%= product.salePrice %></span>
+                      <% if(product.regularPrice > product.salePrice) { %>
+                        <span class="old-price text-muted text-decoration-line-through ms-2">$<%= product.regularPrice %></span>
+                        <span class="discount badge bg-success ms-2">
+                          <%= Math.round((product.regularPrice - product.salePrice) / product.regularPrice * 100) %>% OFF
+                        </span>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="rating mt-2">
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star-half-alt text-warning"></i>
+                    <span class="text-muted ms-2">(4.5)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="best-sellers" role="tabpanel">
+        <div class="row g-4">
+          <!-- Product cards will be dynamically loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Grid -->
+<div class="container py-5">
+  <h2 class="text-center mb-4">Explore Our Products</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="img-fluid rounded" alt="Product 1">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Professional Cameras</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" class="img-fluid rounded" alt="Product 2">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Premium Lenses</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/e85cd88799f7ec307ea3a5d0aadb9bfd.jpg" class="img-fluid rounded" alt="Product 3">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Camera Drones</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" class="img-fluid rounded" alt="Product 4">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Camera Accessories</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/1-d.jpg" class="img-fluid rounded" alt="Product 5">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Professional Gear</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="position-relative">
+        <img src="../shuttercart-imags/studio-gear.jpg" class="img-fluid rounded" alt="Product 6">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+          <h5 class="mb-0">Studio Equipment</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section py-5 bg-dark text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+        <h3 class="mb-4">Subscribe to Our Newsletter</h3>
+        <p class="mb-4">Stay updated with our latest products and exclusive offers</p>
+        <form class="newsletter-form">
+          <div class="input-group">
+            <input type="email" class="form-control form-control-lg rounded-start-pill" placeholder="Enter your email">
+            <button class="btn btn-light rounded-end-pill px-4" type="submit">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Carousel -->
+<div class="container-fluid py-5">
+  <div id="productCarousel" class="carousel slide">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <video src="../shuttercart-imags/03f19d73-6fe5-4db0-b009-01fd42277cd7.mp4" autoplay muted 
-          class="w-100 h-100 "></video>
+        <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="d-block w-100" alt="Featured 1">
       </div>
       <div class="carousel-item">
-        <img src="../shuttercart-imags/1-d.jpg" class="d-block w-100" alt="...">
+        <img src="../shuttercart-imags/01_Hero_Desktop.jpg" class="d-block w-100" alt="Featured 2">
       </div>
       <div class="carousel-item">
-        <img src="../shuttercart-imags/75fb15b84cf8913194376471b78d5034.jpg" class="d-block w-100" alt="...">
+        <img src="../shuttercart-imags/02_Feature3_Desktop.jpg" class="d-block w-100" alt="Featured 3">
       </div>
       <div class="carousel-item">
-        <img src="../shuttercart-imags/314a89096b684a33abe939521a2f3402.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../shuttercart-imags/Banner1.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../shuttercart-imags/0387cf16b7771e56f54ededcccb941ad.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="../shuttercart-imags/314a89096b684a33abe939521a2f3402.jpg" class="d-block w-100" alt="...">
+        <img src="../shuttercart-imags/banner2_1024x1024.jpg" class="d-block w-100" alt="Featured   4">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
     </button>
   </div>
-  <!-- <section class="pt-0 home-section-3">
-  <div class="container-fluid">
-    <div class="row align-items-center">
-      <div class="col-2 d-none d-xl-block">
-        <ul> 
-          <li> <a href="collection-left-sidebar.html">Women’s Clothing</a></li>
-          <li> <a href="collection-left-sidebar.html">Men’s Clothing</a></li>
-          <li> <a href="collection-left-sidebar.html">Kids Clothing</a></li>
-          <li> <a href="collection-left-sidebar.html">Watch</a></li>
-          <li> <a href="collection-left-sidebar.html">Sports Accessories</a></li>
-          <li> <a href="collection-left-sidebar.html">Sunglass</a></li>
-          <li> <a href="collection-left-sidebar.html">Bags</a></li>
-          <li> <a href="collection-left-sidebar.html">Sneakers</a></li>
-          <li> <a href="collection-left-sidebar.html">Jewellery</a></li>
-          <li> <a href="collection-left-sidebar.html">Hair Accessories</a></li>
-          <li> <a href="collection-left-sidebar.html">Other</a></li>
-        </ul>
-      </div>
-      <div class="col pe-0">  
-        <div class="home-banner p-right">                            <img class="img-fluid" src="../assets/images/layout-3/1.jpg" alt=""/>
-          <div class="contain-banner"> 
-            <div> 
-              <h4>Hot Offer <span>START TODAY</span></h4>
-              <h1>Explore Your True Creative Fashion.</h1>
-              <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. </p>
-              <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="collection-left-sidebar.html">Show Now
-                  <svg>
-                    <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                  </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="collection-left-sidebar.html">Show Now
-                  <svg>
-                    <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                  </svg></a></div>
-            </div>
-          </div>
-        </div>
-        <ul class="social-icon"> 
-          <li> <a href="#">
-              <h6>Follow Us</h6></a></li>
-          <li> <a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-          <li> <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section> -->
-  <section class="section-t-space">
-    <div class="custom-container container service">
-      <ul>
-        <li>
-          <div class="service-block"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/1.svg"
-              alt="" />
-            <div>
-              <h6>Free Shipping Worldwide</h6>
-              <p>Apply to all orders over $800</p>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="service-block"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/2.svg"
-              alt="" />
-            <div>
-              <h6>Return & Exchanges</h6>
-              <p>Complete warranty</p>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="service-block"><img src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/3.svg"
-              alt="" />
-            <div>
-              <h6>Technical Support</h6>
-              <p>Service support 24/7</p>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="service-block border-0"><img
-              src="https://themes.pixelstrap.net/katie/assets/images/svg-icon/4.svg" alt="" />
-            <div>
-              <h6>Daily Gift Vouchers</h6>
-              <p>Shopping now is more fun</p>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </section>
-  <section class="section-t-space">
-    <div class="custom-container container">
-      <div class="row">
-        <div class="col-xxl-5 col-lg-8 offer-box-1">
-          <div class="row gy-4 ratio_45">
-            <div class="col-12">
-              <div class="collection-banner p-left"> <img class="bg-img" src="../shuttercart-imags/1-d.jpg" alt="" />
-                <div class="contain-banner">
-                  <div>
-                    <h4>Up to 60% OFF</h4>
-                    <h3></h3>
-                    <div class="link-hover-anim underline"><a
-                        class="btn btn_underline link-strong link-strong-unhovered" href="/shop">Shop now
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered"
-                        href="collection-left-sidebar.html">Shop Collection
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12">
-              <div class="collection-banner p-right"><img class="bg-img"
-                  src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" alt="" />
-                <div class="contain-banner">
-                  <div>
-                    <h4>Up to 60% OFF</h4>
-                    <h3></h3>
-                    <div class="link-hover-anim underline"><a
-                        class="btn btn_underline link-strong link-strong-unhovered" href="/shop">Shop now
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered"
-                        href="collection-left-sidebar.html">Shop Collection
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="col-xxl-3 col-4 d-none d-lg-block"> 
-        <div class="special-offer-slider"> 
-          <h4>Special Offer</h4>
-          <div class="swiper special-offer-slide">
-            <div class="swiper-wrapper trending-products">
-              <div class="swiper-slide product-box-3">
-                <div class="img-wrapper">
-                  <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                  <div class="product-image ratio_apos"><a class="pro-first" href="product.html"> <img class="bg-img" src="../shuttercart-imags/02_slide1_Desktop.png" alt="product"/></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../shuttercart-imags/01_SlideShow_01_Desktop.png" alt="product"/></a></div>
-                  <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                </div>
-               
-              </div>
-              <div class="swiper-slide product-box-3">
-                <div class="img-wrapper">
-                  <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon" href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                  <div class="product-image ratio_apos"><a class="pro-first" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/8.jpg" alt="product"/></a><a class="pro-sec" href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/12.jpg" alt="product"/></a></div>
-                  <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart" tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html" tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye" aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                  <div class="countdown">
-                    <ul class="clockdiv2">
-                      <li> 
-                        <div class="timer">
-                          <div class="days"></div>
-                        </div><span class="title">Days</span>
-                      </li>
-                      <li class="dot"> <span>:</span></li>
-                      <li> 
-                        <div class="timer">
-                          <div class="hours"></div>
-                        </div><span class="title">Hours</span>
-                      </li>
-                      <li class="dot"> <span>:</span></li>
-                      <li> 
-                        <div class="timer">
-                          <div class="minutes"></div>
-                        </div><span class="title">Min</span>
-                      </li>
-                      <li class="dot"> <span>:</span></li>
-                      <li> 
-                        <div class="timer">
-                          <div class="seconds"></div>
-                        </div><span class="title">Sec</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="product-detail">
-                  <ul class="rating">      
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-regular fa-star"></i></li>
-                    <li>4.3</li>
-                  </ul><a href="product.html"> 
-                    <h6>Wide Linen-Blend Trousers</h6></a>
-                  <p>$100.00  
-                    <del>$18.00 </del>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-          </div>
-        </div> 
-      </div>-->
+</div>
 
-        <div class="col-xxl-3 col-4 d-none d-lg-block">
-          <div class="offer-banner-3 ratio1_3"> <a href="#"> <img class="bg-img"
-                src="../shuttercart-imags/05_Feature3_1_Desktop.jpg" alt="" />
-              <div>
-              </div>
-            </a></div>
-
-        </div>
-
-        <div class="col-4 d-none d-xxl-block">
-          <div class="offer-banner-3 ratio1_3"> <a href="#"> <img class="bg-img"
-                src="../shuttercart-imags/314a89096b684a33abe939521a2f3402.jpg" alt="" />
-              <div> <img src="../../public/shuttercart-imags/314a89096b684a33abe939521a2f3402.jpg" alt="" />
-                <h6>SALE UP TO 70%</h6>
-              </div>
-            </a></div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div id="carouselExampleIndicators" class="carousel slide">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="../shuttercart-imags/3a5022011deb64e81cff254eca624210.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="../shuttercart-imags/5a97009be9bb6c75430d38b42df8ccbc.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="../shuttercart-imags/30c1020ad33b4e7c846c91ff693ecdea.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="../shuttercart-imags/82cf7eda53dfee28857861d3a9a22216.jpg" class="d-block w-100" alt="...">
-        </div>
-        
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </section>
-  <section class="section-t-space">
-    <div class="custom-container container">
-      <div class="row special-products align-items-center">
-        <div class="col-md-4 col-12">
-          <div class="title-1">
-            <h3>Special Products</h3>
-          </div>
-        </div>
-        <div class="col-md-8 col-12">
-          <div class="theme-tab-3">
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item" role="presentation"><a class="nav-link active" data-bs-toggle="tab"
-                  data-bs-target="#new-product" role="tab" aria-controls="new-product" aria-selected="true">
-                  <h6>New Products</h6>
-                </a></li>
-              <!-- <li class="nav-item" role="presentation"><a class="nav-link" data-bs-toggle="tab" data-bs-target="#featured-product" role="tab" aria-controls="featured-product" aria-selected="false"> 
-                <h6>Featured Products</h6></a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" data-bs-toggle="tab" data-bs-target="#best-seller" role="tab" aria-controls="best-seller" aria-selected="false"> 
-                <h6>Best Seller</h6></a></li>  -->
-            </ul>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="new-product" role="tabpanel" tabindex="0">
-              <div class="row ratio1_3 gy-4 gx-3 gx-sm-4">
-
-
-
-                <!-- product listing -->
-
-
-
-                <% products.forEach(element=> { %>
-
-
-                  <div class="col-lg-3 col-md-4 col-6">
-                    <div class="product-box-3">
-                      <div class="img-wrapper">
-                        <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                            href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart"
-                              aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                        <div class="product-image"><a class="pro-first" href="/productDetails?id=<%= element._id %>">
-                            <img class="bg-img" src="<%= element.productImage[0] %>" alt="product" /></a><a
-                            class="pro-sec" href="/productDetails?id=<%= element._id %>"> <img class="bg-img"
-                              src="<%= element.productImage[1] %>" alt="product" /></a></div>
-                        <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                            tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                              data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="#" tabindex="0"><i
-                              class="iconsax" data-icon="arrow-up-down" aria-hidden="true" data-bs-toggle="tooltip"
-                              data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                            data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                              aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-
-                      </div>
-                      <div class="product-detail">
-                        <ul class="rating">
-                          <li><i class="fa-solid fa-star"></i></li>
-                          <li><i class="fa-solid fa-star"></i></li>
-                          <li><i class="fa-solid fa-star"></i></li>
-                          <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                          <li><i class="fa-regular fa-star"></i></li>
-                          <li>4.3</li>
-                        </ul><a href="/productDetails?id=<%= element._id %>">
-                          <h6>
-                            <%= element.productName %>
-                          </h6>
-                        </a>
-                        <p>$<%= element.salePrice %>
-                            <del>$<%= element.regularPrice %></del><span>-20%</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <% }) %>
-
-
-
-              </div>
-            </div>
-            <div class="tab-pane fade" id="featured-product" role="tabpanel" tabindex="0">
-              <div class="row ratio1_3 gy-4">
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/4.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/16.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                      <div class="countdown">
-                        <ul class="clockdiv4">
-                          <li>
-                            <div class="timer">
-                              <div class="days"></div>
-                            </div><span class="title">Days</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="hours"></div>
-                            </div><span class="title">Hours</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="minutes"></div>
-                            </div><span class="title">Min</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="seconds"></div>
-                            </div><span class="title">Sec</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Greciilooks Women's Stylish Top</h6>
-                      </a>
-                      <p>$100.00
-                        <del>$140.00</del><span>-20%</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/11.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/15.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Wide Linen-Blend Trousers</h6>
-                      </a>
-                      <p>$100.00
-                        <del>$18.00 </del>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/9.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/14.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Long Sleeve Rounded T-Shirt</h6>
-                      </a>
-                      <p>$12.30
-                        <del>$140.00</del><span>-20%</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/10.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/13.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                      <div class="countdown">
-                        <ul class="clockdiv5">
-                          <li>
-                            <div class="timer">
-                              <div class="days"></div>
-                            </div><span class="title">Days</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="hours"></div>
-                            </div><span class="title">Hours</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="minutes"></div>
-                            </div><span class="title">Min</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="seconds"></div>
-                            </div><span class="title">Sec</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Blue lined White T-Shirt</h6>
-                      </a>
-                      <p>$190.00
-                        <del>$210.00</del>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="best-seller" role="tabpanel" tabindex="0">
-              <div class="row ratio1_3 gy-4">
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/16.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/2.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                      <div class="countdown">
-                        <ul class="clockdiv6">
-                          <li>
-                            <div class="timer">
-                              <div class="days"></div>
-                            </div><span class="title">Days</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="hours"></div>
-                            </div><span class="title">Hours</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="minutes"></div>
-                            </div><span class="title">Min</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="seconds"></div>
-                            </div><span class="title">Sec</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Greciilooks Women's Stylish Top</h6>
-                      </a>
-                      <p>$100.00
-                        <del>$140.00</del><span>-20%</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/17.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/1.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"> </i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-regular fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Wide Linen-Blend Trousers</h6>
-                      </a>
-                      <p>$100.00
-                        <del>$18.00 </del>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/18.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/20.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Long Sleeve Rounded T-Shirt</h6>
-                      </a>
-                      <p>$12.30
-                        <del>$140.00</del><span>-20%</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-6">
-                  <div class="product-box-3">
-                    <div class="img-wrapper">
-                      <div class="label-block"><span class="lable-1">NEW</span><a class="label-2 wishlist-icon"
-                          href="javascript:void(0)" tabindex="0"><i class="iconsax" data-icon="heart" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to Wishlist"></i></a></div>
-                      <div class="product-image"><a class="pro-first" href="product.html"> <img class="bg-img"
-                            src="../assets/images/product/product-3/19.jpg" alt="product" /></a><a class="pro-sec"
-                          href="product.html"> <img class="bg-img" src="../assets/images/product/product-3/3.jpg"
-                            alt="product" /></a></div>
-                      <div class="cart-info-icon"> <a href="#" data-bs-toggle="modal" data-bs-target="#addtocart"
-                          tabindex="0"><i class="iconsax" data-icon="basket-2" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Add to card"> </i></a><a href="compare.html"
-                          tabindex="0"><i class="iconsax" data-icon="arrow-up-down" aria-hidden="true"
-                            data-bs-toggle="tooltip" data-bs-title="Compare"></i></a><a href="#" data-bs-toggle="modal"
-                          data-bs-target="#quick-view" tabindex="0"><i class="iconsax" data-icon="eye"
-                            aria-hidden="true" data-bs-toggle="tooltip" data-bs-title="Quick View"></i></a></div>
-                      <div class="countdown">
-                        <ul class="clockdiv7">
-                          <li>
-                            <div class="timer">
-                              <div class="days"></div>
-                            </div><span class="title">Days</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="hours"></div>
-                            </div><span class="title">Hours</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="minutes"></div>
-                            </div><span class="title">Min</span>
-                          </li>
-                          <li class="dot"> <span>:</span></li>
-                          <li>
-                            <div class="timer">
-                              <div class="seconds"></div>
-                            </div><span class="title">Sec</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="product-detail">
-                      <ul class="rating">
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star"></i></li>
-                        <li><i class="fa-solid fa-star-half-stroke"></i></li>
-                        <li>4.3</li>
-                      </ul><a href="product.html">
-                        <h6>Blue lined White T-Shirt</h6>
-                      </a>
-                      <p>$190.00
-                        <del>$210.00</del>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<!-- Image Showcase -->
+<section class="image-showcase py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="showcase-item position-relative rounded-4 overflow-hidden" style="height: 400px;">
+          <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="w-100 h-100 object-fit-cover" alt="Cameras">
+          <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center p-4 text-white" style="background: rgba(0,0,0,0.5);">
+            <h2 class="mb-3">Professional Cameras</h2>
+            <a href="/shop" class="btn btn-light">Shop Now</a>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <section class="section-t-space"> 
-  <div class="custom-container container">
-    <div class="style-banner">
-      <div class="row gy-4 align-items-end"> 
-        <div class="col-sm-6 col-12 ratio_square-4"><a href="collection-left-sidebar.html"> <img class="bg-img" src="../assets/images/banner/banner-4.png" alt=""/></a></div>
-        <div class="col-sm-6 col-12 ratio3_2">
-          <div class="style-content">
-            <h6>Wear Your Style</h6>
-            <h2>Top Brands Best 4+ Star Rated</h2>
-            <h4>On Fashion Online Shopping</h4>
-            <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="collection-left-sidebar.html">Shop Collection
-                <svg>
-                  <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="collection-left-sidebar.html">Shop Collection
-                <svg>
-                  <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                </svg></a></div>
-          </div><a href="collection-left-sidebar.html"> <img class="bg-img" src="../assets/images/banner/banner-5.jpg" alt=""/></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> 
-  <section class="section-t-space">
-  <div class="custom-container container flash-box">
-    <div class="row gy-3"> 
-      <div class="col-12">
-        <div class="d-sm-flex d-block justify-content-between align-items-center">
-          <div class="title-1">
-            <p>Brand collection<span></span></p>
-            <h3>Flash Sale Product</h3>
-          </div>
-          <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="collection-left-sidebar.html">See All Product
-              <svg>
-                <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-              </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="collection-left-sidebar.html">See All Product
-              <svg>
-                <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-              </svg></a></div>
-        </div>
-      </div>
-      <div class="col-xxl-3 col-lg-6 col-12 order-xxl-1 order-2"> 
-        <div class="row gy-4"> 
-          <div class="col-lg-12 col-md-6 col-12"> 
-            <div class="flash-content"><img class="img-fluid" src="../assets/images/banner/6.jpg" alt=""/>
-              <div> 
-                <ul> 
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>4.3</li>
-                </ul><a href="product.html">
-                  <h6>Greciilooks Women's Stylish Top </h6></a>
-                <h6>$100.00</h6>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 col-md-6 col-12"> 
-            <div class="flash-content"><img class="img-fluid" src="../assets/images/banner/7.jpg" alt=""/>
-              <div> 
-                <ul> 
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>4.3</li>
-                </ul><a href="product.html">
-                  <h6>Greciilooks Women's Stylish Top </h6></a>
-                <h6>$100.00
-                  <del>$140.00</del>
-                </h6>
-              </div>
-              <div class="flash-lable"> <span>-20%</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xxl-6 col-lg-6 col-12 order-xxl-2 order-1">
-        <div class="flash-images ratio50_2"><a href="collection-left-sidebar.html"><img class="bg-img" src="../assets/images/banner/banner-10.jpg" alt=""/></a>
-          <div class="banner-2"> 
-            <h3>40% - 80%Off</h3>
-            <h5>Men's Special Offer</h5>
-            <div class="countdown">
-              <ul class="clockdiv8">
-                <li> 
-                  <div class="timer">
-                    <div class="days"></div>
-                  </div><span class="title">Days</span>
-                </li>
-                <li class="dot"> <span> </span><span></span></li>
-                <li> 
-                  <div class="timer">
-                    <div class="hours"></div>
-                  </div><span class="title">Hours</span>
-                </li>
-                <li class="dot"> <span> </span><span></span></li>
-                <li> 
-                  <div class="timer">
-                    <div class="minutes"></div>
-                  </div><span class="title">Min</span>
-                </li>
-                <li class="dot"> <span> </span><span></span></li>
-                <li> 
-                  <div class="timer">
-                    <div class="seconds"></div>
-                  </div><span class="title">Sec</span>
-                </li>
-              </ul>
-            </div>
-            <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="collection-left-sidebar.html">Shop Collection
-                <svg>
-                  <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="collection-left-sidebar.html">Shop Collection
-                <svg>
-                  <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                </svg></a></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xxl-3 col-12 order-xxl-3 order-3">
-        <div class="row gy-4">
-          <div class="col-xxl-12 col-md-6 col-12"> 
-            <div class="flash-content"><img class="img-fluid" src="../assets/images/banner/8.jpg" alt=""/>
-              <div> 
-                <ul> 
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>4.3</li>
-                </ul><a href="product.html">
-                  <h6>Greciilooks Women's Stylish Top </h6></a>
-                <h6>$100.00
-                  <del>$140.00</del>
-                </h6>
-              </div>
-              <div class="flash-lable"> <span>-30%</span></div>
-            </div>
-          </div>
-          <div class="col-xxl-12 col-md-6 col-12"> 
-            <div class="flash-content"><img class="img-fluid" src="../assets/images/banner/9.jpg" alt=""/>
-              <div> 
-                <ul> 
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>
-                    <svg>
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#star"></use>
-                    </svg>
-                  </li>
-                  <li>4.3</li>
-                </ul><a href="product.html">
-                  <h6>Greciilooks Women's Stylish Top </h6></a>
-                <h6>$100.00</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-  <section class="section-t-space">
-    <div class="container-fluid">
-      <div class="row align-items-center">
-
-
-        <div class="col-sm-12 col-6 p-0">
-          <div class="swiper slide-2">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide logo-block"><a href="collection-left-sidebar.html"> <img
-                    src="../assets/images/logos/6.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block w-auto h-auto"><a href="collection-left-sidebar.html"> <img
-                    src="../shuttercart-imags/Sony_logo.svg.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block w-auto h-auto"><a href="collection-left-sidebar.html"> <img
-                    src="../shuttercart-imags/600c547bf3bd5c0004b0eae8.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block w-auto h-auto"><a href="collection-left-sidebar.html"> <img
-                    src="../shuttercart-imags/dj8808d13d-dji-logo-dji-official-website.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block w-auto h-auto"><a href="collection-left-sidebar.html"> <img
-                    src="../shuttercart-imags/600d693860095200047e8ab0.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block w-auto h-auto"><a href="collection-left-sidebar.html"> <img
-                src="../assets/images/logos/5.png" alt="logo" /></a></div>
-              <div class="swiper-slide logo-block"><a href="collection-left-sidebar.html"> <img
-                    src="../assets/images/logos/7.png" alt="logo" /></a></div>
-            </div>
-          </div>
-        </div>
-
-
-  </section>
-  <section class="section-t-space ratio3_3">
-    <div class="container-fluid subscribe-banner">
-      <div class="row align-items-center">
-        <div class="col-xl-8 col-md-7 col-12 px-0"> <a href="index.html"><img class="bg-img"
-              src="../shuttercart-imags/01_Hero_Desktop.jpg" alt="" /></a></div>
-        <div class="col-xl-4 col-5">
-          <div class="subscribe-content">
-            <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" alt="">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="section-b-space">
-  <div class="custom-container container">
-    <div class="row">
-      <div class="col">
-        <div class="title-1">
-          <p>Follow Us On Insta<span></span></p>
-          <h3>Our Instagram Post</h3>
-        </div>
-      </div>
-    </div>
-    <div class="swiper insta-slide-3">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/6.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/7.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/8.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/9.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/10.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <div class="instagram-box-1"> 
-            <div class="instagram-box">
-              <div class="instashop-effect"><img src="../assets/images/instagram/7.jpg" alt=""/>
-                <div class="insta-txt">
-                  <div>
-                    <svg class="insta-icon">
-                      <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#instagram"></use>
-                    </svg>
-                    <p>Instashop</p>
-                    <div class="link-hover-anim underline"><a class="btn btn_underline link-strong link-strong-unhovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a><a class="btn btn_underline link-strong link-strong-hovered" href="product.html">Discover
-                        <svg>
-                          <use href="https://themes.pixelstrap.net/katie/assets/svg/icon-sprite.svg#arrow"></use>
-                        </svg></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="col-md-6">
+        <div class="showcase-item position-relative rounded-4 overflow-hidden" style="height: 400px;">
+          <img src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" class="w-100 h-100 object-fit-cover" alt="Accessories">
+          <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center p-4 text-white" style="background: rgba(0,0,0,0.5);">
+            <h2 class="mb-3">Camera Accessories</h2>
+            <a href="/shop" class="btn btn-light">Shop Now</a>
           </div>
         </div>
       </div>
@@ -1212,4 +309,357 @@
   </div>
 </section>
 
-  <%- include('../partials/user/footer') %>
+<!-- Brands Section -->
+<div class="container-fluid bg-light section-padding-sm py-6 ">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="display-4 fw-bold mb-3">Trusted Brands</h2>
+      <p class="lead text-muted">We partner with the world's leading photography brands to bring you authentic, high-quality equipment.</p>
+      <p class="mb-4">Our strong relationships with manufacturers ensure you get genuine products with full warranty coverage. Each brand in our collection is carefully selected for its commitment to innovation, quality, and reliability in the photography industry.</p>
+    </div>
+    
+    <div class="marquee-wrapper">
+        <div class="marquee">
+            <!-- First set of brands -->
+            <div class="brand-card">
+                <img src="/shuttercart-imags/Sony_logo.svg.png" alt="Sony" class="brand-logo img-fluid">
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Canon</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Nikon</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Fujifilm</span>
+            </div>
+            <div class="brand-card">
+                <img src="/shuttercart-imags/dj8808d13d-dji-logo-dji-official-website.png" alt="DJI" class="brand-logo img-fluid">
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Panasonic</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">GoPro</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Leica</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Olympus</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Sigma</span>
+            </div>
+
+            <!-- Duplicate set for seamless loop -->
+            <div class="brand-card">
+                <img src="/shuttercart-imags/Sony_logo.svg.png" alt="Sony" class="brand-logo img-fluid">
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Canon</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Nikon</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Fujifilm</span>
+            </div>
+            <div class="brand-card">
+                <img src="/shuttercart-imags/dj8808d13d-dji-logo-dji-official-website.png" alt="DJI" class="brand-logo img-fluid">
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Panasonic</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">GoPro</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Leica</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Olympus</span>
+            </div>
+            <div class="brand-card">
+                <span class="brand-text">Sigma</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .marquee-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 30px 0;
+    }
+    .marquee {
+        display: flex;
+        animation: marquee 30s linear infinite;
+        gap: 30px;
+    }
+    .marquee:hover {
+        animation-play-state: paused;
+    }
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+    .brand-card {
+        flex: 0 0 auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        width: 150px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .brand-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+    .brand-text {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #333;
+        text-align: center;
+        margin: 0;
+    }
+    .brand-logo {
+        filter: grayscale(100%);
+        transition: filter 0.3s ease, transform 0.3s ease;
+        max-height: 60px;
+        opacity: 0.7;
+    }
+    .brand-logo:hover {
+        filter: grayscale(0%);
+        transform: scale(1.05);
+        opacity: 1;
+    }
+</style>
+
+<%- include('../partials/user/footer') %>
+
+<!-- Custom CSS -->
+<style>
+.hero-container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-container video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hero-content {
+  z-index: 1;
+}
+
+.feature-card {
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.category-card {
+  height: 400px;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: scale(1.02);
+}
+
+.category-overlay {
+  transition: background-color 0.3s ease;
+}
+
+.category-card:hover .category-overlay {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.nav-pills .nav-link {
+  color: #333;
+  border-radius: 50px;
+  padding: 8px 20px;
+  margin: 0 5px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #333;
+  color: white;
+}
+
+.newsletter-form .form-control {
+  border: none;
+  padding: 15px 25px;
+}
+
+.newsletter-form .btn {
+  padding: 15px 30px;
+}
+
+.animate-text {
+  animation: slideIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.product-image {
+  overflow: hidden;
+}
+
+.primary-img, .secondary-img {
+  transition: opacity 0.3s ease;
+}
+
+.secondary-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.product-card:hover .secondary-img {
+  opacity: 1;
+}
+
+.product-card:hover .primary-img {
+  opacity: 0;
+}
+
+.product-actions {
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-actions {
+  transform: translateY(0);
+}
+
+.product-actions a {
+  transition: color 0.3s ease;
+}
+
+.product-actions a:hover {
+  color: #0d6efd !important;
+}
+
+.product-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.showcase-item {
+  transition: transform 0.3s ease;
+}
+
+.showcase-item:hover {
+  transform: scale(1.02);
+}
+
+.showcase-item .overlay {
+  transition: background 0.3s ease;
+}
+
+.showcase-item:hover .overlay {
+  background: rgba(0,0,0,0.7) !important;
+}
+
+/* Brand Marquee Styles */
+.marquee-wrapper {
+  overflow: hidden;
+  padding: 30px 0;
+  background: #fff;
+}
+.marquee {
+  display: flex;
+  animation: scroll 30s linear infinite;
+}
+.brand-card {
+  flex: 0 0 auto;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-logo {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  max-height: 60px;
+  opacity: 0.7;
+}
+.brand-logo:hover {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+  opacity: 1;
+}
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+.brand-text:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+</style>
