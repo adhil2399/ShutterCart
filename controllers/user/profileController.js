@@ -255,7 +255,7 @@ const editAddress = async (req, res) => {
     if (!addressData) {
       return res.redirect('/pageNotFound')
     } else {
-      res.render('edit-address', { address: addressData, user: user })
+      res.render('edit-address', { address: addressData, user: user ,loc:req.query.loc})
     }
   } catch (error) {
     console.log('error in edit address', error)
@@ -266,8 +266,7 @@ const editAddress = async (req, res) => {
 const posteditAddress = async (req, res) => {
   try {
     const data = req.body;
-    console.log(data)
-    const addressid = req.query.id
+      const addressid = req.query.id
     const user = req.session.user;
     const findAddress = await Address.findOne({ 'address._id': addressid });
 
@@ -286,7 +285,8 @@ const posteditAddress = async (req, res) => {
          altPhone: data.altPhone
            }
            } })
-           res.redirect('/userProfile')
+            
+           res.status(200).json({ success: true, message: 'Address updated successfully.' });
 
   } catch (error) {
  console.error('Error in edit address',error)

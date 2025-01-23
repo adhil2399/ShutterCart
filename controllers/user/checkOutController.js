@@ -17,10 +17,15 @@ const renderCheckoutPage = async (req, res) => {
           });
           console.log('cartgg',cart)
               
+          
         const userAddress= await Address.find({userId})
+        const currentDate = new Date();
+
         const availableCoupons = await Coupon.find({
             isListed: true,
-            userId: { $ne: userId }
+            userId: { $ne: userId },
+            createdOn: { $lte: currentDate }, 
+            expireOn: { $gte: currentDate }  
         });
 
         let totalWithoutDiscount = 0;

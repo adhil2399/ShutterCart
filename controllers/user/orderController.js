@@ -37,7 +37,7 @@ const placeOrder = async (req, res) => {
                 });
             }
 
-            if (!product.isListed) {
+            if (product.isBlocked) {
                 return res.status(400).json({ 
                     success: false, 
                     message: `Product ${cartItem.productId.productName} is currently unavailable.` 
@@ -470,6 +470,8 @@ const cancelOrder = async (req, res) => {
             userId
         }).populate('orderedItems.product');
 
+
+        console.log('orderrrrrrrrrrrrrrrrrrrrrr',JSON.stringify(order));
         if (!order) {
             return res.status(404).json({
                 success: false,
@@ -532,11 +534,12 @@ const cancelOrder = async (req, res) => {
 
         // Return items to stock
         for (const item of order.orderedItems) {
-            await Product.findByIdAndUpdate(
-                item.product,
-                { $inc: { quantity: item.quantity } }
-            );
-        }
+            const product = await Product.findById(item.product);
+            if (product) {
+               product.quantity = product.quantity + Number(item.quantity);
+               await product.save();
+            }
+          }
 
         await order.save();  
 

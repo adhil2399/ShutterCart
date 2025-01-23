@@ -2,35 +2,29 @@ const Order = require('../../models/orderSchema');
 const PDFDocument = require('pdfkit');
 const ExcelJS = require('exceljs');
 
-// Controller to fetch sales reports
-const getSalesReports = async (req, res) => {
+ const getSalesReports = async (req, res) => {
     try {
         const { period = 'all', status, startDate, endDate, page = 1 } = req.query;
-        const limit = 10; // Number of orders per page
+        const limit = 10;  
         const skip = (page - 1) * limit;
 
-        // Build query filters
-        let query = {};
+         let query = {};
         
-        // Add status filter if specified
-        if (status && status !== 'all') {
+         if (status && status !== 'all') {
             query.status = status;
         }
 
-        // Add date filter based on period
-        const dateFilter = getDateFilter(period, startDate, endDate);
+         const dateFilter = getDateFilter(period, startDate, endDate);
         if (Object.keys(dateFilter).length > 0) {
             query = { ...query, ...dateFilter };
         }
 
         console.log('Query:', query);
 
-        // Get total count for pagination
-        const totalOrders = await Order.countDocuments(query);
+         const totalOrders = await Order.countDocuments(query);
         const totalPages = Math.ceil(totalOrders / limit);
 
-        // Fetch paginated orders
-        const orders = await Order.find(query)
+         const orders = await Order.find(query)
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
@@ -40,22 +34,17 @@ const getSalesReports = async (req, res) => {
                 select: 'productName regularPrice salePrice'
             });
 
-        // Get all orders for totals calculation (without pagination)
-        const allOrders = await Order.find(query);
+         const allOrders = await Order.find(query);
         const totals = calculateTotals(allOrders);
         
-        // Calculate payment method stats from all orders
-        const paymentStats = allOrders.reduce((acc, order) => {
+         const paymentStats = allOrders.reduce((acc, order) => {
             const method = order.paymentMethod;
             acc[method] = (acc[method] || 0) + 1;
             return acc;
         }, {});
 
-        console.log('Orders found:', orders.length);
-        console.log('Payment Stats:', paymentStats);
-
-        // Render sales reports view
-        res.render('salesReports', {
+         
+         res.render('salesReports', {
             orders,
             totals,
             paymentStats,
@@ -81,8 +70,7 @@ const getSalesReports = async (req, res) => {
 };
 
 const getDateFilter = (period, startDate, endDate) => {
-    // If period is 'all' or not specified, return empty filter to show all orders
-    if (!period || period === 'all') {
+     if (!period || period === 'all') {
         return {};
     }
 

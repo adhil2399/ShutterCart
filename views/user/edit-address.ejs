@@ -230,17 +230,16 @@
            },
            body: JSON.stringify(data)
          });
-
-         // Check if response status is successful (2xx)
-         if (response.status >= 200 && response.status < 300) {
+         const result = await response.json();
+          if (response.ok) {
            await Swal.fire({
              icon: 'success',
              title: 'Success!',
-             text: 'Address updated successfully',
+             text: result.message||'Address updated successfully',
              showConfirmButton: false,
              timer: 1500
            });
-           window.location.href = '/userprofile';
+           window.location.href = '<%=locals.loc%>';
          } else {
            await Swal.fire({
              icon: 'error',
@@ -250,23 +249,11 @@
          }
        } catch (error) {
          console.error('Error:', error);
-         // If the address was actually updated despite the error
-         if (error instanceof SyntaxError) {
-           await Swal.fire({
-             icon: 'success',
-             title: 'Success!',
-             text: 'Address updated successfully',
-             showConfirmButton: false,
-             timer: 1500
-           });
-           window.location.href = '/userprofile';
-         } else {
-           await Swal.fire({
-             icon: 'error',
-             title: 'Error!',
-             text: 'Could not update the address. Please try again.'
-           });
-         }
+          await Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'An error occurred. Please try again.'
+          });         
        }
      });
    }

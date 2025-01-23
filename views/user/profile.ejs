@@ -1619,7 +1619,7 @@ async function verifyRetryPayment(response, orderId) {
                                   </span>
                                 </span>
                                 <span class="buttons">
-                                  <a class="btn btn_black sm" href="/editAddress?id=<%= address._id %>" title="Edit">Edit</a>
+                                  <a class="btn btn_black sm" href="/editAddress?id=<%= address._id %>&loc=%2FuserProfile" title="Edit">Edit</a>
                                   <button class="btn btn_outline sm" href="" onclick="deleteAddress('<%= address._id %>')" title="Delete">Delete</button>
                                 </span>
                               </label>
@@ -2001,9 +2001,9 @@ async function deleteAddress(id) {
                 text: "Product added to cart successfully!",
                 duration: 3000,
                 close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                backgroundColor: "#28a745", // Success color (green)
+                gravity: "top",  
+                position: "right",  
+                backgroundColor: "#28a745",  
                 className: "info",
                 escapeMarkup: false,
                 style: {
@@ -2053,4 +2053,3 @@ async function deleteAddress(id) {
 
  
   <%-include('../partials/user/footer')%>
- 
