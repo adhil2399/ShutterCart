@@ -121,7 +121,7 @@ const resendOtp = async (req, res) => {
     }
     //   console.log(email)
     const otp = generateOtp();
-    req.session.userOtp = otp;
+    req.session.userOtp = { otp, timestamp: Date.now() };
     console.log("Generated OTP:", otp);
 
     const emailSent = await sendVerificationEmail(email, otp);
@@ -149,7 +149,8 @@ const resendOtp = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
   try {
-    const { otp } = req.body;
+    const { otp1, otp2, otp3, otp4, otp5, otp6 } = req.body;
+    const otp = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     console.log("req.body", otp);
 
     if (
@@ -158,7 +159,9 @@ const verifyOtp = async (req, res) => {
     ) {
       return res.json({ success: false, message: "OTP has expired" });
     }
-    if (otp !== req.session.userOtp.otp) {
+    if (
+      otp !== req.session.userOtp.otp
+    ) {
       return res.json({
         success: false,
         message: "Invalide OTP , please try again",

@@ -1,161 +1,849 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>sign-up</title>
- <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
- <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-  <!-- Favicon icon-->
- <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
- <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
- <!-- Google Font Outfit-->
- <link rel="preconnect" href="https://fonts.googleapis.com/">
- <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
- <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
- <!-- Font Awesome-->
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/fontawesome.css">
- <!-- Iconsax icon-->
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/iconsax.css">
- <!-- Bootstrap css-->
- <link rel="stylesheet" type="text/css" id="rtl-link" href="../assets/css/vendors/bootstrap.css">
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/toastify.css">
- <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShutterCart - Login</title>
+  <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 1600px;
+      width: 98%;
+      margin: 1rem auto;
+      display: flex;
+      gap: 2.5rem;
+      min-height: calc(100vh - 2rem);
+      align-items: center;
+      padding: 0;
+    }
+
+    .left-section {
+      flex: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 3rem;
+      background-color: #000;
+      border-radius: 30px;
+      aspect-ratio: 1/1;
+      max-width: 750px;
+      height: 750px;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.35),
+        0 15px 30px rgba(0, 0, 0, 0.25),
+        inset 0 0 60px rgba(0, 0, 0, 0.15);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .left-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .right-section {
+      flex: 1;
+      max-width: 700px;
+      height: 750px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-card {
+      background: #fff;
+      padding: 4rem;
+      border-radius: 30px;
+      width: 100%;
+      margin-left: 10%;
+      max-width: 700px;
+      height: 100%;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        0 15px 30px rgba(0, 0, 0, 0.1),
+        0 5px 15px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(0, 0, 0, 0.02),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: slideDown 0.6s ease-out 0.2s both;
+    }
+
+    .login-header h2 {
+      font-size: 1.5rem;
+      color: #1A1A1A;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    .form-group:nth-child(1) {
+      animation: slideDown 0.6s ease-out 0.4s both;
+    }
+
+    .form-group:nth-child(2) {
+      animation: slideDown 0.6s ease-out 0.6s both;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #1A1A1A;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      transform-origin: left;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #4B5563;
+      box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.1);
+      transform: scale(1.02);
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      animation: slideDown 0.6s ease-out 0.8s both;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #E0E0E0;
+      border-radius: 4px;
+    }
+
+    .remember-me label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .forgot-password {
+      color: #4B5563;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 1.25rem;
+      background: #4B5563;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: slideDown 0.6s ease-out 1s both;
+      margin-top: 1rem;
+    }
+
+    .login-btn:hover {
+      background: #374151;
+    }
+
+    .login-btn.loading {
+      position: relative;
+      color: transparent;
+      pointer-events: none;
+    }
+
+    .login-btn.loading:after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin: -10px 0 0 -10px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-right-color: transparent;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .divider {
+      text-align: center;
+      margin: 20px 0;
+      color: #666;
+      font-size: 0.9rem;
+      position: relative;
+      animation: fadeIn 0.6s ease-out 1.2s both;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 45%;
+      height: 1px;
+      background: #E0E0E0;
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      margin-top: 2.5rem;
+      animation: slideUp 0.6s ease-out 1.4s both;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 1rem;
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      background: #fff;
+      color: #1A1A1A;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transform-origin: center;
+    }
+
+    .social-btn:hover {
+      background: #F8F9FA;
+      transform: scale(1.05);
+    }
+
+    .social-btn i {
+      font-size: 1.1rem;
+    }
+
+    .fa-google {
+      color: #DB4437;
+    }
+
+    .fa-facebook-f {
+      color: #4267B2;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 0.9rem;
+      animation: fadeIn 0.6s ease-out 1.6s both;
+    }
+
+    .signup-link a {
+      color: #4B5563;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 5px;
+    }
+
+    /* Enhanced Error Message Styles */
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #DC2626;
+      font-size: 0.875rem;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background-color: rgba(220, 38, 38, 0.1);
+      border-left: 3px solid #DC2626;
+      transform-origin: top;
+      animation: slideInError 0.3s ease-out;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .error-message:not(:empty) {
+      opacity: 1;
+      height: auto;
+      margin-top: 8px;
+    }
+
+    .error-message::before {
+      content: '⚠️';
+      font-size: 14px;
+    }
+
+    @keyframes slideInError {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-group.error input {
+      border-color: #DC2626;
+      background-color: rgba(220, 38, 38, 0.02);
+    }
+
+    .form-group.error label {
+      color: #DC2626;
+    }
+
+    /* Main error message at the top */
+    .main-error-message {
+      background-color: rgba(220, 38, 38, 0.1);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: shakeError 0.5s ease-in-out;
+    }
+
+    .main-error-message::before {
+      content: '⚠️';
+      font-size: 18px;
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    /* Success message styles */
+    .success-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #059669;
+      background-color: rgba(5, 150, 105, 0.1);
+      border-left: 3px solid #059669;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-top: 8px;
+      animation: slideInSuccess 0.3s ease-out;
+    }
+
+    .success-message::before {
+      content: '✓';
+      font-weight: bold;
+    }
+
+    @keyframes slideInSuccess {
+      from {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+
+    /* Smooth transitions for all interactive elements */
+    .login-btn, .social-btn, input, a {
+      transition: all 0.3s ease;
+    }
+
+    /* Loader Styles */
+    .loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loader-wrapper.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      animation: loaderScale 0.5s ease-out;
+    }
+
+    .loader:before,
+    .loader:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #4B5563;
+      opacity: 0.6;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .loader:after {
+      animation-delay: -1s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Enhanced Form Validation Styles */
+    .form-group.error .error-message {
+      transform: translateY(0);
+      max-height: 60px;
+      opacity: 1;
+      margin: 8px 0;
+      padding: 8px 12px;
+    }
+
+    .form-group input:focus {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-group.error input:focus {
+      border-color: #DC2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+    }
+
+    /* Refined Error Message Transitions */
+    .error-message {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 0;
+      margin: 0;
+      padding: 0 12px;
+    }
+
+    /* Success State Styles */
+    .form-group.success input {
+      border-color: #059669;
+      background-color: rgba(5, 150, 105, 0.02);
+    }
+
+    .form-group.success label {
+      color: #059669;
+    }
+
+    .form-group.success .success-message {
+      display: block;
+    }
+
+    .video-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      border-radius: 30px;
+    }
+
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      /* filter: brightness(0.9) contrast(1.1); */
+    }
+
+    .video-text-overlay {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      text-align: center;
+      width: 100%;
+      padding: 0 2rem;
+      opacity: 0;
+      animation: showOverlay 0.5s ease-out 3s forwards;
+    }
+
+    @keyframes showOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .video-text-overlay h1 {
+      color: #ffffff;
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+      text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        4px 4px 8px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 1.2s ease-out 3.2s forwards;
+      opacity: 0;
+      transform: translateY(30px);
+      letter-spacing: 1px;
+      -webkit-text-fill-color: #ffffff;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    }
+
+    .video-text-overlay h1 span {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out 4s forwards;
+      text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.2);
+      -webkit-text-fill-color: #ffffff;
+      letter-spacing: 1.5px;
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    .video-text-overlay h1 span::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 1200px) {
+      .left-section {
+        box-shadow: 
+          0 20px 40px rgba(0, 0, 0, 0.3),
+          0 10px 20px rgba(0, 0, 0, 0.2),
+          inset 0 0 50px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-card {
+        box-shadow: 
+          0 20px 40px rgba(0, 0, 0, 0.12),
+          0 10px 20px rgba(0, 0, 0, 0.08),
+          0 5px 10px rgba(0, 0, 0, 0.04),
+          0 0 0 1px rgba(0, 0, 0, 0.02);
+      }
+
+      .right-section {
+        max-width: 650px;
+        height: 700px;
+      }
+
+      .login-card {
+        max-width: 650px;
+        padding: 3rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .left-section {
+        box-shadow: 
+          0 15px 30px rgba(0, 0, 0, 0.25),
+          0 8px 15px rgba(0, 0, 0, 0.15),
+          inset 0 0 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-card {
+        box-shadow: 
+          0 15px 30px rgba(0, 0, 0, 0.1),
+          0 8px 15px rgba(0, 0, 0, 0.06),
+          0 3px 8px rgba(0, 0, 0, 0.03),
+          0 0 0 1px rgba(0, 0, 0, 0.02);
+      }
+
+      .right-section {
+        max-width: 600px;
+        height: auto;
+        min-height: 600px;
+        padding: 1.5rem;
+      }
+
+      .login-card {
+        margin-left: 0;
+        max-width: 600px;
+        padding: 2.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  
-
-  <div class="tap-top">
-    <div><i class="fa-solid fa-angle-up"></i></div>
-  </div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
-  
-    <section class="section-b-space pt-0"> 
-      <div class="heading-banner">
-        <div class="custom-container container">
-          <div class="row align-items-center">
-            <div class="col-sm-6">
-              <h4>Login</h4>
-            </div>
-            <div class="col-sm-6">
-              <ul class="breadcrumb float-end">
-                <li class="breadcrumb-item"> <a href="/">Home </a></li>
-                <li class="breadcrumb-item active"> <a href="#">Login</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  <div class="container">
+    <div class="left-section">
+      <div class="video-container ">
+        <video autoplay muted loop playsinline class="background-video">
+           <source src="../shuttercart-imags/13bc678f-a46b-4da3-bc19-01aae98382e2.mp4" type="video/mp4">
+        </video>
       </div>
-    </section>
-    <section class="section-b-space pt-0 login-bg-img">
-      <div class="custom-container container login-page"> 
-        <div class="row align-items-center"> 
-          <div class="col-xxl-7 col-6 d-none d-lg-block">
-            <div class="login-img"> <img class="img-fluid" src="https://themes.pixelstrap.net/katie/assets/images/login/1.svg" alt=""></div>
-          </div>
-          <div class="col-xxl-4 col-lg-6 mx-auto">
-            <div class="log-in-box">
-              <div class="log-in-title"> 
-                <h4>Welcome To  ShutterCart</h4>
-                <p>Login Your Account</p>
-              </div>
-              <div class="login-box"> 
-                <form class="row g-3" id="form" method="post" action="/login" onsubmit="login(event)">
-                  <div class="col-12">
-                    <% if (locals.message && message.length > 0) { %>
-                      <div class="text-center alert alert-danger">
-                        <%= message %>
-                        </div>
-                   <% } %>
-                    <div class="form-floating">
-                      <input class="form-control" id="email" type="text" name="email" placeholder="name@example.com">
-                      <label for="email">Enter Your Email</label>
-                      <small class="error-message text-danger" id="email_error"> </small>
-                    </div>   
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <input class="form-control" id="password" name="password" type="password" placeholder="Password">
-                      <label for="password">Enter Your Password</label>
-                      <small class=" text-danger" id="password_error"> </small>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="forgot-box">
-                      <div>
-                        <input class="custom-checkbox me-2" id="category1" type="checkbox" name="text">
-                        <label for="category1">Remember me</label>
-                      </div><a href="/forgot-password">Forgot Password?</a>
-                    </div>
-                  </div>
-                  <div class="col-12"> 
-                    <button class="btn login btn_black sm" type="submit" data-bs-dismiss="modal" aria-label="Close">Log In</button>
-                  </div>
-                </form>
-              </div>
-              <div class="other-log-in"> 
-                <h6>OR</h6>
-              </div>
-              <div class="log-in-button"> 
-                <ul> 
-                  <li> <a href=" /auth/google"> <i class="fa-brands fa-google me-2"> </i>Google</a></li>
-                  <li> <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f me-2"></i>Facebook </a></li>
-                </ul>
-              </div>
-              <div class="other-log-in"></div>
-              <div class="sign-up-box"> 
-                <p>Don't have an account?</p><a href="/signup">Sign Up</a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="video-text-overlay">
+        <h1>Welcome back to ShutterCart<span>Your Ultimate Photography Destination</span></h1>
       </div>
-    </section>
-  </body>
-  </html>
+    </div>
+    <div class="right-section">
+      <div class="login-card">
+        <div class="login-header">
+          <h2>Welcome to ShutterCart</h2>
+          <p>Login to your account</p>
+        </div>
+        <form id="form" method="post" action="/login" onsubmit="login(event)">
+          <% if (locals.message && message.length > 0) { %>
+            <div class="main-error-message">
+              <%= message %>
+            </div>
+          <% } %>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email address">
+            <small class="error-message" id="email_error"></small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+            <small class="error-message" id="password_error"></small>
+          </div>
+          <div class="remember-forgot">
+            <div class="remember-me">
+              <input type="checkbox" id="remember" name="remember">
+              <label for="remember">Remember me</label>
+            </div>
+            <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+          </div>
+          <button type="submit" class="login-btn">Login</button>
+          <div class="divider">OR</div>
+          <div class="social-login">
+            <a href="/auth/google" class="social-btn">
+              <i class="fab fa-google"></i>
+              Google
+            </a>
+            <a href="https://www.facebook.com/" target="_blank" class="social-btn">
+              <i class="fab fa-facebook-f"></i>
+              Facebook
+            </a>
+          </div>
+          <div class="signup-link">
+            Don't have an account? <a href="/signup">Sign Up</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <script>
-  
-   
-   let email=document.getElementById('email')
-
-   let password=document.getElementById('password')
-
-   let email_error=document.getElementById("email_error")
-   let pattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-   let password_error=document.getElementById("password_error")
-   
-   function login(event){
+    let email = document.getElementById('email');
+    let password = document.getElementById('password');
+    let email_error = document.getElementById("email_error");
+    let pattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    let password_error = document.getElementById("password_error");
     
-     if(email.value==''||email.value==null){
-       email_error.innerHTML='email is required'
+    window.addEventListener('load', () => {
+      const loaderWrapper = document.querySelector('.loader-wrapper');
+      setTimeout(() => {
+        loaderWrapper.classList.add('fade-out');
+      }, 1000);
+    });
+
+    function login(event) {
+      let isValid = true;
+      const loginBtn = document.querySelector('.login-btn');
+      const emailGroup = email.closest('.form-group');
+      const passwordGroup = password.closest('.form-group');
+      
+      // Reset previous error states
+      emailGroup.classList.remove('error');
+      passwordGroup.classList.remove('error');
+      
+      if(email.value == '' || email.value == null) {
+        emailGroup.classList.add('error');
+        email_error.innerHTML = 'Email is required';
         event.preventDefault();
-       
-     }else if(!(pattern.test(email.value))){
-       email_error.innerHTML='enter a valid email'
-       event.preventDefault();
-       
-     }else{
-       email_error.innerHTML=''
-     }
-     if(password.value==''||password.value==null){
-       password_error.innerHTML='password is required';
-       event.preventDefault();
-       
-     }else if(password.value.length<6){
-       password_error.innerHTML='Password must be at least 6 characters long.'
+        isValid = false;
+      } else if(!(pattern.test(email.value))) {
+        emailGroup.classList.add('error');
+        email_error.innerHTML = 'Please enter a valid email address';
         event.preventDefault();
-       
-     }else{
-       password_error.innerHTML=''
-     }
-     if(password.value==''||password.value==null){
-       password_error.innerHTML='password is required';
-       event.preventDefault();
-       
-     }
-     
-   } 
- 
+        isValid = false;
+      } else {
+        email_error.innerHTML = '';
+      }
+      
+      if(password.value == '' || password.value == null) {
+        passwordGroup.classList.add('error');
+        password_error.innerHTML = 'Password is required';
+        event.preventDefault();
+        isValid = false;
+      } else if(password.value.length < 6) {
+        passwordGroup.classList.add('error');
+        password_error.innerHTML = 'Password must be at least 6 characters long';
+        event.preventDefault();
+        isValid = false;
+      } else {
+        password_error.innerHTML = '';
+      }
+
+      // Add loading animation to button if form is valid
+      if (isValid) {
+        loginBtn.classList.add('loading');
+        // Remove loading state after 2 seconds if the form hasn't redirected
+        setTimeout(() => {
+          loginBtn.classList.remove('loading');
+        }, 2000);
+      }
+    }
+
+    // Clear error state on input
+    email.addEventListener('input', () => {
+      email.closest('.form-group').classList.remove('error');
+      email_error.innerHTML = '';
+    });
+
+    password.addEventListener('input', () => {
+      password.closest('.form-group').classList.remove('error');
+      password_error.innerHTML = '';
+    });
   </script>
-    
-   
+</body>
+</html>

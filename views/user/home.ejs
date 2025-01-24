@@ -7,14 +7,19 @@
   </video>
   <div class="hero-content position-absolute start-0 top-50 translate-middle-y text-start text-white p-5">
     <div class="container">
-      <div class="animate-text">
-        <h1 class="display-2 fw-bold mb-4 text-shadow">Capture Your Moments</h1>
-      </div>
-      <div class="animate-text" style="animation-delay: 0.3s;">
-        <p class="lead mb-4 text-shadow" style="max-width: 500px;">Discover premium camera gear for every photographer</p>
-      </div>
-      <div class="animate-text" style="animation-delay: 0.6s;">
-        <a href="/shop" class="btn btn-light btn-lg px-5 py-3 rounded-pill hover-scale">Shop Now</a>
+      <div class="hero-elements-wrapper initial-animation">
+        <div class="hero-text-container">
+          <div class="layer-slick1 initial-animation" data-appear="fadeInDown" data-delay="0">
+            <span class="hero-subtitle text-uppercase mb-3 d-block initial-slide" id="changing-subtitle">Welcome to ShutterCart</span>
+            <h1 class="display-2 fw-bold mb-4 text-shadow hero-title initial-slide" id="changing-title">Capture Your Moments</h1>
+          </div>
+          <div class="layer-slick1 initial-animation" data-appear="fadeInUp" data-delay="800">
+            <p class="lead mb-4 text-shadow hero-description initial-slide" id="changing-description">Discover premium camera gear for every photographer. Quality equipment for unforgettable memories.</p>
+          </div>
+          <div class="layer-slick1 initial-animation mt-4" data-appear="zoomIn" data-delay="1600">
+            <a href="/shop" class="btn px-5 py-3 rounded-pill text-uppercase shop-now-btn" id="changing-button">VIEW COLLECTION</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -184,6 +189,123 @@
   </div>
 </section>
 
+<style>
+    /* Special Products Section Styles */
+    .special-products .nav-pills {
+        background: #fff;
+        border-radius: 50px;
+        padding: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .special-products .nav-link {
+        color: #666;
+        border-radius: 50px;
+        padding: 8px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .special-products .nav-link.active {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .special-products .nav-link:hover:not(.active) {
+        background: #f8f9fa;
+        color: #1a1a1a;
+    }
+
+    .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+        height: 280px;
+        overflow: hidden;
+    }
+
+    .product-image img.secondary-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .product-card:hover .product-image img.secondary-img {
+        opacity: 1;
+    }
+
+    .product-actions {
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-actions {
+        transform: translateY(0);
+    }
+
+    .product-title {
+        font-size: 1rem;
+        line-height: 1.4;
+        height: 2.8em;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .price-box .current-price {
+        color: #1a1a1a;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .price-box .old-price {
+        font-size: 0.9rem;
+    }
+
+    .discount {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+    }
+
+    /* Update button colors */
+    .nav-pills .nav-link.active, 
+    .nav-pills .show > .nav-link {
+        background-color: #1a1a1a;
+        border-color: #1a1a1a;
+    }
+
+    .btn-primary {
+        background-color: #1a1a1a;
+        border-color: #1a1a1a;
+    }
+
+    .btn-primary:hover {
+        background-color: #333;
+        border-color: #333;
+    }
+
+    .btn-outline-primary {
+        color: #1a1a1a;
+        border-color: #1a1a1a;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #1a1a1a;
+        border-color: #1a1a1a;
+        color: #fff;
+    }
+</style>
+
 <!-- Product Grid -->
 <div class="container py-5">
   <h2 class="text-center mb-4">Explore Our Products</h2>
@@ -191,7 +313,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="img-fluid rounded" alt="Product 1">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Professional Cameras</h5>
         </div>
       </div>
@@ -199,7 +321,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" class="img-fluid rounded" alt="Product 2">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Premium Lenses</h5>
         </div>
       </div>
@@ -207,7 +329,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/e85cd88799f7ec307ea3a5d0aadb9bfd.jpg" class="img-fluid rounded" alt="Product 3">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Camera Drones</h5>
         </div>
       </div>
@@ -215,7 +337,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" class="img-fluid rounded" alt="Product 4">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Camera Accessories</h5>
         </div>
       </div>
@@ -223,7 +345,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/1-d.jpg" class="img-fluid rounded" alt="Product 5">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Professional Gear</h5>
         </div>
       </div>
@@ -231,7 +353,7 @@
     <div class="col-md-4">
       <div class="position-relative">
         <img src="../shuttercart-imags/studio-gear.jpg" class="img-fluid rounded" alt="Product 6">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
           <h5 class="mb-0">Studio Equipment</h5>
         </div>
       </div>
@@ -445,221 +567,406 @@
     }
 </style>
 
-<%- include('../partials/user/footer') %>
-
-<!-- Custom CSS -->
 <style>
-.hero-container {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
+    /* Animation styles */
+    .animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+    }
 
-.hero-container video {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+    .visible-false {
+        opacity: 0;
+    }
 
-.hero-content {
-  z-index: 1;
-}
+    /* Text fade animation */
+    .text-fade {
+        animation: slideIn 0.8s ease-out infinite;
+    }
 
-.feature-card {
-  transition: transform 0.3s ease;
-}
+    @keyframes slideIn {
+        0% {
+            transform: translateX(-30px);
+            opacity: 0;
+        }
+        50% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
 
-.feature-card:hover {
-  transform: translateY(-5px);
-}
+    /* Animation keyframes */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
 
-.category-card {
-  height: 400px;
-  transition: transform 0.3s ease;
-}
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
 
-.category-card:hover {
-  transform: scale(1.02);
-}
+    @keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale3d(0.3, 0.3, 0.3);
+        }
+        to {
+            opacity: 1;
+            transform: scale3d(1, 1, 1);
+        }
+    }
 
-.category-overlay {
-  transition: background-color 0.3s ease;
-}
+    /* Animation classes */
+    .fadeInDown {
+        animation-name: fadeInDown;
+    }
 
-.category-card:hover .category-overlay {
-  background-color: rgba(0, 0, 0, 0.6) !important;
-}
+    .fadeInUp {
+        animation-name: fadeInUp;
+    }
 
-.nav-pills .nav-link {
-  color: #333;
-  border-radius: 50px;
-  padding: 8px 20px;
-  margin: 0 5px;
-}
-
-.nav-pills .nav-link.active {
-  background-color: #333;
-  color: white;
-}
-
-.newsletter-form .form-control {
-  border: none;
-  padding: 15px 25px;
-}
-
-.newsletter-form .btn {
-  padding: 15px 30px;
-}
-
-.animate-text {
-  animation: slideIn 0.8s ease-out forwards;
-  opacity: 0;
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translateX(-30px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.text-shadow {
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.hover-scale {
-  transition: transform 0.3s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
-.product-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.product-image {
-  overflow: hidden;
-}
-
-.primary-img, .secondary-img {
-  transition: opacity 0.3s ease;
-}
-
-.secondary-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-
-.product-card:hover .secondary-img {
-  opacity: 1;
-}
-
-.product-card:hover .primary-img {
-  opacity: 0;
-}
-
-.product-actions {
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-}
-
-.product-card:hover .product-actions {
-  transform: translateY(0);
-}
-
-.product-actions a {
-  transition: color 0.3s ease;
-}
-
-.product-actions a:hover {
-  color: #0d6efd !important;
-}
-
-.product-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.showcase-item {
-  transition: transform 0.3s ease;
-}
-
-.showcase-item:hover {
-  transform: scale(1.02);
-}
-
-.showcase-item .overlay {
-  transition: background 0.3s ease;
-}
-
-.showcase-item:hover .overlay {
-  background: rgba(0,0,0,0.7) !important;
-}
-
-/* Brand Marquee Styles */
-.marquee-wrapper {
-  overflow: hidden;
-  padding: 30px 0;
-  background: #fff;
-}
-.marquee {
-  display: flex;
-  animation: scroll 30s linear infinite;
-}
-.brand-card {
-  flex: 0 0 auto;
-  padding: 0 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.brand-logo {
-  filter: grayscale(100%);
-  transition: filter 0.3s ease, transform 0.3s ease;
-  max-height: 60px;
-  opacity: 0.7;
-}
-.brand-logo:hover {
-  filter: grayscale(0%);
-  transform: scale(1.05);
-  opacity: 1;
-}
-.brand-text {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-.brand-text:hover {
-  opacity: 1;
-  transform: scale(1.05);
-}
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+    .zoomIn {
+        animation-name: zoomIn;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Content rotation arrays with styles
+        const content = [
+            {
+                title: "Capture Your Moments",
+                subtitle: "Welcome to ShutterCart",
+                description: "Discover premium camera gear for every photographer. Quality equipment for unforgettable memories.",
+                button: "Shop Now",
+                styles: {
+                    color: "#ffffff",
+                    buttonClass: "btn-outline-light"
+                }
+            },
+            {
+                title: "Professional Photography Gear",
+                subtitle: "Expert Choice",
+                description: "Industry-leading cameras and equipment trusted by professional photographers worldwide.",
+                button: "View Collection",
+                styles: {
+                    color: "#ffd700",
+                    buttonClass: "btn-warning"
+                }
+            }
+        ];
+
+        let currentIndex = 0;
+        const elements = {
+            title: document.getElementById('changing-title'),
+            subtitle: document.getElementById('changing-subtitle'),
+            description: document.getElementById('changing-description'),
+            button: document.getElementById('changing-button')
+        };
+
+        // Initial animation trigger
+        setTimeout(() => {
+            document.querySelectorAll('.initial-animation').forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('animate-in');
+                }, index * 400);
+            });
+        }, 500);
+
+        // Function to animate content change
+        function changeContent() {
+            // Fade out all elements
+            Object.values(elements).forEach(el => {
+                el.classList.add('fade-out');
+            });
+
+            setTimeout(() => {
+                // Update content
+                currentIndex = (currentIndex + 1) % content.length;
+                const newContent = content[currentIndex];
+
+                // Update text content and styles
+                elements.title.textContent = newContent.title;
+                elements.title.style.color = newContent.styles.color;
+                
+                elements.subtitle.textContent = newContent.subtitle;
+                elements.subtitle.style.color = newContent.styles.color;
+                
+                elements.description.textContent = newContent.description;
+                elements.description.style.color = currentIndex === 0 ? '#ffffff' : '#fff8dc';
+                
+                elements.button.textContent = newContent.button;
+                elements.button.className = `btn ${newContent.styles.buttonClass} px-4 py-2 rounded-pill text-uppercase shop-now-btn`;
+
+                // Trigger new animations
+                Object.values(elements).forEach(el => {
+                    el.classList.remove('fade-out');
+                    el.classList.add('fade-in');
+                });
+
+                // Remove animation classes after animation completes
+                setTimeout(() => {
+                    Object.values(elements).forEach(el => {
+                        el.classList.remove('fade-in');
+                    });
+                }, 1000);
+            }, 600);
+        }
+
+        // Start content rotation after initial animations
+        setTimeout(() => {
+            setInterval(changeContent, 5000);
+        }, 3000);
+    });
+</script>
+
+<style>
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+ 
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 4.2rem;
+        line-height: 1.1;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 4px;
+        margin-bottom: 1.5rem;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-description {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        font-weight: 300;
+        margin-bottom: 2rem;
+        max-width: 540px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .shop-now-btn {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        padding: 1.2rem 3rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid #000000;
+        background:rgb(128, 123, 123);
+        color: #ffd700 !important;
+        z-index: 10;
+        display: inline-block;
+    }
+
+    .shop-now-btn:hover {
+        background: #ffd700;
+        color: #000000 !important;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .shop-now-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .shop-now-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 215, 0, 0.4),
+            transparent
+        );
+        transition: 0.6s ease;
+        z-index: -1;
+    }
+
+    .shop-now-btn:hover::before {
+        left: 100%;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 5;
+    }
+
+    .layer-slick1 {
+        position: relative;
+        z-index: 5;
+    }
+
+    .initial-animation {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+        .shop-now-btn {
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .shop-now-btn {
+            padding: 0.9rem 2rem;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+    }
+</style>
+
+<style>
+    /* Initial Animation Styles */
+    .initial-animation {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .initial-animation.animate-in {
+        animation: initialSlide 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+
+    @keyframes initialSlide {
+        0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            filter: blur(10px);
+        }
+        50% {
+            opacity: 0.5;
+            filter: blur(5px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    /* Content Change Animations */
+    .fade-out {
+        animation: contentFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .fade-in {
+        animation: contentFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes contentFadeOut {
+        0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            filter: blur(5px);
+        }
+    }
+
+    @keyframes contentFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            filter: blur(5px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+    }
+
+    /* Element Styles */
+    .hero-title {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        letter-spacing: 3px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .shop-now-btn {
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .shop-now-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Custom Button Styles */
+    .btn-custom {
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        border: none;
+        color: white;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+        color: white;
+    }
+</style>
+
+<%- include('../partials/user/footer') %>

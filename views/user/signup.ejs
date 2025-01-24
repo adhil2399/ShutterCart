@@ -1,325 +1,761 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>sign-up</title>
- <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
- <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
-  <!-- Favicon icon-->
- <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
- <link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
- <!-- Google Font Outfit-->
- <link rel="preconnect" href="https://fonts.googleapis.com/">
- <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
- <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&amp;display=swap" rel="stylesheet">
- <!-- Font Awesome-->
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/fontawesome.css">
- <!-- Iconsax icon-->
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/iconsax.css">
- <!-- Bootstrap css-->
- <link rel="stylesheet" type="text/css" id="rtl-link" href="../assets/css/vendors/bootstrap.css">
- <link rel="stylesheet" type="text/css" href="../assets/css/vendors/toastify.css">
- <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
-</head>
- <div class="tap-top">
-      <div><i class="fa-solid fa-angle-up"></i></div>
-    </div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
-    
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShutterCart - Sign Up</title>
+  <link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    .is-invalid {
-  border-color: red;
-}
-.error-message {
-  color: red;
-  font-size: 0.8rem;
-}
-  </style>
-
-<div class="tap-top">
-  <div><i class="fa-solid fa-angle-up"></i></div>
-</div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
-
- <section class="section-b-space pt-0">
-   <div class="heading-banner">
-     <div class="custom-container container">
-       <div class="row align-items-center">
-         <div class="col-sm-6">
-           <h4>Sign Up</h4>
-         </div>
-         <div class="col-sm-6">
-           <ul class="breadcrumb float-end">
-             <li class="breadcrumb-item"> <a href="/">Home</a></li>
-             <li class="breadcrumb-item active"> <a href="#">Sign Up</a></li>
-           </ul>
-         </div>
-       </div>
-     </div>
-   </div>
- </section>
- <section class="section-b-space pt-0 login-bg-img">
-   <div class="custom-container container login-page">
-     <div class="row align-items-center">
-       <div class="col-xxl-7 col-6 d-none d-lg-block">
-         <div class="login-img">
-           <img class="img-fluid" src="https://themes.pixelstrap.net/katie/assets/images/login/1.svg" alt="">
-         </div>
-       </div>
-       <div class="col-xxl-4 col-lg-6 mx-auto">
-         <div class="log-in-box">
-           <div class="log-in-title">
-             <h4>Welcome To ShutterCart</h4>
-             <p>Create New Account</p>
-           </div>
-           <div class="login-box">
-             <form class="row g-3" id="form" method="post" action="/signup">
-               <% if(locals.message&& message.length>0){ %>
-                 <div class="text-center alert alert-danger">
-                   <%= message %>
-                   </div>
-              <% } %>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input class="form-control" id="username" name="name" type="text" placeholder="Full Name">
-                   <label for="username">Enter Your Name</label>
-                   <small class="error-message text-danger"> </small>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input class="form-control" id="email" type="text" name="email" placeholder="name@example.com">
-                   <label for="email">Enter Your Email</label>
-                   <small class="error-message text-danger"> </small>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input class="form-control" id="phone" type="number" name="phone" placeholder="Phone">
-                   <label for="email">Enter Phone number</label>
-                   <small class="error-message text-danger"> </small>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input class="form-control" id="password" name="password" type="password" placeholder="Password">
-                   <label for="password">Enter Your Password</label>
-                   <small class="error-message text-danger"> </small>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <div class="form-floating">
-                   <input class="form-control" id="cpassword" name="cpassword" type="password" placeholder="Password">
-                   <label for="cpassword">Confirm Password</label>
-                   <small class="error-message text-danger"> </small>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <div class="forgot-box">
-                   <div>
-                     <input class="custom-checkbox me-2" id="category1" type="checkbox" name="terms">
-                     <label for="category1">I agree with <span>Terms</span> and <span>Privacy</span></label>
-                   </div>
-                 </div>
-               </div>
-               <div class="col-12">
-                 <button class="btn login btn_black sm" type="submit">Sign Up</button>
-               </div>
-             </form>
-           </div>
-           <div class="other-log-in">
-             <h6>OR</h6>
-           </div>
-           <div class="log-in-button">
-             <ul>
-               <li>
-                 <a href="/auth/google"> <i class="fa-brands fa-google me-2"> </i>Google</a>
-               </li>
-               <li>
-                 <a href="https://www.facebook.com/" target="_blank"><i class="fa-brands fa-facebook-f me-2"></i>Facebook</a>
-               </li>
-             </ul>
-           </div>
-           <div class="sign-up-box">
-             <p>Already have an account?</p><a href="/login">Log In</a>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </section>
- <div class="theme-btns">
-     <button class="btntheme" id="dark-btn"><i class="fa-regular fa-moon"></i>
-       <div class="text">Dark</div>
-     </button>
-     <!-- <button class="btntheme rtlBtnEl" id="rtl-btn"><i class="fa-solid fa-repeat"></i>
-       <div class="rtl">Rtl</div>
-     </button> -->
-   </div>
-   <script src="https://accounts.google.com/gsi/client" async defer></script>
-   <!-- Bootstrap js-->
-   <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-   <!-- iconsax js -->
-   <script src="../assets/js/iconsax.js"> </script>
-   <!-- cursor js-->
-   <script src="../assets/js/stats.min.js"> </script>
-   <script src="../assets/js/cursor.js"> </script>
-   <!-- touchspin-->
-   <script src="../assets/js/touchspin.js"></script>
-   <!-- cookie js-->
-   <script src="../assets/js/cookie.js"></script>
-   <!-- tost js -->
-   <script src="../assets/js/toastify.js"></script>
-   <script src="../assets/js/theme-setting.js"></script>
-   <!-- Theme js-->
-   <script src="../assets/js/script.js"></script>
- 
-</body>
-</html>
- <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('form');
-    const nameInput = document.getElementById('username');
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('phone');
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('cpassword');
-  
-    // Utility function to show error message
-    function showError(input, message) {
-        // Find or create error message element
-        let errorElement = input.parentElement.querySelector('.error-message');
-        if (!errorElement) {
-            errorElement = document.createElement('small');
-            errorElement.classList.add('error-message', 'text-danger');
-            input.parentElement.appendChild(errorElement);
-        }
-        errorElement.textContent = message;
-        input.classList.add('is-invalid');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
 
-    // Utility function to clear error message
-    function clearError(input) {
+    body {
+      min-height: 100vh;
+      display: flex;
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 1600px;
+      width: 98%;
+      margin: 1rem auto;
+      display: flex;
+      gap: 2.5rem;
+      min-height: calc(100vh - 2rem);
+      align-items: center;
+      padding: 0;
+    }
+
+    .left-section {
+      flex: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 3rem;
+      background-color: #000;
+      border-radius: 30px;
+      aspect-ratio: 1/1;
+      max-width: 750px;
+      height: 750px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
+                  0 10px 20px rgba(0, 0, 0, 0.2),
+                  inset 0 0 50px rgba(0, 0, 0, 0.1);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .left-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 30%,
+        rgba(0, 0, 0, 0.2) 100%
+      );
+      z-index: 1;
+    }
+
+    .right-section {
+      flex: 1;
+      max-width: 750px;
+      height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 30px;
+      width: 100%;
+      margin-left: 10%;
+      max-width: 750px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1),
+                  0 10px 20px rgba(0, 0, 0, 0.05),
+                  0 0 0 1px rgba(0, 0, 0, 0.02);
+      transform: translateZ(0);
+      backface-visibility: hidden;
+ 
+    }
+
+    .video-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      border-radius: 30px;
+    }
+
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .video-text-overlay {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      text-align: center;
+      width: 100%;
+      padding: 0 2rem;
+      opacity: 0;
+      animation: showOverlay 0.5s ease-out 3s forwards;
+    }
+
+    @keyframes showOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .video-text-overlay h1 {
+      color: #ffffff;
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+      text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 1.2s ease-out 3.2s forwards;
+      opacity: 0;
+      transform: translateY(30px);
+      background: linear-gradient(45deg, #ffffff, #f0f0f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+
+    .video-text-overlay h1 span {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-top: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out 4s forwards;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: slideDown 0.6s ease-out 0.2s both;
+    }
+
+    .login-header h2 {
+      font-size: 1.75rem;
+      color: #1A1A1A;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .login-header p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group:nth-child(1) { animation: slideDown 0.6s ease-out 0.4s both; }
+    .form-group:nth-child(2) { animation: slideDown 0.6s ease-out 0.6s both; }
+    .form-group:nth-child(3) { animation: slideDown 0.6s ease-out 0.8s both; }
+    .form-group:nth-child(4) { animation: slideDown 0.6s ease-out 1s both; }
+    .form-group:nth-child(5) { animation: slideDown 0.6s ease-out 1.2s both; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #1A1A1A;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1.5px solid #E0E0E0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      transform-origin: left;
+      background: #fff;
+    }
+
+    .form-group input::placeholder {
+      color: #999;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #1A1A1A;
+      box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+      transform: scale(1.01);
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      animation: slideDown 0.6s ease-out 1.4s both;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 1.125rem;
+      height: 1.125rem;
+      border: 1.5px solid #E0E0E0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      color: #666;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .remember-me label a {
+      color: #1A1A1A;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .remember-me label a:hover {
+      color: #333;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.875rem;
+      background: #1A1A1A;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: slideDown 0.6s ease-out 1.6s both;
+    }
+
+    .btn-login:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      position: relative;
+      color: #666;
+      font-size: 0.9rem;
+      animation: fadeIn 0.6s ease-out 1.8s both;
+    }
+
+    .divider span {
+      display: inline-block;
+      padding: 0 1rem;
+      background: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: #E0E0E0;
+      z-index: 0;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      animation: slideUp 0.6s ease-out 2s both;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #E0E0E0;
+      border-radius: 8px;
+      background: #fff;
+      color: #1A1A1A;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transform-origin: center;
+    }
+
+    .social-btn:hover {
+      background: #F8F9FA;
+      transform: scale(1.05);
+    }
+
+    .social-btn i {
+      font-size: 1.1rem;
+    }
+
+    .fa-google {
+      color: #DB4437;
+    }
+
+    .fa-facebook-f {
+      color: #4267B2;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #666;
+      animation: fadeIn 0.6s ease-out 2.2s both;
+    }
+
+    .register-link a {
+      color: #1A1A1A;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 0.25rem;
+      transition: color 0.3s ease;
+    }
+
+    .register-link a:hover {
+      color: #333;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Loader Styles */
+    .loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loader-wrapper.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      animation: loaderScale 0.5s ease-out;
+    }
+
+    .loader:before,
+    .loader:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #4B5563;
+      opacity: 0.6;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .loader:after {
+      animation-delay: -1s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes loaderScale {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    .is-invalid {
+      border-color: #dc3545 !important;
+    }
+
+    .is-invalid:focus {
+      box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1) !important;
+    }
+
+    .alert {
+      padding: 0.875rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      animation: slideDown 0.6s ease-out both;
+    }
+
+    .alert-danger {
+      background-color: #fff5f5;
+      color: #dc3545;
+      border: 1px solid #ffebeb;
+    }
+
+    @media (max-width: 1200px) {
+      .container {
+        gap: 2rem;
+      }
+
+      .login-card {
+        padding: 2.5rem;
+        margin-left: 5%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .right-section {
+        max-width: 100%;
+      }
+
+      .login-card {
+        margin-left: 0;
+        max-width: 600px;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  
+  <div class="container">
+    <div class="left-section">
+      <div class="video-container">
+        <video class="background-video" autoplay loop muted playsinline>
+          <source src="../shuttercart-imags/01-H13-CE-carousel-1280x700-v2.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-text-overlay">
+        <h1>Welcome to ShutterCart<span>Your Ultimate Photography Destination</span></h1>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="login-card">
+        <div class="login-header">
+          <h2>Create Account</h2>
+          <p>Sign up to get started</p>
+        </div>
+
+        <form id="form" method="post" action="/signup">
+          <% if(locals.message && message.length>0){ %>
+            <div class="alert alert-danger">
+              <%= message %>
+            </div>
+          <% } %>
+
+          <div class="form-group">
+            <label for="username">Full Name</label>
+            <input type="text" id="username" name="name" placeholder="Enter your full name">
+            <small class="error-message"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email">
+            <small class="error-message"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+            <small class="error-message"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Create a password">
+            <small class="error-message"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="cpassword">Confirm Password</label>
+            <input type="password" id="cpassword" name="cpassword" placeholder="Confirm your password">
+            <small class="error-message"></small>
+          </div>
+
+          <div class="remember-me">
+            <input type="checkbox" id="terms" name="terms">
+            <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+          </div>
+
+          <button type="submit" class="btn-login">Create Account</button>
+        </form>
+
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+          <a href="/auth/google" class="social-btn">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
+          </a>
+          <a href="#" target="_blank" class="social-btn">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+          </a>
+        </div>
+
+        <div class="register-link">
+          Already have an account? <a href="/login">Log In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Loader handling
+    window.addEventListener('load', function() {
+      const loader = document.querySelector('.loader-wrapper');
+      loader.classList.add('fade-out');
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 500);
+    });
+
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('form');
+      const nameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('cpassword');
+  
+      function showError(input, message) {
         const errorElement = input.parentElement.querySelector('.error-message');
         if (errorElement) {
-            errorElement.textContent = '';
+          errorElement.textContent = message;
+          input.classList.add('is-invalid');
         }
-        input.classList.remove('is-invalid');
-    }
+      }
 
-    // Validate name
-    function validateName() {
+      function clearError(input) {
+        const errorElement = input.parentElement.querySelector('.error-message');
+        if (errorElement) {
+          errorElement.textContent = '';
+          input.classList.remove('is-invalid');
+        }
+      }
+
+      function validateName() {
         const name = nameInput.value.trim();
         if (name === '') {
-            showError(nameInput, 'Name is required');
-            return false;
+          showError(nameInput, 'Name is required');
+          return false;
         }
         if (name.length < 2) {
-            showError(nameInput, 'Name must be at least 2 characters long');
-            return false;
+          showError(nameInput, 'Name must be at least 2 characters');
+          return false;
         }
         clearError(nameInput);
         return true;
-    }
+      }
 
-    // Validate email
-    function validateEmail() {
+      function validateEmail() {
         const email = emailInput.value.trim();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email === '') {
-            showError(emailInput, 'Email is required');
-            return false;
+          showError(emailInput, 'Email is required');
+          return false;
         }
         if (!emailRegex.test(email)) {
-            showError(emailInput, 'Please enter a valid email address');
-            return false;
+          showError(emailInput, 'Please enter a valid email');
+          return false;
         }
         clearError(emailInput);
         return true;
-    }
+      }
 
-    // Validate phone number
-    function validatePhone() {
+      function validatePhone() {
         const phone = phoneInput.value.trim();
-        const phoneRegex = /^[0-9]{10}$/; // Assumes 10-digit phone number
+        const phoneRegex = /^[0-9]{10}$/;
         if (phone === '') {
-            showError(phoneInput, 'Phone number is required');
-            return false;
+          showError(phoneInput, 'Phone number is required');
+          return false;
         }
         if (!phoneRegex.test(phone)) {
-            showError(phoneInput, 'Please enter a valid 10-digit phone number');
-            return false;
+          showError(phoneInput, 'Please enter a valid 10-digit number');
+          return false;
         }
         clearError(phoneInput);
         return true;
-    }
+      }
 
-    // Validate password
-    function validatePassword() {
+      function validatePassword() {
         const password = passwordInput.value;
-        const passwordRegex = /^(?=.*[A-Za-z])/;
         if (password === '') {
-            showError(passwordInput, 'Password is required');
-            return false;
+          showError(passwordInput, 'Password is required');
+          return false;
         }
         if (password.length < 6) {
-            showError(passwordInput, 'Password must be at least 6 characters long');
-            return false;
-        }
-        if (!passwordRegex.test(password)) {
-            showError(passwordInput, 'Password must include letters, numbers, and special characters');
-            return false;
+          showError(passwordInput, 'Password must be at least 6 characters');
+          return false;
         }
         clearError(passwordInput);
         return true;
-    }
+      }
 
-    // Validate confirm password
-    function validateConfirmPassword() {
+      function validateConfirmPassword() {
         const password = passwordInput.value;
         const confirmPassword = confirmPasswordInput.value;
         if (confirmPassword === '') {
-            showError(confirmPasswordInput, 'Please confirm your password');
-            return false;
+          showError(confirmPasswordInput, 'Please confirm your password');
+          return false;
         }
         if (password !== confirmPassword) {
-            showError(confirmPasswordInput, 'Passwords do not match');
-            return false;
+          showError(confirmPasswordInput, 'Passwords do not match');
+          return false;
         }
         clearError(confirmPasswordInput);
         return true;
-    }
+      }
 
-  
+      // Real-time validation
+      nameInput.addEventListener('input', validateName);
+      emailInput.addEventListener('input', validateEmail);
+      phoneInput.addEventListener('input', validatePhone);
+      passwordInput.addEventListener('input', validatePassword);
+      confirmPasswordInput.addEventListener('input', validateConfirmPassword);
 
-    // Real-time validation event listeners
-    nameInput.addEventListener('blur', validateName);
-    emailInput.addEventListener('blur', validateEmail);
-    phoneInput.addEventListener('blur', validatePhone);
-    passwordInput.addEventListener('blur', validatePassword);
-    confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
- 
-    // Form submission handler
-    form.addEventListener('submit', function(event) {
+      // Form submission
+      form.addEventListener('submit', function(event) {
         event.preventDefault();
 
         // Reset previous errors
         document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
         document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
 
-        // Validate all fields
         const isNameValid = validateName();
         const isEmailValid = validateEmail();
         const isPhoneValid = validatePhone();
         const isPasswordValid = validatePassword();
         const isConfirmPasswordValid = validateConfirmPassword();
- 
 
-        // Submit form only if all validations pass
         if (isNameValid && isEmailValid && isPhoneValid && 
             isPasswordValid && isConfirmPasswordValid) {
-            form.submit();
+          form.submit();
         }
+      });
     });
-});
- </script>
+  </script>
+</body>
+</html>
