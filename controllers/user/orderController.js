@@ -225,8 +225,8 @@ const placeOrder = async (req, res) => {
                 orderId,
             });
         } else if (paymentMethod === "COD") {
-            if(finalAmountWithShipping < 10000){
-                return res.status(400).json({ success: false, message: "Minimum order in COD should be ₹10000" });
+            if(finalAmountWithShipping > 40000){
+                return res.status(400).json({ success: false, message: "Minimum order in COD should be ₹40000" });
             }
 
             const newOrder = new Order({

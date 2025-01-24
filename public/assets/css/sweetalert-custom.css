@@ -79,3 +79,78 @@
     border-color: #6c757d !important;
     color: #6c757d !important;
 }
+
+    /* Custom SweetAlert2 Dark Theme */
+    .swal2-popup {
+        background: #2d3446 !important;
+        border-radius: 1rem !important;
+        color: #fff !important;
+    }
+
+    .swal2-title {
+        color: #fff !important;
+        font-size: 1.5rem !important;
+    }
+
+    .swal2-html-container {
+        color: #a3a8c3 !important;
+    }
+
+    .swal2-icon {
+        border-color: #00b517 !important;
+        color: #00b517 !important;
+    }
+
+    .swal2-icon.swal2-error {
+        border-color: #ff4d4d !important;
+        color: #ff4d4d !important;
+    }
+
+    .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+        background-color: #ff4d4d !important;
+    }
+
+    .swal2-icon.swal2-warning {
+        border-color: #ffc107 !important;
+        color: #ffc107 !important;
+    }
+
+    .swal2-icon.swal2-success {
+        border-color: #00b517 !important;
+    }
+
+    .swal2-icon.swal2-success [class^='swal2-success-line'] {
+        background-color: #00b517 !important;
+    }
+
+    .swal2-icon.swal2-success .swal2-success-ring {
+        border-color: #00b517 !important;
+    }
+
+    .swal2-confirm.swal2-styled {
+        background: linear-gradient(45deg, #00b517, #00d81b) !important;
+        border-radius: 0.5rem !important;
+        padding: 0.8rem 1.5rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 8px rgba(0, 181, 23, 0.25) !important;
+    }
+
+    .swal2-confirm.swal2-styled:hover {
+        background: linear-gradient(45deg, #009913, #00bf18) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 181, 23, 0.35) !important;
+    }
+
+    .swal2-cancel.swal2-styled {
+        background: linear-gradient(45deg, #ff4d4d, #ff6666) !important;
+        border-radius: 0.5rem !important;
+        padding: 0.8rem 1.5rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 8px rgba(255, 77, 77, 0.25) !important;
+    }
+
+    .swal2-cancel.swal2-styled:hover {
+        background: linear-gradient(45deg, #ff3333, #ff4d4d) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 77, 77, 0.35) !important;
+    }

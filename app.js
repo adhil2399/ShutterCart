@@ -16,7 +16,7 @@ DB()
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
-// app.use(nocache());
+app.use(nocache());
 
 app.use(session({
    secret: process.env.SESSION_SECRET,

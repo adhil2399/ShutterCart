@@ -78,12 +78,60 @@
                             <h4 class="mb-3">Payment Method</h4>
                             <div class="row gy-3">
                                 <div class="col-sm-6">
-                                    <div class="payment-box">
-                                        <input class="custom-radio me-2" id="cod" value="COD" type="radio"  name="paymentMethod">
-                                        <label for="COD">Cod</label>
+                                    <div class="payment-box position-relative">
+                                        <!-- Radio Button -->
+                                        <input 
+                                            class="form-check-input custom-radio me-2 <% if (finalTotal > 40000) { %> disabled-radio <% } %>" 
+                                            id="cod" 
+                                            value="COD" 
+                                            type="radio" 
+                                            name="paymentMethod" 
+                                            <% if (finalTotal > 40000) { %> disabled <% } %>
+                                        >
+                                        <label for="cod" class="form-check-label">COD</label>
+                                
+                                        <!-- Tooltip Icon -->
+                                        <% if (finalTotal > 40000) { %>
+                                        <i 
+                                            class="fas fa-info-circle text-muted ms-2" 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="top" 
+                                            title="COD is not available for orders above ₹40,000"
+                                        ></i>
+                                        <% } %>
                                     </div>
                                 </div>
-
+                                
+                                <script>
+                                    // Wait for DOM to be fully loaded
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        // Initialize all tooltips on the page
+                                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                                        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                                            new bootstrap.Tooltip(tooltipTriggerEl);
+                                        });
+                                    });
+                                </script>
+                                
+                                
+                                <style>
+                                    .disabled-radio {
+                                        accent-color: #d3d3d3;  
+                                        cursor: not-allowed;
+                                        opacity: 0.6;
+                                    }
+                                
+                                    .payment-box {
+                                        display: flex;
+                                        align-items: center;
+                                    }
+                                
+                                    .fa-info-circle {
+                                        cursor: pointer;  
+                                    }
+                                </style>
+                                
+                                
                                 <div class="col-sm-6">
                                     <div class="payment-box">
                                         <input class="custom-radio me-2" id="wallet" value="wallet"  type="radio" name="paymentMethod">
@@ -165,7 +213,7 @@
                                     <ul>
                                         <li>
                                             <p>Subtotal</p><span>
-                                                <%= total%>
+                                                ₹ <%= total%>
                                             </span>
                                         </li>
                                         <li>

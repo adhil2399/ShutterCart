@@ -76,8 +76,8 @@ router.patch('/order/return/:orderId',adminAuth,orderController.processReturnReq
 router.get('/coupon',adminAuth,couponController.getCouponList)
 router.post('/createCoupon',adminAuth,couponController.createCoupon)
 router.patch('/toggleCouponStatus/:id',adminAuth,couponController.toggleCouponStatus)
-router.delete('/deleteCoupon/:id',adminAuth,couponController.deleteCoupon)
-
+router.get('/editCoupon/',adminAuth,couponController.loadeditCoupon)
+router.post('/posteditCoupon',adminAuth,couponController.updateCoupon)
 //salesReport management
 router.get('/salesReport',adminAuth,salesReportsController.getSalesReports)
 router.get('/salesReport/download/:format',adminAuth,salesReportsController.downloadReport)

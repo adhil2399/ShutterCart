@@ -152,9 +152,9 @@
                   </h5>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="price-box">
-                      <span class="current-price fw-bold">$<%= product.salePrice %></span>
+                      <span class="current-price fw-bold"> ₹<%= product.salePrice %></span>
                       <% if(product.regularPrice > product.salePrice) { %>
-                        <span class="old-price text-muted text-decoration-line-through ms-2">$<%= product.regularPrice %></span>
+                        <span class="old-price text-muted text-decoration-line-through ms-2"> ₹<%= product.regularPrice %></span>
                         <span class="discount badge bg-success ms-2">
                           <%= Math.round((product.regularPrice - product.salePrice) / product.regularPrice * 100) %>% OFF
                         </span>

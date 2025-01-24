@@ -112,10 +112,10 @@
                 <h6>Price Details (<%= countItems %> Items) </h6>
                 <ul> 
                   <li> 
-                    <p>Subtotal </p><span class="text-black" id="subtotal"> <%= cartSubtotal %></span>
+                    <p>Subtotal </p><span class="text-black" id="subtotal">  ₹<%= cartSubtotal %></span>
                   </li>
                   <li> 
-                    <p>Discount </p><span id="discount" class="theme-color"><%= discount.toFixed(2) %></span>
+                    <p>Discount </p><span id="discount" class="theme-color"> ₹<%= discount.toFixed(2) %></span>
                   </li>
                   <li> 
                     <!-- <p>Coupon Discount </p><span class="Coupon">Apply Coupon </span> -->
@@ -128,7 +128,7 @@
               
               <div class="cart-bottom"> 
                 <!-- <p><i class="iconsax me-1" data-icon="tag-2"></i>SPECIAL OFFER (-$1.49) </p> -->
-                <h6 class="pb-4">Total Amount <span class="text-black"  id="finamount"> <%= totalAmount.toFixed(2) %></span></h6>
+                <h6 class="pb-4">Total Amount <span class="text-black"  id="finamount"> ₹<%= totalAmount.toFixed(2) %></span></h6>
                 <!-- <span>Taxes and shipping calculated at checkout</span> -->
               </div>
               <a class="btn btn_black w-100 rounded sm" href="/checkout" id="checkOutBtn"  >Check Out</a>

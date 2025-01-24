@@ -99,7 +99,7 @@ const applyCoupon = async (req, res) => {
         const coupon = await Coupon.findOne({
             name: couponCode,
             isListed: true,
-            expireOn: { $gt: new Date() }, // Ensure the coupon is not expired
+            expireOn: { $gt: new Date() },  
         });
 
         if (!coupon) {
@@ -140,7 +140,7 @@ const applyCoupon = async (req, res) => {
         const totalAfterOffers = totalAmount - bestOfferDiscount;
 
         // Check minimum purchase requirement against original total
-        if (totalAmount < coupon.minimumPrice) {
+        if (totalAfterOffers < coupon.minimumPrice) {
             return res.status(400).json({
                 success: false,
                 message: `Minimum purchase amount of ₹${coupon.minimumPrice} is required.`,
