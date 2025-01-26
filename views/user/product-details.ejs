@@ -306,7 +306,7 @@
             <!-- Quantity Selector -->
  <div
   class="d-flex align-items-center justify-content-center mb-3 ms-5 quantity"
-  style="width: 300px;"  
+  style="width: 400px;"  
 >
   <button class="btn btn-outline-secondary btn-sm minus" type="button">-</button>
   <input
@@ -316,7 +316,7 @@
     min="1"
     max="6"
     id="quantity"
-    style="width: 100px;"  
+    style="width: 150px;"  
   />
   <button class="btn btn-outline-secondary btn-sm plus" type="button">+</button>
 </div>
@@ -1305,26 +1305,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let x = e.clientX - rect.left;
         let y = e.clientY - rect.top;
         
-        // Calculate lens position
-        let lensX = x - 100;
-        let lensY = y - 100;
-        
-        // Prevent lens from going outside image
-        if (lensX > rect.width - 200) lensX = rect.width - 200;
-        if (lensX < 0) lensX = 0;
-        if (lensY > rect.height - 200) lensY = rect.height - 200;
-        if (lensY < 0) lensY = 0;
-        
-        // Position lens
-        zoomResult.style.left = rect.left + lensX + 'px';
-        zoomResult.style.top = rect.top + lensY + 'px';
-        
-        // Move zoom result background
-        zoomResult.style.backgroundPosition = `-${lensX}px -${lensY}px`;
+        // Calculate the relative position as a percentage
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        // Calculate the translation values to keep the hovered point fixed
+        const translateX = (xPercent - 50) * 2; // Multiply by 2 for ZOOM_LEVEL of 2
+        const translateY = (yPercent - 50) * 2;
+
+        mainImage.style.transform = `scale(${ZOOM_LEVEL}) translate(${-translateX}%, ${-translateY}%)`;
     }
 
     // Show zoom on mouseenter
-    mainImage.addEventListener('mouseenter', function(e) {
+    mainImage.addEventListener('mouseenter', () => {
         if (window.innerWidth <= 768) return; // Don't zoom on mobile
         isZooming = true;
         zoomResult.style.display = 'block';
@@ -1332,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Hide zoom on mouseleave
-    mainImage.addEventListener('mouseleave', function() {
+    mainImage.addEventListener('mouseleave', () => {
         isZooming = false;
         zoomResult.style.display = 'none';
     });
@@ -1350,7 +1343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             zoomResult.style.display = 'none';
         }
     });
-});
+}); 
 </script>
 
 <style>

@@ -278,11 +278,32 @@
       cursor: pointer;
       transition: all 0.3s ease;
       animation: slideDown 0.6s ease-out 1.6s both;
+      position: relative;
     }
-
-    .btn-login:hover {
-      background: #333;
-      transform: translateY(-2px);
+    
+    .btn-login.loading {
+      color: transparent !important;
+      pointer-events: none;
+    }
+    
+    .btn-login.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-right-color: transparent;
+      animation: rotate 0.8s linear infinite;
+    }
+    
+    @keyframes rotate {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
 
     .divider {
@@ -596,7 +617,7 @@
             <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
           </div>
 
-          <button type="submit" class="btn-login">Create Account</button>
+          <button type="submit" class="btn-login" id="submitBtn">Create Account</button>
         </form>
 
         <div class="divider">
@@ -702,12 +723,17 @@
 
       function validatePassword() {
         const password = passwordInput.value;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
         if (password === '') {
           showError(passwordInput, 'Password is required');
           return false;
         }
         if (password.length < 6) {
           showError(passwordInput, 'Password must be at least 6 characters');
+          return false;
+        }
+        if (!passwordRegex.test(password)) {
+          showError(passwordInput, 'Password must contain at least one letter , one number, and one special character');
           return false;
         }
         clearError(passwordInput);
@@ -752,6 +778,9 @@
 
         if (isNameValid && isEmailValid && isPhoneValid && 
             isPasswordValid && isConfirmPasswordValid) {
+          const submitBtn = document.getElementById('submitBtn');
+          submitBtn.classList.add('loading');
+          submitBtn.disabled = true;
           form.submit();
         }
       });

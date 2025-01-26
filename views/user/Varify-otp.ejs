@@ -275,10 +275,30 @@
           }
 
           if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: data.message || 'OTP verified successfully',
+              showConfirmButton: false,
+              timer: 1500,
+              style: {
+                color: 'green',
+                background: 'white',
+              },
+            });
             window.location.href = data.redirectUrl || '/';
           } else {
-            errorMessage.style.display = 'block';
-            errorMessage.textContent = data.message || 'Invalid OTP. Please try again.';
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: data.message || 'Invalid OTP. Please try again.',
+              showConfirmButton: false,
+              timer: 1500,
+              style: {
+                color: 'red',
+                background: 'white',
+              },
+            });
             
             // Clear inputs on error
             inputs.forEach(input => input.value = '');
@@ -314,12 +334,16 @@
           }
 
           if (data.success) {
-            swal.fire({
-              title: 'OTP Resent',
-              text: 'A new OTP has been sent to your email.',
+            Swal.fire({
               icon: 'success',
-              timer: 2000,
-              showConfirmButton: false
+              title: 'Success!',
+              text: data.message || 'OTP resent successfully',
+              showConfirmButton: false,
+              timer: 1500,
+              style: {
+                color: 'green',
+                background: 'white',
+              },
             });
             // Reset timer
             clearInterval(timerInterval);

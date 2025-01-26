@@ -116,7 +116,7 @@
             <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#new-arrivals" type="button">New Arrivals</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#best-sellers" type="button">Best Sellers</button>
+            <!-- <button class="nav-link" data-bs-toggle="pill" data-bs-target="#best-sellers" type="button">Best Sellers</button> -->
           </li>
         </ul>
       </div>
@@ -306,55 +306,129 @@
     }
 </style>
 
+<style>
+    /* Category Cards Styles */
+    .category-card {
+        height: 400px;
+        position: relative;
+    }
+    
+    .category-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .category-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+    }
+    
+    .category-card:hover .category-overlay {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .category-overlay h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<style>
+    /* Product Grid Styles */
+    .product-grid-item {
+        height: 300px;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+    
+    .product-grid-item .position-relative {
+        height: 100%;
+    }
+    
+    .product-grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .product-grid-item:hover img {
+        transform: scale(1.05);
+    }
+    
+    .product-grid-item .position-absolute {
+        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+        padding: 20px;
+    }
+    
+    .product-grid-item h5 {
+        font-size: 1.25rem;
+        margin: 0;
+    }
+</style>
+
 <!-- Product Grid -->
 <div class="container py-5">
   <h2 class="text-center mb-4">Explore Our Products</h2>
   <div class="row g-4">
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="img-fluid rounded" alt="Product 1">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Professional Cameras</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="rounded" alt="Professional Cameras">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Professional Cameras</h5>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" class="img-fluid rounded" alt="Product 2">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Premium Lenses</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/c071eb31e782958efef391d03d0eb9a0.jpg" class="rounded" alt="Premium Lenses">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Premium Lenses</h5>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/e85cd88799f7ec307ea3a5d0aadb9bfd.jpg" class="img-fluid rounded" alt="Product 3">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Camera Drones</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/e85cd88799f7ec307ea3a5d0aadb9bfd.jpg" class="rounded" alt="Camera Drones">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Camera Drones</h5>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" class="img-fluid rounded" alt="Product 4">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Camera Accessories</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/6ebc9b7b5a0343a3a06d22eca2de50dc.jpg" class="rounded" alt="Camera Accessories">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Camera Accessories</h5>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/1-d.jpg" class="img-fluid rounded" alt="Product 5">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Professional Gear</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/1-d.jpg" class="rounded" alt="Professional Gear">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Professional Gear</h5>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="position-relative">
-        <img src="../shuttercart-imags/studio-gear.jpg" class="img-fluid rounded" alt="Product 6">
-        <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.7);">
-          <h5 class="mb-0">Studio Equipment</h5>
+      <div class="product-grid-item">
+        <div class="position-relative">
+          <img src="../shuttercart-imags/1725861990214625.png" class="rounded" alt="Studio Equipment">
+          <div class="position-absolute bottom-0 start-0 w-100 text-white">
+            <h5>Studio Equipment</h5>
+          </div>
         </div>
       </div>
     </div>
