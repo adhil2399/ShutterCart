@@ -527,12 +527,12 @@ filterModal.addEventListener('hidden.bs.modal', function () {
                             <% if (product.bestOffer) { %>
                               <span class="current-price"> ₹<%= product.offerPrice %></span>
                               <span class="old-price"> ₹<%= product.salePrice %></span>
-                              <span class="discount">-<%= product.bestOffer %>% OFF</span>
+                              <span class="discount"><%= product.bestOffer %>% OFF</span>
                             <% } else if (product.salePrice < product.regularPrice) { %>
                               <span class="current-price"> ₹<%= product.salePrice %></span>
                               <span class="old-price"> ₹<%= product.regularPrice %></span>
                               <span class="discount">
-                                -<%= Math.round((product.regularPrice - product.salePrice) / product.regularPrice * 100) %>% OFF
+                                <%= Math.round((product.regularPrice - product.salePrice) / product.regularPrice * 100) %>% OFF
                               </span>
                             <% } else { %>
                               <span class="current-price">₹<%= product.regularPrice %></span>

@@ -1,4 +1,3 @@
- 
  <%- include('../partials/user/header') %>
 
     <section class="section-b-space pt-0"> 
@@ -18,10 +17,12 @@
         </div>
       </div>
     </section>
-    <section class="section-b-space pt-0">
-      <div class="custom-container container"> 
+    <section class="section-b-space pt-0" >
+      <% if(cartItems && cartItems.length >0 ){ %>
+      <div class="custom-container container" id="sec-body"> 
         <div class="row g-4">
           
+
           <div class="col-xxl-9 col-xl-8">
             <div class="cart-table">
               <div class="cart-header d-flex justify-content-between align-items-center mb-4">
@@ -49,7 +50,6 @@
                     </tr>
                   </thead>
                   <tbody id="tbody"> 
-                    <% if(cartItems && cartItems.length >0 ){ %>
                     <% cartItems.forEach((item)=>{ %>
                       <tr id="row<%= item.productId._id %>" data-price="<%= item.productId.salePrice %>">
                         <td> 
@@ -79,20 +79,7 @@
                       <td><a class="deleteButton" onclick="dltCartItem('<%=item.productId._id %>')" href="javascript:void(0)"><i class="iconsax" data-icon="trash"></i></a></td>
                     </tr>
                     <% }) %>
-                       <% }else{ %>
-                        <tr>
-                          <td colspan="5" class="text-center">
-                            <div>
-                              <div  id="data-show"><img src="../assets/images/cart/1.gif" alt="">
-                                <h4>Your shopping cart is empty!</h4>
-                              <p>Looks like you haven't added anything to your cart yet.</p>
-                              <a href="/shop" class="btn btn_black">Continue Shopping</a>
-                            </div>
-                            
-                          </td>
-                        </tr>
-                        
-                      <% } %>
+                      
                         
                   </tbody>
                 </table>
@@ -138,7 +125,91 @@
         </div>
       </div>
     </section> 
+    <% }else{ %>
+    <div class="cart-page">
+        <div class="container">
+               <div class="empty-cart-container">
+                <div class="empty-cart-content">
+                    <img src="/assets/images/cart/empty-cart.png" alt="Empty Cart" class="empty-cart-icon">
+                    <h2>Your Shopping Cart Is Empty!</h2>
+                    <p>Looks like you haven't added anything to your cart yet.</p>
+                    <a href="/shop" class="continue-shopping-btn">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
 
+    <style>
+        .cart-page {
+            min-height: 80vh;
+            padding: 40px 0;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cart-title {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .empty-cart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .empty-cart-content {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .empty-cart-icon {
+            width: 180px;
+            height: auto;
+            margin-bottom: 25px;
+        }
+
+        .empty-cart-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .empty-cart-content p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .continue-shopping-btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background-color: #000;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+
+        .continue-shopping-btn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+    </style>
 
 
     <script>
@@ -276,18 +347,9 @@
          console.log(data);
          
          if(data.cart.items.length <1){
-          tbody.innerHTML=`<tr>
-                          <td colspan="5" class="text-center">
-                            <div>
-                              <div  id="data-show"><img src="../assets/images/cart/1.gif" alt="">
-                                <h4>Your shopping cart is empty!</h4>
-                              <p>Looks like you haven't added anything to your cart yet.</p>
-                              <a href="/shop" class="btn btn_black">Continue Shopping</a>
-                            </div>
-                            
-                          </td>
-                        </tr>
-                            `
+          tbody.innerHTML=` <td colspan="6"> <div class="cart-page">
+          <h5> Your cart is empty!</h5>
+          </div></td>`  
          }
        } else {
          Toastify({
@@ -370,21 +432,21 @@
           }).showToast();
 
           // Update the cart display
-          const tbody = document.getElementById('tbody');
+          const tbody = document.getElementById('sec-body');
           if (tbody) {
             tbody.innerHTML = `
-              <tr>
-                <td colspan="5" class="text-center">
-                  <div>
-                    <div id="data-show">
-                      <img src="../assets/images/cart/1.gif" alt="">
-                      <h4>Your shopping cart is empty!</h4>
-                      <p>Looks like you haven't added anything to your cart yet.</p>
-                      <a href="/shop" class="btn btn_black">Continue Shopping</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+               <div class="cart-page">
+        <div class="container">
+               <div class="empty-cart-container">
+                <div class="empty-cart-content">
+                    <img src="/assets/images/cart/empty-cart.png" alt="Empty Cart" class="empty-cart-icon">
+                    <h2>Your Shopping Cart Is Empty!</h2>
+                    <p>Looks like you haven't added anything to your cart yet.</p>
+                    <a href="/shop" class="continue-shopping-btn">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
             `;
           }
 
