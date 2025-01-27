@@ -720,6 +720,209 @@
     }
 </style>
 
+<style>
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+        .hero-content {
+            padding: 2rem;
+        }
+        
+        .hero-text-container h1 {
+            font-size: 3.5rem;
+        }
+        
+        .hero-text-container p {
+            font-size: 1.1rem;
+        }
+
+        .category-card {
+            height: 350px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .hero-text-container h1 {
+            font-size: 3rem;
+        }
+
+        .hero-text-container .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-text-container p {
+            font-size: 1rem;
+        }
+
+        .shop-now-btn {
+            padding: 0.8rem 2rem !important;
+            font-size: 0.9rem;
+        }
+
+        .category-card {
+            height: 300px;
+        }
+
+        .category-overlay h3 {
+            font-size: 1.75rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+        }
+
+        .feature-card h5 {
+            font-size: 1.1rem;
+        }
+
+        .product-image {
+            height: 250px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        .hero-text-container h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-text-container p {
+            font-size: 0.95rem;
+        }
+
+        .category-card {
+            height: 250px;
+        }
+
+        .category-overlay h3 {
+            font-size: 1.5rem;
+        }
+
+        .product-grid-item {
+            height: 250px;
+        }
+
+        .special-products .nav-pills {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .special-products .nav-link {
+            padding: 6px 15px;
+            font-size: 0.9rem;
+        }
+
+        .product-title {
+            font-size: 0.9rem;
+            height: 2.6em;
+        }
+
+        .price-box .current-price {
+            font-size: 1rem;
+        }
+
+        .price-box .old-price {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-content {
+            padding: 1rem;
+        }
+
+        .hero-text-container h1 {
+            font-size: 2rem;
+        }
+
+        .hero-text-container .hero-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .hero-text-container p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem !important;
+        }
+
+        .shop-now-btn {
+            padding: 0.7rem 1.5rem !important;
+            font-size: 0.85rem;
+        }
+
+        .feature-card {
+            padding: 1rem;
+        }
+
+        .feature-card h5 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+        }
+
+        .feature-card img {
+            width: 40px !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .category-card {
+            height: 200px;
+        }
+
+        .category-overlay h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem !important;
+        }
+
+        .category-overlay .btn {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.85rem;
+        }
+
+        .product-image {
+            height: 200px;
+        }
+
+        .product-actions a {
+            font-size: 1rem;
+        }
+
+        .product-info {
+            padding: 0.75rem !important;
+        }
+
+        .rating {
+            font-size: 0.85rem;
+        }
+
+        .rating i {
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Fix video background on mobile */
+    @media (max-aspect-ratio: 16/9) {
+        .hero-container video {
+            width: auto;
+            height: 100%;
+        }
+    }
+
+    @media (max-aspect-ratio: 9/16) {
+        .hero-container video {
+            width: 100%;
+            height: auto;
+        }
+    }
+</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Content rotation arrays with styles
@@ -857,7 +1060,7 @@
         letter-spacing: 3px;
         padding: 1.2rem 3rem;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         position: relative;
         overflow: hidden;
         border: 2px solid #000000;

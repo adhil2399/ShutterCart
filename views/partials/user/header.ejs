@@ -61,12 +61,23 @@
            letter-spacing: 3px;
        }
    </style>
+   <style>
+    @media (max-width: 768px) {
+      .cursor {
+        display: none !important;
+      }
+    }
+  </style>
 
   </head>
   <body class="skeleton_body">
+
     <div class="tap-top">
       <div><i class="fa-solid fa-angle-up"></i></div>
-    </div><span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
+    </div>
+       
+    <span class="cursor"><span class="cursor-move-inner"><span class="cursor-inner"></span></span><span class="cursor-move-outer"><span class="cursor-outer"></span></span></span>
+
     <div class="skeleton_loader">
       <header> 
         <div class="top_header"> 
@@ -78,15 +89,11 @@
               <div class="mobile-fix-option">
                 <ul>
                   <li> <a class="text-decoration-none text-dark" href="/"><i class="iconsax" data-icon="home-1"></i>Home</a></li>
-                  <li> <a class="text-decoration-none text-dark" href=""><i class="iconsax" data-icon="user-2"></i>Account</a></li>
-                  <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="search-normal-2"></i>Search</a></li>
-                  <li> <a  class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="user-2"></i>Account</a></li>
-                  <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="shopping-cart"></i>Cart</a></li>
-                  <li> <a class="text-decoration-none text-dark"href="#"><i class="iconsax" data-icon="user-2"></i>Account</a></li>
-                  <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="heart"></i>My Wish</a></li>
+                   <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="search-normal-2"></i>Search</a></li>
+                   <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="shopping-cart"></i>Cart</a></li>
+                   <li><a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="heart"></i>My Wish</a></li>
                   <li> <a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="user-2"></i>Account</a></li>
-                  <li> <a class="text-decoration-none text-dark" href="#"><i class="iconsax" data-icon="user-2"></i>Account</a></li>
-                </ul>
+                 </ul>
               </div>
             </div>
             <div class="col-12">

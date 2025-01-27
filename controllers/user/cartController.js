@@ -20,11 +20,10 @@ const addToCart = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Product is out of stock' });
         }
 
-        // Check if requested quantity is available
         if (quantity > product.quantity) {
             return res.status(400).json({ success: false, message: `Only ${product.quantity} items available in stock` });
         }
-      
+
         const cart = await Cart.findOne({ userId })
             .populate({
                 path: 'items.productId',
@@ -34,15 +33,12 @@ const addToCart = async (req, res) => {
         const existingItem = cart.items.find(item => item.productId._id.toString() === productId);
 
         if (existingItem) {
-            // Check total quantity after adding new quantity
-            const newTotalQuantity = existingItem.quantity + quantity;
+            const newTotalQuantity = +existingItem.quantity + +quantity;
             
-            // Check if total quantity exceeds available stock
             if (newTotalQuantity > product.quantity) {
                 return res.status(400).json({ success: false, message: `Only ${product.quantity} items available in stock` });
             }
             
-            // Check maximum limit of 6
             if (newTotalQuantity > 6) {
                 return res.status(400).json({ success: false, message: 'Maximum 6 items allowed per product' });
             }
@@ -52,12 +48,10 @@ const addToCart = async (req, res) => {
                 return res.status(400).json({ success: false, message: 'Minimum quantity is 1' });
             }
         } else {
-            // Check quantity limits for new item
             if (quantity < 1 || quantity > 6) {
                 return res.status(400).json({ success: false, message: 'Quantity must be between 1 and 6' });
             }
             
-            // Check if quantity is available in stock
             if (quantity > product.quantity) {
                 return res.status(400).json({ success: false, message: `Only ${product.quantity} items available in stock` });
             }
@@ -91,7 +85,7 @@ function calculateDiscount(cartItems) {
 }
 
 function calculateShipping(totalPrice) {
-    const freeShippingThreshold = 1000; // Example: Free shipping for orders above $1000
+    const freeShippingThreshold = 1000;  
     const shippingRate = 0
     return totalPrice >= freeShippingThreshold ? 0 : shippingRate;
 }
@@ -100,7 +94,7 @@ function calculateTotalPrice(subtotal, discount, shipping) {
 }
 function calculateSubtotal(cartItems) {
     return cartItems.reduce((sum, item) => {
-        const salePrice = item.productId.salePrice || 0; // Ensure productId is populated with salePrice
+        const salePrice = item.productId.salePrice || 0;  
         return sum + salePrice * item.quantity;
     }, 0);
 }

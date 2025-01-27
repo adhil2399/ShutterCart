@@ -1,218 +1,218 @@
 <style>
-    :root {
-        --primary-color: #000;
-        --secondary-color: #fff;
-        --gray-light: #f8f9fa;
-        --gray-medium: #6c757d;
-    }
-
-    body {
-        background-color: var(--secondary-color);
-        color: var(--primary-color);
-    }
-
-    .product-image-container {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        background: #fff;
-    }
-
-    .zoom-wrapper {
-        position: relative;
-        overflow: hidden;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        background: #fff;
-    }
-
-    .main-image {
-        width: 100%;
-        height: auto;
-        display: block;
-        cursor: zoom-in;
-        transition: opacity 0.3s ease;
-    }
-
-    .thumbnail-container {
-        margin-top: 1rem;
-    }
-
-    .thumbnail {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border: 2px solid transparent;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        padding: 2px;
-    }
-
-    .thumbnail:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .thumbnail.active {
-        border-color: #000;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    @media (max-width: 768px) {
-        .thumbnail {
-            width: 80px;
-            height: 80px;
-        }
-        .main-image {
-            cursor: default;
-        }
-    }
-
-    .thumbnail-container {
-        position: relative;
-        padding: 0 30px;
-    }
-
-    .thumbnail-slider {
-        overflow: hidden;
-        white-space: nowrap;
-        scroll-behavior: smooth;
-    }
-
-    .slider-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: var(--primary-color);
-        color: var(--secondary-color);
-        border: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-    .slider-button.prev {
-        left: 0;
-    }
-
-    .slider-button.next {
-        right: 0;
-    }
-
-    .stock-status {
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-weight: 500;
-        margin: 10px 0;
-    }
-    
-    .stock-status.high {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-    
-    .stock-status.medium {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeeba;
-    }
-    
-    .stock-status.low {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-    
-    .stock-status i {
-        margin-right: 8px;
-        font-size: 1.1em;
-    }
-    
-    /* Add category badge styles */
-    .category-badge {
-        display: inline-block;
-        padding: 6px 12px;
-        background-color: #e9ecef;
-        color: #495057;
-        border-radius: 20px;
-        font-size: 0.9em;
-        margin-bottom: 15px;
-        text-transform: capitalize;
-        border: 1px solid #dee2e6;
-    }
-    
-    .category-badge i {
-        margin-right: 6px;
-        font-size: 0.9em;
-    }
-
-    /* Swiper Styles */
-  .special-offer-slide-2 {
-    position: relative;
-    padding: 0 40px;
-    margin-bottom: 30px;
+  :root {
+      --primary-color: #000;
+      --secondary-color: #fff;
+      --gray-light: #f8f9fa;
+      --gray-medium: #6c757d;
   }
 
-  .special-offer-slide-2 .swiper-button-next,
-  .special-offer-slide-2 .swiper-button-prev {
-    width: 35px;
-    height: 35px;
-    background: #000;
-    border-radius: 50%;
-    color: #fff;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-top: 0;
-    z-index: 10;
+  body {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
   }
 
-  .special-offer-slide-2 .swiper-button-next:after,
-  .special-offer-slide-2 .swiper-button-prev:after {
-    font-size: 16px;
+  .product-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
   }
 
-  .special-offer-slide-2 .swiper-button-prev {
-    left: 0;
+  .zoom-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: #fff;
   }
 
-  .special-offer-slide-2 .swiper-button-next {
-    right: 0;
+  .main-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.3s ease;
   }
 
-  .special-offer-slide-2 .swiper-slide {
-    height: auto;
+  .thumbnail-container {
+      margin-top: 1rem;
   }
+
+  .thumbnail {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 2px;
+  }
+
+  .thumbnail:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .thumbnail.active {
+      border-color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 768px) {
+      .thumbnail {
+          width: 80px;
+          height: 80px;
+      }
+      .main-image {
+          cursor: default;
+      }
+  }
+
+  .thumbnail-container {
+      position: relative;
+      padding: 0 30px;
+  }
+
+  .thumbnail-slider {
+      overflow: hidden;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+  }
+
+  .slider-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  }
+
+  .slider-button.prev {
+      left: 0;
+  }
+
+  .slider-button.next {
+      right: 0;
+  }
+
+  .stock-status {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+      margin: 10px 0;
+  }
+  
+  .stock-status.high {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+  }
+  
+  .stock-status.medium {
+      background-color: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+  }
+  
+  .stock-status.low {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+  }
+  
+  .stock-status i {
+      margin-right: 8px;
+      font-size: 1.1em;
+  }
+  
+  /* Add category badge styles */
+  .category-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #e9ecef;
+      color: #495057;
+      border-radius: 20px;
+      font-size: 0.9em;
+      margin-bottom: 15px;
+      text-transform: capitalize;
+      border: 1px solid #dee2e6;
+  }
+  
+  .category-badge i {
+      margin-right: 6px;
+      font-size: 0.9em;
+  }
+
+  /* Swiper Styles */
+.special-offer-slide-2 {
+  position: relative;
+  padding: 0 40px;
+  margin-bottom: 30px;
+}
+
+.special-offer-slide-2 .swiper-button-next,
+.special-offer-slide-2 .swiper-button-prev {
+  width: 35px;
+  height: 35px;
+  background: #000;
+  border-radius: 50%;
+  color: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 0;
+  z-index: 10;
+}
+
+.special-offer-slide-2 .swiper-button-next:after,
+.special-offer-slide-2 .swiper-button-prev:after {
+  font-size: 16px;
+}
+
+.special-offer-slide-2 .swiper-button-prev {
+  left: 0;
+}
+
+.special-offer-slide-2 .swiper-button-next {
+  right: 0;
+}
+
+.special-offer-slide-2 .swiper-slide {
+  height: auto;
+}
 </style>
 <%- include('../partials/user/header') %>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
 <section class="section-b-space pt-0"> 
-  <div class="heading-banner">
-    <div class="custom-container container">
-      <div class="row align-items-center">
-        <div class="col-sm-6">
-          <h4>Product details</h4>
-        </div>
-        <div class="col-sm-6">
-          <ul class="breadcrumb float-end">
-            <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/">Home </a></li>
-            <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/shop">shop</a></li>
-            <li class="breadcrumb-item active "> <a class="text-decoration-none text-black" href="#">Product details</a></li>
-          </ul>
-        </div>
+<div class="heading-banner">
+  <div class="custom-container container">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <h4>Product details</h4>
+      </div>
+      <div class="col-sm-6">
+        <ul class="breadcrumb float-end">
+          <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/">Home </a></li>
+          <li class="breadcrumb-item"> <a  class="text-decoration-none text-black" href="/shop">shop</a></li>
+          <li class="breadcrumb-item active "> <a class="text-decoration-none text-black" href="#">Product details</a></li>
+        </ul>
       </div>
     </div>
   </div>
+</div>
 </section>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -220,197 +220,240 @@
 </head>
 <body>
 <div class="container py-5">
-    <div class="row">
-     <!-- Product Images -->
+  <div class="row">
+   <!-- Product Images -->
 <div class="col-md-6 mb-4">
-    <div class="product-image-container">
-        <% if (product.productImage && product.productImage.length > 0) { %>
-            <div class="zoom-wrapper">
-                <img src="<%= product.productImage[0] %>" 
-                     alt="<%= product.productName %>" 
-                     id="mainImage" 
-                     class="main-image">
-            </div>
-        <% } %>
-    </div>
+  <div class="product-image-container">
+      <% if (product.productImage && product.productImage.length > 0) { %>
+          <div class="zoom-wrapper">
+              <img src="<%= product.productImage[0] %>" 
+                   alt="<%= product.productName %>" 
+                   id="mainImage" 
+                   class="main-image">
+          </div>
+      <% } %>
+  </div>
 
-    <!-- Thumbnails -->
-    <div class="thumbnail-container mt-3">
-        <div class="d-flex gap-2 py-2 justify-content-center">
-            <% product.productImage.forEach((image, index) => { %>
-                <img src="<%= image %>" 
-                     class="thumbnail <%= index === 0 ? 'active' : '' %>" 
-                     onclick="changeImage(this.src, '<%= index %>')"
-                     alt="Product thumbnail <%= index + 1 %>">
-            <% }) %>
-        </div>
-    </div>
+  <!-- Thumbnails -->
+  <div class="thumbnail-container mt-3">
+      <div class="d-flex gap-2 py-2 justify-content-center">
+          <% product.productImage.forEach((image, index) => { %>
+              <img src="<%= image %>" 
+                   class="thumbnail <%= index === 0 ? 'active' : '' %>" 
+                   onclick="changeImage(this.src, '<%= index %>')"
+                   alt="Product thumbnail <%= index + 1 %>">
+          <% }) %>
+      </div>
+  </div>
 </div>
 
 
-        <!-- Product Details -->
-        <div class="col-md-6">
-            <div class="d-flex justify-content-between align-items-start">
-                <h1 class="h2 mb-3"><%= product.productName %></h1>
-                <div onclick="toggleWishlist('<%=product._id%>', this)" class="heart-icon <%= product.isInWishlist ? 'active' : '' %>" data-product="<%=product._id%>">
-                    <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
-                </div>
-            </div>
-            <div class="category-badge">
-                <i class="bi bi-tag-fill"></i>
-                <%=category %>
-            </div>
+      <!-- Product Details -->
+      <div class="col-md-6">
+          <div class="d-flex justify-content-between align-items-start">
+              <h1 class="h2 mb-3"><%= product.productName %></h1>
+              <div onclick="toggleWishlist('<%=product._id%>', this)" class="heart-icon <%= product.isInWishlist ? 'active' : '' %>" data-product="<%=product._id%>">
+                  <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+              </div>
+          </div>
+          <div class="category-badge">
+              <i class="bi bi-tag-fill"></i>
+              <%=category %>
+          </div>
 
-            <div class="brand-badge">
-              <i class="bi bi-award"></i>
-              <span class="brand-text"><%= brand.brandName %></span>  
-            </div>
+          <div class="brand-badge">
+            <i class="bi bi-award"></i>
+            <span class="brand-text"><%= brand.brandName %></span>  
+          </div>
 
-            <div class="d-flex align-items-center mb-3">
-                <div class="rating me-2">
-                    ★★★★☆
-                </div>
-                <span class="text-muted">(150 Reviews)</span>
-            </div>
-            <h2 class="h3 mb-4">₹<%= product.salePrice %> <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %> <del>₹<%= product.regularPrice %></del> <% } %> <% if(offer>0){  %> 
-              <h4 class="text-success" style="font-size: x-large;"> <%= offer %> %OFF</h4> 
-            <% } %> </h2>
+          <div class="d-flex align-items-center mb-3">
+              <div class="rating me-2">
+                  ★★★★☆
+              </div>
+              <span class="text-muted">(150 Reviews)</span>
+          </div>
+          <h2 class="h3 mb-4">₹<%= product.salePrice %> <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %> <del>₹<%= product.regularPrice %></del> <% } %> <% if(offer>0){  %> 
+            <h4 class="text-success" style="font-size: x-large;"> <%= offer %> %OFF</h4> 
+          <% } %> </h2>
+
+        
+          <% 
+          let stockClass = '';
+          let stockIcon = '';
+          if (product.quantity > 10) {
+              stockClass = 'high';
+              stockIcon = 'bi-check-circle-fill';
+          } else if (product.quantity > 5) {
+              stockClass = 'medium';
+              stockIcon = 'bi-exclamation-circle-fill';
+          } else {
+              stockClass = 'low';
+              stockIcon = 'bi-exclamation-triangle-fill';
+          }
+          %>
+          <div class="stock-status <%= stockClass %>">
+              <i class="bi <%= stockIcon %>"></i>
+              <% if (product.quantity > 0) { %>
+                  <%= product.quantity %> units in stock
+              <% } else { %>
+                  Out of stock
+              <% } %>
+          </div>
+          <p class="mb-4">
+            <%= product.description %>
+          </p>
+
+          <!-- Quantity Selector -->
+<div
+class="d-flex align-items-center justify-content-center mb-3 ms-5 quantity"
+style="width: 300px;"  
+>
+<button class="btn btn-outline-secondary btn-sm minus" type="button">-</button>
+<input
+  type="number"
+  class="form-control text-center mx-3"
+  value="1"
+  min="1"
+  max="6"
+  id="quantity"
+  style="width: 100px;"  
+/>
+<button class="btn btn-outline-secondary btn-sm plus" type="button">+</button>
+</div>
 
           
-            <% 
-            let stockClass = '';
-            let stockIcon = '';
-            if (product.quantity > 10) {
-                stockClass = 'high';
-                stockIcon = 'bi-check-circle-fill';
-            } else if (product.quantity > 5) {
-                stockClass = 'medium';
-                stockIcon = 'bi-exclamation-circle-fill';
-            } else {
-                stockClass = 'low';
-                stockIcon = 'bi-exclamation-triangle-fill';
-            }
-            %>
-            <div class="stock-status <%= stockClass %>">
-                <i class="bi <%= stockIcon %>"></i>
-                <% if (product.quantity > 0) { %>
-                    <%= product.quantity %> units in stock
-                <% } else { %>
-                    Out of stock
-                <% } %>
-            </div>
-            <p class="mb-4">
-              <%= product.description %>
-            </p>
+          <!-- Action Buttons -->
+          <div class="d-grid gap-2">
+            <button class="btn btn-dark btn-lg" onclick="addToCart('<%=product._id%>')">Add to Cart</button>
+              <!-- <button class="btn btn-outline-dark">Buy Now</button> -->
 
-            <!-- Quantity Selector -->
- <div
-  class="d-flex align-items-center justify-content-center mb-3 ms-5 quantity"
-  style="width: 400px;"  
->
-  <button class="btn btn-outline-secondary btn-sm minus" type="button">-</button>
-  <input
-    type="number"
-    class="form-control text-center mx-3"
-    value="1"
-    min="1"
-    max="6"
-    id="quantity"
-    style="width: 150px;"  
-  />
-  <button class="btn btn-outline-secondary btn-sm plus" type="button">+</button>
+          </div>
+          
+
+          <!-- Shipping Information -->
+          <div class="shipping-info mt-4">
+              <div class="shipping-card p-3 mb-3 border rounded bg-light">
+                  <div class="d-flex align-items-start">
+                      <div class="shipping-icon me-3">
+                          <i class="bi bi-truck fs-4"></i>
+                      </div>
+                      <div class="shipping-content">
+                          <h6 class="mb-1 fw-medium">Free Delivery</h6>
+                          <small class="text-secondary">Enter your postal code for Delivery Availability</small>
+                      </div>
+                  </div>
+              </div>
+              <div class="shipping-card p-3 border rounded bg-light">
+                  <div class="d-flex align-items-start">
+                      <div class="shipping-icon me-3">
+                          <i class="bi bi-arrow-return-left fs-4"></i>
+                      </div>
+                      <div class="shipping-content">
+                          <h6 class="mb-1 fw-medium">Return Delivery</h6>
+                          <small class="text-secondary">Free 30 Days Delivery Returns. Details</small>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
 
-            
-            <!-- Action Buttons -->
-            <div class="d-grid gap-2">
-              <button class="btn btn-dark btn-lg" onclick="addToCart('<%=product._id%>')">Add to Cart</button>
-                <!-- <button class="btn btn-outline-dark">Buy Now</button> -->
+<style>
+.shipping-info {
+    margin-top: 2rem;
+}
 
-            </div>
-            
+.shipping-card {
+    transition: all 0.2s ease;
+}
 
-            <!-- Shipping Information -->
-            <div class="shipping-card">
-                <div class="d-flex align-items-center mb-2">
-                    <svg width="24" height="24" class="me-2">
-                        <path d="M3 3h18v18H3z"/>
-                    </svg>
-                    <div>
-                        <h3 class="h6 mb-0">Free Delivery</h3>
-                        <small class="text-muted">Enter your postal code for Delivery Availability</small>
-                    </div>
-                </div>
-            </div>
-            <div class="shipping-card">
-                <div class="d-flex align-items-center">
-                    <svg width="24" height="24" class="me-2">
-                        <path d="M3 3h18v18H3z"/>
-                    </svg>
-                    <div>
-                        <h3 class="h6 mb-0">Return Delivery</h3>
-                        <small class="text-muted">Free 30 Days Delivery Returns. Details</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+.shipping-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.shipping-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.shipping-icon i {
+    color: #212529;
+}
+
+.shipping-content {
+    flex: 1;
+}
+
+.shipping-content h6 {
+    font-size: 0.95rem;
+    color: #212529;
+}
+
+.shipping-content small {
+    display: block;
+    line-height: 1.4;
+}
+</style>
 
 <section class="section-b-space pt-0">
-  <div class="custom-container container product-contain">
-    <div class="title text-start mb-4"> 
-      <h3>Related Products</h3>
-    </div>
-    <div class="position-relative">
-      <div class="swiper related-products-swiper">
-        <div class="swiper-wrapper">
-          <% relatedProducts.forEach(product => { %>
-            <div class="swiper-slide">
-              <div class="product-box-3">
-                <div class="product-image">
-                  <a href="/productDetails?id=<%= product._id %>">
-                    <img src="<%= product.productImage[0] %>" alt="<%= product.productName %>" class="img-fluid">
-                  </a>
-                  <div class="product-actions">
-                    <% if (product.quantity > 0) { %>
-                      <button class="action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart">
-                        <i class="bi bi-cart-plus"></i>
-                      </button>
-                    <% } %>
-                    <button class="action-icon <%= product.isInWishlist ? 'active' : '' %>" 
-                            onclick="toggleWishlist('<%=product._id%>', this)" 
-                            title="Add to Wishlist"
-                            data-product-id="<%=product._id%>">
-                      <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+<div class="custom-container container product-contain">
+  <div class="title text-start mb-4"> 
+    <h3>Related Products</h3>
+  </div>
+  <div class="position-relative">
+    <div class="swiper related-products-swiper">
+      <div class="swiper-wrapper">
+        <% relatedProducts.forEach(product => { %>
+          <div class="swiper-slide">
+            <div class="product-box-3">
+              <div class="product-image">
+                <a href="/productDetails?id=<%= product._id %>">
+                  <img src="<%= product.productImage[0] %>" alt="<%= product.productName %>" class="img-fluid">
+                </a>
+                <div class="product-actions">
+                  <% if (product.quantity > 0) { %>
+                    <button class="action-icon" onclick="addToCart('<%=product._id%>')" title="Add to Cart">
+                      <i class="bi bi-cart-plus"></i>
                     </button>
-                  </div>
-                </div>
-                <div class="product-detail">
-                  <div class="rating">★★★★☆</div>
-                  <a href="/productDetails?id=<%= product._id %>">
-                    <h6 class="name"><%= product.productName %></h6>
-                  </a>
-                  <% if (product.quantity <= 0) { %>
-                    <p class="price text-danger">Out of Stock</p>
-                  <% } else { %>
-                    <p class="price">
-                      ₹<%= product.salePrice %>
-                      <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %>
-                        ₹<del><%= product.regularPrice %></del>
-                      <% } %>
-                    </p>
                   <% } %>
+                  <button class="action-icon <%= product.isInWishlist ? 'active' : '' %>" 
+                          onclick="toggleWishlist('<%=product._id%>', this)" 
+                          title="Add to Wishlist"
+                          data-product-id="<%=product._id%>">
+                    <i class="bi <%= product.isInWishlist ? 'bi-heart-fill' : 'bi-heart' %>"></i>
+                  </button>
                 </div>
               </div>
+              <div class="product-detail">
+                <div class="rating">★★★★☆</div>
+                <a href="/productDetails?id=<%= product._id %>">
+                  <h6 class="name"><%= product.productName %></h6>
+                </a>
+                <% if (product.quantity <= 0) { %>
+                  <p class="price text-danger">Out of Stock</p>
+                <% } else { %>
+                  <p class="price">
+                    ₹<%= product.salePrice %>
+                    <% if(product.regularPrice && product.regularPrice > product.salePrice && product.regularPrice !== product.salePrice) { %>
+                      ₹<del><%= product.regularPrice %></del>
+                    <% } %>
+                  </p>
+                <% } %>
+              </div>
             </div>
-          <% }); %>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+          </div>
+        <% }); %>
       </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
   </div>
+</div>
 </section>
 
 <!-- Add Swiper CSS -->
@@ -421,378 +464,510 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Swiper
-    new Swiper('.related-products-swiper', {
-        slidesPerView: 4,
-        spaceBetween: 20,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-            320: {
-                slidesPerView: 1,
-            },
-            576: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            992: {
-                slidesPerView: 4,
-            }
-        }
-    });
+  // Initialize Swiper
+  new Swiper('.related-products-swiper', {
+      slidesPerView: 4,
+      spaceBetween: 20,
+      navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+          320: {
+              slidesPerView: 1,
+          },
+          576: {
+              slidesPerView: 2,
+          },
+          768: {
+              slidesPerView: 3,
+          },
+          992: {
+              slidesPerView: 4,
+          }
+      }
+  });
 
-    // Initialize tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  // Initialize tooltips
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
-
-
-
 </script>
 
 <style>
-  .product-box-3 {
-    position: relative;
-    background: #fff;
-    border: 1px solid #eee;
-    padding: 10px;
-    transition: all 0.3s ease;
-    height: 100%;
+.product-box-3 {
+  position: relative;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 10px;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.product-box-3:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-box-3 img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-box-3:hover img {
+  transform: scale(1.05);
+}
+
+.product-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
+
+.product-box-3:hover .product-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.action-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.action-icon:hover {
+  background: #000;
+  color: white;
+  transform: scale(1.1);
+}
+
+.action-icon.active {
+  background: #dc3545;
+  color: white;
+}
+
+.action-icon.active:hover {
+  background: #c82333;
+}
+
+.product-detail {
+  padding: 10px 0;
+}
+
+.name {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #333;
+  height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.price {
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px;
+  color: #000;
+}
+
+.related-products-swiper {
+  padding: 0 40px;
+  height: 350px;
+}
+</style>
+
+<style>
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 8px 16px;
+  border-radius: 30px;
+  margin: 12px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.brand-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.brand-badge i {
+  color: var(--bs-primary);
+  font-size: 1.1rem;
+}
+
+.brand-text {
+  color: #495057;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .brand-badge {
+    background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+    border-color: #495057;
   }
 
-  .product-box-3:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  .brand-text {
+    color: #e9ecef;
   }
+}
 
-  .product-box-3 img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  .product-box-3:hover img {
-    transform: scale(1.05);
-  }
-
-  .product-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* Animation */
+@keyframes brandFadeIn {
+  from {
     opacity: 0;
-    transform: translateX(20px);
-    transition: all 0.3s ease;
+    transform: translateX(-10px);
   }
-
-  .product-box-3:hover .product-actions {
+  to {
     opacity: 1;
     transform: translateX(0);
   }
+}
 
-  .action-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-  }
+.brand-badge {
+  animation: brandFadeIn 0.4s ease-out forwards;
+}
 
-  .action-icon:hover {
-    background: #000;
-    color: white;
-    transform: scale(1.1);
+/* Responsive styles */
+@media (max-width: 768px) {
+  .brand-badge {
+    padding: 6px 12px;
   }
+  
+  .brand-text {
+    font-size: 0.9rem;
+  }
+  
+  .brand-badge i {
+    font-size: 1rem;
+  }
+}
+</style>
 
-  .action-icon.active {
-    background: #dc3545;
-    color: white;
-  }
+<style>
+.heart-icon {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 24px;
+  color: #6c757d;
+  position: relative;
+  width: fit-content;
+  transition: transform 0.2s ease;
+}
 
-  .action-icon.active:hover {
-    background: #c82333;
-  }
+.heart-icon i {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
 
-  .product-detail {
-    padding: 10px 0;
-  }
+.heart-icon:not(.active) i {
+  color: #6c757d;
+  transform: scale(1);
+}
 
-  .name {
-    font-size: 14px;
-    margin: 5px 0;
-    color: #333;
-    height: 40px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
+.heart-icon.active i {
+  color: #d60808 !important;
+  animation: heartPop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
 
-  .price {
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 10px;
-  }
+.heart-icon:hover {
+  transform: scale(1.1);
+}
 
-  .swiper-button-next,
-  .swiper-button-prev {
-    background: #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-  }
+.heart-icon.clicked {
+  animation: heartBeat 0.5s ease;
+}
 
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
-    font-size: 18px;
-    color: #000;
-  }
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
 
-  .related-products-swiper {
-    padding: 0 40px;
-    height: 350px;
-  }
+.heart-icon::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 68, 68, 0.2);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s ease;
+}
+
+.heart-icon.active::before {
+  transform: scale(2);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
 </style>
 
 <script>
 function changeImage(src, index) {
-    const mainImage = document.getElementById('mainImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    
-    // Create new image to preload
-    const newImage = new Image();
-    newImage.src = src;
-    
-    // Fade out current image
-    mainImage.style.opacity = '0.5';
-    
-    // When new image is loaded
-    newImage.onload = function() {
-        mainImage.src = src;
-        mainImage.style.opacity = '1';
-        
-        // Update thumbnails
-        thumbnails.forEach((thumb, i) => {
-            thumb.classList.toggle('active', i === index);
-        });
-    };
+  const mainImage = document.getElementById('mainImage');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  
+  // Create new image to preload
+  const newImage = new Image();
+  newImage.src = src;
+  
+  // Fade out current image
+  mainImage.style.opacity = '0.5';
+  
+  // When new image is loaded
+  newImage.onload = function() {
+      mainImage.src = src;
+      mainImage.style.opacity = '1';
+      
+      // Update thumbnails
+      thumbnails.forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+      });
+  };
 }
 </script>
 
 <script>
 
 async function toggleWishlist(productId, button) {
-  try {
-    // Add flying hearts animation
-    if (button) {
-      const rect = button.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      // Create 5 hearts with slight delay
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          createFlyingHeart(centerX, centerY);
-        }, i * 100);
-      }
-
-      button.classList.add('clicked');
+try {
+  // Add flying hearts animation
+  if (button) {
+    const rect = button.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // Create 5 hearts with slight delay
+    for (let i = 0; i < 5; i++) {
       setTimeout(() => {
-        button.classList.remove('clicked');
-      }, 500);
+        createFlyingHeart(centerX, centerY);
+      }, i * 100);
     }
 
-    const response = await fetch('/wishlist/toggle', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId }),
+    button.classList.add('clicked');
+    setTimeout(() => {
+      button.classList.remove('clicked');
+    }, 500);
+  }
+
+  const response = await fetch('/wishlist/toggle', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ productId }),
+  });
+
+  const result = await response.json();
+  if (response.ok) {
+    // Update the clicked button
+    if (button) {
+      const icon = button.querySelector('i');
+      button.classList.toggle('active');
+      if (icon) {
+        if (icon.classList.contains('bi-heart')) {
+          icon.classList.remove('bi-heart');
+          icon.classList.add('bi-heart-fill');
+        } else {
+          icon.classList.remove('bi-heart-fill');
+          icon.classList.add('bi-heart');
+        }
+      }
+    }
+
+    // Update all other instances of the same product's wishlist button
+    const allWishlistButtons = document.querySelectorAll(`button[data-product-id="${productId}"]`);
+    allWishlistButtons.forEach(otherButton => {
+      if (otherButton !== button) {
+        const otherIcon = otherButton.querySelector('i');
+        otherButton.classList.toggle('active');
+        if (otherIcon) {
+          if (otherIcon.classList.contains('bi-heart')) {
+            otherIcon.classList.remove('bi-heart');
+            otherIcon.classList.add('bi-heart-fill');
+          } else {
+            otherIcon.classList.remove('bi-heart-fill');
+            otherIcon.classList.add('bi-heart');
+          }
+        }
+      }
     });
 
-    const result = await response.json();
-    if (response.ok) {
-      // Update the clicked button
-      if (button) {
-        const icon = button.querySelector('i');
-        button.classList.toggle('active');
-        if (icon) {
-          if (icon.classList.contains('bi-heart')) {
-            icon.classList.remove('bi-heart');
-            icon.classList.add('bi-heart-fill');
-          } else {
-            icon.classList.remove('bi-heart-fill');
-            icon.classList.add('bi-heart');
-          }
-        }
-      }
-
-      // Update all other instances of the same product's wishlist button
-      const allWishlistButtons = document.querySelectorAll(`button[data-product-id="${productId}"]`);
-      allWishlistButtons.forEach(otherButton => {
-        if (otherButton !== button) {
-          const otherIcon = otherButton.querySelector('i');
-          otherButton.classList.toggle('active');
-          if (otherIcon) {
-            if (otherIcon.classList.contains('bi-heart')) {
-              otherIcon.classList.remove('bi-heart');
-              otherIcon.classList.add('bi-heart-fill');
-            } else {
-              otherIcon.classList.remove('bi-heart-fill');
-              otherIcon.classList.add('bi-heart');
-            }
-          }
-        }
-      });
-
-      // Show success message
-      Toastify({
-        text: result.message || 'Wishlist updated successfully!',
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        backgroundColor: '#28a745',
-           style: {
-              color: "#ffffff", // Text color
-            fontSize: "16px", // Optional: Adjust font size
-            borderRadius:'20px'
-            },
-      }).showToast();
-    } else {
-      Toastify({
-        text: result.error || 'Failed to update wishlist.',
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        backgroundColor: '#dc3545',
-        close:true,
-        style: {
-              color: "#ffffff", // Text color
-            fontSize: "16px", // Optional: Adjust font size
-            borderRadius:'20px'
-            },
-      }).showToast();
-    }
-  } catch (error) {
-    console.error('Error:', error);
+    // Show success message
     Toastify({
-      text: error.message || 'Failed to update wishlist',
+      text: result.message || 'Wishlist updated successfully!',
       duration: 3000,
       gravity: 'top',
       position: 'right',
-      close:true,
+      backgroundColor: '#28a745',
+         style: {
+            color: "#ffffff", // Text color
+          fontSize: "16px", // Optional: Adjust font size
+          borderRadius:'20px'
+          },
+    }).showToast();
+  } else {
+    Toastify({
+      text: result.error || 'Failed to update wishlist.',
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
       backgroundColor: '#dc3545',
+      close:true,
       style: {
-              color: "#ffffff", // Text color
-            fontSize: "16px", // Optional: Adjust font size
-            borderRadius:'20px'
-            },
+            color: "#ffffff", // Text color
+          fontSize: "16px", // Optional: Adjust font size
+          borderRadius:'20px'
+          },
     }).showToast();
   }
+} catch (error) {
+  console.error('Error:', error);
+  Toastify({
+    text: error.message || 'Failed to update wishlist',
+    duration: 3000,
+    gravity: 'top',
+    position: 'right',
+    close:true,
+    backgroundColor: '#dc3545',
+    style: {
+            color: "#ffffff", // Text color
+          fontSize: "16px", // Optional: Adjust font size
+          borderRadius:'20px'
+          },
+  }).showToast();
+}
 }
 
 function createFlyingHeart(x, y) {
-  const heart = document.createElement('i');
-  heart.className = 'bi bi-heart-fill flying-heart';
-  heart.style.fontSize = '20px';
-  heart.style.left = x + 'px';
-  heart.style.top = y + 'px';
-  
-  // Random values for animation
-  const tx = (Math.random() - 0.5) * 150;
-  const ty = -100 - Math.random() * 100;
-  const rotate = (Math.random() - 0.5) * 90;
-  
-  heart.style.setProperty('--tx', `${tx}px`);
-  heart.style.setProperty('--ty', `${ty}px`);
-  heart.style.setProperty('--rotate', `${rotate}deg`);
-  
-  document.body.appendChild(heart);
-  
-  setTimeout(() => {
-    heart.remove();
-  }, 1000);
+const heart = document.createElement('i');
+heart.className = 'bi bi-heart-fill flying-heart';
+heart.style.fontSize = '20px';
+heart.style.left = x + 'px';
+heart.style.top = y + 'px';
+
+// Random values for animation
+const tx = (Math.random() - 0.5) * 150;
+const ty = -100 - Math.random() * 100;
+const rotate = (Math.random() - 0.5) * 90;
+
+heart.style.setProperty('--tx', `${tx}px`);
+heart.style.setProperty('--ty', `${ty}px`);
+heart.style.setProperty('--rotate', `${rotate}deg`);
+
+document.body.appendChild(heart);
+
+setTimeout(() => {
+  heart.remove();
+}, 1000);
 }
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const mainImage = document.getElementById('mainImage');
-    const nextImage = document.getElementById('nextImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    let isAnimating = false;
+document.addEventListener('DOMContentLoaded', function() {
+  const mainImage = document.getElementById('mainImage');
+  const nextImage = document.getElementById('nextImage');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  let isAnimating = false;
 
-    function switchImages(newSrc) {
-        if (isAnimating) return;
-        isAnimating = true;
+  function switchImages(newSrc) {
+      if (isAnimating) return;
+      isAnimating = true;
 
-        // Prepare next image
-        nextImage.src = newSrc;
-        nextImage.classList.add('slide-in');
+      // Prepare next image
+      nextImage.src = newSrc;
+      nextImage.classList.add('slide-in');
 
-        // Start animation after a brief delay
-        setTimeout(() => {
-            mainImage.classList.add('slide-out');
-            nextImage.classList.remove('slide-in');
-            nextImage.classList.add('active');
+      // Start animation after a brief delay
+      setTimeout(() => {
+          mainImage.classList.add('slide-out');
+          nextImage.classList.remove('slide-in');
+          nextImage.classList.add('active');
 
-            // After animation completes
-            setTimeout(() => {
-                mainImage.src = newSrc;
-                mainImage.classList.remove('slide-out');
-                mainImage.classList.add('active');
-                nextImage.classList.remove('active');
-                isAnimating = false;
-            }, 500);
-        }, 50);
-    }
+          // After animation completes
+          setTimeout(() => {
+              mainImage.src = newSrc;
+              mainImage.classList.remove('slide-out');
+              mainImage.classList.add('active');
+              nextImage.classList.remove('active');
+              isAnimating = false;
+          }, 500);
+      }, 50);
+  }
 
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', function() {
-            if (this.src === mainImage.src) return;
+  thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+          if (this.src === mainImage.src) return;
 
-            // Remove active class from all thumbnails
-            thumbnails.forEach(t => t.classList.remove('active'));
-            // Add active class to clicked thumbnail
-            this.classList.add('active');
+          // Remove active class from all thumbnails
+          thumbnails.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked thumbnail
+          this.classList.add('active');
 
-            switchImages(this.src);
-        });
-    });
+          switchImages(this.src);
+      });
+  });
 
-    // Thumbnail slider functionality
-    const slider = document.getElementById('thumbnailSlider');
-    const prevBtn = document.getElementById('prevButton');
-    const nextBtn = document.getElementById('nextButton');
-    const scrollAmount = 100;
+  // Thumbnail slider functionality
+  const slider = document.getElementById('thumbnailSlider');
+  const prevBtn = document.getElementById('prevButton');
+  const nextBtn = document.getElementById('nextButton');
+  const scrollAmount = 100;
 
-    prevBtn.addEventListener('click', () => {
-        slider.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-        });
-    });
+  prevBtn.addEventListener('click', () => {
+      slider.scrollBy({
+          left: -scrollAmount,
+          behavior: 'smooth'
+      });
+  });
 
-    nextBtn.addEventListener('click', () => {
-        slider.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
-    });
+  nextBtn.addEventListener('click', () => {
+      slider.scrollBy({
+          left: scrollAmount,
+          behavior: 'smooth'
+      });
+  });
 });
 </script>
 
@@ -800,65 +975,65 @@ function createFlyingHeart(x, y) {
 
 async function addToCart(productId) {
 try {
-  const quantity = document.getElementById('quantity').value
-  const response = await fetch('/cart/add',{
-    method:'POST',
-    headers:{
-      'Content-Type': 'application/json',
-    },body:JSON.stringify({productId,quantity})
+const quantity = document.getElementById('quantity').value
+const response = await fetch('/cart/add',{
+  method:'POST',
+  headers:{
+    'Content-Type': 'application/json',
+  },body:JSON.stringify({productId,quantity})
 
-  })
-  const data = await response.json()
-  if(response.ok){
-   Toastify({
-            text: "Product added to cart successfully!",
-            duration: 3000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "right", // `left`, `center` or `right`
-            backgroundColor: "#28a745", // Success color (green)
-            stopOnFocus: true, // Prevents dismissing on hover
-            style: {
-                  color: "#ffffff", // Text color
-                fontSize: "16px", // Optional: Adjust font size
-                borderRadius:'20px'
-                },
-        }).showToast();
-    } else {
-        Toastify({
-            text: data.message || "Error adding to cart",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "right",
-            backgroundColor: "#dc3545", // Error color (red)
-            stopOnFocus: true,
-            style: {
-              color: "#ffffff", // Text color
-            fontSize: "16px", // Optional: Adjust font size
-            borderRadius:'20px'
-            },
-        }).showToast();
-    }
+})
+const data = await response.json()
+if(response.ok){
+ Toastify({
+          text: "Product added to cart successfully!",
+          duration: 3000,
+          close: true,
+          gravity: "top", // `top` or `bottom`
+          position: "right", // `left`, `center` or `right`
+          backgroundColor: "#28a745", // Success color (green)
+          stopOnFocus: true, // Prevents dismissing on hover
+          style: {
+                color: "#ffffff", // Text color
+              fontSize: "16px", // Optional: Adjust font size
+              borderRadius:'20px'
+              },
+      }).showToast();
+  } else {
+      Toastify({
+          text: data.message || "Error adding to cart",
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#dc3545", // Error color (red)
+          stopOnFocus: true,
+          style: {
+            color: "#ffffff", // Text color
+          fontSize: "16px", // Optional: Adjust font size
+          borderRadius:'20px'
+          },
+      }).showToast();
+  }
 } catch (error) {
-    console.error("Error:", error);
-    Toastify({
-        text: "Something went wrong. Please try again.",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        backgroundColor: "#dc3545",
-        stopOnFocus: true,
-        style: {
-              color: "#ffffff", // Text color
-            fontSize: "16px", // Optional: Adjust font size
-            borderRadius:'20px'
-            },
-    }).showToast();
+  console.error("Error:", error);
+  Toastify({
+      text: "Something went wrong. Please try again.",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "#dc3545",
+      stopOnFocus: true,
+      style: {
+            color: "#ffffff", // Text color
+          fontSize: "16px", // Optional: Adjust font size
+          borderRadius:'20px'
+          },
+  }).showToast();
 }
 }
- 
+
 
 </script>
 
@@ -869,592 +1044,577 @@ try {
 <%- include('../partials/user/footer') %>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize tooltips
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 });
 </script>
 
 <style>
-  .brand-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 8px 16px;
-    border-radius: 30px;
-    margin: 12px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border: 1px solid #dee2e6;
-    transition: all 0.3s ease;
-  }
+.product-box-3 {
+  position: relative;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 10px;
+  transition: all 0.3s ease;
+  height: 100%;
+}
 
-  .brand-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
+.product-box-3:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .brand-badge i {
-    color: var(--bs-primary);
-    font-size: 1.1rem;
-  }
+.product-box-3 img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
 
-  .brand-text {
-    color: #495057;
-    font-weight: 600;
-    font-size: 1rem;
-    text-transform: capitalize;
-    letter-spacing: 0.3px;
-  }
+.product-box-3:hover img {
+  transform: scale(1.05);
+}
 
-  /* Dark mode support */
-  @media (prefers-color-scheme: dark) {
-    .brand-badge {
-      background: linear-gradient(135deg, #343a40 0%, #212529 100%);
-      border-color: #495057;
-    }
+.product-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+}
 
-    .brand-text {
-      color: #e9ecef;
-    }
-  }
+.product-box-3:hover .product-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
 
-  /* Animation */
-  @keyframes brandFadeIn {
-    from {
-      opacity: 0;
-      transform: translateX(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
+.action-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
 
-  .brand-badge {
-    animation: brandFadeIn 0.4s ease-out forwards;
-  }
+.action-icon:hover {
+  background: #000;
+  color: white;
+  transform: scale(1.1);
+}
 
-  /* Responsive styles */
-  @media (max-width: 768px) {
-    .brand-badge {
-      padding: 6px 12px;
-    }
-    
-    .brand-text {
-      font-size: 0.9rem;
-    }
-    
-    .brand-badge i {
-      font-size: 1rem;
-    }
-  }
+.action-icon.active {
+  background: #dc3545;
+  color: white;
+}
+
+.action-icon.active:hover {
+  background: #c82333;
+}
+
+.product-detail {
+  padding: 10px 0;
+}
+
+.name {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #333;
+  height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.price {
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px;
+  color: #000;
+}
+
+.related-products-swiper {
+  padding: 0 40px;
+  height: 350px;
+}
 </style>
 
 <style>
-  .heart-icon {
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 24px;
-    color: #6c757d;
-    position: relative;
-    width: fit-content;
-    transition: transform 0.2s ease;
-  }
+.img-zoom-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
 
-  .heart-icon i {
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 80px;
+  height: 80px;
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: crosshair;
+}
 
-  .heart-icon:not(.active) i {
-    color: #6c757d;
-    transform: scale(1);
-  }
+.img-zoom-result {
+  position: fixed;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 1000;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-  .heart-icon.active i {
-    color: #d60808 !important;
-    animation: heartPop 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.49);
-  }
-
-  .heart-icon:hover {
-    transform: scale(1.1);
-  }
-
-  .heart-icon.clicked {
-    animation: heartBeat 0.5s ease;
-  }
-  
-  @keyframes heartBeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.3); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.3); }
-    100% { transform: scale(1); }
-  }
-  
-  .heart-icon::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 68, 68, 0.2);
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 0.3s ease;
-  }
-  
-  .heart-icon.active::before {
-    transform: scale(2);
-    opacity: 0;
-    transition: all 0.5s ease;
-  }
-</style>
-
-<style>
-  .img-zoom-container {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .img-zoom-lens {
-    position: absolute;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    width: 80px;
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.4);
-    cursor: crosshair;
-  }
-
+/* Responsive styles */
+@media (max-width: 1200px) {
   .img-zoom-result {
-    position: absolute;
-    top: 0;
-    left: 105%;
-    width: 400px;
-    height: 400px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: none;
-    z-index: 1000;
-    pointer-events: none;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-    overflow: hidden;
+      width: 500px;
+      height: 500px;
   }
+}
 
-  .img-zoom-container:hover .img-zoom-result {
-    display: block;
-  }
-
-  @media (max-width: 1200px) {
-    .img-zoom-result {
+@media (max-width: 768px) {
+  .img-zoom-result {
       display: none !important;
-    }
   }
+  .main-image {
+      cursor: default;
+  }
+}
 </style>
 
 <script>
 function initZoom() {
-    const mainImage = document.getElementById('mainImage');
-    const zoomResult = mainImage.parentElement.querySelector('.zoom-result');
-    
-    if (!mainImage || !zoomResult) return;
+  const mainImage = document.getElementById('mainImage');
+  const zoomResult = mainImage.parentElement.querySelector('.zoom-result');
+  
+  if (!mainImage || !zoomResult) return;
 
-    // Create zoom lens
-    const lens = document.createElement('div');
-    lens.className = 'zoom-lens';
-    mainImage.parentElement.appendChild(lens);
+  // Create zoom lens
+  const lens = document.createElement('div');
+  lens.className = 'zoom-lens';
+  mainImage.parentElement.appendChild(lens);
 
-    // Calculate zoom ratio
-    function updateZoomRatio() {
-        const cx = zoomResult.offsetWidth / lens.offsetWidth;
-        const cy = zoomResult.offsetHeight / lens.offsetHeight;
-        
-        // Set background image
-        zoomResult.style.backgroundImage = `url(${mainImage.src})`;
-        zoomResult.style.backgroundSize = (mainImage.width * cx) + "px " + (mainImage.height * cy) + "px";
-        
-        return { cx, cy };
-    }
+  // Calculate zoom ratio
+  function updateZoomRatio() {
+      const cx = zoomResult.offsetWidth / lens.offsetWidth;
+      const cy = zoomResult.offsetHeight / lens.offsetHeight;
+      
+      // Set background image
+      zoomResult.style.backgroundImage = `url(${mainImage.src})`;
+      zoomResult.style.backgroundSize = (mainImage.width * cx) + "px " + (mainImage.height * cy) + "px";
+      
+      return { cx, cy };
+  }
 
-    // Initialize zoom
-    let ratio = updateZoomRatio();
+  // Initialize zoom
+  let ratio = updateZoomRatio();
 
-    // Mouse enter event
-    mainImage.addEventListener('mouseenter', function() {
-        lens.style.display = 'block';
-        zoomResult.style.display = 'block';
-        ratio = updateZoomRatio(); // Recalculate ratio when showing
-    });
+  // Mouse enter event
+  mainImage.addEventListener('mouseenter', function() {
+      lens.style.display = 'block';
+      zoomResult.style.display = 'block';
+      ratio = updateZoomRatio(); // Recalculate ratio when showing
+  });
 
-    // Mouse leave event
-    mainImage.addEventListener('mouseleave', function() {
-        lens.style.display = 'none';
-        zoomResult.style.display = 'none';
-    });
+  // Mouse leave event
+  mainImage.addEventListener('mouseleave', function() {
+      lens.style.display = 'none';
+      zoomResult.style.display = 'none';
+  });
 
-    // Mouse move event
-    mainImage.addEventListener('mousemove', function(e) {
-        e.preventDefault();
-        
-        // Get cursor position
-        const rect = mainImage.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        // Calculate lens position
-        let lensX = x - lens.offsetWidth / 2;
-        let lensY = y - lens.offsetHeight / 2;
-        
-        // Prevent lens from going outside image
-        if (lensX > mainImage.width - lens.offsetWidth) lensX = mainImage.width - lens.offsetWidth;
-        if (lensX < 0) lensX = 0;
-        if (lensY > mainImage.height - lens.offsetHeight) lensY = mainImage.height - lens.offsetHeight;
-        if (lensY < 0) lensY = 0;
-        
-        // Position lens
-        lens.style.left = lensX + 'px';
-        lens.style.top = lensY + 'px';
-        
-        // Move zoom result background
-        zoomResult.style.backgroundPosition = `-${lensX * ratio.cx}px -${lensY * ratio.cy}px`;
-    });
+  // Mouse move event
+  mainImage.addEventListener('mousemove', function(e) {
+      e.preventDefault();
+      
+      // Get cursor position
+      const rect = mainImage.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Calculate lens position
+      let lensX = x - lens.offsetWidth / 2;
+      let lensY = y - lens.offsetHeight / 2;
+      
+      // Prevent lens from going outside image
+      if (lensX > mainImage.width - lens.offsetWidth) lensX = mainImage.width - lens.offsetWidth;
+      if (lensX < 0) lensX = 0;
+      if (lensY > mainImage.height - lens.offsetHeight) lensY = mainImage.height - lens.offsetHeight;
+      if (lensY < 0) lensY = 0;
+      
+      // Position lens
+      lens.style.left = lensX + 'px';
+      lens.style.top = lensY + 'px';
+      
+      // Move zoom result background
+      zoomResult.style.backgroundPosition = `-${lensX * ratio.cx}px -${lensY * ratio.cy}px`;
+  });
 }
 
 // Update main image and reinitialize zoom
 function updateMainImage(src, index) {
-    const mainImage = document.getElementById('mainImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    
-    // Update main image
-    mainImage.src = src;
-    
-    // Update active thumbnail
-    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-    thumbnails[index].classList.add('active');
-    
-    // Reinitialize zoom after image loads
-    mainImage.onload = function() {
-        initZoom();
-    };
+  const mainImage = document.getElementById('mainImage');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  
+  // Update main image
+  mainImage.src = src;
+  
+  // Update active thumbnail
+  thumbnails.forEach(thumb => thumb.classList.remove('active'));
+  thumbnails[index].classList.add('active');
+  
+  // Reinitialize zoom after image loads
+  mainImage.onload = function() {
+      initZoom();
+  };
 }
 
 // Initialize zoom when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    initZoom();
+  initZoom();
 });
 </script>
 
 <style>
-  .product-image-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
+.product-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
 
-  .main-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    transition: opacity 0.3s ease;
-  }
+.main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  transition: opacity 0.3s ease;
+}
 
-  .thumbnail-container {
-    margin-top: 1rem;
-  }
+.thumbnail-container {
+  margin-top: 1rem;
+}
 
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 2px;
+}
+
+.thumbnail:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.thumbnail.active {
+  border-color: #000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
   .thumbnail {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 2px;
+    width: 80px;
+    height: 80px;
   }
-
-  .thumbnail:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  .thumbnail.active {
-    border-color: #000;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-
-  @media (max-width: 768px) {
-    .thumbnail {
-      width: 80px;
-      height: 80px;
-    }
-  }
+}
 </style>
 
 <script>
 function changeImage(src, index) {
-    const mainImage = document.getElementById('mainImage');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    
-    // Create new image to preload
-    const newImage = new Image();
-    newImage.src = src;
-    
-    // Fade out current image
-    mainImage.style.opacity = '0.5';
-    
-    // When new image is loaded
-    newImage.onload = function() {
-        mainImage.src = src;
-        mainImage.style.opacity = '1';
-        
-        // Update thumbnails
-        thumbnails.forEach((thumb, i) => {
-            thumb.classList.toggle('active', i === index);
-        });
-    };
+  const mainImage = document.getElementById('mainImage');
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  
+  // Create new image to preload
+  const newImage = new Image();
+  newImage.src = src;
+  
+  // Fade out current image
+  mainImage.style.opacity = '0.5';
+  
+  // When new image is loaded
+  newImage.onload = function() {
+      mainImage.src = src;
+      mainImage.style.opacity = '1';
+      
+      // Update thumbnails
+      thumbnails.forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+      });
+  };
 }
 </script>
 
 <style>
 .zoom-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    background: #fff;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
 }
 
 .main-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: crosshair;
-    object-fit: contain;
-    background: #fff;
-    transition: opacity 0.3s ease;
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  transition: opacity 0.3s ease;
 }
 
 .zoom-result {
-    position: fixed;
-    top: 50%;
-    right: 2%;
-    transform: translateY(-50%);
-    width: 600px;
-    height: 600px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 1000;
-    pointer-events: none;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-    overflow: hidden;
+  position: fixed;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  width: 600px;
+  height: 600px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 1000;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 /* Responsive styles */
 @media (max-width: 1400px) {
-    .zoom-result {
-        width: 500px;
-        height: 500px;
-    }
+  .zoom-result {
+      width: 500px;
+      height: 500px;
+  }
 }
 
 @media (max-width: 1200px) {
-    .zoom-result {
-        width: 400px;
-        height: 400px;
-    }
+  .zoom-result {
+      width: 400px;
+      height: 400px;
+  }
 }
 
 @media (max-width: 768px) {
-    .zoom-result {
-        display: none !important;
-    }
-    .main-image {
-        cursor: default;
-    }
+  .zoom-result {
+      display: none !important;
+  }
+  .main-image {
+      cursor: default;
+  }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const mainImage = document.getElementById('mainImage');
-    const zoomResult = mainImage.parentElement.querySelector('.zoom-result');
-    let isZooming = false;
+  const zoomWrapper = document.querySelector('.zoom-wrapper');
+  const mainImage = document.getElementById('mainImage');
+  
+  if (!zoomWrapper || !mainImage) return;
 
-    function updateZoom(e) {
-        if (!isZooming) return;
+  let isZooming = false;
+  const ZOOM_LEVEL = 2;
 
-        // Get the dimensions
-        const rect = mainImage.getBoundingClientRect();
-        const zoomRect = zoomResult.getBoundingClientRect();
-        
-        // Get cursor position relative to the image
-        let x = e.clientX - rect.left;
-        let y = e.clientY - rect.top;
-        
-        // Calculate the relative position as a percentage
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
+  function handleMouseMove(e) {
+      if (!isZooming) return;
 
-        // Calculate the translation values to keep the hovered point fixed
-        const translateX = (xPercent - 50) * 2; // Multiply by 2 for ZOOM_LEVEL of 2
-        const translateY = (yPercent - 50) * 2;
+      const rect = zoomWrapper.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
 
-        mainImage.style.transform = `scale(${ZOOM_LEVEL}) translate(${-translateX}%, ${-translateY}%)`;
-    }
+      // Calculate the relative position as a percentage
+      const xPercent = (x / rect.width) * 100;
+      const yPercent = (y / rect.height) * 100;
 
-    // Show zoom on mouseenter
-    mainImage.addEventListener('mouseenter', () => {
-        if (window.innerWidth <= 768) return; // Don't zoom on mobile
-        isZooming = true;
-        zoomResult.style.display = 'block';
-        updateZoom(e);
-    });
+      // Calculate the translation values to keep the hovered point fixed
+      const translateX = (xPercent - 50) * 2; // Multiply by 2 for ZOOM_LEVEL of 2
+      const translateY = (yPercent - 50) * 2;
 
-    // Hide zoom on mouseleave
-    mainImage.addEventListener('mouseleave', () => {
-        isZooming = false;
-        zoomResult.style.display = 'none';
-    });
+      mainImage.style.transform = `scale(${ZOOM_LEVEL}) translate(${-translateX}%, ${-translateY}%)`;
+  }
 
-    // Update zoom on mousemove
-    mainImage.addEventListener('mousemove', function(e) {
-        if (window.innerWidth <= 768) return; // Don't zoom on mobile
-        requestAnimationFrame(() => updateZoom(e)); // Smooth performance
-    });
+  zoomWrapper.addEventListener('mouseenter', () => {
+      if (window.innerWidth <= 768) return;
+      isZooming = true;
+      mainImage.style.transition = 'transform 0.1s ease';
+  });
 
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-            isZooming = false;
-            zoomResult.style.display = 'none';
-        }
-    });
-}); 
+  zoomWrapper.addEventListener('mouseleave', () => {
+      isZooming = false;
+      mainImage.style.transform = 'none';
+  });
+
+  zoomWrapper.addEventListener('mousemove', handleMouseMove);
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+      if (window.innerWidth <= 768) {
+          isZooming = false;
+          mainImage.style.transform = 'none';
+      }
+  });
+});
 </script>
 
 <style>
 .zoom-container {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    background: #fff;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
 }
 
 .main-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-    transition: opacity 0.3s ease;
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  transition: opacity 0.3s ease;
 }
 
 .zoom-result {
-    position: fixed;
-    top: 50%;
-    right: 2%;
-    transform: translateY(-50%);
-    width: 600px;
-    height: 600px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 1000;
-    pointer-events: none;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-    overflow: hidden;
+  position: fixed;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  width: 600px;
+  height: 600px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 1000;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 /* Responsive styles */
 @media (max-width: 1400px) {
-    .zoom-result {
-        width: 500px;
-        height: 500px;
-    }
+  .zoom-result {
+      width: 500px;
+      height: 500px;
+  }
 }
 
 @media (max-width: 1200px) {
-    .zoom-result {
-        width: 400px;
-        height: 400px;
-    }
+  .zoom-result {
+      width: 400px;
+      height: 400px;
+  }
 }
 
 @media (max-width: 768px) {
-    .zoom-result {
-        display: none !important;
-    }
-    .main-image {
-        cursor: default;
-    }
+  .zoom-result {
+      display: none !important;
+  }
+  .main-image {
+      cursor: default;
+  }
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const zoomWrapper = document.querySelector('.zoom-wrapper');
-    const mainImage = document.getElementById('mainImage');
-    
-    if (!zoomWrapper || !mainImage) return;
+  const mainImage = document.getElementById('mainImage');
+  const zoomResult = mainImage.parentElement.querySelector('.zoom-result');
+  let isZooming = false;
 
-    let isZooming = false;
-    const ZOOM_LEVEL = 2;
+  function updateZoom(e) {
+      if (!isZooming) return;
 
-    function handleMouseMove(e) {
-        if (!isZooming) return;
+      // Get the dimensions
+      const rect = mainImage.getBoundingClientRect();
+      const zoomRect = zoomResult.getBoundingClientRect();
+      
+      // Get cursor position relative to the image
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+      
+      // Calculate the relative position as a percentage
+      const xPercent = (x / rect.width) * 100;
+      const yPercent = (y / rect.height) * 100;
 
-        const rect = zoomWrapper.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+      // Calculate the translation values to keep the hovered point fixed
+      const translateX = (xPercent - 50) * 2; // Multiply by 2 for ZOOM_LEVEL of 2
+      const translateY = (yPercent - 50) * 2;
 
-        // Calculate the relative position as a percentage
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
+      mainImage.style.transform = `scale(${ZOOM_LEVEL}) translate(${-translateX}%, ${-translateY}%)`;
+  }
 
-        // Calculate the translation values to keep the hovered point fixed
-        const translateX = (xPercent - 50) * 2; // Multiply by 2 for ZOOM_LEVEL of 2
-        const translateY = (yPercent - 50) * 2;
+  // Show zoom on mouseenter
+  mainImage.addEventListener('mouseenter', function() {
+      if (window.innerWidth <= 768) return; // Don't zoom on mobile
+      isZooming = true;
+      zoomResult.style.display = 'block';
+      updateZoom(e);
+  });
 
-        mainImage.style.transform = `scale(${ZOOM_LEVEL}) translate(${-translateX}%, ${-translateY}%)`;
-    }
+  // Hide zoom on mouseleave
+  mainImage.addEventListener('mouseleave', function() {
+      isZooming = false;
+      zoomResult.style.display = 'none';
+  });
 
-    zoomWrapper.addEventListener('mouseenter', () => {
-        if (window.innerWidth <= 768) return;
-        isZooming = true;
-        mainImage.style.transition = 'transform 0.1s ease';
-    });
+  // Update zoom on mousemove
+  mainImage.addEventListener('mousemove', function(e) {
+      if (window.innerWidth <= 768) return; // Don't zoom on mobile
+      requestAnimationFrame(() => updateZoom(e)); // Smooth performance
+  });
 
-    zoomWrapper.addEventListener('mouseleave', () => {
-        isZooming = false;
-        mainImage.style.transform = 'none';
-    });
-
-    zoomWrapper.addEventListener('mousemove', handleMouseMove);
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth <= 768) {
-            isZooming = false;
-            mainImage.style.transform = 'none';
-        }
-    });
+  // Handle window resize
+  window.addEventListener('resize', function() {
+      if (window.innerWidth <= 768) {
+          isZooming = false;
+          zoomResult.style.display = 'none';
+      }
+  });
 });
 </script>

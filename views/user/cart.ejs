@@ -70,9 +70,9 @@
                       </td>
                       <td>
                         <div class="quantity">
-                          <button class="minus" onclick="checkQuantity( '<%=item.productId._id %>' ,-1)" type="button">-</button>
+                          <button class=" " onclick="checkQuantity( '<%=item.productId._id %>' ,-1)" type="button">-</button>
                           <input type="number" value="<%= item.quantity %>" min="1" max="6" id="quantity<%=item.productId._id %>" readonly>
-                          <button class="plus" onclick="checkQuantity( '<%=item.productId._id %>',1 )" type="button">+</button>
+                          <button class=" " onclick="checkQuantity( '<%=item.productId._id %>',1 )" type="button">+</button>
                         </div>
                       </td>
                       <td id="totalprice<%=item.productId._id %>" data-price="<%=item.productId.salePrice%>"><%=item.productId.salePrice*item.quantity %></td>
@@ -176,9 +176,9 @@
               const totalprice = document.querySelector(`#row${productId} #totalprice${productId}`)
               const originalPrice = totalprice.getAttribute('data-price')
               const discount = document.getElementById('discount')
-              let quantityInput =  document.getElementById( `quantity${productId}`).value
-              quantityInput=data.quantity.quantity
-              if(data.subtotal && data.subtotal > 0) {
+              let quantityInput =  document.getElementById( `quantity${productId}`) 
+              quantityInput.value=data.quantity.quantity
+               if(data.subtotal && data.subtotal > 0) {
                 // Clean and convert the values
                 const cleanQuantity = Number(quantity)
                 const cleanPrice = Number(originalPrice)

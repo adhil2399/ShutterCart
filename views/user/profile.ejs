@@ -585,6 +585,76 @@
 .status-cancelled {
   color: #dc3545;
 }
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .dashboard-left-sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    height: 100vh;
+    width: 300px;
+    background: white;
+    z-index: 999;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+  }
+
+  .dashboard-left-sidebar.show {
+    left: 0;
+  }
+
+  .left-dashboard-show {
+    display: block !important;
+    margin-bottom: 20px;
+  }
+
+  .profile-card {
+    padding: 15px;
+  }
+
+  .wallet-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-box {
+    text-align: center;
+  }
+
+  .profile-contain {
+    padding: 15px;
+  }
+
+  .profile-image {
+    margin: 0 auto 15px;
+  }
+
+  .tab-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 575px) {
+  .dashboard-right-box {
+    padding: 15px;
+  }
+
+  .profile-name h4 {
+    font-size: 18px;
+  }
+
+  .profile-name h6 {
+    font-size: 14px;
+  }
+
+  .nav-pills .nav-link {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
 </style>
 
   </head>
@@ -612,12 +682,19 @@
           <div class="left-dashboard-show">
             <button class="btn btn_black sm rounded bg-primary">Show Menu</button>
           </div>
-          <div class="dashboard-left-sidebar sticky">
+          <div class="dashboard-left-sidebar">
             <div class="profile-box">
               <div class="profile-bg-img"></div>
               <div class="dashboard-left-sidebar-close"><i class="fa-solid fa-xmark"></i></div>
               <div class="profile-contain">
-                <div class="profile-image"> <img class="img-fluid" src="../assets/images/user/12.jpg" alt=""></div>
+                <div class="profile-image">
+                  <div class="d-flex align-items-center justify-content-center bg-dark rounded-circle mx-auto" 
+                       style="width: 80px; height: 80px;">
+                    <span class="text-white fs-2 text-uppercase">
+                      <%= user.name.charAt(0) %>
+                    </span>
+                  </div>
+                </div>
                 <div class="profile-name">
                   <h4>
                     <%= user.name %>
@@ -671,8 +748,7 @@
                 <!-- <button class="nav-link" id="privacy-tab" data-bs-toggle="pill" data-bs-target="#privacy" role="tab" aria-controls="privacy" aria-selected="false"> <i class="iconsax" data-icon="security-user"></i>Privacy</button> -->
               </li>
             </ul>
-            <div class="logout-button"> <a class="btn btn_black sm" data-bs-toggle="modal"
-                data-bs-target="#Confirmation-modal" title="Quick View" tabindex="0"><i class="iconsax me-1"
+            <div class="logout-button"> <a class="btn btn_black sm" href="/logout" title="Quick View" tabindex="0"><i class="iconsax me-1"
                   data-icon="logout-1"></i> Logout </a></div>
           </div>
         </div>
@@ -1335,7 +1411,7 @@ async function removeFromWishlist(productId) {
                await Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Return request submitted successfully'
+                text: data.message || 'Return request submitted successfully'
               }).then(() => {
                 window.location.reload();
               });
@@ -1447,6 +1523,7 @@ async function verifyRetryPayment(response, orderId) {
         });
 
         const data = await res.json();
+
         if (data.success) {
             Swal.fire({
                 icon: 'success',
@@ -2053,3 +2130,24 @@ async function deleteAddress(id) {
 
  
   <%-include('../partials/user/footer')%>
+
+<script>
+  // Add mobile menu functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.querySelector('.left-dashboard-show button');
+    const sidebar = document.querySelector('.dashboard-left-sidebar');
+    const closeBtn = document.querySelector('.dashboard-left-sidebar-close');
+
+    if (menuBtn) {
+      menuBtn.addEventListener('click', function() {
+        sidebar.classList.add('show');
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        sidebar.classList.remove('show');
+      });
+    }
+  });
+</script>
