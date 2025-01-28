@@ -78,6 +78,7 @@
                             <h4 class="mb-3">Payment Method</h4>
                             <div class="row gy-3">
                                 <div class="col-sm-6">
+                                   
                                     <div class="payment-box position-relative">
                                         <!-- Radio Button -->
                                         <input 
@@ -86,7 +87,7 @@
                                             value="COD" 
                                             type="radio" 
                                             name="paymentMethod" 
-                                            <% if (finalTotal > 40000) { %> disabled <% } %>
+                                            <%= finalTotal > 40000 ? 'disabled' : '' %>
                                         >
                                         <label for="cod" class="form-check-label">COD</label>
                                 
@@ -100,6 +101,9 @@
                                         ></i>
                                         <% } %>
                                     </div>
+                                    <% if (finalTotal > 40000) { %>
+                                        <p class="text-danger p-0 m-0">COD is not available for orders above ₹40,000</p>
+                                    <% } %>
                                 </div>
                                 
                                 <script>

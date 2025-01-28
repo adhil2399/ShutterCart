@@ -106,9 +106,15 @@
                     <li class="mobile-back text-end">Back<i class="fa-solid fa-angle-right ps-2" aria-hidden="true"></i></li>
                     <li> <a class="nav-link" href="/">Home </a></li>
                     <li> <a class="nav-link" href="/shop">Shop</a></li>
-               
-                     
                     <li> <a class="nav-link" href="/about">About </a></li>
+                    <%if(locals.user){%>
+                      <li> <a class="nav-link btn-auth btn-logout" href="/logout">Logout </a></li>
+                      <%}else{%>
+                        <li class="auth-buttons">
+                          <a class="nav-link btn-auth btn-login" href="/login">login </a>
+                          <a class="nav-link btn-auth btn-signup" href="/signup">Signup </a>
+                        </li>
+                     <%}%>
                   </ul>
                 </nav>
                 <div class="sub_header">
@@ -296,11 +302,17 @@
                      
                   </li>
                   <li> <a class="nav-link" href="/shop">Shop<span> <i class="fa-solid "></i></span></a>
-                    
                   </li>
-                   
-                  
                   <li> <a class="nav-link" href="/about">About </a></li>
+                  <hr>
+                  <%if(locals.user){%>
+                    <li> <a class="btn-auth btn-logout" href="/logout">Logout</a></li>
+                  <%}else{%>
+                    <li class="auth-buttons">
+                      <a class="btn-auth btn-login" href="/login">Login</a>
+                      <a class="btn-auth btn-signup" href="/signup">Signup</a>
+                    </li>
+                  <%}%>
                 </ul>
               </nav>
               <div class="sub_header">
@@ -336,3 +348,53 @@
       </div>
       
     </header>
+    <style>
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .btn-auth {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid #000;
+            color: #000;
+        }
+
+        .btn-login:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .btn-signup {
+            background-color: #000;
+            border: 2px solid #000;
+            color: #fff;
+        }
+
+        .btn-signup:hover {
+            background-color: #222;
+            border-color: #222;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            border: 2px solid #dc3545;
+            color: #fff;
+        }
+
+        .btn-logout:hover {
+            background-color: #bb2d3b;
+            border-color: #bb2d3b;
+        }
+    </style>
