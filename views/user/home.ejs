@@ -455,7 +455,13 @@
 
 <!-- Product Carousel -->
 <div class="container-fluid py-5">
-  <div id="productCarousel" class="carousel slide">
+  <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="3"></button>
+    </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="../shuttercart-imags/02_Intro_Desktop.jpg" class="d-block w-100" alt="Featured 1">
@@ -467,7 +473,7 @@
         <img src="../shuttercart-imags/02_Feature3_Desktop.jpg" class="d-block w-100" alt="Featured 3">
       </div>
       <div class="carousel-item">
-        <img src="../shuttercart-imags/banner2_1024x1024.jpg" class="d-block w-100" alt="Featured   4">
+        <img src="../shuttercart-imags/banner2_1024x1024.jpg" class="d-block w-100" alt="Featured 4">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
@@ -478,6 +484,35 @@
     </button>
   </div>
 </div>
+
+<style>
+  .carousel-item {
+    transition: transform .6s ease-in-out;
+  }
+  
+  .carousel-indicators {
+    bottom: 20px;
+  }
+  
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .carousel:hover .carousel-control-prev,
+  .carousel:hover .carousel-control-next {
+    opacity: 1;
+  }
+</style>
 
 <!-- Image Showcase -->
 <section class="image-showcase py-5">
