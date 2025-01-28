@@ -25,8 +25,7 @@ const Wishlist = require('../../models/wishlistSchema');
     let brandNames = [];
     if (brand) {
       brandNames = Array.isArray(brand) ? brand : [brand];
-      console.log('brand names:', brandNames);
-    }
+     }
 
     const { filter, sortOption } = buldProductsQuery({
       ...req.query,
@@ -40,14 +39,7 @@ const Wishlist = require('../../models/wishlistSchema');
     const totalPages = Math.ceil(totalProducts / limit);
     const skip = (currentPage - 1) * limit;
 
-    console.log('Pagination info:', {
-      totalProducts,
-      currentPage,
-      totalPages,
-      limit,
-      skip
-    });
-
+    
      const products = await Product.find(filter)
       .collation({ locale: 'en', strength: 2 }) 
       .sort(sortOption)
@@ -83,8 +75,7 @@ const Wishlist = require('../../models/wishlistSchema');
  
      let wishlistProductIds = [];
     if (userId) {
-      console.log('Looking for wishlist for user:', userId);
-      
+       
        const wishlist = await Wishlist.findOne({
         $or: [
           { userId: userId },
@@ -99,18 +90,14 @@ const Wishlist = require('../../models/wishlistSchema');
              const productId = item.productId || item.product_id || item;
             return productId.toString();
           });
-          console.log('Wishlist product IDs:', wishlistProductIds);
-        }
+         }
       }
     }
 
      productsWithOffers.forEach(product => {
       const productId = product._id.toString();
       const isInWishlist = wishlistProductIds.includes(productId);
-      console.log(`Product ${productId}: ${isInWishlist ? 'in wishlist' : 'not in wishlist'}`);
-      if (isInWishlist) {
-        console.log('Found matching wishlist item!');
-      }
+       
     });
 
      let userDetails = null;
@@ -118,8 +105,7 @@ const Wishlist = require('../../models/wishlistSchema');
       userDetails = await User.findById(userId).lean();
      }
 
-    // Render the shop page
-    res.render("shop", {
+     res.render("shop", {
       products: productsWithOffers,
       user: userDetails,
       categories,
@@ -179,11 +165,9 @@ const buldProductsQuery = (query) => {
     if (priceConditions.length > 0) {
       filter.$or = priceConditions;
     }
-    console.log('Price conditions:', JSON.stringify(priceConditions, null, 2));
-  }
+   }
 
-  // Availability filter
-  if (availability) {
+   if (availability) {
     if (availability === 'inStock') {
       filter.quantity = { $gt: 0 };
     } else if (availability === 'outOfStock') {
@@ -214,14 +198,12 @@ const buldProductsQuery = (query) => {
         sortOption = { productName: -1, _id: -1 };
         break;
       default:
-        sortOption = { _id: -1 }; // Default sort by newest
+        sortOption = { _id: -1 }; 
     }
   } else {
-    sortOption = { _id: -1 }; // Default sort by newest
+    sortOption = { _id: -1 };  
   }
-
-  console.log('Built filter:', filter);
-  console.log('Sort option:', sortOption);
+ 
 
   return { filter, sortOption };
 };
