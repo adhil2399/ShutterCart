@@ -5,26 +5,21 @@ const User= require('../../models/userSchema')
 const Wishlist = require('../../models/wishlistSchema');
 
 
-// Fetch products based on filters
-const getShopPage = async (req, res) => {
+ const getShopPage = async (req, res) => {
   try {
      const userId = req.session.user || req.session.user_id;
-    console.log('Session:', req.session);
-    console.log('User ID from session:', userId);
-
+ 
     const { category, brand, price, availability, sort, search, page = 1 } = req.query;
     const currentPage = parseInt(page) || 1;
 
-    // Get category IDs from names
-    let categoryIds = [];
+     let categoryIds = [];
     if (category) {
       const categories = await Category.find({ 
         name: { $in: Array.isArray(category) ? category : [category] },
         isListed: true 
       }).select('_id');
       categoryIds = categories.map(cat => cat._id);
-      console.log('Category IDs:', categoryIds);
-    }
+     }
 
     // Get brand names
     let brandNames = [];
@@ -38,9 +33,7 @@ const getShopPage = async (req, res) => {
       category: categoryIds,
       brand: brandNames
     });
-    
-    console.log('Final filter:', JSON.stringify(filter, null, 2));
-    console.log('Sort option:', sortOption);
+     
 
      const totalProducts = await Product.countDocuments(filter);
     const limit = 12;
@@ -63,10 +56,8 @@ const getShopPage = async (req, res) => {
       .limit(limit)
       .lean();
 
-    console.log('Products after sort:', products.map(p => p.productName));
-
-    // Calculate offers for products
-    const productsWithOffers = products.map(product => {
+ 
+     const productsWithOffers = products.map(product => {
       const productOffer = product.productOffer || 0;
       const categoryOffer = product.category?.categoryOffer || 0;
       const bestOffer = Math.max(productOffer, categoryOffer);
@@ -86,38 +77,23 @@ const getShopPage = async (req, res) => {
       return finalProduct;
     });
 
-    // Get all categories and brands for filter options
-    const categories = await Category.find({ isListed: true }).lean();
-    console.log('found categories:', categories.map(c => c.name));
-    
+     const categories = await Category.find({ isListed: true }).lean();
+     
     const brands = await Brand.find({ isBlocked: false }).lean();
-    console.log('found brands:', brands.map(b => b.brandName));
-
-    // Get wishlist items if user is logged in
-    let wishlistProductIds = [];
+ 
+     let wishlistProductIds = [];
     if (userId) {
       console.log('Looking for wishlist for user:', userId);
       
-      // Try both userId and user_id fields
-      const wishlist = await Wishlist.findOne({
+       const wishlist = await Wishlist.findOne({
         $or: [
           { userId: userId },
           { user_id: userId },
           { user: userId }
         ]
       }).lean();
-      
-      console.log('Found wishlist:', wishlist);
-      
+            
       if (wishlist) {
-        console.log('Wishlist structure:', {
-          userId: wishlist.userId,
-          user_id: wishlist.user_id,
-          user: wishlist.user,
-          productsLength: wishlist.products ? wishlist.products.length : 0,
-          products: wishlist.products
-        });
-        
         if (wishlist.products && wishlist.products.length > 0) {
           wishlistProductIds = wishlist.products.map(item => {
              const productId = item.productId || item.product_id || item;
