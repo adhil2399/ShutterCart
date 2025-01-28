@@ -18,7 +18,7 @@ const loadWishlist= async (req,res)=>{
                 model: 'Category' 
             }
         })
-      return res.render('wishlist', { wishlist:wishlistData});
+      return res.render('wishlist', { user:userId,wishlist:wishlistData});
       
     } catch (error) {
       console.log('wishlist page not loading',error)
