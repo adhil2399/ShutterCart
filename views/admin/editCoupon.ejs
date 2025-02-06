@@ -41,7 +41,7 @@
                     type="date"
                     name="startDate"
                     placeholder="Enter start date"
-                    value="<%= coupon.createdOn %>"
+                    value="<%= coupon.createdOn.toISOString().split('T')[0] %>"
                     class="form-control"
                     required="true"
                     id="startingDate"
@@ -58,7 +58,7 @@
                     type="date"
                     name="endDate"
                     class="form-control"
-                    value="<%= coupon.expireOn %>"
+                    value="<%= coupon.expireOn.toISOString().split('T')[0] %>"
                     id="expiringDate"
                     required="true"
                 />
