@@ -877,6 +877,7 @@
 
         form.reset();
         form.classList.remove('was-validated');
+        window.location.reload()
     } else {
         Toastify({
             text: '<i class="fas fa-exclamation-circle"></i> ' + (result.message || "An error occurred while updating your profile."),

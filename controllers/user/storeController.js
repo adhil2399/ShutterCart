@@ -40,13 +40,14 @@ const Wishlist = require('../../models/wishlistSchema');
     const skip = (currentPage - 1) * limit;
 
     
-     const products = await Product.find(filter)
+     const products = await Product.find({...filter,isBlocked:false})
       .collation({ locale: 'en', strength: 2 }) 
       .sort(sortOption)
       .populate("category", "categoryOffer")
       .skip(skip)
       .limit(limit)
       .lean();
+
 
  
      const productsWithOffers = products.map(product => {
